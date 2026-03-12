@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HRSuite — Manager</title>
+<title>STUDIAAFRIQUE — Manager</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -44,7 +44,6 @@ nav { flex:1; padding:16px 10px; }
 .btn-primary { background:var(--accent); color:#08101a; }
 .btn-primary:hover { background:var(--accent2); }
 .btn-ghost { background:rgba(255,255,255,.07); color:var(--text); border:1px solid var(--border); }
-.btn-ghost:hover { background:rgba(255,255,255,.12); }
 .content { flex:1; padding:32px; overflow-y:auto; }
 .stats-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:16px; margin-bottom:28px; }
 .stat-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:20px; position:relative; overflow:hidden; transition:transform .2s; }
@@ -60,7 +59,6 @@ table { width:100%; border-collapse:collapse; }
 th { padding:12px 14px; text-align:left; color:var(--muted); font-size:.75rem; font-weight:700; text-transform:uppercase; letter-spacing:.8px; border-bottom:1px solid var(--border); }
 td { padding:13px 14px; font-size:.85rem; border-bottom:1px solid rgba(255,255,255,.04); }
 tr:last-child td { border-bottom:none; }
-tr:hover td { background:rgba(255,255,255,.03); }
 .badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:.73rem; font-weight:600; }
 .badge-green  { background:rgba(150,206,180,.2); color:#96CEB4; }
 .badge-teal   { background:rgba(78,205,196,.2);  color:#4ECDC4; }
@@ -70,8 +68,6 @@ tr:hover td { background:rgba(255,255,255,.03); }
 .badge-yellow { background:rgba(255,230,109,.2); color:#FFE66D; }
 .section { display:none; }
 .section.active { display:block; }
-
-/* planning grid */
 .planning-grid { overflow-x:auto; }
 .planning-table { width:100%; border-collapse:collapse; min-width:600px; }
 .planning-table th, .planning-table td { padding:11px 10px; border:1px solid var(--border); font-size:.82rem; }
@@ -82,29 +78,62 @@ tr:hover td { background:rgba(255,255,255,.03); }
 .slot-remote   { background:rgba(69,183,209,.2);  color:#45B7D1; }
 .slot-off      { background:rgba(255,255,255,.04); color:var(--muted); }
 .slot:hover    { filter:brightness(1.2); }
-
-/* demand */
-.demand-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:18px; margin-bottom:12px; transition:border-color .2s; }
-.demand-card:hover { border-color:rgba(69,183,209,.3); }
-.demand-actions { display:flex; gap:8px; margin-top:14px; }
-.btn-validate { padding:7px 16px; background:rgba(150,206,180,.15); border:1px solid #96CEB4; border-radius:8px; color:#96CEB4; cursor:pointer; font-weight:600; font-size:.8rem; }
-.btn-validate:hover { background:rgba(150,206,180,.3); }
-.btn-refuse { padding:7px 16px; background:rgba(255,107,107,.1); border:1px solid #ff6b6b; border-radius:8px; color:#ff6b6b; cursor:pointer; font-weight:600; font-size:.8rem; }
-.btn-refuse:hover { background:rgba(255,107,107,.25); }
-
-/* kpi bars */
 .kpi-row { display:flex; align-items:center; gap:14px; margin-bottom:12px; }
 .kpi-label { font-size:.83rem; color:rgba(255,255,255,.7); width:160px; flex-shrink:0; }
 .kpi-bar-wrap { flex:1; height:8px; background:rgba(255,255,255,.07); border-radius:4px; overflow:hidden; }
-.kpi-bar { height:100%; border-radius:4px; transition:width 1s ease; }
-.kpi-pct { font-size:.78rem; color:var(--muted); width:40px; text-align:right; flex-shrink:0; }
+.kpi-bar { height:100%; border-radius:4px; }
+.kpi-pct { font-size:.78rem; color:var(--muted); width:40px; text-align:right; }
+
+/* ── LEGEND ── */
+.legend-box { display:flex; flex-wrap:wrap; gap:10px 22px; background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:12px; padding:14px 18px; margin-bottom:20px; font-size:.78rem; }
+.legend-item { display:flex; align-items:center; gap:7px; }
+.legend-dot { width:11px; height:11px; border-radius:50%; flex-shrink:0; }
+
+/* ── DEMAND CARD WITH TIMELINE ── */
+.demand-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:20px 22px; margin-bottom:14px; transition:border-color .2s; }
+.demand-card:hover { border-color:rgba(69,183,209,.3); }
+.demand-meta { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; }
+.status-pill { padding:4px 12px; border-radius:20px; font-size:.72rem; font-weight:700; white-space:nowrap; }
+.pill-yellow { background:rgba(255,230,109,.15); color:#FFE66D; border:1px solid rgba(255,230,109,.3); }
+.pill-green  { background:rgba(150,206,180,.15); color:#96CEB4; border:1px solid rgba(150,206,180,.3); }
+.pill-red    { background:rgba(255,107,107,.12); color:#ff6b6b; border:1px solid rgba(255,107,107,.3); }
+
+/* ── TIMELINE ── */
+.timeline { display:flex; align-items:flex-start; padding:8px 0 0; }
+.tl-step { flex:1; display:flex; flex-direction:column; align-items:center; position:relative; }
+.tl-step:not(:last-child)::after {
+  content:''; position:absolute; top:12px; left:calc(50% + 14px);
+  width:calc(100% - 28px); height:2px; background:var(--border); z-index:0; transition:background .4s;
+}
+.tl-step.done:not(:last-child)::after { background:var(--line-color, #96CEB4); }
+.tl-dot { width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.75rem; font-weight:800; z-index:1; position:relative; border:2px solid transparent; }
+.tl-dot.pending  { background:rgba(255,230,109,.18); border-color:#FFE66D; color:#FFE66D; }
+.tl-dot.done     { background:rgba(150,206,180,.2);  border-color:#96CEB4; color:#96CEB4; }
+.tl-dot.refused  { background:rgba(255,107,107,.15); border-color:#ff6b6b; color:#ff6b6b; }
+.tl-dot.waiting  { background:rgba(255,255,255,.06); border-color:rgba(255,255,255,.15); color:var(--muted); }
+.tl-dot.active   { background:rgba(69,183,209,.2);   border-color:#45B7D1; color:#45B7D1; animation:pulse 1.4s infinite; }
+@keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(69,183,209,.4)} 50%{box-shadow:0 0 0 6px rgba(69,183,209,0)} }
+.tl-label { font-size:.71rem; color:var(--muted); margin-top:7px; text-align:center; line-height:1.3; }
+.tl-date  { font-size:.68rem; margin-top:3px; text-align:center; font-weight:600; }
+.tl-date.yellow { color:#FFE66D; }
+.tl-date.green  { color:#96CEB4; }
+.tl-date.red    { color:#ff6b6b; }
+.tl-date.muted  { color:var(--muted); }
+.tl-date.blue   { color:#45B7D1; }
+
+/* action buttons */
+.demand-actions { display:flex; gap:8px; margin-top:16px; padding-top:14px; border-top:1px solid var(--border); }
+.btn-validate { padding:7px 16px; background:rgba(150,206,180,.15); border:1px solid #96CEB4; border-radius:8px; color:#96CEB4; cursor:pointer; font-weight:600; font-size:.8rem; transition:all .2s; }
+.btn-validate:hover { background:rgba(150,206,180,.3); }
+.btn-refuse { padding:7px 16px; background:rgba(255,107,107,.1); border:1px solid #ff6b6b; border-radius:8px; color:#ff6b6b; cursor:pointer; font-weight:600; font-size:.8rem; transition:all .2s; }
+.btn-refuse:hover { background:rgba(255,107,107,.25); }
 </style>
 </head>
 <body>
 
 <aside class="sidebar">
   <div class="sidebar-brand">
-    <h2>HR<span>Suite</span></h2>
+    <h2>STUDIA<span>AFR</span></h2>
     <div class="sidebar-user">
       <div class="avatar">📊</div>
       <div class="user-info">
@@ -118,7 +147,7 @@ tr:hover td { background:rgba(255,255,255,.03); }
     <button class="nav-item active" onclick="show('dashboard',this)"><span class="icon">🏠</span> Tableau de bord</button>
     <div class="nav-section">Équipe</div>
     <button class="nav-item" onclick="show('planning',this)"><span class="icon">📅</span> Planifier l'équipe</button>
-    <button class="nav-item" onclick="show('validation',this)"><span class="icon">✅</span> Valider demandes N1 <span class="badge-count">4</span></button>
+    <button class="nav-item" onclick="show('validation',this)"><span class="icon">✅</span> Valider demandes N1 <span class="badge-count" id="badgeN1">4</span></button>
     <button class="nav-item" onclick="show('equipe',this)"><span class="icon">👥</span> Rapports équipe</button>
     <div class="nav-section">Rapports</div>
     <button class="nav-item" onclick="show('rapports',this)"><span class="icon">📈</span> Générer rapports</button>
@@ -145,7 +174,7 @@ tr:hover td { background:rgba(255,255,255,.03); }
     <div class="section active" id="sec-dashboard">
       <div class="stats-grid">
         <div class="stat-card" style="--c:#45B7D1"><div class="stat-icon">👥</div><div class="stat-val">12</div><div class="stat-label">Membres de l'équipe</div></div>
-        <div class="stat-card" style="--c:#FF6B35"><div class="stat-icon">✅</div><div class="stat-val">4</div><div class="stat-label">Demandes à valider</div></div>
+        <div class="stat-card" style="--c:#FF6B35"><div class="stat-icon">✅</div><div class="stat-val" id="dashCount">4</div><div class="stat-label">Demandes à valider</div></div>
         <div class="stat-card" style="--c:#96CEB4"><div class="stat-icon">📊</div><div class="stat-val">94%</div><div class="stat-label">Taux de présence</div></div>
         <div class="stat-card" style="--c:#FFE66D"><div class="stat-icon">🎯</div><div class="stat-val">8/10</div><div class="stat-label">Objectifs atteints</div></div>
       </div>
@@ -173,12 +202,7 @@ tr:hover td { background:rgba(255,255,255,.03); }
       <div class="panel">
         <div class="planning-grid">
           <table class="planning-table">
-            <thead>
-              <tr>
-                <th>Employé</th>
-                <th>Lundi</th><th>Mardi</th><th>Mercredi</th><th>Jeudi</th><th>Vendredi</th>
-              </tr>
-            </thead>
+            <thead><tr><th>Employé</th><th>Lundi</th><th>Mardi</th><th>Mercredi</th><th>Jeudi</th><th>Vendredi</th></tr></thead>
             <tbody id="planningBody"></tbody>
           </table>
         </div>
@@ -193,8 +217,17 @@ tr:hover td { background:rgba(255,255,255,.03); }
 
     <!-- VALIDATION N1 -->
     <div class="section" id="sec-validation">
-      <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:8px;">Valider les demandes — Niveau 1</h2>
-      <p style="color:var(--muted);font-size:.83rem;margin-bottom:24px;">Première validation avant transmission au RH (N2)</p>
+      <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:6px;">Valider les demandes — Niveau 1</h2>
+      <p style="color:var(--muted);font-size:.83rem;margin-bottom:20px;">Première validation avant transmission au RH (N2)</p>
+
+      <div class="legend-box">
+        <div class="legend-item"><div class="legend-dot" style="background:#FFE66D"></div><span style="color:#FFE66D">Soumis, en attente de votre validation</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#45B7D1;animation:pulse 1.4s infinite"></div><span style="color:#45B7D1">Étape active — action requise</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#96CEB4"></div><span style="color:#96CEB4">Validé</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#ff6b6b"></div><span style="color:#ff6b6b">Refusé</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:rgba(255,255,255,.15)"></div><span style="color:var(--muted)">En attente (étape suivante)</span></div>
+      </div>
+
       <div id="validationList"></div>
     </div>
 
@@ -222,36 +255,18 @@ tr:hover td { background:rgba(255,255,255,.03); }
     <!-- GÉNÉRER RAPPORTS -->
     <div class="section" id="sec-rapports">
       <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:24px;">Générer des rapports</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:24px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px">
         <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px">
           <div style="font-size:2rem;margin-bottom:10px">📊</div>
           <div style="font-weight:700;color:#45B7D1;margin-bottom:4px">Rapport hebdomadaire</div>
           <div style="font-size:.76rem;color:var(--muted);margin-bottom:14px">Semaine 10 • 12 membres</div>
-          <div style="margin-bottom:10px">
-            <label style="font-size:.76rem;color:var(--muted);display:block;margin-bottom:4px">Période</label>
-            <select style="width:100%;padding:8px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;color:#fff;font-family:'DM Sans',sans-serif;outline:none"><option>Cette semaine</option><option>Semaine précédente</option></select>
-          </div>
-          <button class="btn btn-primary" style="width:100%;margin-top:6px" onclick="genReport(this,'hebdo')">Générer PDF</button>
+          <button class="btn btn-primary" style="width:100%" onclick="genReport(this)">Générer PDF</button>
         </div>
         <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px">
           <div style="font-size:2rem;margin-bottom:10px">📈</div>
           <div style="font-weight:700;color:#FF6B35;margin-bottom:4px">Rapport mensuel</div>
           <div style="font-size:.76rem;color:var(--muted);margin-bottom:14px">Mars 2026 • Département IT</div>
-          <div style="margin-bottom:10px">
-            <label style="font-size:.76rem;color:var(--muted);display:block;margin-bottom:4px">Mois</label>
-            <select style="width:100%;padding:8px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;color:#fff;font-family:'DM Sans',sans-serif;outline:none"><option>Mars 2026</option><option>Février 2026</option><option>Janvier 2026</option></select>
-          </div>
-          <button class="btn btn-primary" style="width:100%;margin-top:6px;background:#FF6B35" onclick="genReport(this,'mensuel')">Générer PDF</button>
-        </div>
-        <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px">
-          <div style="font-size:2rem;margin-bottom:10px">🎯</div>
-          <div style="font-weight:700;color:#96CEB4;margin-bottom:4px">Rapport performance</div>
-          <div style="font-size:.76rem;color:var(--muted);margin-bottom:14px">Q1 2026 • Objectifs vs réalisé</div>
-          <div style="margin-bottom:10px">
-            <label style="font-size:.76rem;color:var(--muted);display:block;margin-bottom:4px">Trimestre</label>
-            <select style="width:100%;padding:8px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;color:#fff;font-family:'DM Sans',sans-serif;outline:none"><option>T1 2026</option><option>T4 2025</option></select>
-          </div>
-          <button class="btn btn-primary" style="width:100%;margin-top:6px;background:#96CEB4;color:#0a1a14" onclick="genReport(this,'perf')">Générer PDF</button>
+          <button class="btn btn-primary" style="width:100%;background:#FF6B35" onclick="genReport(this)">Générer PDF</button>
         </div>
       </div>
     </div>
@@ -259,16 +274,11 @@ tr:hover td { background:rgba(255,255,255,.03); }
     <!-- TABLEAUX DE BORD -->
     <div class="section" id="sec-tableaux">
       <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:24px;">Tableaux de bord</h2>
-      <div class="stats-grid" style="margin-bottom:28px">
-        <div class="stat-card" style="--c:#45B7D1"><div class="stat-icon">📅</div><div class="stat-val">22</div><div class="stat-label">Jours travaillés ce mois</div></div>
+      <div class="stats-grid">
+        <div class="stat-card" style="--c:#45B7D1"><div class="stat-icon">📅</div><div class="stat-val">22</div><div class="stat-label">Jours travaillés</div></div>
         <div class="stat-card" style="--c:#96CEB4"><div class="stat-icon">🏡</div><div class="stat-val">48%</div><div class="stat-label">Taux télétravail</div></div>
-        <div class="stat-card" style="--c:#FFE66D"><div class="stat-icon">⏱️</div><div class="stat-val">168h</div><div class="stat-label">Heures totales équipe</div></div>
+        <div class="stat-card" style="--c:#FFE66D"><div class="stat-icon">⏱️</div><div class="stat-val">168h</div><div class="stat-label">Heures totales</div></div>
         <div class="stat-card" style="--c:#FF6B35"><div class="stat-icon">📋</div><div class="stat-val">73</div><div class="stat-label">Tâches complétées</div></div>
-      </div>
-      <div class="panel">
-        <div class="panel-title">Évolution présence — 6 derniers mois</div>
-        <div id="evolutionChart" style="display:flex;gap:8px;align-items:flex-end;height:120px;padding-bottom:8px"></div>
-        <div id="evolutionLabels" style="display:flex;gap:8px;margin-top:8px"></div>
       </div>
     </div>
 
@@ -277,22 +287,55 @@ tr:hover td { background:rgba(255,255,255,.03); }
 
 <script>
 const team = [
-  { nom:'Ahmed Ben Ali',    poste:'Dev Frontend', slots:['present','present','remote','present','remote'] },
-  { nom:'Fatima Khelil',    poste:'Designer UI',  slots:['remote','present','remote','remote','present'] },
-  { nom:'Nadia Ben Salah',  poste:'Dev Mobile',   slots:['remote','remote','remote','present','remote'] },
-  { nom:'Karim Zouari',     poste:'Analyste',     slots:['present','present','present','off','present'] },
+  { nom:'Ahmed Ben Ali',   poste:'Dev Frontend', slots:['present','present','remote','present','remote'] },
+  { nom:'Fatima Khelil',   poste:'Designer UI',  slots:['remote','present','remote','remote','present'] },
+  { nom:'Nadia Ben Salah', poste:'Dev Mobile',   slots:['remote','remote','remote','present','remote'] },
+  { nom:'Karim Zouari',    poste:'Analyste',     slots:['present','present','present','off','present'] },
 ];
-
-let demandes = [
-  { id:1, employe:'Ahmed Ben Ali',   type:'Télétravail', date:'2026-03-15', statut:'En attente', motif:'Plomberie à régler à domicile' },
-  { id:2, employe:'Fatima Khelil',   type:'Congé',       date:'2026-03-20', statut:'En attente', motif:'Vacances planifiées' },
-  { id:3, employe:'Nadia Ben Salah', type:'Télétravail', date:'2026-03-18', statut:'En attente', motif:'Rendez-vous médical matin' },
-  { id:4, employe:'Karim Zouari',    type:'Congé',       date:'2026-03-22', statut:'En attente', motif:'Mariage dans la famille' },
-];
-
 const planningState = team.map(e => [...e.slots]);
 
+// Each demand has a 4-step timeline
+let demandes = [
+  {
+    id:1, employe:'Ahmed Ben Ali', type:'Télétravail', motif:'Plomberie à régler à domicile',
+    steps:[
+      { label:'Soumission',         date:'10 Mar 2026', state:'done',   note:'Envoyée' },
+      { label:'Manager\n(N1)',      date:null,          state:'active', note:'Votre action requise' },
+      { label:'RH\n(N2)',           date:null,          state:'waiting',note:'' },
+      { label:'Décision\nfinale',   date:null,          state:'waiting',note:'' },
+    ]
+  },
+  {
+    id:2, employe:'Fatima Khelil', type:'Congé', motif:'Vacances planifiées',
+    steps:[
+      { label:'Soumission',         date:'08 Mar 2026', state:'done',   note:'Envoyée' },
+      { label:'Manager\n(N1)',      date:null,          state:'active', note:'Votre action requise' },
+      { label:'RH\n(N2)',           date:null,          state:'waiting',note:'' },
+      { label:'Décision\nfinale',   date:null,          state:'waiting',note:'' },
+    ]
+  },
+  {
+    id:3, employe:'Nadia Ben Salah', type:'Télétravail', motif:'Rendez-vous médical matin',
+    steps:[
+      { label:'Soumission',         date:'12 Mar 2026', state:'done',   note:'Envoyée' },
+      { label:'Manager\n(N1)',      date:null,          state:'active', note:'Votre action requise' },
+      { label:'RH\n(N2)',           date:null,          state:'waiting',note:'' },
+      { label:'Décision\nfinale',   date:null,          state:'waiting',note:'' },
+    ]
+  },
+  {
+    id:4, employe:'Karim Zouari', type:'Congé', motif:'Mariage dans la famille',
+    steps:[
+      { label:'Soumission',         date:'09 Mar 2026', state:'done',   note:'Envoyée' },
+      { label:'Manager\n(N1)',      date:null,          state:'active', note:'Votre action requise' },
+      { label:'RH\n(N2)',           date:null,          state:'waiting',note:'' },
+      { label:'Décision\nfinale',   date:null,          state:'waiting',note:'' },
+    ]
+  },
+];
+
 const titles = { dashboard:'Tableau de bord Manager', planning:'Planification équipe', validation:'Validation demandes N1', equipe:'Rapports équipe', rapports:'Générer rapports', tableaux:'Tableaux de bord' };
+const today = new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'});
 
 function show(sec, btn) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -300,94 +343,96 @@ function show(sec, btn) {
   document.getElementById('sec-'+sec).classList.add('active');
   btn.classList.add('active');
   document.getElementById('pageTitle').textContent = titles[sec] || sec;
-  if (sec === 'planning') renderPlanning();
   if (sec === 'validation') renderValidation();
+  if (sec === 'planning') renderPlanning();
   if (sec === 'dashboard') renderDashboard();
   if (sec === 'equipe') renderKPI();
-  if (sec === 'tableaux') renderEvolution();
 }
 
 document.getElementById('pageDate').textContent =
   new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 
-const slotClass = s => s === 'present' ? 'slot-present' : s === 'remote' ? 'slot-remote' : 'slot-off';
-const slotLabel = s => s === 'present' ? 'Présentiel' : s === 'remote' ? 'Télétravail' : '— Congé —';
-const slotCycle = s => s === 'present' ? 'remote' : s === 'remote' ? 'off' : 'present';
+const dotIcon = s => ({ done:'✓', active:'▶', pending:'⏳', refused:'✗', waiting:'○' }[s] || '?');
+const dateColor = s => ({ done:'green', active:'blue', refused:'red', waiting:'muted', pending:'yellow' }[s]);
 
-function renderPlanning() {
-  const days = ['Lundi','Mardi','Mercredi','Jeudi','Vendredi'];
-  document.getElementById('planningBody').innerHTML = team.map((e, ri) => `
-    <tr>
-      <td class="emp-cell">
-        <div style="font-weight:700">${e.nom}</div>
-        <div style="font-size:.72rem;color:var(--muted)">${e.poste}</div>
-      </td>
-      ${planningState[ri].map((s, ci) => `
-        <td style="text-align:center">
-          <span class="slot ${slotClass(s)}" onclick="cycleSlot(${ri},${ci})">${slotLabel(s)}</span>
-        </td>
-      `).join('')}
-    </tr>
-  `).join('');
-}
-
-function cycleSlot(ri, ci) {
-  planningState[ri][ci] = slotCycle(planningState[ri][ci]);
-  renderPlanning();
-}
-
-function savePlanning() {
-  const msg = document.getElementById('planningMsg');
-  msg.style.display = 'block';
-  setTimeout(() => msg.style.display = 'none', 3000);
+function buildTimeline(steps) {
+  return steps.map((s, i) => {
+    const prevDone = i === 0 || ['done','refused'].includes(steps[i-1].state) || steps[i-1].state === 'active';
+    const lineColor = s.state === 'done' ? '#96CEB4' : s.state === 'refused' ? '#ff6b6b' : 'var(--border)';
+    return `
+      <div class="tl-step ${s.state === 'done' ? 'done' : ''}" style="--line-color:${lineColor}">
+        <div class="tl-dot ${s.state}">${dotIcon(s.state)}</div>
+        <div class="tl-label">${s.label.replace(/\n/,'<br>')}</div>
+        ${s.date ? `<div class="tl-date ${dateColor(s.state)}">${s.date}</div>` : `<div class="tl-date muted">—</div>`}
+        ${s.note ? `<div style="font-size:.65rem;color:rgba(255,255,255,.3);text-align:center;margin-top:2px;max-width:72px">${s.note}</div>` : ''}
+      </div>`;
+  }).join('');
 }
 
 function renderValidation() {
-  const list = document.getElementById('validationList');
-  const pending = demandes.filter(d => d.statut === 'En attente');
-  list.innerHTML = pending.length ? pending.map(d => `
-    <div class="demand-card">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start">
-        <div>
-          <div style="font-weight:700">${d.employe}</div>
-          <div style="font-size:.78rem;color:var(--muted);margin-top:3px">📌 ${d.type} — ${d.date}</div>
-          <div style="font-size:.78rem;color:rgba(255,255,255,.55);margin-top:6px">Motif : ${d.motif}</div>
+  const pending = demandes.filter(d => d.steps[1].state === 'active' || d.steps[1].state === 'pending');
+  document.getElementById('validationList').innerHTML = pending.length
+    ? pending.map(d => `
+      <div class="demand-card" id="dc-${d.id}">
+        <div class="demand-meta">
+          <div>
+            <div style="font-weight:700;font-size:.98rem">${d.employe}</div>
+            <div style="font-size:.78rem;color:var(--muted);margin-top:2px">📌 ${d.type}</div>
+            <div style="font-size:.76rem;color:rgba(255,255,255,.45);margin-top:5px">💬 ${d.motif}</div>
+          </div>
+          <span class="status-pill pill-yellow">⏳ En attente</span>
         </div>
-        <span class="badge badge-yellow">${d.statut}</span>
-      </div>
-      <div class="demand-actions">
-        <button class="btn-validate" onclick="actVal(${d.id},'Validé N1')">✓ Valider N1</button>
-        <button class="btn-refuse" onclick="actVal(${d.id},'Refusé')">✗ Refuser</button>
-      </div>
-    </div>
-  `).join('') : '<div style="text-align:center;color:var(--muted);padding:28px">✅ Aucune demande en attente</div>';
+        <div class="timeline">${buildTimeline(d.steps)}</div>
+        <div class="demand-actions">
+          <button class="btn-validate" onclick="actVal(${d.id},'done')">✓ Valider N1 → transmettre au RH</button>
+          <button class="btn-refuse"   onclick="actVal(${d.id},'refused')">✗ Refuser</button>
+        </div>
+      </div>`)
+    .join('')
+    : '<div style="text-align:center;color:var(--muted);padding:32px;background:var(--card);border-radius:14px;border:1px solid var(--border)">✅ Aucune demande en attente</div>';
+
+  // update badge
+  document.getElementById('badgeN1').textContent = pending.length;
+  document.getElementById('dashCount').textContent = pending.length;
 }
 
-function actVal(id, statut) {
-  demandes = demandes.map(d => d.id === id ? {...d, statut} : d);
+function actVal(id, action) {
+  demandes = demandes.map(d => {
+    if (d.id !== id) return d;
+    const s = [...d.steps];
+    if (action === 'done') {
+      s[1] = { ...s[1], state:'done', date:today, note:'Validé ✓' };
+      s[2] = { ...s[2], state:'pending', note:'Transmis au RH' };
+    } else {
+      s[1] = { ...s[1], state:'refused', date:today, note:'Refusé ✗' };
+      s[3] = { ...s[3], state:'refused', note:'Clôturé' };
+    }
+    return { ...d, steps:s };
+  });
   renderValidation();
 }
 
 function renderDashboard() {
+  const pending = demandes.filter(d => d.steps[1].state === 'active' || d.steps[1].state === 'pending');
   document.getElementById('dashDemandes').innerHTML = demandes.slice(0,3).map(d => `
     <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)">
       <div>
         <div style="font-weight:600;font-size:.85rem">${d.employe}</div>
-        <div style="font-size:.74rem;color:var(--muted)">${d.type} — ${d.date}</div>
+        <div style="font-size:.74rem;color:var(--muted)">${d.type}</div>
       </div>
-      <span class="badge badge-yellow">${d.statut}</span>
+      <span class="badge badge-yellow">En attente</span>
     </div>
   `).join('');
 
   document.getElementById('dashEquipe').innerHTML = team.map(e => {
-    const todaySlot = e.slots[0];
+    const s = e.slots[0];
     return `
     <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)">
       <div style="display:flex;align-items:center;gap:10px">
         <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#45B7D1,#4ECDC4);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:.9rem">${e.nom[0]}</div>
         <div style="font-weight:600;font-size:.84rem">${e.nom}</div>
       </div>
-      <span class="badge ${todaySlot === 'present' ? 'badge-green' : todaySlot === 'remote' ? 'badge-blue' : 'badge-red'}">${slotLabel(todaySlot)}</span>
+      <span class="badge ${s==='present'?'badge-green':s==='remote'?'badge-blue':'badge-red'}">${s==='present'?'Présentiel':s==='remote'?'Télétravail':'Congé'}</span>
     </div>`;
   }).join('');
 }
@@ -408,27 +453,28 @@ function renderKPI() {
   `).join('');
 }
 
-function renderEvolution() {
-  const months = [{m:'Oct',v:88},{m:'Nov',v:91},{m:'Déc',v:85},{m:'Jan',v:93},{m:'Fév',v:90},{m:'Mar',v:94}];
-  const maxV = 100;
-  document.getElementById('evolutionChart').innerHTML = months.map(m => `
-    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px">
-      <span style="font-size:.72rem;color:var(--muted)">${m.v}%</span>
-      <div style="width:100%;height:${(m.v/maxV)*100}px;background:linear-gradient(to top,#45B7D1,#4ECDC4);border-radius:6px 6px 0 0;max-height:100px;min-height:20px;transition:height .6s ease"></div>
-    </div>
-  `).join('');
-  document.getElementById('evolutionLabels').innerHTML = months.map(m =>
-    `<div style="flex:1;text-align:center;font-size:.74rem;color:var(--muted)">${m.m}</div>`
-  ).join('');
+const slotClass = s => s === 'present' ? 'slot-present' : s === 'remote' ? 'slot-remote' : 'slot-off';
+const slotLabel = s => s === 'present' ? 'Présentiel' : s === 'remote' ? 'Télétravail' : '— Congé —';
+const slotCycle = s => s === 'present' ? 'remote' : s === 'remote' ? 'off' : 'present';
+
+function renderPlanning() {
+  document.getElementById('planningBody').innerHTML = team.map((e, ri) => `
+    <tr>
+      <td class="emp-cell"><div style="font-weight:700">${e.nom}</div><div style="font-size:.72rem;color:var(--muted)">${e.poste}</div></td>
+      ${planningState[ri].map((s, ci) => `
+        <td style="text-align:center"><span class="slot ${slotClass(s)}" onclick="cycleSlot(${ri},${ci})">${slotLabel(s)}</span></td>
+      `).join('')}
+    </tr>`).join('');
 }
 
-function genReport(btn, type) {
-  btn.textContent = '⏳ Génération...';
-  btn.disabled = true;
-  setTimeout(() => {
-    btn.textContent = '✅ Rapport prêt !';
-    setTimeout(() => { btn.textContent = 'Générer PDF'; btn.disabled = false; }, 2500);
-  }, 1500);
+function cycleSlot(ri, ci) { planningState[ri][ci] = slotCycle(planningState[ri][ci]); renderPlanning(); }
+function savePlanning() {
+  const m = document.getElementById('planningMsg');
+  m.style.display = 'block'; setTimeout(() => m.style.display = 'none', 3000);
+}
+function genReport(btn) {
+  btn.textContent = '⏳ Génération...'; btn.disabled = true;
+  setTimeout(() => { btn.textContent = '✅ Rapport prêt !'; setTimeout(() => { btn.textContent = 'Générer PDF'; btn.disabled = false; }, 2500); }, 1500);
 }
 
 renderDashboard();
