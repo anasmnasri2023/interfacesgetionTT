@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HRSuite — Connexion</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --admin:  #FF6B35;
+    --rh:     #4ECDC4;
+    --manager:#45B7D1;
+    --employe:#96CEB4;
+    --bg:     #080b14;
+    --card:   rgba(255,255,255,0.04);
+    --border: rgba(255,255,255,0.08);
+  }
+
+  body {
+    min-height: 100vh;
+    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* animated background */
+  body::before {
+    content:'';
+    position:fixed; inset:0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(255,107,53,.13) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 80% 90%, rgba(78,205,196,.10) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 50% 50%, rgba(69,183,209,.06) 0%, transparent 70%);
+    animation: bgPulse 8s ease-in-out infinite alternate;
+    pointer-events:none;
+  }
+  @keyframes bgPulse {
+    from { opacity:.7; }
+    to   { opacity:1; }
+  }
+
+  .grid-overlay {
+    position:fixed; inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+    background-size:48px 48px;
+    pointer-events:none;
+  }
+
+  .wrapper {
+    position:relative; z-index:10;
+    width:100%; max-width:480px;
+    padding:24px;
+    animation: fadeUp .6s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(32px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  .brand {
+    text-align:center;
+    margin-bottom:40px;
+  }
+  .brand-logo {
+    width:56px; height:56px;
+    background:linear-gradient(135deg,#FF6B35,#4ECDC4);
+    border-radius:16px;
+    display:inline-flex; align-items:center; justify-content:center;
+    font-size:1.6rem; margin-bottom:16px;
+    box-shadow:0 8px 32px rgba(255,107,53,.35);
+  }
+  .brand h1 {
+    font-family:'Syne',sans-serif;
+    font-size:2.2rem; font-weight:800; letter-spacing:-1px;
+  }
+  .brand h1 span { color:var(--admin); }
+  .brand p { color:rgba(255,255,255,.4); font-size:.9rem; margin-top:6px; }
+
+  .card {
+    background:rgba(255,255,255,.05);
+    backdrop-filter:blur(24px);
+    border:1px solid var(--border);
+    border-radius:24px;
+    padding:36px;
+  }
+
+  .card-title {
+    font-family:'Syne',sans-serif;
+    font-size:1rem; font-weight:600;
+    color:rgba(255,255,255,.5);
+    text-align:center;
+    margin-bottom:24px;
+    text-transform:uppercase;
+    letter-spacing:2px;
+  }
+
+  .roles {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-bottom:28px;
+  }
+
+  .role-btn {
+    background:rgba(255,255,255,.04);
+    border:2px solid rgba(255,255,255,.08);
+    border-radius:16px;
+    padding:20px 12px;
+    cursor:pointer;
+    text-align:center;
+    transition:all .25s ease;
+    color:#fff;
+    font-family:'DM Sans',sans-serif;
+    position:relative;
+    overflow:hidden;
+  }
+  .role-btn::after {
+    content:'';
+    position:absolute; inset:0;
+    background:var(--c);
+    opacity:0;
+    transition:opacity .25s;
+  }
+  .role-btn:hover { border-color:var(--c); transform:translateY(-2px); }
+  .role-btn:hover::after { opacity:.07; }
+  .role-btn.active { border-color:var(--c); background:rgba(var(--cr),.12); }
+  .role-btn.active::after { opacity:.12; }
+
+  .role-icon { font-size:1.8rem; margin-bottom:8px; position:relative; z-index:1; }
+  .role-name {
+    font-size:.82rem; font-weight:600;
+    position:relative; z-index:1;
+    transition:color .25s;
+  }
+  .role-btn.active .role-name { color:var(--c); }
+
+  .login-btn {
+    width:100%;
+    padding:15px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:12px;
+    color:rgba(255,255,255,.4);
+    font-family:'Syne',sans-serif;
+    font-weight:700; font-size:.95rem;
+    cursor:not-allowed;
+    transition:all .3s;
+    letter-spacing:.5px;
+  }
+  .login-btn.ready {
+    background:var(--c,#FF6B35);
+    border-color:transparent;
+    color:#fff;
+    cursor:pointer;
+    box-shadow:0 6px 24px rgba(0,0,0,.3);
+  }
+  .login-btn.ready:hover { filter:brightness(1.1); transform:translateY(-1px); }
+
+  .divider {
+    text-align:center;
+    color:rgba(255,255,255,.2);
+    font-size:.78rem;
+    margin-top:20px;
+  }
+</style>
+</head>
+<body>
+<div class="grid-overlay"></div>
+
+<div class="wrapper">
+  <div class="brand">
+    <div class="brand-logo">🏢</div>
+    <h1>HR<span>Suite</span></h1>
+    <p>Système de Gestion des Ressources Humaines</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Choisissez votre profil</div>
+
+    <div class="roles">
+      <button class="role-btn" style="--c:var(--admin);--cr:255,107,53"
+        onclick="selectRole(this,'admin','admin.html')" data-file="admin.html">
+        <div class="role-icon">⚙️</div>
+        <div class="role-name">Administrateur</div>
+      </button>
+      <button class="role-btn" style="--c:var(--rh);--cr:78,205,196"
+        onclick="selectRole(this,'rh','rh.html')" data-file="rh.html">
+        <div class="role-icon">👥</div>
+        <div class="role-name">RH</div>
+      </button>
+      <button class="role-btn" style="--c:var(--manager);--cr:69,183,209"
+        onclick="selectRole(this,'manager','manager.html')" data-file="manager.html">
+        <div class="role-icon">📊</div>
+        <div class="role-name">Manager</div>
+      </button>
+      <button class="role-btn" style="--c:var(--employe);--cr:150,206,180"
+        onclick="selectRole(this,'employe','employe.html')" data-file="employe.html">
+        <div class="role-icon">👤</div>
+        <div class="role-name">Employé</div>
+      </button>
+    </div>
+
+    <button class="login-btn" id="loginBtn" disabled>Sélectionnez un profil</button>
+    <div class="divider">Authentification sécurisée • HRSuite v2.6</div>
+  </div>
+</div>
+
+<script>
+  let selectedFile = null;
+  let selectedColor = null;
+  let selectedLabel = null;
+
+  const colors = {
+    admin:   '#FF6B35',
+    rh:      '#4ECDC4',
+    manager: '#45B7D1',
+    employe: '#96CEB4',
+  };
+  const labels = {
+    admin:   'Administrateur',
+    rh:      'RH',
+    manager: 'Manager',
+    employe: 'Employé',
+  };
+
+  function selectRole(btn, role, file) {
+    document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedFile = file;
+    selectedColor = colors[role];
+    selectedLabel = labels[role];
+
+    const loginBtn = document.getElementById('loginBtn');
+    loginBtn.disabled = false;
+    loginBtn.classList.add('ready');
+    loginBtn.style.setProperty('--c', selectedColor);
+    loginBtn.textContent = `Accéder — ${selectedLabel}`;
+  }
+
+  document.getElementById('loginBtn').addEventListener('click', () => {
+    if (selectedFile) window.location.href = selectedFile;
+  });
+</script>
+</body>
+</html>

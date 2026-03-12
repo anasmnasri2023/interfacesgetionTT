@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HRSuite — Employé</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --accent: #96CEB4;
+  --accent2: #b0ddc8;
+  --bg: #0a130e;
+  --bg2: #0d1811;
+  --sidebar: #091009;
+  --card: rgba(255,255,255,0.04);
+  --border: rgba(255,255,255,0.07);
+  --text: #dff0e6;
+  --muted: rgba(255,255,255,0.38);
+}
+body { display:flex; min-height:100vh; background:var(--bg); font-family:'DM Sans',sans-serif; color:var(--text); }
+.sidebar { width:240px; min-height:100vh; background:var(--sidebar); border-right:1px solid var(--border); display:flex; flex-direction:column; position:sticky; top:0; height:100vh; flex-shrink:0; }
+.sidebar-brand { padding:28px 20px 20px; border-bottom:1px solid var(--border); }
+.sidebar-brand h2 { font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:800; }
+.sidebar-brand h2 span { color:var(--accent); }
+.sidebar-user { display:flex; align-items:center; gap:10px; margin-top:14px; }
+.avatar { width:38px; height:38px; border-radius:50%; background:linear-gradient(135deg,var(--accent),#4ECDC4); display:flex; align-items:center; justify-content:center; font-size:1rem; border:2px solid var(--accent); flex-shrink:0; }
+.user-info .name { font-weight:600; font-size:.85rem; }
+.user-info .role { color:var(--accent); font-size:.72rem; margin-top:1px; }
+nav { flex:1; padding:16px 10px; }
+.nav-section { font-size:.68rem; font-weight:700; letter-spacing:2px; color:var(--muted); text-transform:uppercase; padding:14px 10px 6px; }
+.nav-item { display:flex; align-items:center; gap:12px; padding:10px 14px; border-radius:10px; cursor:pointer; font-size:.85rem; color:var(--muted); font-weight:500; border:none; background:transparent; width:100%; text-align:left; margin-bottom:2px; transition:all .2s; border-left:3px solid transparent; }
+.nav-item:hover { background:rgba(150,206,180,.08); color:#fff; }
+.nav-item.active { background:rgba(150,206,180,.12); color:var(--accent); font-weight:600; border-left-color:var(--accent); }
+.nav-item .icon { font-size:1.05rem; flex-shrink:0; }
+.logout { margin:12px 10px 16px; padding:10px 14px; border-radius:10px; background:rgba(255,80,80,.08); border:1px solid rgba(255,80,80,.2); color:#ff6b6b; cursor:pointer; font-size:.84rem; font-weight:600; width:calc(100% - 20px); transition:all .2s; }
+.logout:hover { background:rgba(255,80,80,.15); }
+.main { flex:1; display:flex; flex-direction:column; overflow:hidden; }
+.topbar { padding:20px 32px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; background:var(--bg2); }
+.page-title { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; }
+.page-sub { color:var(--muted); font-size:.8rem; margin-top:2px; }
+.btn { padding:9px 18px; border-radius:9px; border:none; font-family:'DM Sans',sans-serif; font-weight:600; font-size:.83rem; cursor:pointer; transition:all .2s; }
+.btn-primary { background:var(--accent); color:#0a130e; }
+.btn-primary:hover { background:var(--accent2); }
+.btn-ghost { background:rgba(255,255,255,.07); color:var(--text); border:1px solid var(--border); }
+.btn-ghost:hover { background:rgba(255,255,255,.12); }
+.content { flex:1; padding:32px; overflow-y:auto; }
+.stats-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:16px; margin-bottom:28px; }
+.stat-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:20px; position:relative; overflow:hidden; transition:transform .2s; }
+.stat-card:hover { transform:translateY(-3px); }
+.stat-card::before { content:''; position:absolute; top:0; right:0; width:80px; height:80px; background:radial-gradient(circle, var(--c) 0%, transparent 70%); opacity:.15; transform:translate(30%,-30%); }
+.stat-icon { font-size:1.5rem; margin-bottom:12px; }
+.stat-val { font-family:'Syne',sans-serif; font-size:2rem; font-weight:800; color:var(--c); }
+.stat-label { color:var(--muted); font-size:.78rem; margin-top:4px; }
+.panel { background:var(--card); border:1px solid var(--border); border-radius:18px; padding:24px; margin-bottom:20px; }
+.panel-title { font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; margin-bottom:18px; }
+.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px; }
+.badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:.73rem; font-weight:600; }
+.badge-green  { background:rgba(150,206,180,.2); color:#96CEB4; }
+.badge-blue   { background:rgba(69,183,209,.2);  color:#45B7D1; }
+.badge-yellow { background:rgba(255,230,109,.2); color:#FFE66D; }
+.badge-red    { background:rgba(255,107,107,.2); color:#ff6b6b; }
+.section { display:none; }
+.section.active { display:block; }
+
+/* planning calendar */
+.cal-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; }
+.cal-day { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:14px 10px; text-align:center; cursor:pointer; transition:all .2s; }
+.cal-day:hover { border-color:var(--accent); }
+.cal-day.present  { background:rgba(150,206,180,.15); border-color:#96CEB4; }
+.cal-day.remote   { background:rgba(69,183,209,.15);  border-color:#45B7D1; }
+.cal-day.off      { background:rgba(255,107,107,.1);  border-color:#ff6b6b; }
+.cal-day.selected { box-shadow:0 0 0 2px var(--accent); }
+.cal-day-num { font-family:'Syne',sans-serif; font-size:1.2rem; font-weight:800; margin-bottom:4px; }
+.cal-day-lbl { font-size:.68rem; font-weight:600; }
+
+/* presence big button */
+.presence-wrap { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:300px; gap:20px; }
+.presence-types { display:flex; gap:14px; flex-wrap:wrap; justify-content:center; }
+.presence-option { padding:24px 28px; border-radius:18px; border:2px solid; cursor:pointer; text-align:center; transition:all .25s; width:160px; background:var(--card); }
+.presence-option:hover { transform:translateY(-4px); }
+.presence-option.selected { box-shadow:0 8px 32px rgba(0,0,0,.4); }
+.presence-option .p-icon { font-size:2.4rem; margin-bottom:10px; }
+.presence-option .p-label { font-weight:700; font-size:.9rem; }
+.confirmed-box { background:rgba(150,206,180,.1); border:1px solid #96CEB4; border-radius:18px; padding:32px; text-align:center; max-width:360px; }
+
+/* demande form */
+.form-group { display:flex; flex-direction:column; gap:6px; margin-bottom:14px; }
+.form-group label { font-size:.78rem; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:.5px; }
+.form-group input, .form-group select, .form-group textarea {
+  padding:10px 14px; background:rgba(255,255,255,.06); border:1px solid var(--border); border-radius:9px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:.87rem; transition:border-color .2s; outline:none; resize:vertical;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color:var(--accent); }
+.form-group select option { background:#0d1811; }
+
+.demande-item { display:flex; justify-content:space-between; align-items:center; padding:13px 0; border-bottom:1px solid var(--border); }
+.demande-item:last-child { border-bottom:none; }
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <h2>HR<span>Suite</span></h2>
+    <div class="sidebar-user">
+      <div class="avatar">👤</div>
+      <div class="user-info">
+        <div class="name">Ahmed Ben Ali</div>
+        <div class="role">Employé • IT</div>
+      </div>
+    </div>
+  </div>
+  <nav>
+    <div class="nav-section">Principal</div>
+    <button class="nav-item active" onclick="show('dashboard',this)"><span class="icon">🏠</span> Tableau de bord</button>
+    <div class="nav-section">Mes espaces</div>
+    <button class="nav-item" onclick="show('profil',this)"><span class="icon">👤</span> Mes informations</button>
+    <button class="nav-item" onclick="show('planning',this)"><span class="icon">📅</span> Planning personnel</button>
+    <button class="nav-item" onclick="show('presence',this)"><span class="icon">✔️</span> Déclarer présence</button>
+    <div class="nav-section">Demandes</div>
+    <button class="nav-item" onclick="show('demandes',this)"><span class="icon">📋</span> Mes demandes</button>
+  </nav>
+  <button class="logout" onclick="window.location.href='index.html'">🚪 Déconnexion</button>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div>
+      <div class="page-title" id="pageTitle">Mon tableau de bord</div>
+      <div class="page-sub" id="pageDate"></div>
+    </div>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-ghost" onclick="show('demandes',document.querySelectorAll('.nav-item')[4])">📋 Mes demandes</button>
+      <button class="btn btn-primary" onclick="show('presence',document.querySelectorAll('.nav-item')[3])">✔️ Déclarer présence</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- DASHBOARD -->
+    <div class="section active" id="sec-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card" style="--c:#96CEB4"><div class="stat-icon">🌴</div><div class="stat-val">18</div><div class="stat-label">Jours congés restants</div></div>
+        <div class="stat-card" style="--c:#45B7D1"><div class="stat-icon">🏡</div><div class="stat-val">3j</div><div class="stat-label">Télétravail cette semaine</div></div>
+        <div class="stat-card" style="--c:#FF6B35"><div class="stat-icon">✔️</div><div class="stat-val">22</div><div class="stat-label">Présences ce mois</div></div>
+        <div class="stat-card" style="--c:#FFE66D"><div class="stat-icon">📋</div><div class="stat-val">2</div><div class="stat-label">Demandes en cours</div></div>
+      </div>
+      <div class="grid2">
+        <div class="panel">
+          <div class="panel-title">Cette semaine</div>
+          <div id="weekSummary"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-title">Mes demandes récentes</div>
+          <div id="recentDemandes"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROFIL -->
+    <div class="section" id="sec-profil">
+      <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:24px;">Mes informations</h2>
+      <div class="grid2">
+        <div class="panel">
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px">
+            <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#96CEB4,#4ECDC4);display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:800;color:#fff;border:3px solid #96CEB4">A</div>
+            <div>
+              <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800">Ahmed Ben Ali</div>
+              <div style="color:var(--accent);font-size:.85rem;margin-top:2px">Développeur Frontend</div>
+              <div style="color:var(--muted);font-size:.78rem;margin-top:2px">Département IT • Actif</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)">
+              <span style="color:var(--muted);font-size:.83rem">Email</span>
+              <span style="font-size:.83rem">ahmed@hrsuite.tn</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)">
+              <span style="color:var(--muted);font-size:.83rem">Téléphone</span>
+              <span style="font-size:.83rem">+216 97 123 456</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)">
+              <span style="color:var(--muted);font-size:.83rem">Manager</span>
+              <span style="font-size:.83rem">Mohamed Trabelsi</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)">
+              <span style="color:var(--muted);font-size:.83rem">Date d'entrée</span>
+              <span style="font-size:.83rem">01 Janvier 2024</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:10px 0">
+              <span style="color:var(--muted);font-size:.83rem">Contrat</span>
+              <span class="badge badge-green">CDI</span>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-title">Soldes & avantages</div>
+          <div id="soldesSection"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PLANNING -->
+    <div class="section" id="sec-planning">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px">
+        <div>
+          <h2 style="font-family:'Syne',sans-serif;font-weight:800;">Mon planning personnel</h2>
+          <p style="color:var(--muted);font-size:.83rem;margin-top:4px;">Mars 2026 — Cliquez sur un jour pour le modifier</p>
+        </div>
+        <button class="btn btn-primary" onclick="savePlanning()">💾 Enregistrer</button>
+      </div>
+      <div class="panel">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+          <div style="font-size:.85rem;color:var(--muted)">Semaine du 9 au 13 Mars</div>
+          <div style="display:flex;gap:10px;font-size:.75rem">
+            <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#96CEB4;margin-right:4px"></span>Présentiel</span>
+            <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#45B7D1;margin-right:4px"></span>Télétravail</span>
+            <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#ff6b6b;margin-right:4px"></span>Congé</span>
+          </div>
+        </div>
+        <div class="cal-grid" id="calGrid"></div>
+      </div>
+      <div id="planningMsg" style="display:none;background:rgba(150,206,180,.1);border:1px solid #96CEB4;border-radius:12px;padding:14px;color:#96CEB4;font-weight:600;text-align:center">✅ Planning mis à jour !</div>
+    </div>
+
+    <!-- PRÉSENCE -->
+    <div class="section" id="sec-presence">
+      <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:8px;">Déclarer ma présence</h2>
+      <p style="color:var(--muted);font-size:.83rem;margin-bottom:32px;" id="todayDate"></p>
+
+      <div id="presenceForm">
+        <div class="presence-types" id="presenceTypes">
+          <div class="presence-option" style="border-color:rgba(150,206,180,.3);--c:#96CEB4" onclick="selectPresence(this,'presentiel')">
+            <div class="p-icon">🏢</div>
+            <div class="p-label" style="color:#96CEB4">Présentiel</div>
+            <div style="font-size:.72rem;color:var(--muted);margin-top:4px">Au bureau</div>
+          </div>
+          <div class="presence-option" style="border-color:rgba(69,183,209,.3);--c:#45B7D1" onclick="selectPresence(this,'teletravail')">
+            <div class="p-icon">🏡</div>
+            <div class="p-label" style="color:#45B7D1">Télétravail</div>
+            <div style="font-size:.72rem;color:var(--muted);margin-top:4px">À domicile</div>
+          </div>
+          <div class="presence-option" style="border-color:rgba(255,230,109,.3);--c:#FFE66D" onclick="selectPresence(this,'demi')">
+            <div class="p-icon">⏰</div>
+            <div class="p-label" style="color:#FFE66D">Demi-journée</div>
+            <div style="font-size:.72rem;color:var(--muted);margin-top:4px">Matin / Après-midi</div>
+          </div>
+        </div>
+        <div style="text-align:center;margin-top:28px">
+          <button class="btn btn-primary" id="confirmBtn" onclick="confirmPresence()" disabled style="padding:14px 36px;font-size:1rem;opacity:.4;cursor:not-allowed">
+            ✔ Confirmer ma présence
+          </button>
+          <div style="color:var(--muted);font-size:.78rem;margin-top:10px" id="presenceHint">Sélectionnez un mode pour confirmer</div>
+        </div>
+      </div>
+
+      <div id="presenceConfirmed" style="display:none">
+        <div class="confirmed-box" style="margin:auto">
+          <div style="font-size:3rem;margin-bottom:12px">✅</div>
+          <h3 style="font-family:'Syne',sans-serif;color:#96CEB4;font-weight:800;margin-bottom:8px">Présence enregistrée !</h3>
+          <p id="confirmedDetails" style="color:rgba(255,255,255,.6);font-size:.88rem;margin-bottom:18px"></p>
+          <button class="btn btn-ghost" onclick="resetPresence()">Modifier</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- DEMANDES -->
+    <div class="section" id="sec-demandes">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px">
+        <h2 style="font-family:'Syne',sans-serif;font-weight:800;">Mes demandes</h2>
+        <button class="btn btn-primary" onclick="toggleDemandeForm()">+ Nouvelle demande</button>
+      </div>
+
+      <div id="demandeFormWrap" style="display:none">
+        <div style="background:rgba(150,206,180,.07);border:1px solid rgba(150,206,180,.3);border-radius:16px;padding:24px;margin-bottom:22px;animation:fadeSlide .3s ease">
+          <h3 style="font-family:'Syne',sans-serif;color:var(--accent);margin-bottom:18px">Nouvelle demande</h3>
+          <div class="form-group">
+            <label>Type de demande</label>
+            <select id="dType"><option>Congé payé</option><option>Télétravail</option><option>Congé sans solde</option><option>Formation</option><option>Autre</option></select>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <div class="form-group">
+              <label>Date de début</label>
+              <input type="date" id="dDebut">
+            </div>
+            <div class="form-group">
+              <label>Date de fin</label>
+              <input type="date" id="dFin">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Motif / Commentaire</label>
+            <textarea id="dMotif" rows="3" placeholder="Décrivez votre demande..."></textarea>
+          </div>
+          <div style="display:flex;gap:10px">
+            <button class="btn btn-primary" onclick="submitDemande()">Envoyer</button>
+            <button class="btn btn-ghost" onclick="toggleDemandeForm()">Annuler</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Historique des demandes</div>
+        <div id="demandesList"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+@keyframes fadeSlide { from{opacity:0;transform:translateY(-12px)} to{opacity:1;transform:translateY(0)} }
+</style>
+
+<script>
+const days = [
+  { d:'Lun 9', type:'present' },
+  { d:'Mar 10', type:'remote' },
+  { d:'Mer 11', type:'present' },
+  { d:'Jeu 12', type:'remote' },
+  { d:'Ven 13', type:'present' },
+];
+const planningState = [...days];
+
+let myDemandes = [
+  { id:1, type:'Congé payé',  debut:'2026-03-20', fin:'2026-03-25', motif:'Vacances',    statut:'En attente' },
+  { id:2, type:'Télétravail', debut:'2026-03-15', fin:'2026-03-15', motif:'Rdv médical', statut:'Validé N1' },
+];
+
+const titles = { dashboard:'Mon tableau de bord', profil:'Mes informations', planning:'Mon planning', presence:'Déclarer présence', demandes:'Mes demandes' };
+
+function show(sec, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  document.getElementById('sec-'+sec).classList.add('active');
+  btn.classList.add('active');
+  document.getElementById('pageTitle').textContent = titles[sec] || sec;
+  if (sec === 'dashboard') renderDashboard();
+  if (sec === 'planning') renderCalendar();
+  if (sec === 'profil') renderSoldes();
+  if (sec === 'demandes') renderDemandes();
+}
+
+document.getElementById('pageDate').textContent =
+  new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+document.getElementById('todayDate').textContent =
+  new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+// ── CALENDAR ──────────────────────────────────────────────────────────────────
+const typeLabel = t => t === 'present' ? 'Présentiel' : t === 'remote' ? 'Télétravail' : 'Congé';
+const typeNext  = t => t === 'present' ? 'remote' : t === 'remote' ? 'off' : 'present';
+
+function renderCalendar() {
+  document.getElementById('calGrid').innerHTML = planningState.map((d, i) => `
+    <div class="cal-day ${d.type}" onclick="cycleDay(${i})">
+      <div class="cal-day-num" style="color:${d.type==='present'?'#96CEB4':d.type==='remote'?'#45B7D1':'#ff6b6b'}">${d.d}</div>
+      <div class="cal-day-lbl" style="color:${d.type==='present'?'#96CEB4':d.type==='remote'?'#45B7D1':'#ff6b6b'}">${typeLabel(d.type)}</div>
+    </div>
+  `).join('');
+}
+
+function cycleDay(i) {
+  planningState[i].type = typeNext(planningState[i].type);
+  renderCalendar();
+}
+
+function savePlanning() {
+  const msg = document.getElementById('planningMsg');
+  msg.style.display = 'block';
+  setTimeout(() => msg.style.display = 'none', 2500);
+}
+
+// ── PRESENCE ──────────────────────────────────────────────────────────────────
+let selectedPresence = null;
+
+function selectPresence(el, type) {
+  document.querySelectorAll('.presence-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedPresence = type;
+  const btn = document.getElementById('confirmBtn');
+  btn.disabled = false;
+  btn.style.opacity = '1';
+  btn.style.cursor = 'pointer';
+  document.getElementById('presenceHint').textContent = '';
+}
+
+function confirmPresence() {
+  if (!selectedPresence) return;
+  document.getElementById('presenceForm').style.display = 'none';
+  document.getElementById('presenceConfirmed').style.display = 'flex';
+  document.getElementById('presenceConfirmed').style.justifyContent = 'center';
+  const labels = { presentiel:'🏢 Présentiel — Au bureau', teletravail:'🏡 Télétravail — À domicile', demi:'⏰ Demi-journée' };
+  document.getElementById('confirmedDetails').textContent =
+    `${labels[selectedPresence]} • ${new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}`;
+}
+
+function resetPresence() {
+  selectedPresence = null;
+  document.getElementById('presenceForm').style.display = 'block';
+  document.getElementById('presenceConfirmed').style.display = 'none';
+  const btn = document.getElementById('confirmBtn');
+  btn.disabled = true; btn.style.opacity = '.4'; btn.style.cursor = 'not-allowed';
+  document.querySelectorAll('.presence-option').forEach(o => o.classList.remove('selected'));
+}
+
+// ── DEMANDES ──────────────────────────────────────────────────────────────────
+function renderDemandes() {
+  const statBadge = s => s==='En attente'?'badge-yellow':s.includes('Validé')?'badge-green':'badge-red';
+  document.getElementById('demandesList').innerHTML = myDemandes.map(d => `
+    <div class="demande-item">
+      <div>
+        <div style="font-weight:700;font-size:.88rem">${d.type}</div>
+        <div style="font-size:.75rem;color:var(--muted);margin-top:2px">${d.debut}${d.fin !== d.debut ? ' → '+d.fin : ''} • ${d.motif}</div>
+      </div>
+      <span class="badge ${statBadge(d.statut)}">${d.statut}</span>
+    </div>
+  `).join('');
+}
+
+function toggleDemandeForm() {
+  const f = document.getElementById('demandeFormWrap');
+  f.style.display = f.style.display === 'none' ? 'block' : 'none';
+}
+
+function submitDemande() {
+  const type  = document.getElementById('dType').value;
+  const debut = document.getElementById('dDebut').value;
+  const fin   = document.getElementById('dFin').value;
+  const motif = document.getElementById('dMotif').value;
+  if (!debut) { alert('Veuillez sélectionner une date'); return; }
+  myDemandes.unshift({ id: Date.now(), type, debut, fin: fin||debut, motif: motif||'—', statut:'En attente' });
+  toggleDemandeForm();
+  renderDemandes();
+}
+
+// ── DASHBOARD ─────────────────────────────────────────────────────────────────
+function renderDashboard() {
+  document.getElementById('weekSummary').innerHTML = planningState.map(d => `
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border)">
+      <div style="font-size:.85rem;font-weight:600">${d.d}</div>
+      <span class="badge ${d.type==='present'?'badge-green':d.type==='remote'?'badge-blue':'badge-red'}">${typeLabel(d.type)}</span>
+    </div>
+  `).join('');
+
+  document.getElementById('recentDemandes').innerHTML = myDemandes.slice(0,3).map(d => `
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border)">
+      <div>
+        <div style="font-size:.85rem;font-weight:600">${d.type}</div>
+        <div style="font-size:.74rem;color:var(--muted)">${d.debut}</div>
+      </div>
+      <span class="badge ${d.statut==='En attente'?'badge-yellow':d.statut.includes('Validé')?'badge-green':'badge-red'}">${d.statut}</span>
+    </div>
+  `).join('');
+}
+
+// ── SOLDES ────────────────────────────────────────────────────────────────────
+function renderSoldes() {
+  const soldes = [
+    { label:'Congés payés restants',  val:'18 jours', color:'#96CEB4' },
+    { label:'RTT disponibles',        val:'5 jours',  color:'#45B7D1' },
+    { label:'Jours télétravail/mois', val:'10 jours', color:'#4ECDC4' },
+    { label:'Formation allouée',      val:'3 jours',  color:'#FFE66D' },
+  ];
+  document.getElementById('soldesSection').innerHTML = soldes.map(s => `
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)">
+      <span style="font-size:.84rem;color:rgba(255,255,255,.7)">${s.label}</span>
+      <span style="font-family:'Syne',sans-serif;font-weight:700;color:${s.color}">${s.val}</span>
+    </div>
+  `).join('');
+}
+
+// init
+renderDashboard();
+</script>
+</body>
+</html>

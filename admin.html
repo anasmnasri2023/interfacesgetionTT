@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HRSuite — Administrateur</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --accent: #FF6B35;
+  --accent2: #FF8C5A;
+  --bg: #080b14;
+  --bg2: #0d1120;
+  --sidebar: #090c17;
+  --card: rgba(255,255,255,0.04);
+  --border: rgba(255,255,255,0.07);
+  --text: #e8eaf0;
+  --muted: rgba(255,255,255,0.38);
+}
+body { display:flex; min-height:100vh; background:var(--bg); font-family:'DM Sans',sans-serif; color:var(--text); }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width:240px; min-height:100vh; background:var(--sidebar);
+  border-right:1px solid var(--border);
+  display:flex; flex-direction:column;
+  position:sticky; top:0; height:100vh;
+  flex-shrink:0;
+}
+.sidebar-brand {
+  padding:28px 20px 20px;
+  border-bottom:1px solid var(--border);
+}
+.sidebar-brand h2 { font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:800; }
+.sidebar-brand h2 span { color:var(--accent); }
+.sidebar-user {
+  display:flex; align-items:center; gap:10px; margin-top:14px;
+}
+.avatar {
+  width:38px; height:38px; border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:flex; align-items:center; justify-content:center;
+  font-size:1rem; border:2px solid var(--accent);
+  flex-shrink:0;
+}
+.user-info .name { font-weight:600; font-size:.85rem; }
+.user-info .role { color:var(--accent); font-size:.72rem; margin-top:1px; }
+
+nav { flex:1; padding:16px 10px; overflow-y:auto; }
+.nav-section {
+  font-size:.68rem; font-weight:700; letter-spacing:2px;
+  color:var(--muted); text-transform:uppercase;
+  padding:14px 10px 6px;
+}
+.nav-item {
+  display:flex; align-items:center; gap:12px;
+  padding:10px 14px; border-radius:10px;
+  cursor:pointer; font-size:.85rem;
+  color:var(--muted); font-weight:500;
+  border:none; background:transparent; width:100%;
+  text-align:left; margin-bottom:2px;
+  transition:all .2s; border-left:3px solid transparent;
+}
+.nav-item:hover { background:rgba(255,107,53,.08); color:#fff; }
+.nav-item.active {
+  background:rgba(255,107,53,.12);
+  color:var(--accent); font-weight:600;
+  border-left-color:var(--accent);
+}
+.nav-item .icon { font-size:1.05rem; flex-shrink:0; }
+
+.logout {
+  margin:12px 10px 16px;
+  padding:10px 14px; border-radius:10px;
+  background:rgba(255,80,80,.08);
+  border:1px solid rgba(255,80,80,.2);
+  color:#ff6b6b; cursor:pointer; font-size:.84rem;
+  font-weight:600; width:calc(100% - 20px);
+  transition:all .2s;
+}
+.logout:hover { background:rgba(255,80,80,.15); }
+
+/* ── MAIN ── */
+.main { flex:1; display:flex; flex-direction:column; overflow:hidden; }
+.topbar {
+  padding:20px 32px;
+  border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+  background:var(--bg2);
+}
+.page-title { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; }
+.page-sub { color:var(--muted); font-size:.8rem; margin-top:2px; }
+.topbar-actions { display:flex; gap:10px; }
+.btn {
+  padding:9px 18px; border-radius:9px; border:none;
+  font-family:'DM Sans',sans-serif; font-weight:600; font-size:.83rem;
+  cursor:pointer; transition:all .2s;
+}
+.btn-primary { background:var(--accent); color:#fff; }
+.btn-primary:hover { background:var(--accent2); }
+.btn-ghost { background:rgba(255,255,255,.07); color:var(--text); border:1px solid var(--border); }
+.btn-ghost:hover { background:rgba(255,255,255,.12); }
+
+.content { flex:1; padding:32px; overflow-y:auto; }
+
+/* ── CARDS & GRID ── */
+.stats-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:16px; margin-bottom:28px; }
+.stat-card {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:16px; padding:20px;
+  position:relative; overflow:hidden;
+  transition:transform .2s, border-color .2s;
+}
+.stat-card:hover { transform:translateY(-3px); border-color:rgba(255,255,255,.14); }
+.stat-card::before {
+  content:''; position:absolute; top:0; right:0;
+  width:80px; height:80px;
+  background:radial-gradient(circle, var(--c,.5) 0%, transparent 70%);
+  opacity:.15; transform:translate(30%,-30%);
+}
+.stat-icon { font-size:1.5rem; margin-bottom:12px; }
+.stat-val { font-family:'Syne',sans-serif; font-size:2rem; font-weight:800; color:var(--c); }
+.stat-label { color:var(--muted); font-size:.78rem; margin-top:4px; }
+
+.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px; }
+.panel {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:18px; padding:24px;
+}
+.panel-title {
+  font-family:'Syne',sans-serif; font-size:1rem; font-weight:700;
+  margin-bottom:18px;
+}
+
+/* table */
+.table-wrap { overflow-x:auto; }
+table { width:100%; border-collapse:collapse; }
+th {
+  padding:12px 14px; text-align:left;
+  color:var(--muted); font-size:.75rem; font-weight:700;
+  text-transform:uppercase; letter-spacing:.8px;
+  border-bottom:1px solid var(--border);
+}
+td { padding:13px 14px; font-size:.85rem; border-bottom:1px solid rgba(255,255,255,.04); }
+tr:last-child td { border-bottom:none; }
+tr:hover td { background:rgba(255,255,255,.03); }
+
+.badge {
+  display:inline-block; padding:3px 10px; border-radius:20px;
+  font-size:.73rem; font-weight:600;
+}
+.badge-green  { background:rgba(150,206,180,.2); color:#96CEB4; }
+.badge-blue   { background:rgba(69,183,209,.2);  color:#45B7D1; }
+.badge-orange { background:rgba(255,107,53,.2);  color:#FF6B35; }
+.badge-red    { background:rgba(255,107,107,.2); color:#ff6b6b; }
+.badge-yellow { background:rgba(255,230,109,.2); color:#FFE66D; }
+
+/* form */
+.form-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.form-group { display:flex; flex-direction:column; gap:6px; }
+.form-group label { font-size:.78rem; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:.5px; }
+.form-group input, .form-group select {
+  padding:10px 14px; background:rgba(255,255,255,.06);
+  border:1px solid var(--border); border-radius:9px;
+  color:var(--text); font-family:'DM Sans',sans-serif; font-size:.87rem;
+  transition:border-color .2s; outline:none;
+}
+.form-group input:focus, .form-group select:focus { border-color:var(--accent); }
+.form-group select option { background:#1a1f35; }
+
+.slide-panel {
+  background:rgba(255,107,53,.07);
+  border:1px solid rgba(255,107,53,.3);
+  border-radius:16px; padding:24px;
+  margin-bottom:22px;
+  animation:slideDown .3s ease;
+}
+@keyframes slideDown { from{opacity:0;transform:translateY(-12px)} to{opacity:1;transform:translateY(0)} }
+
+/* roles */
+.roles-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; }
+.role-card {
+  border-radius:16px; padding:20px;
+  border:1px solid;
+}
+.perm-item {
+  display:flex; align-items:center; gap:8px;
+  padding:7px 0; border-bottom:1px solid rgba(255,255,255,.05);
+  font-size:.83rem; color:rgba(255,255,255,.7);
+}
+.perm-item:last-child { border-bottom:none; }
+
+/* activity */
+.activity-item {
+  display:flex; gap:14px; align-items:center;
+  padding:11px 0; border-bottom:1px solid var(--border);
+}
+.activity-item:last-child { border-bottom:none; }
+.act-icon { font-size:1.2rem; flex-shrink:0; }
+.act-msg { font-size:.84rem; color:rgba(255,255,255,.8); }
+.act-time { font-size:.73rem; color:var(--muted); margin-top:2px; }
+
+/* section visibility */
+.section { display:none; }
+.section.active { display:block; }
+
+/* alerts */
+.alert-item {
+  display:flex; align-items:center; gap:14px;
+  padding:14px 16px; border-radius:12px;
+  margin-bottom:10px; border:1px solid;
+}
+.alert-warn { background:rgba(255,230,109,.07); border-color:rgba(255,230,109,.25); }
+.alert-info { background:rgba(69,183,209,.07);  border-color:rgba(69,183,209,.25); }
+.alert-ok   { background:rgba(150,206,180,.07); border-color:rgba(150,206,180,.25); }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <h2>HR<span>Suite</span></h2>
+    <div class="sidebar-user">
+      <div class="avatar">⚙️</div>
+      <div class="user-info">
+        <div class="name">Super Admin</div>
+        <div class="role">Administrateur</div>
+      </div>
+    </div>
+  </div>
+
+  <nav>
+    <div class="nav-section">Principal</div>
+    <button class="nav-item active" onclick="show('dashboard',this)">
+      <span class="icon">🏠</span> Tableau de bord
+    </button>
+
+    <div class="nav-section">Gestion</div>
+    <button class="nav-item" onclick="show('employes',this)">
+      <span class="icon">👥</span> Gérer employés
+    </button>
+    <button class="nav-item" onclick="show('roles',this)">
+      <span class="icon">🔐</span> Rôles & permissions
+    </button>
+
+    <div class="nav-section">Système</div>
+    <button class="nav-item" onclick="show('alertes',this)">
+      <span class="icon">⚠️</span> Alertes système
+    </button>
+    <button class="nav-item" onclick="show('logs',this)">
+      <span class="icon">📋</span> Journaux d'activité
+    </button>
+  </nav>
+
+  <button class="logout" onclick="window.location.href='index.html'">🚪 Déconnexion</button>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div>
+      <div class="page-title" id="pageTitle">Tableau de bord</div>
+      <div class="page-sub" id="pageDate"></div>
+    </div>
+    <div class="topbar-actions">
+      <button class="btn btn-ghost">🔔 Notifications</button>
+      <button class="btn btn-primary" onclick="show('employes',document.querySelectorAll('.nav-item')[1])">+ Ajouter employé</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- DASHBOARD -->
+    <div class="section active" id="sec-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card" style="--c:#FF6B35">
+          <div class="stat-icon">👥</div>
+          <div class="stat-val">47</div>
+          <div class="stat-label">Employés actifs</div>
+        </div>
+        <div class="stat-card" style="--c:#4ECDC4">
+          <div class="stat-icon">🔐</div>
+          <div class="stat-val">4</div>
+          <div class="stat-label">Rôles configurés</div>
+        </div>
+        <div class="stat-card" style="--c:#FFE66D">
+          <div class="stat-icon">⚠️</div>
+          <div class="stat-val">3</div>
+          <div class="stat-label">Alertes actives</div>
+        </div>
+        <div class="stat-card" style="--c:#96CEB4">
+          <div class="stat-icon">✅</div>
+          <div class="stat-val">99.8%</div>
+          <div class="stat-label">Uptime système</div>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="panel">
+          <div class="panel-title">Activité récente</div>
+          <div class="activity-item">
+            <span class="act-icon">✔️</span>
+            <div><div class="act-msg">Ahmed Ben Ali a déclaré sa présence</div><div class="act-time">09:42 — Aujourd'hui</div></div>
+          </div>
+          <div class="activity-item">
+            <span class="act-icon">🏡</span>
+            <div><div class="act-msg">Nouvelle demande télétravail — Fatima Khelil</div><div class="act-time">09:15 — Aujourd'hui</div></div>
+          </div>
+          <div class="activity-item">
+            <span class="act-icon">🔐</span>
+            <div><div class="act-msg">Rôle Manager mis à jour par Admin</div><div class="act-time">08:50 — Aujourd'hui</div></div>
+          </div>
+          <div class="activity-item">
+            <span class="act-icon">➕</span>
+            <div><div class="act-msg">Nouvel employé ajouté : Karim Zouari</div><div class="act-time">08:22 — Aujourd'hui</div></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-title">Répartition par département</div>
+          <div id="deptChart"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EMPLOYÉS -->
+    <div class="section" id="sec-employes">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <div>
+          <h2 style="font-family:'Syne',sans-serif;font-weight:800;">Gérer les employés</h2>
+          <p style="color:var(--muted);font-size:.83rem;margin-top:4px;">47 employés enregistrés</p>
+        </div>
+        <button class="btn btn-primary" onclick="toggleForm()">+ Ajouter employé</button>
+      </div>
+
+      <div class="slide-panel" id="addForm" style="display:none">
+        <h3 style="font-family:'Syne',sans-serif;color:var(--accent);margin-bottom:18px;">Nouvel employé</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Nom complet</label>
+            <input type="text" id="fNom" placeholder="Ex : Ahmed Ben Ali">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="fEmail" placeholder="email@entreprise.tn">
+          </div>
+          <div class="form-group">
+            <label>Poste</label>
+            <input type="text" id="fPoste" placeholder="Ex : Développeur Frontend">
+          </div>
+          <div class="form-group">
+            <label>Département</label>
+            <select id="fDept">
+              <option>IT</option><option>Design</option><option>RH</option>
+              <option>Finance</option><option>Commercial</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Rôle système</label>
+            <select id="fRole">
+              <option>Employé</option><option>Manager</option><option>RH</option><option>Administrateur</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Statut</label>
+            <select id="fStatut">
+              <option>Actif</option><option>Inactif</option><option>Période d'essai</option>
+            </select>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:18px">
+          <button class="btn btn-primary" onclick="addEmployee()">Enregistrer</button>
+          <button class="btn btn-ghost" onclick="toggleForm()">Annuler</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div style="display:flex;gap:10px;margin-bottom:16px">
+          <input type="text" id="searchEmp" placeholder="🔍 Rechercher un employé..." oninput="filterEmployees()"
+            style="flex:1;padding:9px 14px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:9px;color:#fff;font-family:'DM Sans',sans-serif;outline:none;font-size:.85rem">
+          <select onchange="filterByDept(this.value)" style="padding:9px 14px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:9px;color:#fff;font-family:'DM Sans',sans-serif;outline:none">
+            <option value="">Tous les depts</option>
+            <option>IT</option><option>Design</option><option>RH</option><option>Finance</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Employé</th><th>Poste</th><th>Département</th><th>Rôle</th><th>Statut</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="empTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- RÔLES -->
+    <div class="section" id="sec-roles">
+      <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:24px;">Rôles & Permissions</h2>
+      <div class="roles-grid">
+        <div class="role-card" style="background:rgba(255,107,53,.07);border-color:rgba(255,107,53,.3)">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+            <span style="font-size:1.4rem">⚙️</span>
+            <span style="font-family:'Syne',sans-serif;font-weight:700;color:#FF6B35">Administrateur</span>
+          </div>
+          <div class="perm-item"><span style="color:#FF6B35">✓</span> Gérer tous les employés</div>
+          <div class="perm-item"><span style="color:#FF6B35">✓</span> Gérer rôles & permissions</div>
+          <div class="perm-item"><span style="color:#FF6B35">✓</span> Accès aux journaux système</div>
+          <div class="perm-item"><span style="color:#FF6B35">✓</span> Configuration complète</div>
+          <div class="perm-item"><span style="color:#FF6B35">✓</span> Supervision globale</div>
+        </div>
+        <div class="role-card" style="background:rgba(78,205,196,.07);border-color:rgba(78,205,196,.3)">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+            <span style="font-size:1.4rem">👥</span>
+            <span style="font-family:'Syne',sans-serif;font-weight:700;color:#4ECDC4">RH</span>
+          </div>
+          <div class="perm-item"><span style="color:#4ECDC4">✓</span> Suivi des employés</div>
+          <div class="perm-item"><span style="color:#4ECDC4">✓</span> Traiter demandes télétravail</div>
+          <div class="perm-item"><span style="color:#4ECDC4">✓</span> Consulter rapports</div>
+          <div class="perm-item"><span style="color:#4ECDC4">✓</span> Valider demandes Niveau 2</div>
+          <div class="perm-item"><span style="color:#4ECDC4">✗</span> <span style="color:var(--muted)">Gérer rôles système</span></div>
+        </div>
+        <div class="role-card" style="background:rgba(69,183,209,.07);border-color:rgba(69,183,209,.3)">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+            <span style="font-size:1.4rem">📊</span>
+            <span style="font-family:'Syne',sans-serif;font-weight:700;color:#45B7D1">Manager</span>
+          </div>
+          <div class="perm-item"><span style="color:#45B7D1">✓</span> Générer rapports équipe</div>
+          <div class="perm-item"><span style="color:#45B7D1">✓</span> Planifier l'équipe</div>
+          <div class="perm-item"><span style="color:#45B7D1">✓</span> Valider demandes Niveau 1</div>
+          <div class="perm-item"><span style="color:#45B7D1">✓</span> Tableaux de bord</div>
+          <div class="perm-item"><span style="color:#45B7D1">✗</span> <span style="color:var(--muted)">Accès RH global</span></div>
+        </div>
+        <div class="role-card" style="background:rgba(150,206,180,.07);border-color:rgba(150,206,180,.3)">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+            <span style="font-size:1.4rem">👤</span>
+            <span style="font-family:'Syne',sans-serif;font-weight:700;color:#96CEB4">Employé</span>
+          </div>
+          <div class="perm-item"><span style="color:#96CEB4">✓</span> Voir ses propres infos</div>
+          <div class="perm-item"><span style="color:#96CEB4">✓</span> Gérer planning personnel</div>
+          <div class="perm-item"><span style="color:#96CEB4">✓</span> Déclarer sa présence</div>
+          <div class="perm-item"><span style="color:#96CEB4">✗</span> <span style="color:var(--muted)">Accès aux autres profils</span></div>
+          <div class="perm-item"><span style="color:#96CEB4">✗</span> <span style="color:var(--muted)">Validation de demandes</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ALERTES -->
+    <div class="section" id="sec-alertes">
+      <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:24px;">Alertes système</h2>
+      <div class="alert-item alert-warn">
+        <span style="font-size:1.4rem">⚠️</span>
+        <div>
+          <div style="font-weight:600;margin-bottom:2px">3 demandes de télétravail en attente de validation N2</div>
+          <div style="font-size:.78rem;color:var(--muted)">Dernière mise à jour : il y a 2h</div>
+        </div>
+      </div>
+      <div class="alert-item alert-info">
+        <span style="font-size:1.4rem">ℹ️</span>
+        <div>
+          <div style="font-weight:600;margin-bottom:2px">Sauvegarde automatique planifiée ce soir à 23h00</div>
+          <div style="font-size:.78rem;color:var(--muted)">Durée estimée : 15 minutes</div>
+        </div>
+      </div>
+      <div class="alert-item alert-ok">
+        <span style="font-size:1.4rem">✅</span>
+        <div>
+          <div style="font-weight:600;margin-bottom:2px">Tous les services sont opérationnels</div>
+          <div style="font-size:.78rem;color:var(--muted)">Uptime : 99.8% — Dernière vérification : il y a 5 min</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOGS -->
+    <div class="section" id="sec-logs">
+      <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:24px;">Journaux d'activité</h2>
+      <div class="panel">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Heure</th><th>Utilisateur</th><th>Action</th><th>Module</th></tr></thead>
+            <tbody>
+              <tr><td>09:42</td><td>Ahmed Ben Ali</td><td>Déclaration présence</td><td><span class="badge badge-green">Présence</span></td></tr>
+              <tr><td>09:15</td><td>Fatima Khelil</td><td>Soumission demande télétravail</td><td><span class="badge badge-blue">Demandes</span></td></tr>
+              <tr><td>08:50</td><td>Admin</td><td>Modification rôle Manager</td><td><span class="badge badge-orange">Rôles</span></td></tr>
+              <tr><td>08:22</td><td>Admin</td><td>Ajout employé : Karim Zouari</td><td><span class="badge badge-orange">Employés</span></td></tr>
+              <tr><td>07:55</td><td>RH Manager</td><td>Validation demande N2</td><td><span class="badge badge-green">Validation</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end .content -->
+</div><!-- end .main -->
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────────
+let employees = [
+  { id:1, nom:'Ahmed Ben Ali',    email:'ahmed@hr.tn',   poste:'Dev Frontend',  dept:'IT',      role:'Employé',  statut:'Actif' },
+  { id:2, nom:'Fatima Khelil',    email:'fatima@hr.tn',  poste:'Designer UI',   dept:'Design',  role:'Employé',  statut:'Actif' },
+  { id:3, nom:'Mohamed Trabelsi', email:'med@hr.tn',     poste:'Dev Backend',   dept:'IT',      role:'Manager',  statut:'Actif' },
+  { id:4, nom:'Sonia Mansour',    email:'sonia@hr.tn',   poste:'RH Manager',    dept:'RH',      role:'RH',       statut:'Actif' },
+  { id:5, nom:'Karim Zouari',     email:'karim@hr.tn',   poste:'Comptable',     dept:'Finance', role:'Employé',  statut:'Actif' },
+];
+
+// ── NAVIGATION ────────────────────────────────────────────────────────────────
+const titles = { dashboard:'Tableau de bord', employes:'Gérer les employés', roles:'Rôles & Permissions', alertes:'Alertes système', logs:'Journaux d\'activité' };
+function show(sec, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  document.getElementById('sec-'+sec).classList.add('active');
+  btn.classList.add('active');
+  document.getElementById('pageTitle').textContent = titles[sec] || sec;
+  if (sec === 'employes') renderTable(employees);
+}
+
+// ── DATE ──────────────────────────────────────────────────────────────────────
+document.getElementById('pageDate').textContent =
+  new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+// ── EMPLOYEES TABLE ───────────────────────────────────────────────────────────
+function renderTable(data) {
+  const tbody = document.getElementById('empTable');
+  const roleColor = { Employé:'badge-green', Manager:'badge-blue', RH:'badge-blue', Administrateur:'badge-orange' };
+  tbody.innerHTML = data.map(e => `
+    <tr>
+      <td>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#FF6B35,#4ECDC4);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;color:#fff;flex-shrink:0">${e.nom[0]}</div>
+          <div>
+            <div style="font-weight:600">${e.nom}</div>
+            <div style="font-size:.74rem;color:var(--muted)">${e.email}</div>
+          </div>
+        </div>
+      </td>
+      <td>${e.poste}</td>
+      <td>${e.dept}</td>
+      <td><span class="badge ${roleColor[e.role]||'badge-green'}">${e.role}</span></td>
+      <td><span class="badge badge-green">${e.statut}</span></td>
+      <td>
+        <button onclick="deleteEmp(${e.id})" style="padding:5px 12px;background:rgba(255,107,107,.12);border:1px solid rgba(255,107,107,.3);border-radius:6px;color:#ff6b6b;cursor:pointer;font-size:.75rem;font-weight:600">Supprimer</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function deleteEmp(id) {
+  employees = employees.filter(e => e.id !== id);
+  filterEmployees();
+}
+
+function addEmployee() {
+  const nom   = document.getElementById('fNom').value.trim();
+  const email = document.getElementById('fEmail').value.trim();
+  const poste = document.getElementById('fPoste').value.trim();
+  const dept  = document.getElementById('fDept').value;
+  const role  = document.getElementById('fRole').value;
+  const statut= document.getElementById('fStatut').value;
+  if (!nom) return;
+  employees.push({ id: Date.now(), nom, email: email||nom.toLowerCase().split(' ')[0]+'@hr.tn', poste, dept, role, statut });
+  toggleForm();
+  renderTable(employees);
+}
+
+function toggleForm() {
+  const f = document.getElementById('addForm');
+  f.style.display = f.style.display === 'none' ? 'block' : 'none';
+}
+
+function filterEmployees() {
+  const q = document.getElementById('searchEmp').value.toLowerCase();
+  renderTable(employees.filter(e =>
+    e.nom.toLowerCase().includes(q) || e.poste.toLowerCase().includes(q) || e.dept.toLowerCase().includes(q)
+  ));
+}
+
+function filterByDept(dept) {
+  renderTable(dept ? employees.filter(e => e.dept === dept) : employees);
+}
+
+// ── DEPT CHART ────────────────────────────────────────────────────────────────
+const depts = [
+  { name:'IT',      count:18, color:'#FF6B35' },
+  { name:'Design',  count:8,  color:'#4ECDC4' },
+  { name:'RH',      count:6,  color:'#45B7D1' },
+  { name:'Finance', count:10, color:'#FFE66D' },
+  { name:'Autres',  count:5,  color:'#96CEB4' },
+];
+const total = depts.reduce((a,b) => a+b.count, 0);
+document.getElementById('deptChart').innerHTML = depts.map(d => `
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+    <div style="width:10px;height:10px;border-radius:50%;background:${d.color};flex-shrink:0"></div>
+    <div style="flex:1;font-size:.83rem">${d.name}</div>
+    <div style="flex:2;height:8px;background:rgba(255,255,255,.07);border-radius:4px;overflow:hidden">
+      <div style="height:100%;width:${(d.count/total*100).toFixed(0)}%;background:${d.color};border-radius:4px;transition:width .8s ease"></div>
+    </div>
+    <div style="font-size:.78rem;color:var(--muted);width:28px;text-align:right">${d.count}</div>
+  </div>
+`).join('');
+
+// init table
+renderTable(employees);
+</script>
+</body>
+</html>
