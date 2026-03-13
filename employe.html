@@ -34,13 +34,35 @@ nav { flex:1; padding:16px 10px; }
 .nav-item:hover { background:rgba(78,205,196,.08); color:#fff; }
 .nav-item.active { background:rgba(78,205,196,.12); color:var(--accent); font-weight:600; border-left-color:var(--accent); }
 .nav-item .icon { font-size:1.05rem; flex-shrink:0; }
-.logout { margin:12px 10px 16px; padding:10px 14px; border-radius:10px; background:rgba(255,80,80,.08); border:1px solid rgba(255,80,80,.2); color:#ff6b6b; cursor:pointer; font-size:.84rem; font-weight:600; width:calc(100% - 20px); transition:all .2s; }
-.logout:hover { background:rgba(255,80,80,.15); }
 
 .main { flex:1; display:flex; flex-direction:column; overflow:hidden; }
-.topbar { padding:20px 32px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; background:var(--bg2); }
+.topbar { padding:16px 24px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; background:var(--bg2); }
 .page-title { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; }
 .page-sub { color:var(--muted); font-size:.8rem; margin-top:2px; }
+
+/* ── TOPBAR ICONS ── */
+.topbar-icons { display:flex; align-items:center; gap:4px; }
+.topbar-icon-btn {
+  position:relative; width:38px; height:38px; border-radius:50%;
+  background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.09);
+  display:flex; align-items:center; justify-content:center; cursor:pointer;
+  transition:background .2s,border-color .2s;
+  font-size:1.05rem; color:rgba(255,255,255,0.65); flex-shrink:0;
+}
+.topbar-icon-btn:hover { background:rgba(255,255,255,0.12); border-color:rgba(255,255,255,0.18); color:#fff; }
+.topbar-icon-btn .notif-dot {
+  position:absolute; top:5px; right:5px; width:8px; height:8px;
+  border-radius:50%; background:#4ECDC4; border:2px solid var(--bg2);
+}
+.topbar-avatar-btn {
+  width:38px; height:38px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center; cursor:pointer;
+  font-size:.82rem; color:#081a18; font-weight:800;
+  transition:transform .2s; flex-shrink:0; border:2px solid transparent;
+}
+.topbar-avatar-btn:hover { transform:scale(1.08); }
+.topbar-divider { width:1px; height:26px; background:rgba(255,255,255,0.1); margin:0 6px; flex-shrink:0; }
+
 .btn { padding:9px 18px; border-radius:9px; border:none; font-family:'DM Sans',sans-serif; font-weight:600; font-size:.83rem; cursor:pointer; transition:all .2s; }
 .btn-primary { background:var(--accent); color:#081a18; }
 .btn-primary:hover { background:var(--accent2); }
@@ -51,7 +73,6 @@ nav { flex:1; padding:16px 10px; }
 .panel { background:var(--card); border:1px solid var(--border); border-radius:18px; padding:24px; margin-bottom:20px; }
 .panel-title { font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; margin-bottom:18px; }
 
-/* ── FORM ── */
 .form-group { margin-bottom:16px; }
 .form-label { display:block; font-size:.8rem; color:var(--muted); margin-bottom:6px; font-weight:600; letter-spacing:.5px; text-transform:uppercase; }
 .form-input, .form-select, .form-textarea {
@@ -63,7 +84,6 @@ nav { flex:1; padding:16px 10px; }
 .form-select option { background:#0e1f1c; }
 .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
 
-/* ── LEGEND ── */
 .legend-box {
   display:flex; flex-wrap:wrap; gap:10px 22px;
   background:rgba(255,255,255,.03); border:1px solid var(--border);
@@ -72,7 +92,6 @@ nav { flex:1; padding:16px 10px; }
 .legend-item { display:flex; align-items:center; gap:7px; }
 .legend-dot { width:11px; height:11px; border-radius:50%; flex-shrink:0; }
 
-/* ── TIMELINE CARD ── */
 .demand-card {
   background:var(--card); border:1px solid var(--border);
   border-radius:16px; padding:20px 24px; margin-bottom:16px;
@@ -84,52 +103,26 @@ nav { flex:1; padding:16px 10px; }
 .demand-date { font-size:.76rem; color:var(--muted); margin-top:3px; }
 .demand-motif { font-size:.78rem; color:rgba(255,255,255,.5); margin-top:5px; }
 
-/* global status badge on card */
-.status-pill {
-  padding:4px 12px; border-radius:20px; font-size:.72rem; font-weight:700;
-  white-space:nowrap;
-}
+.status-pill { padding:4px 12px; border-radius:20px; font-size:.72rem; font-weight:700; white-space:nowrap; }
 .pill-yellow { background:rgba(255,230,109,.15); color:#FFE66D; border:1px solid rgba(255,230,109,.3); }
 .pill-green  { background:rgba(150,206,180,.15); color:#96CEB4; border:1px solid rgba(150,206,180,.3); }
 .pill-red    { background:rgba(255,107,107,.12); color:#ff6b6b; border:1px solid rgba(255,107,107,.3); }
 .pill-blue   { background:rgba(69,183,209,.15);  color:#45B7D1; border:1px solid rgba(69,183,209,.3); }
 .pill-grey   { background:rgba(255,255,255,.07); color:var(--muted); border:1px solid var(--border); }
 
-/* ── TIMELINE ── */
-.timeline {
-  display:flex; align-items:flex-start; gap:0;
-  position:relative; padding:8px 0 0;
-}
-.tl-step {
-  flex:1; display:flex; flex-direction:column; align-items:center;
-  position:relative;
-}
-/* connecting line between steps */
+.timeline { display:flex; align-items:flex-start; gap:0; position:relative; padding:8px 0 0; }
+.tl-step { flex:1; display:flex; flex-direction:column; align-items:center; position:relative; }
 .tl-step:not(:last-child)::after {
-  content:'';
-  position:absolute;
-  top:12px; left:calc(50% + 14px);
-  width:calc(100% - 28px);
-  height:2px;
-  background:var(--border);
-  z-index:0;
-  transition:background .4s;
+  content:''; position:absolute; top:12px; left:calc(50% + 14px);
+  width:calc(100% - 28px); height:2px; background:var(--border); z-index:0; transition:background .4s;
 }
 .tl-step.done:not(:last-child)::after { background:var(--line-color, var(--accent)); }
-
-.tl-dot {
-  width:26px; height:26px; border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  font-size:.75rem; font-weight:800; z-index:1; position:relative;
-  border:2px solid transparent; transition:all .3s;
-}
-/* states */
+.tl-dot { width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.75rem; font-weight:800; z-index:1; position:relative; border:2px solid transparent; transition:all .3s; }
 .tl-dot.pending  { background:rgba(255,230,109,.18); border-color:#FFE66D; color:#FFE66D; }
 .tl-dot.done     { background:rgba(150,206,180,.2);  border-color:#96CEB4; color:#96CEB4; }
 .tl-dot.refused  { background:rgba(255,107,107,.15); border-color:#ff6b6b; color:#ff6b6b; }
 .tl-dot.waiting  { background:rgba(255,255,255,.06); border-color:rgba(255,255,255,.15); color:var(--muted); }
 .tl-dot.late     { background:rgba(255,107,53,.15);  border-color:#FF6B35; color:#FF6B35; }
-
 .tl-label { font-size:.71rem; color:var(--muted); margin-top:7px; text-align:center; line-height:1.3; }
 .tl-date  { font-size:.68rem; margin-top:3px; text-align:center; font-weight:600; }
 .tl-date.yellow { color:#FFE66D; }
@@ -138,7 +131,6 @@ nav { flex:1; padding:16px 10px; }
 .tl-date.orange { color:#FF6B35; }
 .tl-date.muted  { color:var(--muted); }
 
-/* stats */
 .stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:24px; }
 .stat-mini { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:16px; }
 .stat-mini .val { font-family:'Syne',sans-serif; font-size:1.7rem; font-weight:800; }
@@ -165,7 +157,6 @@ nav { flex:1; padding:16px 10px; }
     <button class="nav-item" onclick="show('soumettre',this)"><span class="icon">📝</span> Soumettre demande</button>
     <button class="nav-item" onclick="show('suivi',this)"><span class="icon">🔍</span> Suivre mes demandes</button>
   </nav>
-  <button class="logout" onclick="window.location.href='index.html'">🚪 Déconnexion</button>
 </aside>
 
 <div class="main">
@@ -174,7 +165,24 @@ nav { flex:1; padding:16px 10px; }
       <div class="page-title" id="pageTitle">Mon espace</div>
       <div class="page-sub" id="pageDate"></div>
     </div>
-    <button class="btn btn-primary" onclick="show('soumettre',document.querySelectorAll('.nav-item')[1])">+ Nouvelle demande</button>
+    <div style="display:flex;align-items:center;gap:10px">
+      <button class="btn btn-primary" onclick="show('soumettre',document.querySelectorAll('.nav-item')[1])">+ Nouvelle demande</button>
+      <div class="topbar-icons">
+        <button class="topbar-icon-btn" title="Langue" style="font-size:1.25rem">🇹🇳</button>
+        <button class="topbar-icon-btn" title="Messagerie">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span class="notif-dot"></span>
+        </button>
+        <button class="topbar-icon-btn" title="Alertes">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+        </button>
+        <div class="topbar-divider"></div>
+        <div class="topbar-avatar-btn" title="Mon profil" style="background:linear-gradient(135deg,#4ECDC4,#6ee7e0);border:2px solid #4ECDC4" onmouseenter="this.style.boxShadow='0 0 0 3px #4ECDC455'" onmouseleave="this.style.boxShadow='none'">AB</div>
+        <button class="topbar-icon-btn" title="Paramètres">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+    </div>
   </div>
 
   <div class="content">
@@ -230,8 +238,6 @@ nav { flex:1; padding:16px 10px; }
     <div class="section" id="sec-suivi">
       <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:8px;">Suivi de mes demandes</h2>
       <p style="color:var(--muted);font-size:.83rem;margin-bottom:20px;">Suivez l'avancement de chaque demande en temps réel</p>
-
-      <!-- Legend -->
       <div class="legend-box">
         <div class="legend-item"><div class="legend-dot" style="background:#FFE66D"></div><span style="color:#FFE66D">Soumis, en attente de validation</span></div>
         <div class="legend-item"><div class="legend-dot" style="background:#96CEB4"></div><span style="color:#96CEB4">Validé / Approuvé</span></div>
@@ -239,7 +245,6 @@ nav { flex:1; padding:16px 10px; }
         <div class="legend-item"><div class="legend-dot" style="background:#FF6B35"></div><span style="color:#FF6B35">Validé en retard</span></div>
         <div class="legend-item"><div class="legend-dot" style="background:rgba(255,255,255,.2)"></div><span style="color:var(--muted)">En attente (étape suivante)</span></div>
       </div>
-
       <div id="suiviList"></div>
     </div>
 
@@ -248,50 +253,17 @@ nav { flex:1; padding:16px 10px; }
 
 <script>
 let demandes = [
-  {
-    id:1, type:'Télétravail', dateDebut:'2026-03-15', dateFin:'2026-03-15',
-    motif:'Plomberie à régler à domicile',
-    steps:[
-      { label:'Soumission',    date:'10 Mar 2026', state:'done',    note:'Demande envoyée' },
-      { label:'Validation\nManager (N1)', date:'11 Mar 2026', state:'done', note:'Validé par M. Trabelsi' },
-      { label:'Validation\nRH (N2)', date:'12 Mar 2026', state:'pending', note:'En attente RH' },
-      { label:'Décision\nfinale', date:null, state:'waiting', note:'' },
-    ]
-  },
-  {
-    id:2, type:'Congé annuel', dateDebut:'2026-03-20', dateFin:'2026-03-25',
-    motif:'Vacances planifiées',
-    steps:[
-      { label:'Soumission',    date:'08 Mar 2026', state:'done',   note:'Demande envoyée' },
-      { label:'Validation\nManager (N1)', date:'09 Mar 2026', state:'done', note:'Validé par M. Trabelsi' },
-      { label:'Validation\nRH (N2)', date:'10 Mar 2026', state:'done',   note:'Validé par S. Mansour' },
-      { label:'Décision\nfinale', date:'10 Mar 2026', state:'done',   note:'Approuvé ✓' },
-    ]
-  },
-  {
-    id:3, type:'Autorisation d\'absence', dateDebut:'2026-03-05', dateFin:'2026-03-05',
-    motif:'Rendez-vous administratif',
-    steps:[
-      { label:'Soumission',    date:'01 Mar 2026', state:'done',   note:'Demande envoyée' },
-      { label:'Validation\nManager (N1)', date:'04 Mar 2026 (retard)', state:'late', note:'Validé en retard' },
-      { label:'Validation\nRH (N2)', date:'05 Mar 2026', state:'refused', note:'Refusé par RH' },
-      { label:'Décision\nfinale', date:'05 Mar 2026', state:'refused', note:'Refusé ✗' },
-    ]
-  },
-  {
-    id:4, type:'Télétravail', dateDebut:'2026-03-18', dateFin:'2026-03-18',
-    motif:'Rendez-vous médical le matin',
-    steps:[
-      { label:'Soumission',    date:'12 Mar 2026', state:'pending', note:'Demande envoyée' },
-      { label:'Validation\nManager (N1)', date:null, state:'waiting', note:'' },
-      { label:'Validation\nRH (N2)', date:null, state:'waiting', note:'' },
-      { label:'Décision\nfinale', date:null, state:'waiting', note:'' },
-    ]
-  },
+  { id:1, type:'Télétravail', dateDebut:'2026-03-15', dateFin:'2026-03-15', motif:'Plomberie à régler à domicile',
+    steps:[ { label:'Soumission', date:'10 Mar 2026', state:'done', note:'Demande envoyée' }, { label:'Validation\nManager (N1)', date:'11 Mar 2026', state:'done', note:'Validé par M. Trabelsi' }, { label:'Validation\nRH (N2)', date:'12 Mar 2026', state:'pending', note:'En attente RH' }, { label:'Décision\nfinale', date:null, state:'waiting', note:'' } ] },
+  { id:2, type:'Congé annuel', dateDebut:'2026-03-20', dateFin:'2026-03-25', motif:'Vacances planifiées',
+    steps:[ { label:'Soumission', date:'08 Mar 2026', state:'done', note:'Demande envoyée' }, { label:'Validation\nManager (N1)', date:'09 Mar 2026', state:'done', note:'Validé par M. Trabelsi' }, { label:'Validation\nRH (N2)', date:'10 Mar 2026', state:'done', note:'Validé par S. Mansour' }, { label:'Décision\nfinale', date:'10 Mar 2026', state:'done', note:'Approuvé ✓' } ] },
+  { id:3, type:"Autorisation d'absence", dateDebut:'2026-03-05', dateFin:'2026-03-05', motif:'Rendez-vous administratif',
+    steps:[ { label:'Soumission', date:'01 Mar 2026', state:'done', note:'Demande envoyée' }, { label:'Validation\nManager (N1)', date:'04 Mar 2026 (retard)', state:'late', note:'Validé en retard' }, { label:'Validation\nRH (N2)', date:'05 Mar 2026', state:'refused', note:'Refusé par RH' }, { label:'Décision\nfinale', date:'05 Mar 2026', state:'refused', note:'Refusé ✗' } ] },
+  { id:4, type:'Télétravail', dateDebut:'2026-03-18', dateFin:'2026-03-18', motif:'Rendez-vous médical le matin',
+    steps:[ { label:'Soumission', date:'12 Mar 2026', state:'pending', note:'Demande envoyée' }, { label:'Validation\nManager (N1)', date:null, state:'waiting', note:'' }, { label:'Validation\nRH (N2)', date:null, state:'waiting', note:'' }, { label:'Décision\nfinale', date:null, state:'waiting', note:'' } ] },
 ];
 
 const titles = { dashboard:'Mon espace', soumettre:'Soumettre une demande', suivi:'Suivi de mes demandes' };
-
 function show(sec, btn) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
@@ -322,72 +294,55 @@ const dateColor = s => ({ done:'green', pending:'yellow', refused:'red', late:'o
 function renderSuivi() {
   document.getElementById('suiviList').innerHTML = demandes.map(d => {
     const gs = globalStatus(d.steps);
-    const isDone = d.steps.every(s => s.state === 'done');
-    const isRefused = d.steps.some(s => s.state === 'refused');
-
     const stepsHtml = d.steps.map((s, i) => {
-      const prevDone = i === 0 || d.steps[i-1].state === 'done' || d.steps[i-1].state === 'late';
-      const lineColor = (s.state === 'done' || s.state === 'late') ? (s.state === 'late' ? '#FF6B35' : '#96CEB4') : 'var(--border)';
-      return `
-        <div class="tl-step ${(s.state==='done'||s.state==='late')?'done':''}" style="--line-color:${lineColor}">
-          <div class="tl-dot ${s.state}">${dotIcon(s.state)}</div>
-          <div class="tl-label">${s.label.replace(/\n/,'<br>')}</div>
-          ${s.date ? `<div class="tl-date ${dateColor(s.state)}">${s.date}</div>` : `<div class="tl-date muted">—</div>`}
-          ${s.note ? `<div style="font-size:.67rem;color:rgba(255,255,255,.3);text-align:center;margin-top:3px;max-width:80px">${s.note}</div>` : ''}
-        </div>`;
-    }).join('');
-
-    return `
-      <div class="demand-card">
-        <div class="demand-meta">
-          <div>
-            <div class="demand-type">${d.type}</div>
-            <div class="demand-date">📅 ${d.dateDebut}${d.dateFin !== d.dateDebut ? ' → ' + d.dateFin : ''}</div>
-            <div class="demand-motif">💬 ${d.motif}</div>
-          </div>
-          <span class="status-pill ${gs.cls}">${gs.text}</span>
-        </div>
-        <div class="timeline">${stepsHtml}</div>
+      const lineColor = (s.state==='done'||s.state==='late') ? (s.state==='late'?'#FF6B35':'#96CEB4') : 'var(--border)';
+      return `<div class="tl-step ${(s.state==='done'||s.state==='late')?'done':''}" style="--line-color:${lineColor}">
+        <div class="tl-dot ${s.state}">${dotIcon(s.state)}</div>
+        <div class="tl-label">${s.label.replace(/\n/,'<br>')}</div>
+        ${s.date?`<div class="tl-date ${dateColor(s.state)}">${s.date}</div>`:`<div class="tl-date muted">—</div>`}
+        ${s.note?`<div style="font-size:.67rem;color:rgba(255,255,255,.3);text-align:center;margin-top:3px;max-width:80px">${s.note}</div>`:''}
       </div>`;
+    }).join('');
+    return `<div class="demand-card">
+      <div class="demand-meta">
+        <div>
+          <div class="demand-type">${d.type}</div>
+          <div class="demand-date">📅 ${d.dateDebut}${d.dateFin!==d.dateDebut?' → '+d.dateFin:''}</div>
+          <div class="demand-motif">💬 ${d.motif}</div>
+        </div>
+        <span class="status-pill ${gs.cls}">${gs.text}</span>
+      </div>
+      <div class="timeline">${stepsHtml}</div>
+    </div>`;
   }).join('');
 }
 
 function renderDash() {
   document.getElementById('dashRecent').innerHTML = demandes.slice(0,3).map(d => {
     const gs = globalStatus(d.steps);
-    return `
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)">
-        <div>
-          <div style="font-weight:600;font-size:.88rem">${d.type}</div>
-          <div style="font-size:.74rem;color:var(--muted);margin-top:2px">${d.dateDebut} • ${d.motif}</div>
-        </div>
-        <span class="status-pill ${gs.cls}">${gs.text}</span>
-      </div>`;
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)">
+      <div>
+        <div style="font-weight:600;font-size:.88rem">${d.type}</div>
+        <div style="font-size:.74rem;color:var(--muted);margin-top:2px">${d.dateDebut} • ${d.motif}</div>
+      </div>
+      <span class="status-pill ${gs.cls}">${gs.text}</span>
+    </div>`;
   }).join('');
 }
 
 function submitDemande() {
-  const type = document.getElementById('typeInput').value;
-  const debut = document.getElementById('dateDebut').value;
-  const fin   = document.getElementById('dateFin').value;
-  const motif = document.getElementById('motifInput').value;
-  if (!debut || !motif) { alert('Veuillez remplir les champs requis.'); return; }
-
-  demandes.unshift({
-    id: Date.now(), type, dateDebut: debut, dateFin: fin || debut, motif,
-    steps:[
-      { label:'Soumission', date: new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'}), state:'done', note:'Demande envoyée' },
-      { label:'Validation\nManager (N1)', date:null, state:'pending', note:'En attente' },
-      { label:'Validation\nRH (N2)', date:null, state:'waiting', note:'' },
-      { label:'Décision\nfinale', date:null, state:'waiting', note:'' },
-    ]
-  });
-
-  document.getElementById('submitMsg').style.display = 'block';
-  setTimeout(() => document.getElementById('submitMsg').style.display = 'none', 3000);
-  document.getElementById('motifInput').value = '';
-  document.getElementById('dateDebut').value = '';
-  document.getElementById('dateFin').value = '';
+  const type=document.getElementById('typeInput').value;
+  const debut=document.getElementById('dateDebut').value;
+  const fin=document.getElementById('dateFin').value;
+  const motif=document.getElementById('motifInput').value;
+  if (!debut||!motif) { alert('Veuillez remplir les champs requis.'); return; }
+  demandes.unshift({ id:Date.now(), type, dateDebut:debut, dateFin:fin||debut, motif,
+    steps:[ { label:'Soumission', date:new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'}), state:'done', note:'Demande envoyée' }, { label:'Validation\nManager (N1)', date:null, state:'pending', note:'En attente' }, { label:'Validation\nRH (N2)', date:null, state:'waiting', note:'' }, { label:'Décision\nfinale', date:null, state:'waiting', note:'' } ] });
+  document.getElementById('submitMsg').style.display='block';
+  setTimeout(()=>document.getElementById('submitMsg').style.display='none',3000);
+  document.getElementById('motifInput').value='';
+  document.getElementById('dateDebut').value='';
+  document.getElementById('dateFin').value='';
 }
 
 renderDash();

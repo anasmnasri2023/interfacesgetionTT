@@ -34,12 +34,34 @@ nav { flex:1; padding:16px 10px; }
 .nav-item.active { background:rgba(69,183,209,.12); color:var(--accent); font-weight:600; border-left-color:var(--accent); }
 .nav-item .icon { font-size:1.05rem; flex-shrink:0; }
 .badge-count { margin-left:auto; background:var(--accent); color:#08101a; font-size:.68rem; font-weight:800; padding:2px 7px; border-radius:12px; }
-.logout { margin:12px 10px 16px; padding:10px 14px; border-radius:10px; background:rgba(255,80,80,.08); border:1px solid rgba(255,80,80,.2); color:#ff6b6b; cursor:pointer; font-size:.84rem; font-weight:600; width:calc(100% - 20px); transition:all .2s; }
-.logout:hover { background:rgba(255,80,80,.15); }
 .main { flex:1; display:flex; flex-direction:column; overflow:hidden; }
-.topbar { padding:20px 32px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; background:var(--bg2); }
+.topbar { padding:16px 24px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; background:var(--bg2); }
 .page-title { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; }
 .page-sub { color:var(--muted); font-size:.8rem; margin-top:2px; }
+
+/* ── TOPBAR ICONS ── */
+.topbar-icons { display:flex; align-items:center; gap:4px; }
+.topbar-icon-btn {
+  position:relative; width:38px; height:38px; border-radius:50%;
+  background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.09);
+  display:flex; align-items:center; justify-content:center; cursor:pointer;
+  transition:background .2s,border-color .2s;
+  font-size:1.05rem; color:rgba(255,255,255,0.65); flex-shrink:0;
+}
+.topbar-icon-btn:hover { background:rgba(255,255,255,0.12); border-color:rgba(255,255,255,0.18); color:#fff; }
+.topbar-icon-btn .notif-dot {
+  position:absolute; top:5px; right:5px; width:8px; height:8px;
+  border-radius:50%; background:#45B7D1; border:2px solid var(--bg2);
+}
+.topbar-avatar-btn {
+  width:38px; height:38px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center; cursor:pointer;
+  font-size:.82rem; color:#08101a; font-weight:800;
+  transition:transform .2s; flex-shrink:0; border:2px solid transparent;
+}
+.topbar-avatar-btn:hover { transform:scale(1.08); }
+.topbar-divider { width:1px; height:26px; background:rgba(255,255,255,0.1); margin:0 6px; flex-shrink:0; }
+
 .btn { padding:9px 18px; border-radius:9px; border:none; font-family:'DM Sans',sans-serif; font-weight:600; font-size:.83rem; cursor:pointer; transition:all .2s; }
 .btn-primary { background:var(--accent); color:#08101a; }
 .btn-primary:hover { background:var(--accent2); }
@@ -74,22 +96,18 @@ tr:last-child td { border-bottom:none; }
 .planning-table thead th { background:rgba(255,255,255,.04); color:var(--muted); font-weight:700; text-transform:uppercase; font-size:.7rem; letter-spacing:.8px; }
 .planning-table .emp-cell { font-weight:600; color:var(--text); background:rgba(255,255,255,.03); }
 .slot { display:block; text-align:center; padding:5px 8px; border-radius:6px; font-size:.73rem; font-weight:600; cursor:pointer; transition:all .2s; }
-.slot-present  { background:rgba(150,206,180,.2); color:#96CEB4; }
-.slot-remote   { background:rgba(69,183,209,.2);  color:#45B7D1; }
-.slot-off      { background:rgba(255,255,255,.04); color:var(--muted); }
-.slot:hover    { filter:brightness(1.2); }
+.slot-present { background:rgba(150,206,180,.2); color:#96CEB4; }
+.slot-remote  { background:rgba(69,183,209,.2);  color:#45B7D1; }
+.slot-off     { background:rgba(255,255,255,.04); color:var(--muted); }
+.slot:hover   { filter:brightness(1.2); }
 .kpi-row { display:flex; align-items:center; gap:14px; margin-bottom:12px; }
 .kpi-label { font-size:.83rem; color:rgba(255,255,255,.7); width:160px; flex-shrink:0; }
 .kpi-bar-wrap { flex:1; height:8px; background:rgba(255,255,255,.07); border-radius:4px; overflow:hidden; }
 .kpi-bar { height:100%; border-radius:4px; }
 .kpi-pct { font-size:.78rem; color:var(--muted); width:40px; text-align:right; }
-
-/* ── LEGEND ── */
 .legend-box { display:flex; flex-wrap:wrap; gap:10px 22px; background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:12px; padding:14px 18px; margin-bottom:20px; font-size:.78rem; }
 .legend-item { display:flex; align-items:center; gap:7px; }
 .legend-dot { width:11px; height:11px; border-radius:50%; flex-shrink:0; }
-
-/* ── DEMAND CARD WITH TIMELINE ── */
 .demand-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:20px 22px; margin-bottom:14px; transition:border-color .2s; }
 .demand-card:hover { border-color:rgba(69,183,209,.3); }
 .demand-meta { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; }
@@ -97,14 +115,9 @@ tr:last-child td { border-bottom:none; }
 .pill-yellow { background:rgba(255,230,109,.15); color:#FFE66D; border:1px solid rgba(255,230,109,.3); }
 .pill-green  { background:rgba(150,206,180,.15); color:#96CEB4; border:1px solid rgba(150,206,180,.3); }
 .pill-red    { background:rgba(255,107,107,.12); color:#ff6b6b; border:1px solid rgba(255,107,107,.3); }
-
-/* ── TIMELINE ── */
 .timeline { display:flex; align-items:flex-start; padding:8px 0 0; }
 .tl-step { flex:1; display:flex; flex-direction:column; align-items:center; position:relative; }
-.tl-step:not(:last-child)::after {
-  content:''; position:absolute; top:12px; left:calc(50% + 14px);
-  width:calc(100% - 28px); height:2px; background:var(--border); z-index:0; transition:background .4s;
-}
+.tl-step:not(:last-child)::after { content:''; position:absolute; top:12px; left:calc(50% + 14px); width:calc(100% - 28px); height:2px; background:var(--border); z-index:0; transition:background .4s; }
 .tl-step.done:not(:last-child)::after { background:var(--line-color, #96CEB4); }
 .tl-dot { width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.75rem; font-weight:800; z-index:1; position:relative; border:2px solid transparent; }
 .tl-dot.pending  { background:rgba(255,230,109,.18); border-color:#FFE66D; color:#FFE66D; }
@@ -120,8 +133,6 @@ tr:last-child td { border-bottom:none; }
 .tl-date.red    { color:#ff6b6b; }
 .tl-date.muted  { color:var(--muted); }
 .tl-date.blue   { color:#45B7D1; }
-
-/* action buttons */
 .demand-actions { display:flex; gap:8px; margin-top:16px; padding-top:14px; border-top:1px solid var(--border); }
 .btn-validate { padding:7px 16px; background:rgba(150,206,180,.15); border:1px solid #96CEB4; border-radius:8px; color:#96CEB4; cursor:pointer; font-weight:600; font-size:.8rem; transition:all .2s; }
 .btn-validate:hover { background:rgba(150,206,180,.3); }
@@ -153,7 +164,6 @@ tr:last-child td { border-bottom:none; }
     <button class="nav-item" onclick="show('rapports',this)"><span class="icon">📈</span> Générer rapports</button>
     <button class="nav-item" onclick="show('tableaux',this)"><span class="icon">📊</span> Tableaux de bord</button>
   </nav>
-  <button class="logout" onclick="window.location.href='index.html'">🚪 Déconnexion</button>
 </aside>
 
 <div class="main">
@@ -162,9 +172,25 @@ tr:last-child td { border-bottom:none; }
       <div class="page-title" id="pageTitle">Tableau de bord Manager</div>
       <div class="page-sub" id="pageDate"></div>
     </div>
-    <div style="display:flex;gap:10px">
+    <div style="display:flex;align-items:center;gap:10px">
       <button class="btn btn-ghost">📤 Exporter</button>
       <button class="btn btn-primary" onclick="show('planning',document.querySelectorAll('.nav-item')[1])">📅 Planning équipe</button>
+      <div class="topbar-icons">
+        <button class="topbar-icon-btn" title="Langue" style="font-size:1.25rem">🇹🇳</button>
+        <button class="topbar-icon-btn" title="Messagerie">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span class="notif-dot"></span>
+        </button>
+        <button class="topbar-icon-btn" title="Alertes">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+          <span class="notif-dot"></span>
+        </button>
+        <div class="topbar-divider"></div>
+        <div class="topbar-avatar-btn" title="Mon profil" style="background:linear-gradient(135deg,#45B7D1,#63cce0);border:2px solid #45B7D1" onmouseenter="this.style.boxShadow='0 0 0 3px #45B7D155'" onmouseleave="this.style.boxShadow='none'">MT</div>
+        <button class="topbar-icon-btn" title="Paramètres">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -179,14 +205,8 @@ tr:last-child td { border-bottom:none; }
         <div class="stat-card" style="--c:#FFE66D"><div class="stat-icon">🎯</div><div class="stat-val">8/10</div><div class="stat-label">Objectifs atteints</div></div>
       </div>
       <div class="grid2">
-        <div class="panel">
-          <div class="panel-title">Demandes en attente</div>
-          <div id="dashDemandes"></div>
-        </div>
-        <div class="panel">
-          <div class="panel-title">Équipe aujourd'hui</div>
-          <div id="dashEquipe"></div>
-        </div>
+        <div class="panel"><div class="panel-title">Demandes en attente</div><div id="dashDemandes"></div></div>
+        <div class="panel"><div class="panel-title">Équipe aujourd'hui</div><div id="dashEquipe"></div></div>
       </div>
     </div>
 
@@ -219,7 +239,6 @@ tr:last-child td { border-bottom:none; }
     <div class="section" id="sec-validation">
       <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:6px;">Valider les demandes — Niveau 1</h2>
       <p style="color:var(--muted);font-size:.83rem;margin-bottom:20px;">Première validation avant transmission au RH (N2)</p>
-
       <div class="legend-box">
         <div class="legend-item"><div class="legend-dot" style="background:#FFE66D"></div><span style="color:#FFE66D">Soumis, en attente de votre validation</span></div>
         <div class="legend-item"><div class="legend-dot" style="background:#45B7D1;animation:pulse 1.4s infinite"></div><span style="color:#45B7D1">Étape active — action requise</span></div>
@@ -227,7 +246,6 @@ tr:last-child td { border-bottom:none; }
         <div class="legend-item"><div class="legend-dot" style="background:#ff6b6b"></div><span style="color:#ff6b6b">Refusé</span></div>
         <div class="legend-item"><div class="legend-dot" style="background:rgba(255,255,255,.15)"></div><span style="color:var(--muted)">En attente (étape suivante)</span></div>
       </div>
-
       <div id="validationList"></div>
     </div>
 
@@ -294,44 +312,15 @@ const team = [
 ];
 const planningState = team.map(e => [...e.slots]);
 
-// Each demand has a 4-step timeline
 let demandes = [
-  {
-    id:1, employe:'Ahmed Ben Ali', type:'Télétravail', motif:'Plomberie à régler à domicile',
-    steps:[
-      { label:'Soumission',         date:'10 Mar 2026', state:'done',   note:'Envoyée' },
-      { label:'Manager\n(N1)',      date:null,          state:'active', note:'Votre action requise' },
-      { label:'RH\n(N2)',           date:null,          state:'waiting',note:'' },
-      { label:'Décision\nfinale',   date:null,          state:'waiting',note:'' },
-    ]
-  },
-  {
-    id:2, employe:'Fatima Khelil', type:'Congé', motif:'Vacances planifiées',
-    steps:[
-      { label:'Soumission',         date:'08 Mar 2026', state:'done',   note:'Envoyée' },
-      { label:'Manager\n(N1)',      date:null,          state:'active', note:'Votre action requise' },
-      { label:'RH\n(N2)',           date:null,          state:'waiting',note:'' },
-      { label:'Décision\nfinale',   date:null,          state:'waiting',note:'' },
-    ]
-  },
-  {
-    id:3, employe:'Nadia Ben Salah', type:'Télétravail', motif:'Rendez-vous médical matin',
-    steps:[
-      { label:'Soumission',         date:'12 Mar 2026', state:'done',   note:'Envoyée' },
-      { label:'Manager\n(N1)',      date:null,          state:'active', note:'Votre action requise' },
-      { label:'RH\n(N2)',           date:null,          state:'waiting',note:'' },
-      { label:'Décision\nfinale',   date:null,          state:'waiting',note:'' },
-    ]
-  },
-  {
-    id:4, employe:'Karim Zouari', type:'Congé', motif:'Mariage dans la famille',
-    steps:[
-      { label:'Soumission',         date:'09 Mar 2026', state:'done',   note:'Envoyée' },
-      { label:'Manager\n(N1)',      date:null,          state:'active', note:'Votre action requise' },
-      { label:'RH\n(N2)',           date:null,          state:'waiting',note:'' },
-      { label:'Décision\nfinale',   date:null,          state:'waiting',note:'' },
-    ]
-  },
+  { id:1, employe:'Ahmed Ben Ali', type:'Télétravail', motif:'Plomberie à régler à domicile',
+    steps:[ { label:'Soumission', date:'10 Mar 2026', state:'done', note:'Envoyée' }, { label:'Manager\n(N1)', date:null, state:'active', note:'Votre action requise' }, { label:'RH\n(N2)', date:null, state:'waiting', note:'' }, { label:'Décision\nfinale', date:null, state:'waiting', note:'' } ] },
+  { id:2, employe:'Fatima Khelil', type:'Congé', motif:'Vacances planifiées',
+    steps:[ { label:'Soumission', date:'08 Mar 2026', state:'done', note:'Envoyée' }, { label:'Manager\n(N1)', date:null, state:'active', note:'Votre action requise' }, { label:'RH\n(N2)', date:null, state:'waiting', note:'' }, { label:'Décision\nfinale', date:null, state:'waiting', note:'' } ] },
+  { id:3, employe:'Nadia Ben Salah', type:'Télétravail', motif:'Rendez-vous médical matin',
+    steps:[ { label:'Soumission', date:'12 Mar 2026', state:'done', note:'Envoyée' }, { label:'Manager\n(N1)', date:null, state:'active', note:'Votre action requise' }, { label:'RH\n(N2)', date:null, state:'waiting', note:'' }, { label:'Décision\nfinale', date:null, state:'waiting', note:'' } ] },
+  { id:4, employe:'Karim Zouari', type:'Congé', motif:'Mariage dans la famille',
+    steps:[ { label:'Soumission', date:'09 Mar 2026', state:'done', note:'Envoyée' }, { label:'Manager\n(N1)', date:null, state:'active', note:'Votre action requise' }, { label:'RH\n(N2)', date:null, state:'waiting', note:'' }, { label:'Décision\nfinale', date:null, state:'waiting', note:'' } ] },
 ];
 
 const titles = { dashboard:'Tableau de bord Manager', planning:'Planification équipe', validation:'Validation demandes N1', equipe:'Rapports équipe', rapports:'Générer rapports', tableaux:'Tableaux de bord' };
@@ -343,10 +332,10 @@ function show(sec, btn) {
   document.getElementById('sec-'+sec).classList.add('active');
   btn.classList.add('active');
   document.getElementById('pageTitle').textContent = titles[sec] || sec;
-  if (sec === 'validation') renderValidation();
-  if (sec === 'planning') renderPlanning();
-  if (sec === 'dashboard') renderDashboard();
-  if (sec === 'equipe') renderKPI();
+  if (sec==='validation') renderValidation();
+  if (sec==='planning') renderPlanning();
+  if (sec==='dashboard') renderDashboard();
+  if (sec==='equipe') renderKPI();
 }
 
 document.getElementById('pageDate').textContent =
@@ -356,24 +345,21 @@ const dotIcon = s => ({ done:'✓', active:'▶', pending:'⏳', refused:'✗', 
 const dateColor = s => ({ done:'green', active:'blue', refused:'red', waiting:'muted', pending:'yellow' }[s]);
 
 function buildTimeline(steps) {
-  return steps.map((s, i) => {
-    const prevDone = i === 0 || ['done','refused'].includes(steps[i-1].state) || steps[i-1].state === 'active';
-    const lineColor = s.state === 'done' ? '#96CEB4' : s.state === 'refused' ? '#ff6b6b' : 'var(--border)';
-    return `
-      <div class="tl-step ${s.state === 'done' ? 'done' : ''}" style="--line-color:${lineColor}">
-        <div class="tl-dot ${s.state}">${dotIcon(s.state)}</div>
-        <div class="tl-label">${s.label.replace(/\n/,'<br>')}</div>
-        ${s.date ? `<div class="tl-date ${dateColor(s.state)}">${s.date}</div>` : `<div class="tl-date muted">—</div>`}
-        ${s.note ? `<div style="font-size:.65rem;color:rgba(255,255,255,.3);text-align:center;margin-top:2px;max-width:72px">${s.note}</div>` : ''}
-      </div>`;
+  return steps.map((s,i) => {
+    const lineColor = s.state==='done'?'#96CEB4':s.state==='refused'?'#ff6b6b':'var(--border)';
+    return `<div class="tl-step ${s.state==='done'?'done':''}" style="--line-color:${lineColor}">
+      <div class="tl-dot ${s.state}">${dotIcon(s.state)}</div>
+      <div class="tl-label">${s.label.replace(/\n/,'<br>')}</div>
+      ${s.date?`<div class="tl-date ${dateColor(s.state)}">${s.date}</div>`:`<div class="tl-date muted">—</div>`}
+      ${s.note?`<div style="font-size:.65rem;color:rgba(255,255,255,.3);text-align:center;margin-top:2px;max-width:72px">${s.note}</div>`:''}
+    </div>`;
   }).join('');
 }
 
 function renderValidation() {
-  const pending = demandes.filter(d => d.steps[1].state === 'active' || d.steps[1].state === 'pending');
+  const pending = demandes.filter(d => d.steps[1].state==='active'||d.steps[1].state==='pending');
   document.getElementById('validationList').innerHTML = pending.length
-    ? pending.map(d => `
-      <div class="demand-card" id="dc-${d.id}">
+    ? pending.map(d=>`<div class="demand-card" id="dc-${d.id}">
         <div class="demand-meta">
           <div>
             <div style="font-weight:700;font-size:.98rem">${d.employe}</div>
@@ -385,49 +371,34 @@ function renderValidation() {
         <div class="timeline">${buildTimeline(d.steps)}</div>
         <div class="demand-actions">
           <button class="btn-validate" onclick="actVal(${d.id},'done')">✓ Valider N1 → transmettre au RH</button>
-          <button class="btn-refuse"   onclick="actVal(${d.id},'refused')">✗ Refuser</button>
+          <button class="btn-refuse" onclick="actVal(${d.id},'refused')">✗ Refuser</button>
         </div>
-      </div>`)
-    .join('')
+      </div>`).join('')
     : '<div style="text-align:center;color:var(--muted);padding:32px;background:var(--card);border-radius:14px;border:1px solid var(--border)">✅ Aucune demande en attente</div>';
-
-  // update badge
   document.getElementById('badgeN1').textContent = pending.length;
   document.getElementById('dashCount').textContent = pending.length;
 }
 
 function actVal(id, action) {
   demandes = demandes.map(d => {
-    if (d.id !== id) return d;
-    const s = [...d.steps];
-    if (action === 'done') {
-      s[1] = { ...s[1], state:'done', date:today, note:'Validé ✓' };
-      s[2] = { ...s[2], state:'pending', note:'Transmis au RH' };
-    } else {
-      s[1] = { ...s[1], state:'refused', date:today, note:'Refusé ✗' };
-      s[3] = { ...s[3], state:'refused', note:'Clôturé' };
-    }
+    if (d.id!==id) return d;
+    const s=[...d.steps];
+    if (action==='done') { s[1]={...s[1],state:'done',date:today,note:'Validé ✓'}; s[2]={...s[2],state:'pending',note:'Transmis au RH'}; }
+    else { s[1]={...s[1],state:'refused',date:today,note:'Refusé ✗'}; s[3]={...s[3],state:'refused',note:'Clôturé'}; }
     return { ...d, steps:s };
   });
   renderValidation();
 }
 
 function renderDashboard() {
-  const pending = demandes.filter(d => d.steps[1].state === 'active' || d.steps[1].state === 'pending');
-  document.getElementById('dashDemandes').innerHTML = demandes.slice(0,3).map(d => `
+  document.getElementById('dashDemandes').innerHTML = demandes.slice(0,3).map(d=>`
     <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)">
-      <div>
-        <div style="font-weight:600;font-size:.85rem">${d.employe}</div>
-        <div style="font-size:.74rem;color:var(--muted)">${d.type}</div>
-      </div>
+      <div><div style="font-weight:600;font-size:.85rem">${d.employe}</div><div style="font-size:.74rem;color:var(--muted)">${d.type}</div></div>
       <span class="badge badge-yellow">En attente</span>
-    </div>
-  `).join('');
-
-  document.getElementById('dashEquipe').innerHTML = team.map(e => {
-    const s = e.slots[0];
-    return `
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)">
+    </div>`).join('');
+  document.getElementById('dashEquipe').innerHTML = team.map(e=>{
+    const s=e.slots[0];
+    return `<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)">
       <div style="display:flex;align-items:center;gap:10px">
         <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#45B7D1,#4ECDC4);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:.9rem">${e.nom[0]}</div>
         <div style="font-weight:600;font-size:.84rem">${e.nom}</div>
@@ -438,44 +409,30 @@ function renderDashboard() {
 }
 
 function renderKPI() {
-  const kpis = [
-    { label:'Taux de présence',   pct:94, color:'#96CEB4' },
-    { label:'Tâches complétées',  pct:83, color:'#45B7D1' },
-    { label:'Objectifs atteints', pct:80, color:'#FFE66D' },
-    { label:'Satisfaction équipe',pct:88, color:'#FF6B35' },
-  ];
-  document.getElementById('kpiSection').innerHTML = kpis.map(k => `
+  const kpis=[{label:'Taux de présence',pct:94,color:'#96CEB4'},{label:'Tâches complétées',pct:83,color:'#45B7D1'},{label:'Objectifs atteints',pct:80,color:'#FFE66D'},{label:'Satisfaction équipe',pct:88,color:'#FF6B35'}];
+  document.getElementById('kpiSection').innerHTML = kpis.map(k=>`
     <div class="kpi-row">
       <div class="kpi-label">${k.label}</div>
       <div class="kpi-bar-wrap"><div class="kpi-bar" style="width:${k.pct}%;background:${k.color}"></div></div>
       <div class="kpi-pct">${k.pct}%</div>
-    </div>
-  `).join('');
+    </div>`).join('');
 }
 
-const slotClass = s => s === 'present' ? 'slot-present' : s === 'remote' ? 'slot-remote' : 'slot-off';
-const slotLabel = s => s === 'present' ? 'Présentiel' : s === 'remote' ? 'Télétravail' : '— Congé —';
-const slotCycle = s => s === 'present' ? 'remote' : s === 'remote' ? 'off' : 'present';
+const slotClass = s => s==='present'?'slot-present':s==='remote'?'slot-remote':'slot-off';
+const slotLabel = s => s==='present'?'Présentiel':s==='remote'?'Télétravail':'— Congé —';
+const slotCycle = s => s==='present'?'remote':s==='remote'?'off':'present';
 
 function renderPlanning() {
-  document.getElementById('planningBody').innerHTML = team.map((e, ri) => `
+  document.getElementById('planningBody').innerHTML = team.map((e,ri)=>`
     <tr>
       <td class="emp-cell"><div style="font-weight:700">${e.nom}</div><div style="font-size:.72rem;color:var(--muted)">${e.poste}</div></td>
-      ${planningState[ri].map((s, ci) => `
-        <td style="text-align:center"><span class="slot ${slotClass(s)}" onclick="cycleSlot(${ri},${ci})">${slotLabel(s)}</span></td>
-      `).join('')}
+      ${planningState[ri].map((s,ci)=>`<td style="text-align:center"><span class="slot ${slotClass(s)}" onclick="cycleSlot(${ri},${ci})">${slotLabel(s)}</span></td>`).join('')}
     </tr>`).join('');
 }
 
-function cycleSlot(ri, ci) { planningState[ri][ci] = slotCycle(planningState[ri][ci]); renderPlanning(); }
-function savePlanning() {
-  const m = document.getElementById('planningMsg');
-  m.style.display = 'block'; setTimeout(() => m.style.display = 'none', 3000);
-}
-function genReport(btn) {
-  btn.textContent = '⏳ Génération...'; btn.disabled = true;
-  setTimeout(() => { btn.textContent = '✅ Rapport prêt !'; setTimeout(() => { btn.textContent = 'Générer PDF'; btn.disabled = false; }, 2500); }, 1500);
-}
+function cycleSlot(ri,ci) { planningState[ri][ci]=slotCycle(planningState[ri][ci]); renderPlanning(); }
+function savePlanning() { const m=document.getElementById('planningMsg'); m.style.display='block'; setTimeout(()=>m.style.display='none',3000); }
+function genReport(btn) { btn.textContent='⏳ Génération...'; btn.disabled=true; setTimeout(()=>{btn.textContent='✅ Rapport prêt !'; setTimeout(()=>{btn.textContent='Générer PDF'; btn.disabled=false;},2500);},1500); }
 
 renderDashboard();
 </script>
