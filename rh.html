@@ -128,6 +128,52 @@ tr:last-child td { border-bottom:none; }
 .emp-avatar { width:38px; height:38px; border-radius:50%; background:linear-gradient(135deg,#4ECDC4,#45B7D1); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:.95rem; color:#fff; flex-shrink:0; }
 .rapport-card { display:flex; flex-direction:column; gap:8px; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:18px; cursor:pointer; transition:all .2s; }
 .rapport-card:hover { border-color:var(--accent); transform:translateY(-2px); }
+
+/* ── CAPACITY ── */
+.cap-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; margin-bottom:24px; }
+.cap-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:20px; position:relative; overflow:hidden; }
+.cap-dept { font-weight:700; font-size:.92rem; margin-bottom:6px; }
+.cap-bar-wrap { height:10px; background:rgba(255,255,255,.07); border-radius:6px; overflow:hidden; margin:10px 0 8px; }
+.cap-bar { height:100%; border-radius:6px; transition:width .6s ease; }
+.cap-numbers { display:flex; justify-content:space-between; font-size:.75rem; color:var(--muted); }
+.cap-numbers span:first-child { font-weight:700; }
+.cap-input-row { display:flex; align-items:center; gap:10px; margin-top:12px; padding-top:12px; border-top:1px solid var(--border); }
+.cap-input { width:60px; padding:6px 10px; background:rgba(255,255,255,.06); border:1px solid var(--border); border-radius:8px; color:#fff; font-family:'DM Sans',sans-serif; font-size:.84rem; text-align:center; outline:none; }
+.cap-input:focus { border-color:var(--accent); }
+.cap-label-sm { font-size:.75rem; color:var(--muted); }
+.cap-available { display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:20px; font-size:.73rem; font-weight:700; }
+.cap-ok   { background:rgba(150,206,180,.15); color:#96CEB4; border:1px solid rgba(150,206,180,.3); }
+.cap-warn { background:rgba(255,230,109,.15); color:#FFE66D; border:1px solid rgba(255,230,109,.3); }
+.cap-full { background:rgba(255,107,107,.12); color:#ff6b6b; border:1px solid rgba(255,107,107,.3); }
+
+/* ── LIVE INDICATOR ── */
+.live-dot { width:8px; height:8px; border-radius:50%; background:#96CEB4; display:inline-block; margin-right:6px; animation:blink 1.8s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+/* ── POLICY ── */
+.policy-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+.policy-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:22px; }
+.policy-card-title { font-family:'Syne',sans-serif; font-weight:700; font-size:.95rem; margin-bottom:18px; display:flex; align-items:center; gap:8px; }
+.policy-row { display:flex; align-items:center; justify-content:space-between; padding:11px 0; border-bottom:1px solid rgba(255,255,255,.05); }
+.policy-row:last-child { border-bottom:none; }
+.policy-label { font-size:.83rem; color:rgba(255,255,255,.75); }
+.policy-ctrl { display:flex; align-items:center; gap:8px; }
+.policy-input { width:64px; padding:6px 10px; background:rgba(255,255,255,.06); border:1px solid var(--border); border-radius:8px; color:#fff; font-family:'DM Sans',sans-serif; font-size:.84rem; text-align:center; outline:none; transition:border-color .2s; }
+.policy-input:focus { border-color:var(--accent); }
+.policy-unit { font-size:.73rem; color:var(--muted); }
+.policy-toggle { position:relative; display:inline-block; width:40px; height:22px; }
+.policy-toggle input { opacity:0; width:0; height:0; }
+.policy-toggle-slider { position:absolute; cursor:pointer; inset:0; background:rgba(255,255,255,.15); border-radius:22px; transition:.3s; }
+.policy-toggle-slider:before { content:''; position:absolute; width:16px; height:16px; left:3px; bottom:3px; background:#fff; border-radius:50%; transition:.3s; }
+.policy-toggle input:checked + .policy-toggle-slider { background:var(--accent); }
+.policy-toggle input:checked + .policy-toggle-slider:before { transform:translateX(18px); }
+.policy-save-msg { display:none; background:rgba(150,206,180,.1); border:1px solid #96CEB4; border-radius:10px; padding:12px 16px; color:#96CEB4; font-weight:600; margin-top:16px; text-align:center; }
+.dept-quota-row { display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid rgba(255,255,255,.05); }
+.dept-quota-row:last-child { border-bottom:none; }
+.dq-name { flex:1; font-size:.84rem; font-weight:600; }
+.dq-bar-wrap { flex:2; height:7px; background:rgba(255,255,255,.07); border-radius:4px; overflow:hidden; }
+.dq-bar { height:100%; border-radius:4px; }
+.dq-val { font-size:.78rem; color:var(--muted); width:36px; text-align:right; }
 </style>
 </head>
 <body>
@@ -150,6 +196,9 @@ tr:last-child td { border-bottom:none; }
     <button class="nav-item" onclick="show('suivi',this)"><span class="icon">📋</span> Suivi employés</button>
     <button class="nav-item" onclick="show('teletravail',this)"><span class="icon">🏡</span> Demandes télétravail <span class="badge-count">3</span></button>
     <button class="nav-item" onclick="show('validation',this)"><span class="icon">✅</span> Valider demandes N2 <span class="badge-count" id="badgeN2">2</span></button>
+    <div class="nav-section">Configuration</div>
+    <button class="nav-item" onclick="show('capacite',this)"><span class="icon">📊</span> Capacité télétravail</button>
+    <button class="nav-item" onclick="show('politiques',this)"><span class="icon">⚙️</span> Politiques TT</button>
     <div class="nav-section">Rapports</div>
     <button class="nav-item" onclick="show('rapports',this)"><span class="icon">📊</span> Consulter rapports</button>
   </nav>
@@ -268,6 +317,151 @@ tr:last-child td { border-bottom:none; }
       </div>
     </div>
 
+    <!-- CAPACITÉ TÉLÉTRAVAIL -->
+    <div class="section" id="sec-capacite">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <div>
+          <h2 style="font-family:'Syne',sans-serif;font-weight:800;">Gestion de la capacité</h2>
+          <p style="color:var(--muted);font-size:.83rem;margin-top:4px;">Définir le nombre maximum d'employés en télétravail par département</p>
+        </div>
+        <button class="btn btn-primary" onclick="saveCapacity()">💾 Enregistrer</button>
+      </div>
+
+      <!-- Real-time global summary -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0">
+        <div class="panel" style="margin:0;text-align:center">
+          <div style="font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px"><span class="live-dot"></span>En télétravail maintenant</div>
+          <div style="font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;color:#4ECDC4" id="capLive">12</div>
+          <div style="font-size:.75rem;color:var(--muted);margin-top:4px">sur <span id="capTotal">35</span> autorisés</div>
+        </div>
+        <div class="panel" style="margin:0;text-align:center">
+          <div style="font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Places disponibles</div>
+          <div style="font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;color:#96CEB4" id="capAvail">23</div>
+          <div style="font-size:.75rem;color:var(--muted);margin-top:4px">aujourd'hui</div>
+        </div>
+        <div class="panel" style="margin:0;text-align:center">
+          <div style="font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Taux d'occupation</div>
+          <div style="font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;color:#FFE66D" id="capRate">34%</div>
+          <div style="font-size:.75rem;color:var(--muted);margin-top:4px">de la capacité totale</div>
+        </div>
+      </div>
+
+      <!-- Per-department capacity cards -->
+      <div class="cap-grid" id="capCards"></div>
+      <div class="policy-save-msg" id="capSaveMsg">✅ Capacités enregistrées avec succès !</div>
+    </div>
+
+    <!-- POLITIQUES TÉLÉTRAVAIL -->
+    <div class="section" id="sec-politiques">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <div>
+          <h2 style="font-family:'Syne',sans-serif;font-weight:800;">Politiques de télétravail</h2>
+          <p style="color:var(--muted);font-size:.83rem;margin-top:4px;">Définir les règles globales et quotas par département</p>
+        </div>
+        <button class="btn btn-primary" onclick="savePolicies()">💾 Enregistrer les règles</button>
+      </div>
+
+      <div class="policy-grid" style="margin-top:20px">
+        <!-- Global rules -->
+        <div class="policy-card">
+          <div class="policy-card-title">⚙️ Règles globales</div>
+          <div class="policy-row">
+            <div class="policy-label">Jours max / semaine</div>
+            <div class="policy-ctrl">
+              <input type="number" class="policy-input" id="pol_maxWeek" value="3" min="1" max="5">
+              <span class="policy-unit">jours</span>
+            </div>
+          </div>
+          <div class="policy-row">
+            <div class="policy-label">Jours max / mois</div>
+            <div class="policy-ctrl">
+              <input type="number" class="policy-input" id="pol_maxMonth" value="12" min="1" max="22">
+              <span class="policy-unit">jours</span>
+            </div>
+          </div>
+          <div class="policy-row">
+            <div class="policy-label">Délai minimum demande</div>
+            <div class="policy-ctrl">
+              <input type="number" class="policy-input" id="pol_delay" value="2" min="0" max="14">
+              <span class="policy-unit">jours avant</span>
+            </div>
+          </div>
+          <div class="policy-row">
+            <div class="policy-label">Consécutifs autorisés</div>
+            <div class="policy-ctrl">
+              <input type="number" class="policy-input" id="pol_consec" value="2" min="1" max="5">
+              <span class="policy-unit">jours max</span>
+            </div>
+          </div>
+          <div class="policy-row">
+            <div class="policy-label">Validation Manager obligatoire</div>
+            <div class="policy-ctrl">
+              <label class="policy-toggle"><input type="checkbox" checked id="pol_managerReq"><span class="policy-toggle-slider"></span></label>
+            </div>
+          </div>
+          <div class="policy-row">
+            <div class="policy-label">Validation RH obligatoire</div>
+            <div class="policy-ctrl">
+              <label class="policy-toggle"><input type="checkbox" checked id="pol_rhReq"><span class="policy-toggle-slider"></span></label>
+            </div>
+          </div>
+          <div class="policy-row">
+            <div class="policy-label">Télétravail le vendredi</div>
+            <div class="policy-ctrl">
+              <label class="policy-toggle"><input type="checkbox" id="pol_friday"><span class="policy-toggle-slider"></span></label>
+            </div>
+          </div>
+          <div class="policy-row">
+            <div class="policy-label">Notification email auto</div>
+            <div class="policy-ctrl">
+              <label class="policy-toggle"><input type="checkbox" checked id="pol_email"><span class="policy-toggle-slider"></span></label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quotas by department -->
+        <div>
+          <div class="policy-card" style="margin-bottom:16px">
+            <div class="policy-card-title">🏢 Quotas par département <span style="font-size:.72rem;font-weight:400;color:var(--muted);margin-left:4px">(% max en TT simultanément)</span></div>
+            <div id="deptQuotas"></div>
+          </div>
+
+          <div class="policy-card">
+            <div class="policy-card-title">📅 Jours autorisés par rôle</div>
+            <div class="policy-row">
+              <div class="policy-label">💼 Manager</div>
+              <div class="policy-ctrl">
+                <input type="number" class="policy-input" id="pol_managerDays" value="2" min="0" max="5">
+                <span class="policy-unit">j/sem</span>
+              </div>
+            </div>
+            <div class="policy-row">
+              <div class="policy-label">👤 Employé</div>
+              <div class="policy-ctrl">
+                <input type="number" class="policy-input" id="pol_empDays" value="3" min="0" max="5">
+                <span class="policy-unit">j/sem</span>
+              </div>
+            </div>
+            <div class="policy-row">
+              <div class="policy-label">🧑‍💻 Dev / Tech</div>
+              <div class="policy-ctrl">
+                <input type="number" class="policy-input" id="pol_devDays" value="4" min="0" max="5">
+                <span class="policy-unit">j/sem</span>
+              </div>
+            </div>
+            <div class="policy-row">
+              <div class="policy-label">📊 Finance / RH</div>
+              <div class="policy-ctrl">
+                <input type="number" class="policy-input" id="pol_finDays" value="2" min="0" max="5">
+                <span class="policy-unit">j/sem</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="policy-save-msg" id="polSaveMsg">✅ Politiques enregistrées ! Applicables dès demain matin.</div>
+    </div>
+
   </div>
 </div>
 
@@ -293,7 +487,7 @@ let demandes = [
     steps:[ { label:'Soumission', date:'12 Mar 2026', state:'done', note:'Envoyée' }, { label:'Manager\n(N1)', date:null, state:'pending', note:'En attente Manager' }, { label:'RH\n(N2)', date:null, state:'waiting', note:'' }, { label:'Décision\nfinale', date:null, state:'waiting', note:'' } ] },
 ];
 
-const titles = { dashboard:'Tableau de bord RH', suivi:'Suivi des employés', teletravail:'Demandes télétravail', validation:'Validation N2', rapports:'Rapports RH' };
+const titles = { dashboard:'Tableau de bord RH', suivi:'Suivi des employés', teletravail:'Demandes télétravail', validation:'Validation N2', rapports:'Rapports RH', capacite:'Gestion de la capacité', politiques:'Politiques de télétravail' };
 
 function show(sec, btn) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -305,6 +499,8 @@ function show(sec, btn) {
   if (sec==='teletravail') renderTeletravail();
   if (sec==='validation') renderValidationN2();
   if (sec==='dashboard') renderDashboard();
+  if (sec==='capacite') renderCapacity();
+  if (sec==='politiques') renderPolicies();
 }
 
 document.getElementById('pageDate').textContent =
@@ -428,6 +624,94 @@ function showReport(type) {
 }
 
 renderDashboard();
+
+// ── CAPACITY DATA & FUNCTIONS ──────────────────────────────────────────────
+let capDepts = [
+  { name:'IT',         color:'#FF6B35', total:18, max:10, current:5 },
+  { name:'Design',     color:'#4ECDC4', total:8,  max:5,  current:3 },
+  { name:'RH',         color:'#45B7D1', total:6,  max:3,  current:1 },
+  { name:'Finance',    color:'#FFE66D', total:10, max:6,  current:2 },
+  { name:'Commercial', color:'#96CEB4', total:5,  max:3,  current:1 },
+];
+
+function updateCapSummary() {
+  const live  = capDepts.reduce((s,d)=>s+d.current,0);
+  const total = capDepts.reduce((s,d)=>s+d.max,0);
+  const avail = total - live;
+  const rate  = total > 0 ? Math.round(live/total*100) : 0;
+  document.getElementById('capLive').textContent  = live;
+  document.getElementById('capTotal').textContent = total;
+  document.getElementById('capAvail').textContent = avail;
+  document.getElementById('capRate').textContent  = rate + '%';
+}
+
+function renderCapacity() {
+  updateCapSummary();
+  const container = document.getElementById('capCards');
+  container.innerHTML = capDepts.map((d,i) => {
+    const avail = d.max - d.current;
+    const pct   = d.max > 0 ? Math.round(d.current/d.max*100) : 0;
+    const cls   = avail <= 0 ? 'cap-full' : avail <= 1 ? 'cap-warn' : 'cap-ok';
+    const label = avail <= 0 ? '🔴 Complet' : avail === 1 ? `⚠️ 1 place` : `✅ ${avail} places`;
+    return `<div class="cap-card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div class="cap-dept" style="color:${d.color}">${d.name}</div>
+        <span class="cap-available ${cls}">${label}</span>
+      </div>
+      <div style="font-size:.76rem;color:var(--muted);margin-top:2px">${d.total} employés • ${d.current} en TT actuellement</div>
+      <div class="cap-bar-wrap">
+        <div class="cap-bar" style="width:${pct}%;background:${d.color}"></div>
+      </div>
+      <div class="cap-numbers">
+        <span style="color:${d.color}">${d.current} / ${d.max}</span>
+        <span>${pct}% utilisé</span>
+      </div>
+      <div class="cap-input-row">
+        <span class="cap-label-sm">Max autorisés :</span>
+        <input class="cap-input" type="number" min="0" max="${d.total}" value="${d.max}"
+          onchange="updateCapMax(${i}, this.value)">
+        <span class="cap-label-sm">/ ${d.total} employés</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function updateCapMax(idx, val) {
+  capDepts[idx].max = Math.max(0, Math.min(parseInt(val)||0, capDepts[idx].total));
+  renderCapacity();
+}
+
+function saveCapacity() {
+  const m = document.getElementById('capSaveMsg');
+  m.style.display = 'block';
+  setTimeout(() => m.style.display = 'none', 3000);
+}
+
+// ── POLICY DATA & FUNCTIONS ────────────────────────────────────────────────
+function renderPolicies() {
+  const quotas = [
+    { name:'IT',         color:'#FF6B35', quota:55 },
+    { name:'Design',     color:'#4ECDC4', quota:62 },
+    { name:'RH',         color:'#45B7D1', quota:50 },
+    { name:'Finance',    color:'#FFE66D', quota:40 },
+    { name:'Commercial', color:'#96CEB4', quota:60 },
+  ];
+  document.getElementById('deptQuotas').innerHTML = quotas.map(q => `
+    <div class="dept-quota-row">
+      <div class="dq-name" style="color:${q.color}">${q.name}</div>
+      <div class="dq-bar-wrap"><div class="dq-bar" style="width:${q.quota}%;background:${q.color}"></div></div>
+      <input type="number" class="cap-input" min="0" max="100" value="${q.quota}"
+        style="width:52px;margin-left:8px"
+        onchange="this.previousElementSibling.firstElementChild.style.width=this.value+'%'">
+      <span class="policy-unit" style="margin-left:4px">%</span>
+    </div>`).join('');
+}
+
+function savePolicies() {
+  const m = document.getElementById('polSaveMsg');
+  m.style.display = 'block';
+  setTimeout(() => m.style.display = 'none', 3500);
+}
 </script>
 </body>
 </html>

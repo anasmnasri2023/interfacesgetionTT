@@ -71,40 +71,28 @@ nav { flex:1; padding:16px 10px; overflow-y:auto; }
 }
 .nav-item .icon { font-size:1.05rem; flex-shrink:0; }
 
+.logout {
+  margin:12px 10px 16px;
+  padding:10px 14px; border-radius:10px;
+  background:rgba(255,80,80,.08);
+  border:1px solid rgba(255,80,80,.2);
+  color:#ff6b6b; cursor:pointer; font-size:.84rem;
+  font-weight:600; width:calc(100% - 20px);
+  transition:all .2s;
+}
+.logout:hover { background:rgba(255,80,80,.15); }
+
 /* ── MAIN ── */
 .main { flex:1; display:flex; flex-direction:column; overflow:hidden; }
 .topbar {
-  padding:16px 24px;
+  padding:20px 32px;
   border-bottom:1px solid var(--border);
   display:flex; align-items:center; justify-content:space-between;
   background:var(--bg2);
 }
 .page-title { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; }
 .page-sub { color:var(--muted); font-size:.8rem; margin-top:2px; }
-
-/* ── TOPBAR ICONS ── */
-.topbar-icons { display:flex; align-items:center; gap:4px; }
-.topbar-icon-btn {
-  position:relative; width:38px; height:38px; border-radius:50%;
-  background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.09);
-  display:flex; align-items:center; justify-content:center; cursor:pointer;
-  transition:background .2s,border-color .2s;
-  font-size:1.05rem; color:rgba(255,255,255,0.65); flex-shrink:0;
-}
-.topbar-icon-btn:hover { background:rgba(255,255,255,0.12); border-color:rgba(255,255,255,0.18); color:#fff; }
-.topbar-icon-btn .notif-dot {
-  position:absolute; top:5px; right:5px; width:8px; height:8px;
-  border-radius:50%; background:#FF6B35; border:2px solid var(--bg2);
-}
-.topbar-avatar-btn {
-  width:38px; height:38px; border-radius:50%;
-  display:flex; align-items:center; justify-content:center; cursor:pointer;
-  font-size:.82rem; color:#fff; font-weight:800;
-  transition:transform .2s; flex-shrink:0; border:2px solid transparent;
-}
-.topbar-avatar-btn:hover { transform:scale(1.08); }
-.topbar-divider { width:1px; height:26px; background:rgba(255,255,255,0.1); margin:0 6px; flex-shrink:0; }
-
+.topbar-actions { display:flex; gap:10px; }
 .btn {
   padding:9px 18px; border-radius:9px; border:none;
   font-family:'DM Sans',sans-serif; font-weight:600; font-size:.83rem;
@@ -347,6 +335,8 @@ tr:hover td { background:rgba(255,255,255,.03); }
       <span class="icon">📋</span> Journaux d'activité
     </button>
   </nav>
+
+  <button class="logout" onclick="window.location.href='index.html'">🚪 Déconnexion</button>
 </aside>
 
 <!-- MAIN -->
@@ -356,21 +346,8 @@ tr:hover td { background:rgba(255,255,255,.03); }
       <div class="page-title" id="pageTitle">Tableau de bord</div>
       <div class="page-sub" id="pageDate"></div>
     </div>
-    <div class="topbar-icons">
-      <button class="topbar-icon-btn" title="Langue" style="font-size:1.25rem">🇹🇳</button>
-      <button class="topbar-icon-btn" title="Messagerie">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-        <span class="notif-dot"></span>
-      </button>
-      <button class="topbar-icon-btn" title="Alertes">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
-        <span class="notif-dot"></span>
-      </button>
-      <div class="topbar-divider"></div>
-      <div class="topbar-avatar-btn" title="Mon profil" style="background:linear-gradient(135deg,#FF6B35,#FF8C5A);border:2px solid #FF6B35" onmouseenter="this.style.boxShadow='0 0 0 3px #FF6B3555'" onmouseleave="this.style.boxShadow='none'">SA</div>
-      <button class="topbar-icon-btn" title="Paramètres">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
-      </button>
+    <div class="topbar-actions">
+      <button class="btn btn-ghost">🔔 Notifications</button>
     </div>
   </div>
 
@@ -443,6 +420,7 @@ tr:hover td { background:rgba(255,255,255,.03); }
           </div>
         </div>
 
+        <!-- Mini KPIs -->
         <div class="tele-stats-mini">
           <div class="mini-stat" style="--c:#7B61FF">
             <div class="mini-stat-val" id="kpi1">18</div>
@@ -458,6 +436,7 @@ tr:hover td { background:rgba(255,255,255,.03); }
           </div>
         </div>
 
+        <!-- Graphique ligne (évolution) -->
         <div class="chart-full">
           <div class="chart-panel-title" id="lineChartTitle">Évolution des demandes — Semaine en cours</div>
           <div class="legend-row">
@@ -470,6 +449,7 @@ tr:hover td { background:rgba(255,255,255,.03); }
           </div>
         </div>
 
+        <!-- Pie + Bar -->
         <div class="chart-row">
           <div class="chart-panel">
             <div class="chart-panel-title">Répartition statuts</div>
@@ -490,6 +470,8 @@ tr:hover td { background:rgba(255,255,255,.03); }
           </div>
         </div>
       </div>
+      <!-- END TÉLÉTRAVAIL -->
+
     </div>
 
     <!-- ALERTES -->
@@ -633,10 +615,11 @@ tr:hover td { background:rgba(255,255,255,.03); }
       </div>
     </div>
 
-  </div>
-</div>
+  </div><!-- end .content -->
+</div><!-- end .main -->
 
 <script>
+// ── DATA ──────────────────────────────────────────────────────────────────────
 let employees = [
   { id:1, nom:'Ahmed Ben Ali',    email:'ahmed@hr.tn',   poste:'Dev Frontend',  dept:'IT',      role:'Employé',  statut:'Actif' },
   { id:2, nom:'Fatima Khelil',    email:'fatima@hr.tn',  poste:'Designer UI',   dept:'Design',  role:'Employé',  statut:'Actif' },
@@ -645,6 +628,7 @@ let employees = [
   { id:5, nom:'Karim Zouari',     email:'karim@hr.tn',   poste:'Comptable',     dept:'Finance', role:'Employé',  statut:'Actif' },
 ];
 
+// ── NAVIGATION ────────────────────────────────────────────────────────────────
 const titles = { dashboard:'Tableau de bord', alertes:'Alertes système', logs:'Journaux d\'activité', 'list-roles':'List Roles', utilisateurs:'Utilisateurs' };
 function show(sec, btn) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -655,12 +639,13 @@ function show(sec, btn) {
   if (sec === 'employes') renderTable(employees);
 }
 
+// ── DATE ──────────────────────────────────────────────────────────────────────
 document.getElementById('pageDate').textContent =
   new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 
+// ── EMPLOYEES TABLE ───────────────────────────────────────────────────────────
 function renderTable(data) {
   const tbody = document.getElementById('empTable');
-  if (!tbody) return;
   const roleColor = { Employé:'badge-green', Manager:'badge-blue', RH:'badge-blue', Administrateur:'badge-orange' };
   tbody.innerHTML = data.map(e => `
     <tr>
@@ -684,6 +669,41 @@ function renderTable(data) {
   `).join('');
 }
 
+function deleteEmp(id) {
+  employees = employees.filter(e => e.id !== id);
+  filterEmployees();
+}
+
+function addEmployee() {
+  const nom   = document.getElementById('fNom').value.trim();
+  const email = document.getElementById('fEmail').value.trim();
+  const poste = document.getElementById('fPoste').value.trim();
+  const dept  = document.getElementById('fDept').value;
+  const role  = document.getElementById('fRole').value;
+  const statut= document.getElementById('fStatut').value;
+  if (!nom) return;
+  employees.push({ id: Date.now(), nom, email: email||nom.toLowerCase().split(' ')[0]+'@hr.tn', poste, dept, role, statut });
+  toggleForm();
+  renderTable(employees);
+}
+
+function toggleForm() {
+  const f = document.getElementById('addForm');
+  f.style.display = f.style.display === 'none' ? 'block' : 'none';
+}
+
+function filterEmployees() {
+  const q = document.getElementById('searchEmp').value.toLowerCase();
+  renderTable(employees.filter(e =>
+    e.nom.toLowerCase().includes(q) || e.poste.toLowerCase().includes(q) || e.dept.toLowerCase().includes(q)
+  ));
+}
+
+function filterByDept(dept) {
+  renderTable(dept ? employees.filter(e => e.dept === dept) : employees);
+}
+
+// ── DEPT CHART ────────────────────────────────────────────────────────────────
 const depts = [
   { name:'IT',      count:18, color:'#FF6B35' },
   { name:'Design',  count:8,  color:'#4ECDC4' },
@@ -703,41 +723,121 @@ document.getElementById('deptChart').innerHTML = depts.map(d => `
   </div>
 `).join('');
 
+// ── TÉLÉTRAVAIL DATA ──────────────────────────────────────────────────────────
 const teleData = {
   semaine: {
-    line: { labels: ['Lun','Mar','Mer','Jeu','Ven'], submitted: [6,8,5,9,7], approved: [5,6,4,7,6], rejected: [1,2,1,2,1] },
+    line: {
+      labels: ['Lun','Mar','Mer','Jeu','Ven'],
+      submitted: [6, 8, 5, 9, 7],
+      approved:  [5, 6, 4, 7, 6],
+      rejected:  [1, 2, 1, 2, 1]
+    },
     pie: { approved: 28, pending: 5, rejected: 7 },
-    bar: { labels: ['IT','Design','RH','Finance','Commercial'], data: [8,5,3,4,5] },
-    kpis: ['18','72%','5'], kpiLabels: ['Jours cette semaine','Taux d\'approbation','En attente']
+    bar: {
+      labels: ['IT','Design','RH','Finance','Commercial'],
+      data: [8, 5, 3, 4, 5]
+    },
+    kpis: ['18', '72%', '5'],
+    kpiLabels: ['Jours cette semaine', 'Taux d\'approbation', 'En attente']
   },
   mois: {
-    line: { labels: ['S1','S2','S3','S4'], submitted: [24,31,28,35], approved: [18,25,22,28], rejected: [6,6,6,7] },
+    line: {
+      labels: ['S1','S2','S3','S4'],
+      submitted: [24, 31, 28, 35],
+      approved:  [18, 25, 22, 28],
+      rejected:  [6,  6,  6,  7]
+    },
     pie: { approved: 93, pending: 12, rejected: 25 },
-    bar: { labels: ['IT','Design','RH','Finance','Commercial'], data: [35,20,12,15,18] },
-    kpis: ['118','71%','12'], kpiLabels: ['Jours ce mois','Taux d\'approbation','En attente']
+    bar: {
+      labels: ['IT','Design','RH','Finance','Commercial'],
+      data: [35, 20, 12, 15, 18]
+    },
+    kpis: ['118', '71%', '12'],
+    kpiLabels: ['Jours ce mois', 'Taux d\'approbation', 'En attente']
   },
   annee: {
-    line: { labels: ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'], submitted: [45,52,48,60,72,68,55,40,65,78,82,75], approved: [36,40,38,50,60,55,44,32,52,63,70,62], rejected: [9,12,10,10,12,13,11,8,13,15,12,13] },
+    line: {
+      labels: ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'],
+      submitted: [45, 52, 48, 60, 72, 68, 55, 40, 65, 78, 82, 75],
+      approved:  [36, 40, 38, 50, 60, 55, 44, 32, 52, 63, 70, 62],
+      rejected:  [9,  12, 10, 10, 12, 13, 11, 8,  13, 15, 12, 13]
+    },
     pie: { approved: 552, pending: 18, rejected: 128 },
-    bar: { labels: ['IT','Design','RH','Finance','Commercial'], data: [180,95,60,88,120] },
-    kpis: ['698','69%','18'], kpiLabels: ['Total demandes','Taux d\'approbation','En attente']
+    bar: {
+      labels: ['IT','Design','RH','Finance','Commercial'],
+      data: [180, 95, 60, 88, 120]
+    },
+    kpis: ['698', '69%', '18'],
+    kpiLabels: ['Total demandes', 'Taux d\'approbation', 'En attente']
   }
 };
 
 let lineChartInst, pieChartInst, barChartInst;
-const chartDefaults = { color: { grid:'rgba(255,255,255,0.06)', tick:'rgba(255,255,255,0.35)' } };
+let currentPeriod = 'semaine';
+
+const chartDefaults = {
+  color: { grid: 'rgba(255,255,255,0.06)', tick: 'rgba(255,255,255,0.35)' }
+};
 
 function buildLineChart(period) {
   const d = teleData[period].line;
   const ctx = document.getElementById('lineChart').getContext('2d');
   if (lineChartInst) lineChartInst.destroy();
   lineChartInst = new Chart(ctx, {
-    type:'line', data: { labels:d.labels, datasets:[
-      { label:'Soumises', data:d.submitted, borderColor:'#7B61FF', backgroundColor:'rgba(123,97,255,0.15)', borderWidth:2.5, pointBackgroundColor:'#7B61FF', pointRadius:4, tension:0.45, fill:true },
-      { label:'Approuvées', data:d.approved, borderColor:'#4ECDC4', backgroundColor:'rgba(78,205,196,0.12)', borderWidth:2.5, pointBackgroundColor:'#4ECDC4', pointRadius:4, tension:0.45, fill:true },
-      { label:'Refusées', data:d.rejected, borderColor:'#FF6B35', backgroundColor:'rgba(255,107,53,0.08)', borderWidth:2, pointBackgroundColor:'#FF6B35', pointRadius:4, tension:0.45, fill:true }
-    ]},
-    options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false} }, scales:{ x:{ grid:{color:chartDefaults.color.grid}, ticks:{color:chartDefaults.color.tick,font:{size:11}} }, y:{ grid:{color:chartDefaults.color.grid}, ticks:{color:chartDefaults.color.tick,font:{size:11}} } } }
+    type: 'line',
+    data: {
+      labels: d.labels,
+      datasets: [
+        {
+          label: 'Soumises',
+          data: d.submitted,
+          borderColor: '#7B61FF',
+          backgroundColor: 'rgba(123,97,255,0.15)',
+          borderWidth: 2.5,
+          pointBackgroundColor: '#7B61FF',
+          pointRadius: 4,
+          tension: 0.45,
+          fill: true
+        },
+        {
+          label: 'Approuvées',
+          data: d.approved,
+          borderColor: '#4ECDC4',
+          backgroundColor: 'rgba(78,205,196,0.12)',
+          borderWidth: 2.5,
+          pointBackgroundColor: '#4ECDC4',
+          pointRadius: 4,
+          tension: 0.45,
+          fill: true
+        },
+        {
+          label: 'Refusées',
+          data: d.rejected,
+          borderColor: '#FF6B35',
+          backgroundColor: 'rgba(255,107,53,0.08)',
+          borderWidth: 2,
+          pointBackgroundColor: '#FF6B35',
+          pointRadius: 4,
+          tension: 0.45,
+          fill: true
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: {
+          grid: { color: chartDefaults.color.grid },
+          ticks: { color: chartDefaults.color.tick, font: { size: 11 } }
+        },
+        y: {
+          grid: { color: chartDefaults.color.grid },
+          ticks: { color: chartDefaults.color.tick, font: { size: 11 } }
+        }
+      }
+    }
   });
 }
 
@@ -746,8 +846,33 @@ function buildPieChart(period) {
   const ctx = document.getElementById('pieChart').getContext('2d');
   if (pieChartInst) pieChartInst.destroy();
   pieChartInst = new Chart(ctx, {
-    type:'doughnut', data: { labels:['Approuvé','En attente','Refusé'], datasets:[{ data:[d.approved,d.pending,d.rejected], backgroundColor:['#4ECDC4','#FFE66D','#ff6b6b'], borderColor:['#4ECDC4','#FFE66D','#ff6b6b'], borderWidth:2, hoverOffset:6 }] },
-    options: { responsive:true, maintainAspectRatio:false, cutout:'62%', plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label:(ctx)=>{ const tot=ctx.dataset.data.reduce((a,b)=>a+b,0); return ` ${ctx.label}: ${ctx.parsed} (${Math.round(ctx.parsed/tot*100)}%)`; } } } } }
+    type: 'doughnut',
+    data: {
+      labels: ['Approuvé', 'En attente', 'Refusé'],
+      datasets: [{
+        data: [d.approved, d.pending, d.rejected],
+        backgroundColor: ['#4ECDC4', '#FFE66D', '#ff6b6b'],
+        borderColor: ['#4ECDC4', '#FFE66D', '#ff6b6b'],
+        borderWidth: 2,
+        hoverOffset: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '62%',
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => {
+              const tot = ctx.dataset.data.reduce((a,b)=>a+b,0);
+              return ` ${ctx.label}: ${ctx.parsed} (${Math.round(ctx.parsed/tot*100)}%)`;
+            }
+          }
+        }
+      }
+    }
   });
 }
 
@@ -756,8 +881,32 @@ function buildBarChart(period) {
   const ctx = document.getElementById('barChart').getContext('2d');
   if (barChartInst) barChartInst.destroy();
   barChartInst = new Chart(ctx, {
-    type:'bar', data: { labels:d.labels, datasets:[{ label:'Jours télétravail', data:d.data, backgroundColor:['#7B61FF','#4ECDC4','#45B7D1','#FFE66D','#FF6B35'], borderRadius:8, borderSkipped:false }] },
-    options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false} }, scales:{ x:{ grid:{display:false}, ticks:{color:chartDefaults.color.tick,font:{size:11}} }, y:{ grid:{color:chartDefaults.color.grid}, ticks:{color:chartDefaults.color.tick,font:{size:11}} } } }
+    type: 'bar',
+    data: {
+      labels: d.labels,
+      datasets: [{
+        label: 'Jours télétravail',
+        data: d.data,
+        backgroundColor: ['#7B61FF','#4ECDC4','#45B7D1','#FFE66D','#FF6B35'],
+        borderRadius: 8,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: { color: chartDefaults.color.tick, font: { size: 11 } }
+        },
+        y: {
+          grid: { color: chartDefaults.color.grid },
+          ticks: { color: chartDefaults.color.tick, font: { size: 11 } }
+        }
+      }
+    }
   });
 }
 
@@ -769,11 +918,12 @@ function updateKPIs(period) {
   document.getElementById('kpi1-label').textContent = d.kpiLabels[0];
   document.getElementById('kpi2-label').textContent = d.kpiLabels[1];
   document.getElementById('kpi3-label').textContent = d.kpiLabels[2];
-  const titleMap = { semaine:'Évolution des demandes — Semaine en cours', mois:'Évolution des demandes — Mois en cours', annee:'Évolution des demandes — Année 2024' };
+  const titleMap = { semaine: 'Évolution des demandes — Semaine en cours', mois: 'Évolution des demandes — Mois en cours', annee: 'Évolution des demandes — Année 2024' };
   document.getElementById('lineChartTitle').textContent = titleMap[period];
 }
 
 function switchPeriod(period, btn) {
+  currentPeriod = period;
   document.querySelectorAll('.period-tab').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
   updateKPIs(period);
@@ -782,15 +932,16 @@ function switchPeriod(period, btn) {
   buildBarChart(period);
 }
 
+// ── ROLES DATA ────────────────────────────────────────────────────────────────
 let roles = [
-  { id:1, name:'SAO2', visibility:'specific', enabled:false },
-  { id:2, name:'adminrole', visibility:'specific', enabled:true },
-  { id:3, name:'SQA', visibility:'specific', enabled:true },
-  { id:4, name:'VALID', visibility:'specific', enabled:true },
-  { id:5, name:'SOA', visibility:'specific', enabled:true },
-  { id:6, name:'RH', visibility:'specific', enabled:true },
-  { id:7, name:'Manager', visibility:'specific', enabled:true },
-  { id:8, name:'Employé', visibility:'specific', enabled:true },
+  { id:1, name:'SAO2',      visibility:'specific', enabled:false },
+  { id:2, name:'adminrole', visibility:'specific', enabled:true  },
+  { id:3, name:'SQA',       visibility:'specific', enabled:true  },
+  { id:4, name:'VALID',     visibility:'specific', enabled:true  },
+  { id:5, name:'SOA',       visibility:'specific', enabled:true  },
+  { id:6, name:'RH',        visibility:'specific', enabled:true  },
+  { id:7, name:'Manager',   visibility:'specific', enabled:true  },
+  { id:8, name:'Employé',   visibility:'specific', enabled:true  },
 ];
 
 function renderRolesTable(data) {
@@ -799,12 +950,12 @@ function renderRolesTable(data) {
     <tr>
       <td style="font-weight:600">${r.name}</td>
       <td><span class="badge badge-blue">${r.visibility}</span></td>
-      <td><span class="badge ${r.enabled?'badge-green':'badge-red'}">${r.enabled?'Active':'Inactive'}</span></td>
+      <td><span class="badge ${r.enabled ? 'badge-green' : 'badge-red'}">${r.enabled ? 'Active' : 'Inactive'}</span></td>
       <td style="text-align:right">
         <button class="icon-btn" title="Modifier" onclick="editRole(${r.id})">✏️</button>
         <button class="icon-btn" title="Supprimer" onclick="deleteRole(${r.id})">🗑️</button>
         <label class="toggle" title="Activer/Désactiver">
-          <input type="checkbox" ${r.enabled?'checked':''} onchange="toggleRole(${r.id},this.checked)">
+          <input type="checkbox" ${r.enabled ? 'checked' : ''} onchange="toggleRole(${r.id},this.checked)">
           <span class="toggle-slider"></span>
         </label>
       </td>
@@ -812,36 +963,57 @@ function renderRolesTable(data) {
   `).join('');
 }
 
-function toggleRoleForm() { const f=document.getElementById('addRoleForm'); f.style.display=f.style.display==='none'?'block':'none'; }
-function addRole() {
-  const name=document.getElementById('rName').value.trim(); const vis=document.getElementById('rVis').value;
-  if(!name) return;
-  roles.push({ id:Date.now(), name, visibility:vis, enabled:true });
-  document.getElementById('rName').value=''; toggleRoleForm(); renderRolesTable(roles);
+function toggleRoleForm() {
+  const f = document.getElementById('addRoleForm');
+  f.style.display = f.style.display === 'none' ? 'block' : 'none';
 }
-function deleteRole(id) { roles=roles.filter(r=>r.id!==id); renderRolesTable(roles); }
-function editRole(id) {
-  const r=roles.find(x=>x.id===id); if(!r) return;
-  const n=prompt('Nouveau nom du rôle :',r.name);
-  if(n&&n.trim()) { r.name=n.trim(); renderRolesTable(roles); }
-}
-function toggleRole(id,val) { const r=roles.find(x=>x.id===id); if(r){r.enabled=val; renderRolesTable(roles);} }
-function filterRoles(q) { renderRolesTable(roles.filter(r=>r.name.toLowerCase().includes(q.toLowerCase()))); }
 
+function addRole() {
+  const name = document.getElementById('rName').value.trim();
+  const vis  = document.getElementById('rVis').value;
+  if (!name) return;
+  roles.push({ id: Date.now(), name, visibility: vis, enabled: true });
+  document.getElementById('rName').value = '';
+  toggleRoleForm();
+  renderRolesTable(roles);
+}
+
+function deleteRole(id) {
+  roles = roles.filter(r => r.id !== id);
+  renderRolesTable(roles);
+}
+
+function editRole(id) {
+  const r = roles.find(x => x.id === id);
+  if (!r) return;
+  const newName = prompt('Nouveau nom du rôle :', r.name);
+  if (newName && newName.trim()) { r.name = newName.trim(); renderRolesTable(roles); }
+}
+
+function toggleRole(id, val) {
+  const r = roles.find(x => x.id === id);
+  if (r) { r.enabled = val; renderRolesTable(roles); }
+}
+
+function filterRoles(q) {
+  renderRolesTable(roles.filter(r => r.name.toLowerCase().includes(q.toLowerCase())));
+}
+
+// ── USERS DATA ────────────────────────────────────────────────────────────────
 let users = [
-  { id:1, civ:'M',  first:'Firas',  last:'Khadraoui', email:'khadraoufiras@gmail.comm', func:'test',      mobile:'99999999', enabled:true },
-  { id:2, civ:'M.', first:'yassin', last:'abda',       email:'abdayassin@gmail.com',     func:'SQA',       mobile:'94002552', enabled:true },
+  { id:1, civ:'M',  first:'Firas',  last:'Khadraoui', email:'khadraoufiras@gmail.comm', func:'test',      mobile:'99999999', enabled:true  },
+  { id:2, civ:'M.', first:'yassin', last:'abda',       email:'abdayassin@gmail.com',     func:'SQA',       mobile:'94002552', enabled:true  },
   { id:3, civ:'M',  first:'abda',   last:'yassine',    email:'yessin.abda@etudiant-isi.utm.tn', func:'SQA', mobile:'99385385', enabled:true },
-  { id:4, civ:'M.', first:'John',   last:'Doe',        email:'john.doehu@example.com',   func:'Developer', mobile:'12345657', enabled:true },
-  { id:5, civ:'M.', first:'ahmed',  last:'ben',        email:'romdhane.ahmed@gmail.tn',  func:'dev',       mobile:'25910687', enabled:true },
-  { id:6, civ:'Mme',first:'Sonia',  last:'Mansour',    email:'sonia@hr.tn',              func:'RH',        mobile:'55001122', enabled:true },
-  { id:7, civ:'M.', first:'Karim',  last:'Zouari',     email:'karim@hr.tn',              func:'Employé',   mobile:'77334455', enabled:true },
+  { id:4, civ:'M.', first:'John',   last:'Doe',        email:'john.doehu@example.com',   func:'Developer', mobile:'12345657', enabled:true  },
+  { id:5, civ:'M.', first:'ahmed',  last:'ben',        email:'romdhane.ahmed@gmail.tn',  func:'dev',       mobile:'25910687', enabled:true  },
+  { id:6, civ:'Mme',first:'Sonia',  last:'Mansour',    email:'sonia@hr.tn',              func:'RH',        mobile:'55001122', enabled:true  },
+  { id:7, civ:'M.', first:'Karim',  last:'Zouari',     email:'karim@hr.tn',              func:'Employé',   mobile:'77334455', enabled:true  },
 ];
 
 function renderUsersTable(data) {
-  const tbody=document.getElementById('usersTable');
-  const funcColor={ RH:'badge-blue', Manager:'badge-orange', Employé:'badge-green', Developer:'badge-blue', SQA:'badge-yellow', test:'badge-red', dev:'badge-green' };
-  tbody.innerHTML=data.map(u=>`
+  const tbody = document.getElementById('usersTable');
+  const funcColor = { RH:'badge-blue', Manager:'badge-orange', Employé:'badge-green', Developer:'badge-blue', SQA:'badge-yellow', test:'badge-red', dev:'badge-green' };
+  tbody.innerHTML = data.map(u => `
     <tr>
       <td style="color:var(--muted)">${u.civ}</td>
       <td style="font-weight:700">${u.first}</td>
@@ -849,12 +1021,12 @@ function renderUsersTable(data) {
       <td style="font-size:.8rem;color:var(--muted)">${u.email}</td>
       <td><span class="badge ${funcColor[u.func]||'badge-green'}">${u.func}</span></td>
       <td style="font-size:.83rem">${u.mobile}</td>
-      <td><span class="badge ${u.enabled?'badge-green':'badge-red'}">${u.enabled?'Active':'Inactive'}</span></td>
+      <td><span class="badge ${u.enabled ? 'badge-green' : 'badge-red'}">${u.enabled ? 'Active' : 'Inactive'}</span></td>
       <td style="text-align:right">
         <button class="icon-btn" title="Modifier" onclick="editUser(${u.id})">✏️</button>
         <button class="icon-btn" title="Supprimer" onclick="deleteUser(${u.id})">🗑️</button>
         <label class="toggle">
-          <input type="checkbox" ${u.enabled?'checked':''} onchange="toggleUser(${u.id},this.checked)">
+          <input type="checkbox" ${u.enabled ? 'checked' : ''} onchange="toggleUser(${u.id},this.checked)">
           <span class="toggle-slider"></span>
         </label>
       </td>
@@ -862,27 +1034,50 @@ function renderUsersTable(data) {
   `).join('');
 }
 
-function toggleUserForm() { const f=document.getElementById('addUserForm'); f.style.display=f.style.display==='none'?'block':'none'; }
-function addUser() {
-  const civ=document.getElementById('uCiv').value; const first=document.getElementById('uFirst').value.trim();
-  const last=document.getElementById('uLast').value.trim(); const email=document.getElementById('uEmail').value.trim();
-  const func=document.getElementById('uFunc').value; const mobile=document.getElementById('uMobile').value.trim();
-  if(!first||!last) return;
-  users.push({ id:Date.now(), civ, first, last, email:email||first+'@hr.tn', func, mobile:mobile||'00000000', enabled:true });
-  toggleUserForm(); renderUsersTable(users);
-}
-function deleteUser(id) { users=users.filter(u=>u.id!==id); renderUsersTable(users); }
-function editUser(id) {
-  const u=users.find(x=>x.id===id); if(!u) return;
-  const n=prompt('Prénom :',u.first);
-  if(n&&n.trim()) { u.first=n.trim(); renderUsersTable(users); }
-}
-function toggleUser(id,val) { const u=users.find(x=>x.id===id); if(u){u.enabled=val; renderUsersTable(users);} }
-function filterUsers(q) {
-  const lq=q.toLowerCase();
-  renderUsersTable(users.filter(u=>u.first.toLowerCase().includes(lq)||u.last.toLowerCase().includes(lq)||u.email.toLowerCase().includes(lq)||u.func.toLowerCase().includes(lq)));
+function toggleUserForm() {
+  const f = document.getElementById('addUserForm');
+  f.style.display = f.style.display === 'none' ? 'block' : 'none';
 }
 
+function addUser() {
+  const civ   = document.getElementById('uCiv').value;
+  const first = document.getElementById('uFirst').value.trim();
+  const last  = document.getElementById('uLast').value.trim();
+  const email = document.getElementById('uEmail').value.trim();
+  const func  = document.getElementById('uFunc').value;
+  const mobile= document.getElementById('uMobile').value.trim();
+  if (!first || !last) return;
+  users.push({ id: Date.now(), civ, first, last, email: email || first+'@hr.tn', func, mobile: mobile||'00000000', enabled: true });
+  toggleUserForm();
+  renderUsersTable(users);
+}
+
+function deleteUser(id) {
+  users = users.filter(u => u.id !== id);
+  renderUsersTable(users);
+}
+
+function editUser(id) {
+  const u = roles.find ? users.find(x => x.id === id) : null;
+  if (!u) return;
+  const newFirst = prompt('Prénom :', u.first);
+  if (newFirst && newFirst.trim()) { u.first = newFirst.trim(); renderUsersTable(users); }
+}
+
+function toggleUser(id, val) {
+  const u = users.find(x => x.id === id);
+  if (u) { u.enabled = val; renderUsersTable(users); }
+}
+
+function filterUsers(q) {
+  const lq = q.toLowerCase();
+  renderUsersTable(users.filter(u =>
+    u.first.toLowerCase().includes(lq) || u.last.toLowerCase().includes(lq) ||
+    u.email.toLowerCase().includes(lq) || u.func.toLowerCase().includes(lq)
+  ));
+}
+
+// init tables
 renderRolesTable(roles);
 renderUsersTable(users);
 

@@ -28,7 +28,7 @@ body { display:flex; min-height:100vh; background:var(--bg); font-family:'DM San
 .avatar { width:38px; height:38px; border-radius:50%; background:linear-gradient(135deg,var(--accent),var(--accent2)); display:flex; align-items:center; justify-content:center; font-size:1rem; border:2px solid var(--accent); flex-shrink:0; }
 .user-info .name { font-weight:600; font-size:.85rem; }
 .user-info .role { color:var(--accent); font-size:.72rem; margin-top:1px; }
-nav { flex:1; padding:16px 10px; }
+nav { flex:1; padding:16px 10px; overflow-y:auto; }
 .nav-section { font-size:.68rem; font-weight:700; letter-spacing:2px; color:var(--muted); text-transform:uppercase; padding:14px 10px 6px; }
 .nav-item { display:flex; align-items:center; gap:12px; padding:10px 14px; border-radius:10px; cursor:pointer; font-size:.85rem; color:var(--muted); font-weight:500; border:none; background:transparent; width:100%; text-align:left; margin-bottom:2px; transition:all .2s; border-left:3px solid transparent; }
 .nav-item:hover { background:rgba(78,205,196,.08); color:#fff; }
@@ -40,26 +40,11 @@ nav { flex:1; padding:16px 10px; }
 .page-title { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; }
 .page-sub { color:var(--muted); font-size:.8rem; margin-top:2px; }
 
-/* ── TOPBAR ICONS ── */
 .topbar-icons { display:flex; align-items:center; gap:4px; }
-.topbar-icon-btn {
-  position:relative; width:38px; height:38px; border-radius:50%;
-  background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.09);
-  display:flex; align-items:center; justify-content:center; cursor:pointer;
-  transition:background .2s,border-color .2s;
-  font-size:1.05rem; color:rgba(255,255,255,0.65); flex-shrink:0;
-}
+.topbar-icon-btn { position:relative; width:38px; height:38px; border-radius:50%; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.09); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background .2s,border-color .2s; font-size:1.05rem; color:rgba(255,255,255,0.65); flex-shrink:0; }
 .topbar-icon-btn:hover { background:rgba(255,255,255,0.12); border-color:rgba(255,255,255,0.18); color:#fff; }
-.topbar-icon-btn .notif-dot {
-  position:absolute; top:5px; right:5px; width:8px; height:8px;
-  border-radius:50%; background:#4ECDC4; border:2px solid var(--bg2);
-}
-.topbar-avatar-btn {
-  width:38px; height:38px; border-radius:50%;
-  display:flex; align-items:center; justify-content:center; cursor:pointer;
-  font-size:.82rem; color:#081a18; font-weight:800;
-  transition:transform .2s; flex-shrink:0; border:2px solid transparent;
-}
+.topbar-icon-btn .notif-dot { position:absolute; top:5px; right:5px; width:8px; height:8px; border-radius:50%; background:#4ECDC4; border:2px solid var(--bg2); }
+.topbar-avatar-btn { width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:.82rem; color:#081a18; font-weight:800; transition:transform .2s; flex-shrink:0; border:2px solid transparent; }
 .topbar-avatar-btn:hover { transform:scale(1.08); }
 .topbar-divider { width:1px; height:26px; background:rgba(255,255,255,0.1); margin:0 6px; flex-shrink:0; }
 
@@ -75,28 +60,17 @@ nav { flex:1; padding:16px 10px; }
 
 .form-group { margin-bottom:16px; }
 .form-label { display:block; font-size:.8rem; color:var(--muted); margin-bottom:6px; font-weight:600; letter-spacing:.5px; text-transform:uppercase; }
-.form-input, .form-select, .form-textarea {
-  width:100%; padding:10px 14px; background:rgba(255,255,255,.06); border:1px solid var(--border);
-  border-radius:10px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:.87rem; outline:none; transition:border-color .2s;
-}
+.form-input, .form-select, .form-textarea { width:100%; padding:10px 14px; background:rgba(255,255,255,.06); border:1px solid var(--border); border-radius:10px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:.87rem; outline:none; transition:border-color .2s; }
 .form-input:focus, .form-select:focus, .form-textarea:focus { border-color:var(--accent); }
 .form-textarea { min-height:80px; resize:vertical; }
 .form-select option { background:#0e1f1c; }
 .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
 
-.legend-box {
-  display:flex; flex-wrap:wrap; gap:10px 22px;
-  background:rgba(255,255,255,.03); border:1px solid var(--border);
-  border-radius:12px; padding:14px 18px; margin-bottom:24px; font-size:.78rem;
-}
+.legend-box { display:flex; flex-wrap:wrap; gap:10px 22px; background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:12px; padding:14px 18px; margin-bottom:24px; font-size:.78rem; }
 .legend-item { display:flex; align-items:center; gap:7px; }
 .legend-dot { width:11px; height:11px; border-radius:50%; flex-shrink:0; }
 
-.demand-card {
-  background:var(--card); border:1px solid var(--border);
-  border-radius:16px; padding:20px 24px; margin-bottom:16px;
-  transition:border-color .2s;
-}
+.demand-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:20px 24px; margin-bottom:16px; transition:border-color .2s; }
 .demand-card:hover { border-color:rgba(78,205,196,.25); }
 .demand-meta { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px; }
 .demand-type { font-family:'Syne',sans-serif; font-weight:700; font-size:1rem; }
@@ -112,10 +86,7 @@ nav { flex:1; padding:16px 10px; }
 
 .timeline { display:flex; align-items:flex-start; gap:0; position:relative; padding:8px 0 0; }
 .tl-step { flex:1; display:flex; flex-direction:column; align-items:center; position:relative; }
-.tl-step:not(:last-child)::after {
-  content:''; position:absolute; top:12px; left:calc(50% + 14px);
-  width:calc(100% - 28px); height:2px; background:var(--border); z-index:0; transition:background .4s;
-}
+.tl-step:not(:last-child)::after { content:''; position:absolute; top:12px; left:calc(50% + 14px); width:calc(100% - 28px); height:2px; background:var(--border); z-index:0; transition:background .4s; }
 .tl-step.done:not(:last-child)::after { background:var(--line-color, var(--accent)); }
 .tl-dot { width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.75rem; font-weight:800; z-index:1; position:relative; border:2px solid transparent; transition:all .3s; }
 .tl-dot.pending  { background:rgba(255,230,109,.18); border-color:#FFE66D; color:#FFE66D; }
@@ -135,6 +106,61 @@ nav { flex:1; padding:16px 10px; }
 .stat-mini { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:16px; }
 .stat-mini .val { font-family:'Syne',sans-serif; font-size:1.7rem; font-weight:800; }
 .stat-mini .lbl { font-size:.74rem; color:var(--muted); margin-top:3px; }
+
+/* ── CAPACITÉ WIDGET (lecture seule pour l'employé) ── */
+.cap-banner {
+  border-radius:14px; padding:20px 22px; margin-bottom:22px;
+  display:flex; align-items:center; gap:20px; flex-wrap:wrap;
+  border:1px solid rgba(78,205,196,.3);
+  background:linear-gradient(135deg, rgba(78,205,196,.06) 0%, rgba(78,205,196,.02) 100%);
+}
+.cap-banner-icon { font-size:2.4rem; flex-shrink:0; }
+.cap-banner-body { flex:1; min-width:180px; }
+.cap-banner-title { font-family:'Syne',sans-serif; font-weight:800; font-size:1rem; margin-bottom:4px; }
+.cap-banner-sub { font-size:.78rem; color:var(--muted); margin-bottom:10px; }
+.cap-bar-wrap { height:9px; background:rgba(255,255,255,.08); border-radius:5px; overflow:hidden; }
+.cap-bar { height:100%; border-radius:5px; transition:width .6s ease; }
+.cap-bar-nums { display:flex; justify-content:space-between; margin-top:6px; font-size:.74rem; color:var(--muted); }
+.cap-right { display:flex; flex-direction:column; align-items:center; gap:6px; flex-shrink:0; }
+.cap-big-num { font-family:'Syne',sans-serif; font-size:2.8rem; font-weight:800; line-height:1; }
+.cap-big-label { font-size:.72rem; color:var(--muted); text-align:center; }
+.cap-pill { display:inline-block; padding:5px 14px; border-radius:20px; font-size:.75rem; font-weight:700; }
+.cap-pill-ok   { background:rgba(150,206,180,.15); color:#96CEB4; border:1px solid rgba(150,206,180,.3); }
+.cap-pill-warn { background:rgba(255,230,109,.15); color:#FFE66D; border:1px solid rgba(255,230,109,.3); }
+.cap-pill-full { background:rgba(255,107,107,.12); color:#ff6b6b; border:1px solid rgba(255,107,107,.3); }
+
+/* Règles TT (lecture seule) */
+.rules-box { background:rgba(255,255,255,.025); border:1px solid var(--border); border-radius:12px; padding:16px 20px; margin-bottom:20px; }
+.rules-title { font-size:.75rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; }
+.rules-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px 20px; }
+.rule-item { display:flex; align-items:center; gap:8px; padding:6px 0; font-size:.82rem; color:rgba(255,255,255,.72); border-bottom:1px solid rgba(255,255,255,.04); }
+.rule-dot { width:6px; height:6px; border-radius:50%; background:var(--accent); flex-shrink:0; }
+.rule-val { margin-left:auto; font-weight:700; color:var(--accent); }
+
+/* ── PLANNING ÉQUIPE ── */
+.planning-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+.week-nav { display:flex; align-items:center; gap:10px; }
+.week-btn { background:rgba(255,255,255,.06); border:1px solid var(--border); border-radius:8px; padding:6px 12px; color:var(--text); cursor:pointer; font-size:.82rem; transition:background .2s; }
+.week-btn:hover { background:rgba(78,205,196,.1); border-color:rgba(78,205,196,.3); }
+.week-label { font-size:.84rem; font-weight:600; color:var(--muted); }
+
+.planning-wrap { overflow-x:auto; margin-top:6px; }
+.pt { width:100%; border-collapse:collapse; min-width:580px; }
+.pt th, .pt td { padding:11px 10px; border:1px solid var(--border); font-size:.82rem; text-align:center; }
+.pt thead th { background:rgba(255,255,255,.04); color:var(--muted); font-weight:700; text-transform:uppercase; font-size:.7rem; letter-spacing:.8px; }
+.pt td:first-child { text-align:left; font-weight:600; width:160px; }
+.pt .today-col { background:rgba(78,205,196,.04); }
+.slot-p  { display:inline-block; padding:4px 10px; border-radius:6px; font-size:.73rem; font-weight:600; background:rgba(150,206,180,.2); color:#96CEB4; }
+.slot-r  { display:inline-block; padding:4px 10px; border-radius:6px; font-size:.73rem; font-weight:600; background:rgba(69,183,209,.2); color:#45B7D1; }
+.slot-o  { display:inline-block; padding:4px 10px; border-radius:6px; font-size:.73rem; font-weight:600; background:rgba(255,255,255,.04); color:var(--muted); }
+.slot-me { display:inline-block; padding:4px 10px; border-radius:6px; font-size:.73rem; font-weight:700; background:rgba(78,205,196,.18); color:#4ECDC4; border:1px solid rgba(78,205,196,.4); }
+.slot-absent { display:inline-block; padding:4px 10px; border-radius:6px; font-size:.73rem; font-weight:600; background:rgba(255,107,107,.12); color:#ff6b6b; }
+
+.live-dot { width:7px; height:7px; border-radius:50%; background:#96CEB4; display:inline-block; margin-right:5px; animation:blink 1.8s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+.team-legend { display:flex; flex-wrap:wrap; gap:8px 20px; margin-top:16px; font-size:.75rem; }
+.tleg { display:flex; align-items:center; gap:6px; }
 </style>
 </head>
 <body>
@@ -156,6 +182,8 @@ nav { flex:1; padding:16px 10px; }
     <div class="nav-section">Mes demandes</div>
     <button class="nav-item" onclick="show('soumettre',this)"><span class="icon">📝</span> Soumettre demande</button>
     <button class="nav-item" onclick="show('suivi',this)"><span class="icon">🔍</span> Suivre mes demandes</button>
+    <div class="nav-section">Planning</div>
+    <button class="nav-item" onclick="show('planning',this)"><span class="icon">📅</span> Mon planning & équipe</button>
   </nav>
 </aside>
 
@@ -201,14 +229,49 @@ nav { flex:1; padding:16px 10px; }
       </div>
     </div>
 
-    <!-- SOUMETTRE -->
+    <!-- SOUMETTRE (avec widget capacité) -->
     <div class="section" id="sec-soumettre">
-      <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:24px;">Soumettre une demande</h2>
+      <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:20px;">Soumettre une demande</h2>
+
+      <!-- ── WIDGET CAPACITÉ TEMPS RÉEL ── -->
+      <div class="cap-banner" id="capBanner">
+        <div class="cap-banner-icon">🏡</div>
+        <div class="cap-banner-body">
+          <div class="cap-banner-title">Capacité télétravail — Département IT</div>
+          <div class="cap-banner-sub"><span class="live-dot"></span>Mise à jour en temps réel</div>
+          <div class="cap-bar-wrap">
+            <div class="cap-bar" id="capBarFill" style="width:50%;background:#4ECDC4"></div>
+          </div>
+          <div class="cap-bar-nums">
+            <span id="capUsedLabel">5 en télétravail actuellement</span>
+            <span id="capMaxLabel">sur 10 autorisés</span>
+          </div>
+        </div>
+        <div class="cap-right">
+          <div class="cap-big-num" id="capAvailNum" style="color:#96CEB4">5</div>
+          <div class="cap-big-label">places<br>disponibles</div>
+          <span class="cap-pill cap-pill-ok" id="capStatusPill">✅ Places disponibles</span>
+        </div>
+      </div>
+
+      <!-- Règles de la politique TT (lecture seule) -->
+      <div class="rules-box">
+        <div class="rules-title">📋 Politiques télétravail applicables à votre profil</div>
+        <div class="rules-grid">
+          <div class="rule-item"><span class="rule-dot"></span>Jours max / semaine<span class="rule-val">4 j</span></div>
+          <div class="rule-item"><span class="rule-dot"></span>Jours max / mois<span class="rule-val">12 j</span></div>
+          <div class="rule-item"><span class="rule-dot"></span>Délai minimum de demande<span class="rule-val">2 j</span></div>
+          <div class="rule-item"><span class="rule-dot"></span>Consécutifs autorisés<span class="rule-val">2 j</span></div>
+          <div class="rule-item"><span class="rule-dot"></span>Validation Manager (N1)<span class="rule-val" style="color:#96CEB4">✅ Requis</span></div>
+          <div class="rule-item"><span class="rule-dot"></span>Validation RH (N2)<span class="rule-val" style="color:#96CEB4">✅ Requis</span></div>
+        </div>
+      </div>
+
       <div class="panel" style="max-width:560px">
         <div class="panel-title">Nouvelle demande</div>
         <div class="form-group">
           <label class="form-label">Type de demande</label>
-          <select class="form-select" id="typeInput">
+          <select class="form-select" id="typeInput" onchange="updateCapWidget(this.value)">
             <option>Télétravail</option>
             <option>Congé annuel</option>
             <option>Congé maladie</option>
@@ -229,8 +292,9 @@ nav { flex:1; padding:16px 10px; }
           <label class="form-label">Motif</label>
           <textarea class="form-textarea" id="motifInput" placeholder="Expliquez la raison de votre demande..."></textarea>
         </div>
-        <button class="btn btn-primary" style="width:100%;padding:12px" onclick="submitDemande()">📤 Soumettre la demande</button>
+        <button class="btn btn-primary" style="width:100%;padding:12px" onclick="submitDemande()" id="submitBtn">📤 Soumettre la demande</button>
         <div id="submitMsg" style="display:none;margin-top:12px;background:rgba(150,206,180,.1);border:1px solid #96CEB4;border-radius:10px;padding:12px;color:#96CEB4;font-weight:600;text-align:center">✅ Demande soumise ! En attente de validation Manager.</div>
+        <div id="capFullMsg" style="display:none;margin-top:12px;background:rgba(255,107,107,.08);border:1px solid #ff6b6b;border-radius:10px;padding:12px;color:#ff6b6b;font-weight:600;text-align:center">⚠️ Capacité atteinte pour votre département. Aucune place disponible à cette date.</div>
       </div>
     </div>
 
@@ -239,62 +303,201 @@ nav { flex:1; padding:16px 10px; }
       <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:8px;">Suivi de mes demandes</h2>
       <p style="color:var(--muted);font-size:.83rem;margin-bottom:20px;">Suivez l'avancement de chaque demande en temps réel</p>
       <div class="legend-box">
-        <div class="legend-item"><div class="legend-dot" style="background:#FFE66D"></div><span style="color:#FFE66D">Soumis, en attente de validation</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#FFE66D"></div><span style="color:#FFE66D">Soumis, en attente</span></div>
         <div class="legend-item"><div class="legend-dot" style="background:#96CEB4"></div><span style="color:#96CEB4">Validé / Approuvé</span></div>
         <div class="legend-item"><div class="legend-dot" style="background:#ff6b6b"></div><span style="color:#ff6b6b">Refusé</span></div>
         <div class="legend-item"><div class="legend-dot" style="background:#FF6B35"></div><span style="color:#FF6B35">Validé en retard</span></div>
-        <div class="legend-item"><div class="legend-dot" style="background:rgba(255,255,255,.2)"></div><span style="color:var(--muted)">En attente (étape suivante)</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:rgba(255,255,255,.2)"></div><span style="color:var(--muted)">En attente</span></div>
       </div>
       <div id="suiviList"></div>
+    </div>
+
+    <!-- PLANNING ÉQUIPE -->
+    <div class="section" id="sec-planning">
+      <div class="planning-header">
+        <div>
+          <h2 style="font-family:'Syne',sans-serif;font-weight:800;">Mon planning & équipe</h2>
+          <p style="color:var(--muted);font-size:.83rem;margin-top:4px;">Votre planning personnel et la présence de votre équipe cette semaine</p>
+        </div>
+        <div class="week-nav">
+          <button class="week-btn" onclick="prevWeek()">← Préc.</button>
+          <span class="week-label" id="weekLabel">Sem. 9–13 Mars 2026</span>
+          <button class="week-btn" onclick="nextWeek()">Suiv. →</button>
+        </div>
+      </div>
+
+      <!-- Mon planning personnel -->
+      <div class="panel">
+        <div class="panel-title">📌 Mon planning personnel</div>
+        <div class="planning-wrap">
+          <table class="pt" id="myPlanningTable"></table>
+        </div>
+        <div class="team-legend">
+          <div class="tleg"><span class="slot-me" style="padding:3px 8px">TT</span> Mes jours télétravail</div>
+          <div class="tleg"><span class="slot-p" style="padding:3px 8px">P</span> Présentiel</div>
+          <div class="tleg"><span class="slot-o" style="padding:3px 8px">—</span> Repos / Congé</div>
+        </div>
+      </div>
+
+      <!-- Planning équipe -->
+      <div class="panel">
+        <div class="panel-title" style="display:flex;align-items:center;gap:8px">
+          <span class="live-dot"></span> Planning de mon équipe — Département IT
+        </div>
+        <div class="planning-wrap">
+          <table class="pt" id="teamPlanningTable"></table>
+        </div>
+        <div class="team-legend" style="margin-top:16px">
+          <div class="tleg"><span class="slot-p" style="padding:3px 8px">Présentiel</span></div>
+          <div class="tleg"><span class="slot-r" style="padding:3px 8px">Télétravail</span></div>
+          <div class="tleg"><span class="slot-absent" style="padding:3px 8px">Absent</span></div>
+          <div class="tleg"><span class="slot-o" style="padding:3px 8px">Repos</span></div>
+        </div>
+
+        <!-- Mini stats présence semaine -->
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px;padding-top:18px;border-top:1px solid var(--border)">
+          <div style="text-align:center">
+            <div style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:#96CEB4">2</div>
+            <div style="font-size:.74rem;color:var(--muted)">En présentiel auj.</div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:#45B7D1">2</div>
+            <div style="font-size:.74rem;color:var(--muted)">En télétravail auj.</div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:#ff6b6b">1</div>
+            <div style="font-size:.74rem;color:var(--muted)">Absent auj.</div>
+          </div>
+        </div>
+      </div>
     </div>
 
   </div>
 </div>
 
 <script>
-let demandes = [
-  { id:1, type:'Télétravail', dateDebut:'2026-03-15', dateFin:'2026-03-15', motif:'Plomberie à régler à domicile',
-    steps:[ { label:'Soumission', date:'10 Mar 2026', state:'done', note:'Demande envoyée' }, { label:'Validation\nManager (N1)', date:'11 Mar 2026', state:'done', note:'Validé par M. Trabelsi' }, { label:'Validation\nRH (N2)', date:'12 Mar 2026', state:'pending', note:'En attente RH' }, { label:'Décision\nfinale', date:null, state:'waiting', note:'' } ] },
-  { id:2, type:'Congé annuel', dateDebut:'2026-03-20', dateFin:'2026-03-25', motif:'Vacances planifiées',
-    steps:[ { label:'Soumission', date:'08 Mar 2026', state:'done', note:'Demande envoyée' }, { label:'Validation\nManager (N1)', date:'09 Mar 2026', state:'done', note:'Validé par M. Trabelsi' }, { label:'Validation\nRH (N2)', date:'10 Mar 2026', state:'done', note:'Validé par S. Mansour' }, { label:'Décision\nfinale', date:'10 Mar 2026', state:'done', note:'Approuvé ✓' } ] },
-  { id:3, type:"Autorisation d'absence", dateDebut:'2026-03-05', dateFin:'2026-03-05', motif:'Rendez-vous administratif',
-    steps:[ { label:'Soumission', date:'01 Mar 2026', state:'done', note:'Demande envoyée' }, { label:'Validation\nManager (N1)', date:'04 Mar 2026 (retard)', state:'late', note:'Validé en retard' }, { label:'Validation\nRH (N2)', date:'05 Mar 2026', state:'refused', note:'Refusé par RH' }, { label:'Décision\nfinale', date:'05 Mar 2026', state:'refused', note:'Refusé ✗' } ] },
-  { id:4, type:'Télétravail', dateDebut:'2026-03-18', dateFin:'2026-03-18', motif:'Rendez-vous médical le matin',
-    steps:[ { label:'Soumission', date:'12 Mar 2026', state:'pending', note:'Demande envoyée' }, { label:'Validation\nManager (N1)', date:null, state:'waiting', note:'' }, { label:'Validation\nRH (N2)', date:null, state:'waiting', note:'' }, { label:'Décision\nfinale', date:null, state:'waiting', note:'' } ] },
+// ── DATA ──────────────────────────────────────────────────────────────────
+const capData = { dept:'IT', max:10, current:5 };
+
+const teamData = [
+  { nom:'Ahmed Ben Ali (moi)',  poste:'Dev Frontend', isMe:true,  slots:['me','me','present','me','present'] },
+  { nom:'Fatima Khelil',        poste:'Designer UI',  isMe:false, slots:['remote','present','remote','remote','present'] },
+  { nom:'Nadia Ben Salah',      poste:'Dev Mobile',   isMe:false, slots:['remote','remote','absent','present','remote'] },
+  { nom:'Karim Zouari',         poste:'Analyste',     isMe:false, slots:['present','present','present','off','present'] },
+  { nom:'Youssef Hamdi',        poste:'Dev Backend',  isMe:false, slots:['present','remote','present','remote','off'] },
 ];
 
-const titles = { dashboard:'Mon espace', soumettre:'Soumettre une demande', suivi:'Suivi de mes demandes' };
+const days = ['Lundi','Mardi','Mercredi','Jeudi','Vendredi'];
+const todayIdx = 4; // Vendredi = index 4
+
+let demandes = [
+  { id:1, type:'Télétravail', dateDebut:'2026-03-15', dateFin:'2026-03-15', motif:'Plomberie à régler à domicile',
+    steps:[ { label:'Soumission', date:'10 Mar 2026', state:'done', note:'Envoyée' }, { label:'Validation\nManager (N1)', date:'11 Mar 2026', state:'done', note:'Validé par M. Trabelsi' }, { label:'Validation\nRH (N2)', date:'12 Mar 2026', state:'pending', note:'En attente RH' }, { label:'Décision\nfinale', date:null, state:'waiting', note:'' } ] },
+  { id:2, type:'Congé annuel', dateDebut:'2026-03-20', dateFin:'2026-03-25', motif:'Vacances planifiées',
+    steps:[ { label:'Soumission', date:'08 Mar 2026', state:'done', note:'Envoyée' }, { label:'Validation\nManager (N1)', date:'09 Mar 2026', state:'done', note:'Validé' }, { label:'Validation\nRH (N2)', date:'10 Mar 2026', state:'done', note:'Validé' }, { label:'Décision\nfinale', date:'10 Mar 2026', state:'done', note:'Approuvé ✓' } ] },
+  { id:3, type:"Autorisation d'absence", dateDebut:'2026-03-05', dateFin:'2026-03-05', motif:'Rendez-vous administratif',
+    steps:[ { label:'Soumission', date:'01 Mar 2026', state:'done', note:'Envoyée' }, { label:'Validation\nManager (N1)', date:'04 Mar 2026 (retard)', state:'late', note:'Validé en retard' }, { label:'Validation\nRH (N2)', date:'05 Mar 2026', state:'refused', note:'Refusé par RH' }, { label:'Décision\nfinale', date:'05 Mar 2026', state:'refused', note:'Refusé ✗' } ] },
+  { id:4, type:'Télétravail', dateDebut:'2026-03-18', dateFin:'2026-03-18', motif:'Rendez-vous médical le matin',
+    steps:[ { label:'Soumission', date:'12 Mar 2026', state:'pending', note:'Envoyée' }, { label:'Validation\nManager (N1)', date:null, state:'waiting', note:'' }, { label:'Validation\nRH (N2)', date:null, state:'waiting', note:'' }, { label:'Décision\nfinale', date:null, state:'waiting', note:'' } ] },
+];
+
+// ── NAV ───────────────────────────────────────────────────────────────────
+const pageTitles = { dashboard:'Mon espace', soumettre:'Soumettre une demande', suivi:'Suivi de mes demandes', planning:'Planning & équipe' };
+
 function show(sec, btn) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
   document.getElementById('sec-'+sec).classList.add('active');
   btn.classList.add('active');
-  document.getElementById('pageTitle').textContent = titles[sec] || sec;
-  if (sec === 'suivi') renderSuivi();
+  document.getElementById('pageTitle').textContent = pageTitles[sec] || sec;
+  if (sec === 'suivi')     renderSuivi();
   if (sec === 'dashboard') renderDash();
+  if (sec === 'soumettre') renderCapWidget();
+  if (sec === 'planning')  renderPlanning();
 }
 
 document.getElementById('pageDate').textContent =
   new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 
+// ── CAPACITÉ WIDGET ───────────────────────────────────────────────────────
+function renderCapWidget() {
+  const avail = capData.max - capData.current;
+  const pct   = Math.round(capData.current / capData.max * 100);
+  document.getElementById('capBarFill').style.width = pct + '%';
+  const barColor = avail <= 0 ? '#ff6b6b' : avail <= 2 ? '#FFE66D' : '#4ECDC4';
+  document.getElementById('capBarFill').style.background = barColor;
+  document.getElementById('capUsedLabel').textContent = capData.current + ' en télétravail actuellement';
+  document.getElementById('capMaxLabel').textContent   = 'sur ' + capData.max + ' autorisés';
+  document.getElementById('capAvailNum').textContent   = avail;
+  document.getElementById('capAvailNum').style.color   = avail <= 0 ? '#ff6b6b' : avail <= 2 ? '#FFE66D' : '#96CEB4';
+
+  const pill = document.getElementById('capStatusPill');
+  if (avail <= 0) {
+    pill.textContent = '🔴 Complet'; pill.className = 'cap-pill cap-pill-full';
+    document.getElementById('submitBtn').disabled = true;
+    document.getElementById('submitBtn').style.opacity = '.5';
+    document.getElementById('capFullMsg').style.display = 'block';
+  } else if (avail <= 2) {
+    pill.textContent = '⚠️ ' + avail + ' place(s) restante(s)'; pill.className = 'cap-pill cap-pill-warn';
+    document.getElementById('submitBtn').disabled = false;
+    document.getElementById('submitBtn').style.opacity = '1';
+    document.getElementById('capFullMsg').style.display = 'none';
+  } else {
+    pill.textContent = '✅ ' + avail + ' places disponibles'; pill.className = 'cap-pill cap-pill-ok';
+    document.getElementById('submitBtn').disabled = false;
+    document.getElementById('submitBtn').style.opacity = '1';
+    document.getElementById('capFullMsg').style.display = 'none';
+  }
+}
+
+function updateCapWidget(type) {
+  const banner = document.getElementById('capBanner');
+  banner.style.display = type === 'Télétravail' ? 'flex' : 'none';
+}
+
+// ── PLANNING ──────────────────────────────────────────────────────────────
+let weekOffset = 0;
+const weekLabels = ['Sem. 9–13 Mars 2026', 'Sem. 16–20 Mars 2026', 'Sem. 23–27 Mars 2026'];
+
+function prevWeek() { if(weekOffset > 0) { weekOffset--; updateWeekLabel(); renderPlanning(); } }
+function nextWeek() { if(weekOffset < weekLabels.length-1) { weekOffset++; updateWeekLabel(); renderPlanning(); } }
+function updateWeekLabel() { document.getElementById('weekLabel').textContent = weekLabels[weekOffset]; }
+
+const slotClass = s => s==='me'?'slot-me':s==='present'?'slot-p':s==='remote'?'slot-r':s==='absent'?'slot-absent':'slot-o';
+const slotText  = s => s==='me'?'🏡 TT':s==='present'?'Présentiel':s==='remote'?'Télétravail':s==='absent'?'Absent':'—';
+
+function renderPlanning() {
+  // Mon planning perso (highlight)
+  const me = teamData.find(e => e.isMe);
+  const myHead = `<thead><tr><th>Journée</th>${days.map((d,i)=>`<th${i===todayIdx?' class="today-col"':''} style="${i===todayIdx?'color:var(--accent)':''}">${d}${i===todayIdx?' ★':''}</th>`).join('')}</tr></thead>`;
+  const myBody = `<tbody><tr><td style="font-weight:700">Ahmed Ben Ali</td>${me.slots.map((s,i)=>`<td${i===todayIdx?' class="today-col"':''}><span class="${slotClass(s)}">${slotText(s)}</span></td>`).join('')}</tr></tbody>`;
+  document.getElementById('myPlanningTable').innerHTML = myHead + myBody;
+
+  // Planning équipe complet
+  const head = `<thead><tr><th>Membre</th>${days.map((d,i)=>`<th${i===todayIdx?' class="today-col"':''} style="${i===todayIdx?'color:var(--accent)':''}">${d}${i===todayIdx?' ●':''}</th>`).join('')}</tr></thead>`;
+  const body = `<tbody>${teamData.map(e=>`<tr><td><div style="font-weight:${e.isMe?'800':'600'};color:${e.isMe?'var(--accent)':'var(--text)'}">${e.nom}</div><div style="font-size:.71rem;color:var(--muted)">${e.poste}</div></td>${e.slots.map((s,i)=>`<td${i===todayIdx?' class="today-col"':''}><span class="${slotClass(s)}">${slotText(s)}</span></td>`).join('')}</tr>`).join('')}</tbody>`;
+  document.getElementById('teamPlanningTable').innerHTML = head + body;
+}
+
+// ── SUIVI ─────────────────────────────────────────────────────────────────
 function globalStatus(steps) {
   const last = [...steps].reverse().find(s => s.state !== 'waiting');
   if (!last) return { text:'Soumis', cls:'pill-yellow' };
   if (last.state === 'refused') return { text:'Refusé', cls:'pill-red' };
   if (last.label.includes('finale') && last.state === 'done') return { text:'Approuvé', cls:'pill-green' };
   if (last.state === 'pending') return { text:'En cours…', cls:'pill-yellow' };
-  if (last.state === 'late') return { text:'Retard', cls:'pill-orange' };
+  if (last.state === 'late') return { text:'Retard', cls:'pill-yellow' };
   if (last.state === 'done') return { text:'En cours…', cls:'pill-blue' };
   return { text:'Soumis', cls:'pill-yellow' };
 }
 
-const dotIcon = s => ({ done:'✓', pending:'⏳', refused:'✗', waiting:'○', late:'!' }[s] || '?');
-const dateColor = s => ({ done:'green', pending:'yellow', refused:'red', late:'orange', waiting:'muted' }[s]);
+const dotIcon  = s => ({ done:'✓', pending:'⏳', refused:'✗', waiting:'○', late:'!' }[s] || '?');
+const dateColor= s => ({ done:'green', pending:'yellow', refused:'red', late:'orange', waiting:'muted' }[s]);
 
 function renderSuivi() {
   document.getElementById('suiviList').innerHTML = demandes.map(d => {
     const gs = globalStatus(d.steps);
-    const stepsHtml = d.steps.map((s, i) => {
+    const stepsHtml = d.steps.map(s => {
       const lineColor = (s.state==='done'||s.state==='late') ? (s.state==='late'?'#FF6B35':'#96CEB4') : 'var(--border)';
       return `<div class="tl-step ${(s.state==='done'||s.state==='late')?'done':''}" style="--line-color:${lineColor}">
         <div class="tl-dot ${s.state}">${dotIcon(s.state)}</div>
@@ -331,13 +534,15 @@ function renderDash() {
 }
 
 function submitDemande() {
-  const type=document.getElementById('typeInput').value;
-  const debut=document.getElementById('dateDebut').value;
-  const fin=document.getElementById('dateFin').value;
-  const motif=document.getElementById('motifInput').value;
+  const type  = document.getElementById('typeInput').value;
+  const debut = document.getElementById('dateDebut').value;
+  const fin   = document.getElementById('dateFin').value;
+  const motif = document.getElementById('motifInput').value;
   if (!debut||!motif) { alert('Veuillez remplir les champs requis.'); return; }
+  if (type === 'Télétravail' && capData.current >= capData.max) { return; }
   demandes.unshift({ id:Date.now(), type, dateDebut:debut, dateFin:fin||debut, motif,
-    steps:[ { label:'Soumission', date:new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'}), state:'done', note:'Demande envoyée' }, { label:'Validation\nManager (N1)', date:null, state:'pending', note:'En attente' }, { label:'Validation\nRH (N2)', date:null, state:'waiting', note:'' }, { label:'Décision\nfinale', date:null, state:'waiting', note:'' } ] });
+    steps:[ { label:'Soumission', date:new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'}), state:'done', note:'Envoyée' }, { label:'Validation\nManager (N1)', date:null, state:'pending', note:'En attente' }, { label:'Validation\nRH (N2)', date:null, state:'waiting', note:'' }, { label:'Décision\nfinale', date:null, state:'waiting', note:'' } ] });
+  if (type === 'Télétravail') { capData.current++; renderCapWidget(); }
   document.getElementById('submitMsg').style.display='block';
   setTimeout(()=>document.getElementById('submitMsg').style.display='none',3000);
   document.getElementById('motifInput').value='';
@@ -346,6 +551,7 @@ function submitDemande() {
 }
 
 renderDash();
+renderCapWidget();
 </script>
 </body>
 </html>
