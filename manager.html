@@ -8,15 +8,9 @@
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --accent: #45B7D1;
-  --accent2: #63cce0;
-  --bg: #080e14;
-  --bg2: #0b121a;
-  --sidebar: #090d14;
-  --card: rgba(255,255,255,0.04);
-  --border: rgba(255,255,255,0.07);
-  --text: #e0eaf0;
-  --muted: rgba(255,255,255,0.38);
+  --accent: #45B7D1; --accent2: #63cce0; --bg: #080e14; --bg2: #0b121a;
+  --sidebar: #090d14; --card: rgba(255,255,255,0.04); --border: rgba(255,255,255,0.07);
+  --text: #e0eaf0; --muted: rgba(255,255,255,0.38);
 }
 body { display:flex; min-height:100vh; background:var(--bg); font-family:'DM Sans',sans-serif; color:var(--text); }
 .sidebar { width:240px; min-height:100vh; background:var(--sidebar); border-right:1px solid var(--border); display:flex; flex-direction:column; position:sticky; top:0; height:100vh; flex-shrink:0; }
@@ -38,7 +32,6 @@ nav { flex:1; padding:16px 10px; overflow-y:auto; }
 .topbar { padding:16px 24px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; background:var(--bg2); }
 .page-title { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; }
 .page-sub { color:var(--muted); font-size:.8rem; margin-top:2px; }
-
 .topbar-icons { display:flex; align-items:center; gap:4px; }
 .topbar-icon-btn { position:relative; width:38px; height:38px; border-radius:50%; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.09); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background .2s,border-color .2s; font-size:1.05rem; color:rgba(255,255,255,0.65); flex-shrink:0; }
 .topbar-icon-btn:hover { background:rgba(255,255,255,0.12); border-color:rgba(255,255,255,0.18); color:#fff; }
@@ -46,11 +39,34 @@ nav { flex:1; padding:16px 10px; overflow-y:auto; }
 .topbar-avatar-btn { width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:.82rem; color:#08101a; font-weight:800; transition:transform .2s; flex-shrink:0; border:2px solid transparent; }
 .topbar-avatar-btn:hover { transform:scale(1.08); }
 .topbar-divider { width:1px; height:26px; background:rgba(255,255,255,0.1); margin:0 6px; flex-shrink:0; }
-
 .btn { padding:9px 18px; border-radius:9px; border:none; font-family:'DM Sans',sans-serif; font-weight:600; font-size:.83rem; cursor:pointer; transition:all .2s; }
 .btn-primary { background:var(--accent); color:#08101a; }
 .btn-primary:hover { background:var(--accent2); }
 .btn-ghost { background:rgba(255,255,255,.07); color:var(--text); border:1px solid var(--border); }
+/* ── DROPDOWN ── */
+.dropdown-wrapper { position:relative; }
+.dropdown-menu { display:none; position:absolute; top:calc(100% + 10px); right:0; min-width:200px; background:#0a1520; border:1px solid rgba(255,255,255,0.12); border-radius:14px; padding:6px; z-index:999; box-shadow:0 8px 32px rgba(0,0,0,0.5); animation:fadeMenuIn .15s ease; }
+@keyframes fadeMenuIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+.dropdown-menu.open { display:block; }
+.dropdown-header { padding:10px 14px 8px; border-bottom:1px solid rgba(255,255,255,0.07); margin-bottom:4px; }
+.dropdown-header .dh-name { font-weight:700; font-size:.88rem; color:#e0eaf0; }
+.dropdown-header .dh-email { font-size:.73rem; color:rgba(255,255,255,.38); margin-top:2px; }
+.dropdown-item { display:flex; align-items:center; gap:10px; width:100%; padding:9px 14px; border-radius:9px; background:transparent; border:none; cursor:pointer; font-family:'DM Sans',sans-serif; font-size:.84rem; color:rgba(255,255,255,.7); text-align:left; transition:background .15s,color .15s; }
+.dropdown-item:hover { background:rgba(69,183,209,.08); color:#fff; }
+.dropdown-item .di-icon { font-size:.95rem; width:20px; text-align:center; }
+.dropdown-item.danger { color:rgba(255,107,107,.8); }
+.dropdown-item.danger:hover { background:rgba(255,107,107,.1); color:#ff6b6b; }
+.dropdown-divider { height:1px; background:rgba(255,255,255,.07); margin:4px 6px; }
+/* ── LOGOUT OVERLAY ── */
+.logout-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.7); z-index:9999; align-items:center; justify-content:center; }
+.logout-overlay.show { display:flex; }
+.logout-modal { background:#0a1520; border:1px solid rgba(255,255,255,.12); border-radius:20px; padding:32px 28px; text-align:center; max-width:340px; width:90%; animation:fadeMenuIn .2s ease; }
+.logout-modal h3 { font-family:'Syne',sans-serif; font-size:1.2rem; font-weight:800; margin-bottom:8px; }
+.logout-modal p { color:rgba(255,255,255,.45); font-size:.85rem; margin-bottom:24px; }
+.logout-modal .lm-icon { font-size:2.4rem; margin-bottom:14px; display:block; }
+.logout-btns { display:flex; gap:10px; justify-content:center; }
+.btn-danger { background:rgba(255,107,107,.15); color:#ff6b6b; border:1px solid rgba(255,107,107,.3); border-radius:9px; padding:9px 18px; font-family:'DM Sans',sans-serif; font-weight:600; font-size:.83rem; cursor:pointer; transition:all .2s; }
+.btn-danger:hover { background:rgba(255,107,107,.28); }
 .content { flex:1; padding:32px; overflow-y:auto; }
 .stats-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:16px; margin-bottom:28px; }
 .stat-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:20px; position:relative; overflow:hidden; transition:transform .2s; }
@@ -75,8 +91,6 @@ tr:last-child td { border-bottom:none; }
 .badge-yellow { background:rgba(255,230,109,.2); color:#FFE66D; }
 .section { display:none; }
 .section.active { display:block; }
-
-/* ── PLANNING TABLE ── */
 .planning-grid { overflow-x:auto; }
 .planning-table { width:100%; border-collapse:collapse; min-width:600px; }
 .planning-table th, .planning-table td { padding:11px 10px; border:1px solid var(--border); font-size:.82rem; }
@@ -87,8 +101,6 @@ tr:last-child td { border-bottom:none; }
 .slot-remote  { background:rgba(69,183,209,.2);  color:#45B7D1; }
 .slot-off     { background:rgba(255,255,255,.04); color:var(--muted); }
 .slot:hover   { filter:brightness(1.2); }
-.today-col    { background:rgba(69,183,209,.04) !important; }
-
 .kpi-row { display:flex; align-items:center; gap:14px; margin-bottom:12px; }
 .kpi-label { font-size:.83rem; color:rgba(255,255,255,.7); width:160px; flex-shrink:0; }
 .kpi-bar-wrap { flex:1; height:8px; background:rgba(255,255,255,.07); border-radius:4px; overflow:hidden; }
@@ -127,25 +139,14 @@ tr:last-child td { border-bottom:none; }
 .btn-validate:hover { background:rgba(150,206,180,.3); }
 .btn-refuse { padding:7px 16px; background:rgba(255,107,107,.1); border:1px solid #ff6b6b; border-radius:8px; color:#ff6b6b; cursor:pointer; font-weight:600; font-size:.8rem; transition:all .2s; }
 .btn-refuse:hover { background:rgba(255,107,107,.25); }
-
-/* ── PRÉSENCE TEMPS RÉEL ── */
 .live-dot { width:7px; height:7px; border-radius:50%; background:#96CEB4; display:inline-block; margin-right:5px; animation:blink 1.8s infinite; flex-shrink:0; }
-.live-dot-red { background:#ff6b6b; }
-.live-dot-blue { background:#45B7D1; }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
-
 .presence-header-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:22px; }
 .phs-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:16px 18px; text-align:center; position:relative; overflow:hidden; }
 .phs-card::before { content:''; position:absolute; top:-20px; right:-20px; width:60px; height:60px; border-radius:50%; background:var(--cc); opacity:.12; }
 .phs-num { font-family:'Syne',sans-serif; font-size:2rem; font-weight:800; color:var(--cc); }
 .phs-lbl { font-size:.74rem; color:var(--muted); margin-top:3px; }
-
-.emp-presence-card {
-  display:flex; align-items:center; gap:14px;
-  background:var(--card); border:1px solid var(--border);
-  border-radius:14px; padding:14px 18px; margin-bottom:10px;
-  transition:border-color .2s, transform .2s;
-}
+.emp-presence-card { display:flex; align-items:center; gap:14px; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:14px 18px; margin-bottom:10px; transition:border-color .2s, transform .2s; }
 .emp-presence-card:hover { border-color:rgba(69,183,209,.3); transform:translateX(3px); }
 .emp-avatar { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1rem; color:#fff; flex-shrink:0; }
 .emp-info { flex:1; }
@@ -158,12 +159,9 @@ tr:last-child td { border-bottom:none; }
 .status-absent  { background:rgba(255,107,107,.1);  color:#ff6b6b; border:1px solid rgba(255,107,107,.3); }
 .status-off     { background:rgba(255,255,255,.07); color:var(--muted); border:1px solid var(--border); }
 .emp-since { font-size:.68rem; color:var(--muted); }
-.emp-location { font-size:.72rem; color:var(--muted); display:flex; align-items:center; gap:4px; }
-
 .presence-filter { display:flex; gap:8px; margin-bottom:18px; flex-wrap:wrap; }
 .pf-btn { padding:6px 14px; border-radius:20px; border:1px solid var(--border); background:transparent; color:var(--muted); font-family:'DM Sans',sans-serif; font-size:.78rem; cursor:pointer; transition:all .2s; }
 .pf-btn.active, .pf-btn:hover { background:rgba(69,183,209,.1); border-color:rgba(69,183,209,.4); color:#45B7D1; }
-
 .week-map-wrap { overflow-x:auto; }
 .week-map { width:100%; border-collapse:collapse; min-width:520px; }
 .week-map th, .week-map td { padding:9px 10px; border:1px solid var(--border); font-size:.8rem; text-align:center; }
@@ -176,6 +174,19 @@ tr:last-child td { border-bottom:none; }
 </style>
 </head>
 <body>
+
+<!-- LOGOUT MODAL -->
+<div class="logout-overlay" id="logoutOverlay">
+  <div class="logout-modal">
+    <span class="lm-icon">🔐</span>
+    <h3>Se déconnecter ?</h3>
+    <p>Vous allez quitter votre session Manager.<br>Toutes les modifications non sauvegardées seront perdues.</p>
+    <div class="logout-btns">
+      <button class="btn btn-ghost" onclick="closeLogout()">Annuler</button>
+      <button class="btn btn-danger" onclick="confirmLogout()">Oui, se déconnecter</button>
+    </div>
+  </div>
+</div>
 
 <aside class="sidebar">
   <div class="sidebar-brand">
@@ -223,15 +234,29 @@ tr:last-child td { border-bottom:none; }
         </button>
         <div class="topbar-divider"></div>
         <div class="topbar-avatar-btn" title="Mon profil" style="background:linear-gradient(135deg,#45B7D1,#63cce0);border:2px solid #45B7D1" onmouseenter="this.style.boxShadow='0 0 0 3px #45B7D155'" onmouseleave="this.style.boxShadow='none'">MT</div>
-        <button class="topbar-icon-btn" title="Paramètres">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
-        </button>
+        <!-- SETTINGS DROPDOWN -->
+        <div class="dropdown-wrapper">
+          <button class="topbar-icon-btn" title="Paramètres" onclick="toggleDropdown(event)">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+          <div class="dropdown-menu" id="settingsDropdown">
+            <div class="dropdown-header">
+              <div class="dh-name">Mohamed Trabelsi</div>
+              <div class="dh-email">m.trabelsi@studiaafrique.com</div>
+            </div>
+            <button class="dropdown-item" onclick="closeDropdown()"><span class="di-icon">👤</span> Mon profil</button>
+            <button class="dropdown-item" onclick="closeDropdown()"><span class="di-icon">⚙️</span> Paramètres</button>
+            <button class="dropdown-item" onclick="closeDropdown()"><span class="di-icon">🔔</span> Notifications</button>
+            <button class="dropdown-item" onclick="closeDropdown()"><span class="di-icon">🌙</span> Thème sombre</button>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item danger" onclick="openLogout()"><span class="di-icon">🚪</span> Se déconnecter</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="content">
-
     <!-- DASHBOARD -->
     <div class="section active" id="sec-dashboard">
       <div class="stats-grid">
@@ -246,37 +271,21 @@ tr:last-child td { border-bottom:none; }
       </div>
     </div>
 
-    <!-- ── PRÉSENCE TEMPS RÉEL ── -->
+    <!-- PRÉSENCE TEMPS RÉEL -->
     <div class="section" id="sec-presence">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
         <div>
           <h2 style="font-family:'Syne',sans-serif;font-weight:800;">Présence de l'équipe</h2>
-          <p style="color:var(--muted);font-size:.83rem;margin-top:4px;display:flex;align-items:center;gap:6px"><span class="live-dot"></span> Données en temps réel — Vendredi 13 Mars 2026</p>
+          <p style="color:var(--muted);font-size:.83rem;margin-top:4px;display:flex;align-items:center;gap:6px"><span class="live-dot"></span> Données en temps réel</p>
         </div>
         <button class="btn btn-ghost" onclick="refreshPresence()">🔄 Actualiser</button>
       </div>
-
-      <!-- Stats rapides -->
       <div class="presence-header-stats">
-        <div class="phs-card" style="--cc:#96CEB4">
-          <div class="phs-num" id="presNum">2</div>
-          <div class="phs-lbl">En présentiel</div>
-        </div>
-        <div class="phs-card" style="--cc:#45B7D1">
-          <div class="phs-num" id="remNum">2</div>
-          <div class="phs-lbl">En télétravail</div>
-        </div>
-        <div class="phs-card" style="--cc:#ff6b6b">
-          <div class="phs-num" id="absNum">1</div>
-          <div class="phs-lbl">Absents</div>
-        </div>
-        <div class="phs-card" style="--cc:#FFE66D">
-          <div class="phs-num" id="offNum">1</div>
-          <div class="phs-lbl">Congé / Repos</div>
-        </div>
+        <div class="phs-card" style="--cc:#96CEB4"><div class="phs-num" id="presNum">2</div><div class="phs-lbl">En présentiel</div></div>
+        <div class="phs-card" style="--cc:#45B7D1"><div class="phs-num" id="remNum">2</div><div class="phs-lbl">En télétravail</div></div>
+        <div class="phs-card" style="--cc:#ff6b6b"><div class="phs-num" id="absNum">1</div><div class="phs-lbl">Absents</div></div>
+        <div class="phs-card" style="--cc:#FFE66D"><div class="phs-num" id="offNum">1</div><div class="phs-lbl">Congé / Repos</div></div>
       </div>
-
-      <!-- Filtres -->
       <div class="presence-filter">
         <button class="pf-btn active" onclick="filterPresence('all',this)">Tous (6)</button>
         <button class="pf-btn" onclick="filterPresence('present',this)">Présentiel (2)</button>
@@ -284,23 +293,12 @@ tr:last-child td { border-bottom:none; }
         <button class="pf-btn" onclick="filterPresence('absent',this)">Absent (1)</button>
         <button class="pf-btn" onclick="filterPresence('off',this)">Congé (1)</button>
       </div>
-
-      <!-- Liste des membres -->
       <div id="presenceList"></div>
-
-      <!-- Carte de présence semaine -->
       <div class="panel" style="margin-top:6px">
-        <div class="panel-title" style="display:flex;align-items:center;gap:8px">
-          📅 Vue hebdomadaire — Semaine du 9 au 13 Mars
-        </div>
+        <div class="panel-title">📅 Vue hebdomadaire — Semaine du 9 au 13 Mars</div>
         <div class="week-map-wrap">
           <table class="week-map">
-            <thead>
-              <tr>
-                <th>Membre</th>
-                <th>Lundi 9</th><th>Mardi 10</th><th>Mercredi 11</th><th>Jeudi 12</th><th style="color:var(--accent)">Vendredi 13 ★</th>
-              </tr>
-            </thead>
+            <thead><tr><th>Membre</th><th>Lundi 9</th><th>Mardi 10</th><th>Mercredi 11</th><th>Jeudi 12</th><th style="color:var(--accent)">Vendredi 13 ★</th></tr></thead>
             <tbody id="weekMapBody"></tbody>
           </table>
         </div>
@@ -344,7 +342,7 @@ tr:last-child td { border-bottom:none; }
       <p style="color:var(--muted);font-size:.83rem;margin-bottom:20px;">Première validation avant transmission au RH (N2)</p>
       <div class="legend-box">
         <div class="legend-item"><div class="legend-dot" style="background:#FFE66D"></div><span style="color:#FFE66D">En attente de votre validation</span></div>
-        <div class="legend-item"><div class="legend-dot" style="background:#45B7D1;animation:pulse 1.4s infinite"></div><span style="color:#45B7D1">Action requise</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#45B7D1"></div><span style="color:#45B7D1">Action requise</span></div>
         <div class="legend-item"><div class="legend-dot" style="background:#96CEB4"></div><span style="color:#96CEB4">Validé</span></div>
         <div class="legend-item"><div class="legend-dot" style="background:#ff6b6b"></div><span style="color:#ff6b6b">Refusé</span></div>
       </div>
@@ -401,12 +399,10 @@ tr:last-child td { border-bottom:none; }
         <div class="stat-card" style="--c:#FF6B35"><div class="stat-icon">📋</div><div class="stat-val">73</div><div class="stat-label">Tâches complétées</div></div>
       </div>
     </div>
-
   </div>
 </div>
 
 <script>
-// ── DATA ──────────────────────────────────────────────────────────────────
 const teamMembers = [
   { nom:'Ahmed Ben Ali',   poste:'Dev Frontend', avatar:'#45B7D1', statut:'remote',  lieu:'Domicile — Tunis',   heure:'08:45', week:['present','present','remote','present','remote'] },
   { nom:'Fatima Khelil',   poste:'Designer UI',  avatar:'#4ECDC4', statut:'present', lieu:'Bureau — Open Space', heure:'09:12', week:['remote','present','remote','remote','present'] },
@@ -415,7 +411,6 @@ const teamMembers = [
   { nom:'Youssef Hamdi',   poste:'Dev Backend',  avatar:'#FF6B35', statut:'remote',  lieu:'Domicile — Sousse',   heure:'09:05', week:['present','remote','present','remote','remote'] },
   { nom:'Sara Bouzid',     poste:'QA Engineer',  avatar:'#45B7D1', statut:'off',     lieu:'Congé annuel',        heure:'—',     week:['present','present','present','present','off'] },
 ];
-
 const team = [
   { nom:'Ahmed Ben Ali',   poste:'Dev Frontend', slots:['present','present','remote','present','remote'] },
   { nom:'Fatima Khelil',   poste:'Designer UI',  slots:['remote','present','remote','remote','present'] },
@@ -423,18 +418,12 @@ const team = [
   { nom:'Karim Zouari',    poste:'Analyste',     slots:['present','present','present','off','present'] },
 ];
 const planningState = team.map(e => [...e.slots]);
-
 let demandes = [
-  { id:1, employe:'Ahmed Ben Ali', type:'Télétravail', motif:'Plomberie à régler à domicile',
-    steps:[ { label:'Soumission', date:'10 Mar 2026', state:'done', note:'Envoyée' }, { label:'Manager\n(N1)', date:null, state:'active', note:'Votre action requise' }, { label:'RH\n(N2)', date:null, state:'waiting', note:'' }, { label:'Décision\nfinale', date:null, state:'waiting', note:'' } ] },
-  { id:2, employe:'Fatima Khelil', type:'Congé', motif:'Vacances planifiées',
-    steps:[ { label:'Soumission', date:'08 Mar 2026', state:'done', note:'Envoyée' }, { label:'Manager\n(N1)', date:null, state:'active', note:'Votre action requise' }, { label:'RH\n(N2)', date:null, state:'waiting', note:'' }, { label:'Décision\nfinale', date:null, state:'waiting', note:'' } ] },
-  { id:3, employe:'Nadia Ben Salah', type:'Télétravail', motif:'Rendez-vous médical matin',
-    steps:[ { label:'Soumission', date:'12 Mar 2026', state:'done', note:'Envoyée' }, { label:'Manager\n(N1)', date:null, state:'active', note:'Votre action requise' }, { label:'RH\n(N2)', date:null, state:'waiting', note:'' }, { label:'Décision\nfinale', date:null, state:'waiting', note:'' } ] },
-  { id:4, employe:'Karim Zouari', type:'Congé', motif:'Mariage dans la famille',
-    steps:[ { label:'Soumission', date:'09 Mar 2026', state:'done', note:'Envoyée' }, { label:'Manager\n(N1)', date:null, state:'active', note:'Votre action requise' }, { label:'RH\n(N2)', date:null, state:'waiting', note:'' }, { label:'Décision\nfinale', date:null, state:'waiting', note:'' } ] },
+  { id:1, employe:'Ahmed Ben Ali', type:'Télétravail', motif:'Plomberie à régler à domicile', steps:[ { label:'Soumission', date:'10 Mar 2026', state:'done', note:'Envoyée' }, { label:'Manager\n(N1)', date:null, state:'active', note:'Votre action requise' }, { label:'RH\n(N2)', date:null, state:'waiting', note:'' }, { label:'Décision\nfinale', date:null, state:'waiting', note:'' } ] },
+  { id:2, employe:'Fatima Khelil', type:'Congé', motif:'Vacances planifiées', steps:[ { label:'Soumission', date:'08 Mar 2026', state:'done', note:'Envoyée' }, { label:'Manager\n(N1)', date:null, state:'active', note:'Votre action requise' }, { label:'RH\n(N2)', date:null, state:'waiting', note:'' }, { label:'Décision\nfinale', date:null, state:'waiting', note:'' } ] },
+  { id:3, employe:'Nadia Ben Salah', type:'Télétravail', motif:'Rendez-vous médical matin', steps:[ { label:'Soumission', date:'12 Mar 2026', state:'done', note:'Envoyée' }, { label:'Manager\n(N1)', date:null, state:'active', note:'Votre action requise' }, { label:'RH\n(N2)', date:null, state:'waiting', note:'' }, { label:'Décision\nfinale', date:null, state:'waiting', note:'' } ] },
+  { id:4, employe:'Karim Zouari', type:'Congé', motif:'Mariage dans la famille', steps:[ { label:'Soumission', date:'09 Mar 2026', state:'done', note:'Envoyée' }, { label:'Manager\n(N1)', date:null, state:'active', note:'Votre action requise' }, { label:'RH\n(N2)', date:null, state:'waiting', note:'' }, { label:'Décision\nfinale', date:null, state:'waiting', note:'' } ] },
 ];
-
 const titles = { dashboard:'Tableau de bord Manager', presence:'Présence de l\'équipe', planning:'Planification équipe', validation:'Validation demandes N1', equipe:'Rapports équipe', rapports:'Générer rapports', tableaux:'Tableaux de bord' };
 const today = new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'});
 
@@ -450,72 +439,61 @@ function show(sec, btn) {
   if (sec==='equipe')     renderKPI();
   if (sec==='presence')   renderPresence('all');
 }
+document.getElementById('pageDate').textContent = new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 
-document.getElementById('pageDate').textContent =
-  new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-
-// ── PRÉSENCE TEMPS RÉEL ───────────────────────────────────────────────────
-let currentFilter = 'all';
+/* ── DROPDOWN & LOGOUT ── */
+function toggleDropdown(e){e.stopPropagation();document.getElementById('settingsDropdown').classList.toggle('open');}
+function closeDropdown(){document.getElementById('settingsDropdown').classList.remove('open');}
+document.addEventListener('click',()=>closeDropdown());
+function openLogout(){closeDropdown();document.getElementById('logoutOverlay').classList.add('show');}
+function closeLogout(){document.getElementById('logoutOverlay').classList.remove('show');}
+function confirmLogout(){
+  document.getElementById('logoutOverlay').innerHTML='<div class="logout-modal"><span class="lm-icon">✅</span><h3 style="color:#96CEB4">Déconnexion réussie</h3><p>À bientôt, Mohamed.<br>Redirection vers la page de connexion…</p></div>';
+  setTimeout(function(){window.location.href='file:///C:/Users/user/Downloads/interfaceTT/index.html';},1500);
+}
 
 function statusClass(s) { return {present:'status-present',remote:'status-remote',absent:'status-absent',off:'status-off'}[s]||'status-off'; }
 function statusLabel(s) { return {present:'🏢 Présentiel',remote:'🏡 Télétravail',absent:'❌ Absent',off:'🌴 Congé'}[s]||'—'; }
 function wmClass(s)     { return {present:'wm-p',remote:'wm-r',absent:'wm-a',off:'wm-o'}[s]||'wm-o'; }
 function wmLabel(s)     { return {present:'P',remote:'TT',absent:'A',off:'—'}[s]||'—'; }
+let currentFilter = 'all';
 
 function renderPresence(filter) {
   currentFilter = filter;
   const filtered = filter === 'all' ? teamMembers : teamMembers.filter(m => m.statut === filter);
-
   document.getElementById('presNum').textContent = teamMembers.filter(m=>m.statut==='present').length;
   document.getElementById('remNum').textContent  = teamMembers.filter(m=>m.statut==='remote').length;
   document.getElementById('absNum').textContent  = teamMembers.filter(m=>m.statut==='absent').length;
   document.getElementById('offNum').textContent  = teamMembers.filter(m=>m.statut==='off').length;
   document.getElementById('badgeTT').textContent = teamMembers.filter(m=>m.statut==='remote').length;
-
   document.getElementById('presenceList').innerHTML = filtered.map(m => `
     <div class="emp-presence-card">
       <div class="emp-avatar" style="background:${m.avatar};">${m.nom[0]}</div>
-      <div class="emp-info">
-        <div class="emp-name">${m.nom}</div>
-        <div class="emp-role">${m.poste}</div>
-        <div class="emp-location" style="margin-top:4px">📍 ${m.lieu}</div>
-      </div>
+      <div class="emp-info"><div class="emp-name">${m.nom}</div><div class="emp-role">${m.poste}</div><div style="margin-top:4px;font-size:.72rem;color:var(--muted)">📍 ${m.lieu}</div></div>
       <div class="emp-status-block">
         <span class="emp-status-badge ${statusClass(m.statut)}">${statusLabel(m.statut)}</span>
-        <div class="emp-since">
-          ${m.heure !== '—' ? `<span class="live-dot" style="width:5px;height:5px"></span>Connecté depuis ${m.heure}` : m.statut === 'off' ? '🌴 Absent toute la journée' : '—'}
-        </div>
+        <div class="emp-since">${m.heure!=='—'?'<span class="live-dot" style="width:5px;height:5px"></span>Connecté depuis '+m.heure:m.statut==='off'?'🌴 Absent toute la journée':'—'}</div>
       </div>
     </div>`).join('');
-
-  // Vue hebdomadaire
-  document.getElementById('weekMapBody').innerHTML = teamMembers.map(m => `
-    <tr>
-      <td><div style="font-weight:700;font-size:.83rem">${m.nom}</div><div style="font-size:.7rem;color:var(--muted)">${m.poste}</div></td>
-      ${m.week.map((s,i) => `<td style="${i===4?'background:rgba(69,183,209,.04)':''};text-align:center"><span class="${wmClass(s)}">${wmLabel(s)}</span></td>`).join('')}
-    </tr>`).join('');
+  document.getElementById('weekMapBody').innerHTML = teamMembers.map(m=>`
+    <tr><td><div style="font-weight:700;font-size:.83rem">${m.nom}</div><div style="font-size:.7rem;color:var(--muted)">${m.poste}</div></td>
+    ${m.week.map((s,i)=>`<td style="${i===4?'background:rgba(69,183,209,.04)':''}text-align:center"><span class="${wmClass(s)}">${wmLabel(s)}</span></td>`).join('')}</tr>`).join('');
 }
-
 function filterPresence(type, btn) {
   document.querySelectorAll('.pf-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderPresence(type);
+  btn.classList.add('active'); renderPresence(type);
 }
-
 function refreshPresence() {
-  const btn = event.target;
-  btn.textContent = '⏳ Actualisation...';
-  btn.disabled = true;
-  setTimeout(() => { btn.textContent = '🔄 Actualiser'; btn.disabled = false; renderPresence(currentFilter); }, 1200);
+  const btn = event.target; btn.textContent='⏳ Actualisation...'; btn.disabled=true;
+  setTimeout(()=>{btn.textContent='🔄 Actualiser';btn.disabled=false;renderPresence(currentFilter);},1200);
 }
 
-// ── VALIDATION ────────────────────────────────────────────────────────────
-const dotIcon = s => ({ done:'✓', active:'▶', pending:'⏳', refused:'✗', waiting:'○' }[s] || '?');
-const dateColor = s => ({ done:'green', active:'blue', refused:'red', waiting:'muted', pending:'yellow' }[s]);
+const dotIcon = s => ({done:'✓',active:'▶',pending:'⏳',refused:'✗',waiting:'○'}[s]||'?');
+const dateColor = s => ({done:'green',active:'blue',refused:'red',waiting:'muted',pending:'yellow'}[s]);
 
 function buildTimeline(steps) {
-  return steps.map(s => {
-    const lineColor = s.state==='done'?'#96CEB4':s.state==='refused'?'#ff6b6b':'var(--border)';
+  return steps.map(s=>{
+    const lineColor=s.state==='done'?'#96CEB4':s.state==='refused'?'#ff6b6b':'var(--border)';
     return `<div class="tl-step ${s.state==='done'?'done':''}" style="--line-color:${lineColor}">
       <div class="tl-dot ${s.state}">${dotIcon(s.state)}</div>
       <div class="tl-label">${s.label.replace(/\n/,'<br>')}</div>
@@ -526,35 +504,32 @@ function buildTimeline(steps) {
 }
 
 function renderValidation() {
-  const pending = demandes.filter(d => d.steps[1].state==='active'||d.steps[1].state==='pending');
+  const pending = demandes.filter(d=>d.steps[1].state==='active'||d.steps[1].state==='pending');
   document.getElementById('validationList').innerHTML = pending.length
-    ? pending.map(d=>`<div class="demand-card" id="dc-${d.id}">
+    ? pending.map(d=>`<div class="demand-card">
         <div class="demand-meta">
-          <div>
-            <div style="font-weight:700;font-size:.98rem">${d.employe}</div>
-            <div style="font-size:.78rem;color:var(--muted);margin-top:2px">📌 ${d.type}</div>
-            <div style="font-size:.76rem;color:rgba(255,255,255,.45);margin-top:5px">💬 ${d.motif}</div>
-          </div>
+          <div><div style="font-weight:700;font-size:.98rem">${d.employe}</div>
+          <div style="font-size:.78rem;color:var(--muted);margin-top:2px">📌 ${d.type}</div>
+          <div style="font-size:.76rem;color:rgba(255,255,255,.45);margin-top:5px">💬 ${d.motif}</div></div>
           <span class="status-pill pill-yellow">⏳ En attente</span>
         </div>
         <div class="timeline">${buildTimeline(d.steps)}</div>
         <div class="demand-actions">
           <button class="btn-validate" onclick="actVal(${d.id},'done')">✓ Valider N1 → transmettre au RH</button>
           <button class="btn-refuse" onclick="actVal(${d.id},'refused')">✗ Refuser</button>
-        </div>
-      </div>`).join('')
+        </div></div>`).join('')
     : '<div style="text-align:center;color:var(--muted);padding:32px;background:var(--card);border-radius:14px;border:1px solid var(--border)">✅ Aucune demande en attente</div>';
   document.getElementById('badgeN1').textContent = pending.length;
   document.getElementById('dashCount').textContent = pending.length;
 }
 
 function actVal(id, action) {
-  demandes = demandes.map(d => {
-    if (d.id!==id) return d;
+  demandes = demandes.map(d=>{
+    if(d.id!==id) return d;
     const s=[...d.steps];
-    if (action==='done') { s[1]={...s[1],state:'done',date:today,note:'Validé ✓'}; s[2]={...s[2],state:'pending',note:'Transmis au RH'}; }
-    else { s[1]={...s[1],state:'refused',date:today,note:'Refusé ✗'}; s[3]={...s[3],state:'refused',note:'Clôturé'}; }
-    return { ...d, steps:s };
+    if(action==='done'){s[1]={...s[1],state:'done',date:today,note:'Validé ✓'};s[2]={...s[2],state:'pending',note:'Transmis au RH'};}
+    else{s[1]={...s[1],state:'refused',date:today,note:'Refusé ✗'};s[3]={...s[3],state:'refused',note:'Clôturé'};}
+    return {...d,steps:s};
   });
   renderValidation();
 }
@@ -563,8 +538,7 @@ function renderDashboard() {
   document.getElementById('dashDemandes').innerHTML = demandes.slice(0,3).map(d=>`
     <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)">
       <div><div style="font-weight:600;font-size:.85rem">${d.employe}</div><div style="font-size:.74rem;color:var(--muted)">${d.type}</div></div>
-      <span class="badge badge-yellow">En attente</span>
-    </div>`).join('');
+      <span class="badge badge-yellow">En attente</span></div>`).join('');
   document.getElementById('dashEquipe').innerHTML = teamMembers.slice(0,5).map(m=>`
     <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)">
       <div style="display:flex;align-items:center;gap:10px">
@@ -578,11 +552,9 @@ function renderDashboard() {
 function renderKPI() {
   const kpis=[{label:'Taux de présence',pct:94,color:'#96CEB4'},{label:'Tâches complétées',pct:83,color:'#45B7D1'},{label:'Objectifs atteints',pct:80,color:'#FFE66D'},{label:'Satisfaction équipe',pct:88,color:'#FF6B35'}];
   document.getElementById('kpiSection').innerHTML = kpis.map(k=>`
-    <div class="kpi-row">
-      <div class="kpi-label">${k.label}</div>
-      <div class="kpi-bar-wrap"><div class="kpi-bar" style="width:${k.pct}%;background:${k.color}"></div></div>
-      <div class="kpi-pct">${k.pct}%</div>
-    </div>`).join('');
+    <div class="kpi-row"><div class="kpi-label">${k.label}</div>
+    <div class="kpi-bar-wrap"><div class="kpi-bar" style="width:${k.pct}%;background:${k.color}"></div></div>
+    <div class="kpi-pct">${k.pct}%</div></div>`).join('');
 }
 
 const slotClass = s => s==='present'?'slot-present':s==='remote'?'slot-remote':'slot-off';
@@ -591,15 +563,12 @@ const slotCycle = s => s==='present'?'remote':s==='remote'?'off':'present';
 
 function renderPlanning() {
   document.getElementById('planningBody').innerHTML = team.map((e,ri)=>`
-    <tr>
-      <td class="emp-cell"><div style="font-weight:700">${e.nom}</div><div style="font-size:.72rem;color:var(--muted)">${e.poste}</div></td>
-      ${planningState[ri].map((s,ci)=>`<td style="text-align:center${ci===4?';background:rgba(69,183,209,.04)':''}""><span class="slot ${slotClass(s)}" onclick="cycleSlot(${ri},${ci})">${slotLabel(s)}</span></td>`).join('')}
-    </tr>`).join('');
+    <tr><td class="emp-cell"><div style="font-weight:700">${e.nom}</div><div style="font-size:.72rem;color:var(--muted)">${e.poste}</div></td>
+    ${planningState[ri].map((s,ci)=>`<td style="text-align:center${ci===4?';background:rgba(69,183,209,.04)':''}"><span class="slot ${slotClass(s)}" onclick="cycleSlot(${ri},${ci})">${slotLabel(s)}</span></td>`).join('')}</tr>`).join('');
 }
-
-function cycleSlot(ri,ci) { planningState[ri][ci]=slotCycle(planningState[ri][ci]); renderPlanning(); }
-function savePlanning() { const m=document.getElementById('planningMsg'); m.style.display='block'; setTimeout(()=>m.style.display='none',3000); }
-function genReport(btn) { btn.textContent='⏳ Génération...'; btn.disabled=true; setTimeout(()=>{btn.textContent='✅ Rapport prêt !'; setTimeout(()=>{btn.textContent='Générer PDF'; btn.disabled=false;},2500);},1500); }
+function cycleSlot(ri,ci){planningState[ri][ci]=slotCycle(planningState[ri][ci]);renderPlanning();}
+function savePlanning(){const m=document.getElementById('planningMsg');m.style.display='block';setTimeout(()=>m.style.display='none',3000);}
+function genReport(btn){btn.textContent='⏳ Génération...';btn.disabled=true;setTimeout(()=>{btn.textContent='✅ Rapport prêt !';setTimeout(()=>{btn.textContent='Générer PDF';btn.disabled=false;},2500);},1500);}
 
 renderDashboard();
 </script>
