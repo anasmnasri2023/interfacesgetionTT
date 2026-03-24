@@ -94,82 +94,119 @@
 
   .card-title {
     font-family:'Syne',sans-serif;
-    font-size:1rem; font-weight:600;
-    color:rgba(255,255,255,.5);
+    font-size:1.2rem; font-weight:700;
+    color:rgba(255,255,255,.8);
     text-align:center;
-    margin-bottom:24px;
-    text-transform:uppercase;
-    letter-spacing:2px;
-  }
-
-  .roles {
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
     margin-bottom:28px;
   }
 
-  .role-btn {
-    background:rgba(255,255,255,.04);
+  .form-group {
+    margin-bottom:24px;
+  }
+
+  .form-group label {
+    display:block;
+    margin-bottom:8px;
+    font-size:0.85rem;
+    font-weight:500;
+    color:rgba(255,255,255,.6);
+    letter-spacing:0.5px;
+  }
+
+  .form-group input {
+    width:100%;
+    padding:14px 16px;
+    background:rgba(255,255,255,.05);
     border:2px solid rgba(255,255,255,.08);
-    border-radius:16px;
-    padding:20px 12px;
-    cursor:pointer;
-    text-align:center;
-    transition:all .25s ease;
+    border-radius:12px;
     color:#fff;
     font-family:'DM Sans',sans-serif;
-    position:relative;
-    overflow:hidden;
+    font-size:1rem;
+    transition:all .25s ease;
   }
-  .role-btn::after {
-    content:'';
-    position:absolute; inset:0;
-    background:var(--c);
-    opacity:0;
-    transition:opacity .25s;
-  }
-  .role-btn:hover { border-color:var(--c); transform:translateY(-2px); }
-  .role-btn:hover::after { opacity:.07; }
-  .role-btn.active { border-color:var(--c); background:rgba(var(--cr),.12); }
-  .role-btn.active::after { opacity:.12; }
 
-  .role-icon { font-size:1.8rem; margin-bottom:8px; position:relative; z-index:1; }
-  .role-name {
-    font-size:.82rem; font-weight:600;
-    position:relative; z-index:1;
-    transition:color .25s;
+  .form-group input:focus {
+    outline:none;
+    border-color:var(--border-focus, #FF6B35);
+    background:rgba(255,255,255,.08);
   }
-  .role-btn.active .role-name { color:var(--c); }
+
+  .form-group input::placeholder {
+    color:rgba(255,255,255,.3);
+  }
 
   .login-btn {
     width:100%;
-    padding:15px;
-    background:rgba(255,255,255,.08);
-    border:1px solid rgba(255,255,255,.12);
+    padding:16px;
+    background:linear-gradient(135deg, #FF6B35, #FF8C5A);
+    border:none;
     border-radius:12px;
-    color:rgba(255,255,255,.4);
+    color:#fff;
     font-family:'Syne',sans-serif;
-    font-weight:700; font-size:.95rem;
-    cursor:not-allowed;
+    font-weight:700;
+    font-size:1rem;
+    cursor:pointer;
     transition:all .3s;
     letter-spacing:.5px;
+    box-shadow:0 4px 15px rgba(255,107,53,.3);
   }
-  .login-btn.ready {
-    background:var(--c,#FF6B35);
-    border-color:transparent;
-    color:#fff;
-    cursor:pointer;
-    box-shadow:0 6px 24px rgba(0,0,0,.3);
+
+  .login-btn:hover {
+    transform:translateY(-2px);
+    box-shadow:0 6px 20px rgba(255,107,53,.4);
   }
-  .login-btn.ready:hover { filter:brightness(1.1); transform:translateY(-1px); }
+
+  .login-btn:active {
+    transform:translateY(0);
+  }
+
+  .error-message {
+    background:rgba(255,70,70,.2);
+    border:1px solid rgba(255,70,70,.3);
+    border-radius:12px;
+    padding:12px;
+    margin-bottom:20px;
+    color:#ff6b6b;
+    font-size:0.85rem;
+    text-align:center;
+    display:none;
+  }
 
   .divider {
     text-align:center;
     color:rgba(255,255,255,.2);
     font-size:.78rem;
-    margin-top:20px;
+    margin-top:24px;
   }
+
+  .demo-credentials {
+    margin-top:20px;
+    padding:12px;
+    background:rgba(255,255,255,.03);
+    border-radius:12px;
+    font-size:0.75rem;
+    color:rgba(255,255,255,.4);
+    text-align:center;
+  }
+
+  .demo-credentials span {
+    color:#FF6B35;
+    font-weight:600;
+  }
+
+  .demo-credentials .role-badge {
+    display:inline-block;
+    margin:4px 6px;
+    padding:2px 8px;
+    border-radius:6px;
+    font-size:0.7rem;
+    font-weight:600;
+  }
+
+  .role-admin { color:#FF6B35; }
+  .role-rh { color:#4ECDC4; }
+  .role-manager { color:#45B7D1; }
+  .role-employe { color:#96CEB4; }
 </style>
 </head>
 <body>
@@ -183,70 +220,128 @@
   </div>
 
   <div class="card">
-    <div class="card-title">Choisissez votre profil</div>
+    <div class="card-title">🔐 Accès sécurisé</div>
 
-    <div class="roles">
-      <button class="role-btn" style="--c:var(--admin);--cr:255,107,53"
-        onclick="selectRole(this,'admin','admin.html')" data-file="admin.html">
-        <div class="role-icon">⚙️</div>
-        <div class="role-name">Administrateur</div>
-      </button>
-      <button class="role-btn" style="--c:var(--rh);--cr:78,205,196"
-        onclick="selectRole(this,'rh','rh.html')" data-file="rh.html">
-        <div class="role-icon">👥</div>
-        <div class="role-name">RH</div>
-      </button>
-      <button class="role-btn" style="--c:var(--manager);--cr:69,183,209"
-        onclick="selectRole(this,'manager','manager.html')" data-file="manager.html">
-        <div class="role-icon">📊</div>
-        <div class="role-name">Manager</div>
-      </button>
-      <button class="role-btn" style="--c:var(--employe);--cr:150,206,180"
-        onclick="selectRole(this,'employe','employe.html')" data-file="employe.html">
-        <div class="role-icon">👤</div>
-        <div class="role-name">Employé</div>
-      </button>
+    <div class="error-message" id="errorMessage">
+      ⚠️ Identifiants incorrects. Veuillez vérifier vos informations.
     </div>
 
-    <button class="login-btn" id="loginBtn" disabled>Sélectionnez un profil</button>
-    <div class="divider">Authentification sécurisée •STUDIAAFRIQUE v2.6</div>
+    <div class="form-group">
+      <label>👤 Nom</label>
+      <input type="text" id="nom" placeholder="Votre nom" autocomplete="off">
+    </div>
+
+    <div class="form-group">
+      <label>📧 Prénom / Email</label>
+      <input type="text" id="prenom" placeholder="Votre prénom ou email" autocomplete="off">
+    </div>
+
+    <button class="login-btn" id="loginBtn">Se connecter</button>
+
+    
+
+    <div class="divider">Authentification sécurisée • STUDIAAFRIQUE v2.6</div>
   </div>
 </div>
 
 <script>
-  let selectedFile = null;
-  let selectedColor = null;
-  let selectedLabel = null;
+  // Base de données des utilisateurs avec leurs rôles respectifs
+  const users = [
+    { nom: 'admin', prenom: 'admin', role: 'admin', file: 'admin.html', displayRole: 'Administrateur' },
+    { nom: 'nada', prenom: 'nada', role: 'rh', file: 'rh.html', displayRole: 'Ressources Humaines' },
+    { nom: 'anas', prenom: 'anas', role: 'manager', file: 'manager.html', displayRole: 'Manager' },
+    { nom: 'messi', prenom: 'messi', role: 'employe', file: 'employe.html', displayRole: 'Employé' }
+  ];
 
-  const colors = {
-    admin:   '#FF6B35',
-    rh:      '#4ECDC4',
-    manager: '#45B7D1',
-    employe: '#96CEB4',
-  };
-  const labels = {
-    admin:   'Administrateur',
-    rh:      'RH',
-    manager: 'Manager',
-    employe: 'Employé',
-  };
-
-  function selectRole(btn, role, file) {
-    document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    selectedFile = file;
-    selectedColor = colors[role];
-    selectedLabel = labels[role];
-
-    const loginBtn = document.getElementById('loginBtn');
-    loginBtn.disabled = false;
-    loginBtn.classList.add('ready');
-    loginBtn.style.setProperty('--c', selectedColor);
-    loginBtn.textContent = `Accéder — ${selectedLabel}`;
+  // Masquer le message d'erreur
+  function hideError() {
+    const errorDiv = document.getElementById('errorMessage');
+    errorDiv.style.display = 'none';
   }
 
-  document.getElementById('loginBtn').addEventListener('click', () => {
-    if (selectedFile) window.location.href = selectedFile;
+  // Afficher le message d'erreur
+  function showError(message) {
+    const errorDiv = document.getElementById('errorMessage');
+    errorDiv.innerHTML = message || '⚠️ Identifiants incorrects. Veuillez vérifier vos informations.';
+    errorDiv.style.display = 'block';
+    setTimeout(() => {
+      errorDiv.style.opacity = '0';
+      setTimeout(() => {
+        errorDiv.style.display = 'none';
+        errorDiv.style.opacity = '1';
+        errorDiv.innerHTML = '⚠️ Identifiants incorrects. Veuillez vérifier vos informations.';
+      }, 300);
+    }, 3000);
+  }
+
+  // Vérifier les identifiants et retourner l'utilisateur correspondant
+  function authenticateUser(nom, prenom) {
+    return users.find(user => 
+      user.nom.toLowerCase() === nom.toLowerCase() && 
+      user.prenom.toLowerCase() === prenom.toLowerCase()
+    );
+  }
+
+  // Gérer la connexion
+  function handleLogin() {
+    const nomInput = document.getElementById('nom');
+    const prenomInput = document.getElementById('prenom');
+    
+    const nom = nomInput.value.trim();
+    const prenom = prenomInput.value.trim();
+    
+    // Vérifier si tous les champs sont remplis
+    if (!nom || !prenom) {
+      showError('⚠️ Veuillez remplir tous les champs (Nom et Prénom/Email)');
+      return;
+    }
+    
+    // Authentifier l'utilisateur
+    const user = authenticateUser(nom, prenom);
+    
+    if (user) {
+      // Stocker les informations de l'utilisateur dans sessionStorage
+      sessionStorage.setItem('user', JSON.stringify({
+        nom: user.nom,
+        prenom: user.prenom,
+        role: user.role,
+        displayRole: user.displayRole,
+        email: `${user.prenom}@studiaafrique.com`,
+        loginTime: new Date().toISOString()
+      }));
+      
+      // Redirection vers la page correspondante
+      window.location.href = user.file;
+    } else {
+      // Message d'erreur personnalisé selon le rôle essayé
+      const lowerNom = nom.toLowerCase();
+      const lowerPrenom = prenom.toLowerCase();
+      
+      // Vérifier si le nom existe mais avec un mauvais prénom
+      const userByNom = users.find(u => u.nom.toLowerCase() === lowerNom);
+      if (userByNom) {
+        showError(`⚠️ "Prénom" incorrect pour ${userByNom.displayRole}. Vérifiez vos identifiants.`);
+      } else {
+        const userByPrenom = users.find(u => u.prenom.toLowerCase() === lowerPrenom);
+        if (userByPrenom) {
+          showError(`⚠️ "Nom" incorrect pour ${userByPrenom.displayRole}. Vérifiez vos identifiants.`);
+        } else {
+          showError('⚠️ Identifiants non reconnus. Veuillez utiliser les comptes de démonstration.');
+        }
+      }
+    }
+  }
+
+  // Ajouter l'événement de connexion
+  document.getElementById('loginBtn').addEventListener('click', handleLogin);
+
+  // Ajouter l'événement Enter sur les champs
+  document.getElementById('nom').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') handleLogin();
+  });
+  
+  document.getElementById('prenom').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') handleLogin();
   });
 </script>
 </body>
