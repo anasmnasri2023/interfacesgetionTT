@@ -183,6 +183,18 @@ nav { flex:1; padding:16px 10px; overflow-y:auto; }
 .kpi-bar { height:100%; border-radius:4px; }
 .kpi-pct { font-size:.78rem; color:var(--muted); width:40px; text-align:right; }
 
+/* ── NOTIFICATIONS PANEL ── */
+.notifications-panel { position:absolute; top:100%; right:0; width:360px; background:var(--card); border:1px solid var(--border); border-radius:16px; margin-top:8px; box-shadow:var(--shadow); display:none; z-index:1000; max-height:500px; overflow-y:auto; }
+.notifications-panel.open { display:block; animation:fadeMenuIn .2s ease; }
+.notif-header { padding:16px; border-bottom:1px solid var(--border); font-weight:700; display:flex; justify-content:space-between; align-items:center; }
+.notif-item { padding:14px 16px; border-bottom:1px solid var(--border); cursor:pointer; transition:background .2s; }
+.notif-item:hover { background:var(--row-hover); }
+.notif-item.new { border-left:3px solid #45B7D1; }
+.notif-title { font-weight:600; font-size:.85rem; margin-bottom:4px; }
+.notif-detail { font-size:.75rem; color:var(--muted); margin-bottom:4px; }
+.notif-time { font-size:.7rem; color:var(--muted); }
+.notif-badge { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:8px; background:#45B7D1; }
+
 table { width:100%; border-collapse:collapse; }
 th { padding:12px 14px; text-align:left; color:var(--muted); font-size:.75rem; font-weight:700; text-transform:uppercase; letter-spacing:.8px; border-bottom:1px solid var(--border); }
 td { padding:13px 14px; font-size:.85rem; border-bottom:1px solid var(--border); }
@@ -243,10 +255,19 @@ tr:hover td { background:var(--row-hover); }
           <span class="icon-sun">☀️</span>
           <span class="icon-moon">🌙</span>
         </button>
-        <button class="topbar-icon-btn" title="Notifications">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
-          <span class="notif-dot"></span>
-        </button>
+        <div style="position:relative">
+          <button class="topbar-icon-btn" onclick="toggleNotifications(event)" title="Notifications">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+            <span class="notif-dot" id="notifDot"></span>
+          </button>
+          <div class="notifications-panel" id="notificationsPanel">
+            <div class="notif-header">
+              <span>🔔 Notifications</span>
+              <button style="background:none;border:none;color:var(--muted);cursor:pointer" onclick="clearNotifications()">Tout marquer lu</button>
+            </div>
+            <div id="notificationsList"></div>
+          </div>
+        </div>
         <div class="topbar-divider"></div>
         <div class="topbar-avatar-btn" style="background:linear-gradient(135deg,#45B7D1,#63cce0);border:2px solid #45B7D1">MT</div>
         <div class="dropdown-wrapper">
@@ -302,9 +323,10 @@ tr:hover td { background:var(--row-hover); }
       <div class="panel">
         <div style="overflow-x:auto">
           <table class="planning-table">
-            <thead><tr><th>Employé</th><th>Lundi</th><th>Mardi</th><th>Mercredi</th><th>Jeudi</th><th style="color:var(--accent)">Vendredi ★</th></tr></thead>
+            <thead> transduction<th>Employé</th><th>Lundi</th><th>Mardi</th><th>Mercredi</th><th>Jeudi</th><th style="color:var(--accent)">Vendredi ★</th></tr>
+            </thead>
             <tbody id="planningBody"></tbody>
-          </table>
+           </table>
         </div>
         <div style="display:flex;gap:16px;margin-top:16px;font-size:.78rem">
           <span><span class="slot slot-present" style="display:inline-block;width:80px;margin-right:6px">Présentiel</span></span>
@@ -359,6 +381,110 @@ tr:hover td { background:var(--row-hover); }
 </div>
 
 <script>
+// ==================== NOTIFICATIONS ====================
+let notifications = [
+  {
+    id: 1,
+    employe: "Ahmed Ben Ali",
+    date: "10 Mars 2026",
+    motif: "Plomberie à régler à domicile",
+    message: "📝 Ahmed Ben Ali a soumis une demande de télétravail",
+    time: "Il y a 2 heures",
+    isNew: true
+  },
+  {
+    id: 2,
+    employe: "Fatima Khelil",
+    date: "08 Mars 2026",
+    motif: "Environnement de travail calme",
+    message: "📝 Fatima Khelil a soumis une demande de télétravail",
+    time: "Il y a 1 jour",
+    isNew: false
+  },
+  {
+    id: 3,
+    employe: "Nadia Ben Salah",
+    date: "12 Mars 2026",
+    motif: "Rendez-vous médical matin",
+    message: "📝 Nadia Ben Salah a soumis une demande de télétravail",
+    time: "Il y a 30 minutes",
+    isNew: true
+  },
+  {
+    id: 4,
+    employe: "Karim Zouari",
+    date: "09 Mars 2026",
+    motif: "Travail de concentration requis",
+    message: "📝 Karim Zouari a soumis une demande de télétravail",
+    time: "Il y a 1 heure",
+    isNew: true
+  }
+];
+
+let unreadCount = notifications.filter(n => n.isNew).length;
+
+function toggleNotifications(event) {
+  event.stopPropagation();
+  const panel = document.getElementById('notificationsPanel');
+  panel.classList.toggle('open');
+  renderNotifications();
+}
+
+function renderNotifications() {
+  const container = document.getElementById('notificationsList');
+  if (notifications.length === 0) {
+    container.innerHTML = '<div style="padding:20px;text-align:center;color:var(--muted)">Aucune notification</div>';
+    document.getElementById('notifDot').style.display = 'none';
+    return;
+  }
+  
+  container.innerHTML = notifications.map(notif => `
+    <div class="notif-item ${notif.isNew ? 'new' : ''}" onclick="markAsRead(${notif.id})">
+      <div class="notif-title">
+        <span class="notif-badge"></span>
+        ${notif.message}
+      </div>
+      <div class="notif-detail">📅 Date : ${notif.date} • 💬 ${notif.motif}</div>
+      <div class="notif-time">${notif.time}</div>
+    </div>
+  `).join('');
+  
+  document.getElementById('notifDot').style.display = unreadCount > 0 ? 'block' : 'none';
+}
+
+function markAsRead(id) {
+  notifications = notifications.map(n => 
+    n.id === id ? { ...n, isNew: false } : n
+  );
+  unreadCount = notifications.filter(n => n.isNew).length;
+  renderNotifications();
+}
+
+function clearNotifications() {
+  notifications = notifications.map(n => ({ ...n, isNew: false }));
+  unreadCount = 0;
+  renderNotifications();
+  document.getElementById('notificationsPanel').classList.remove('open');
+  showToast('🔔 Toutes les notifications ont été marquées comme lues');
+}
+
+function addNotification(employe, date, motif) {
+  const newNotif = {
+    id: Date.now(),
+    employe: employe,
+    date: date,
+    motif: motif,
+    message: `📝 ${employe} a soumis une demande de télétravail`,
+    time: "À l'instant",
+    isNew: true
+  };
+  notifications.unshift(newNotif);
+  unreadCount++;
+  renderNotifications();
+  showToast(`🔔 Nouvelle demande de ${employe}`);
+}
+
+// ==================== FONCTIONS EXISTANTES ====================
 function toggleDarkMode() {
   const html = document.documentElement;
   const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
@@ -383,7 +509,7 @@ function showToast(msg) {
 
 function toggleDropdown(e) { e.stopPropagation(); document.getElementById('settingsDropdown').classList.toggle('open'); }
 function closeDropdown() { document.getElementById('settingsDropdown').classList.remove('open'); }
-document.addEventListener('click', () => closeDropdown());
+document.addEventListener('click', () => { closeDropdown(); document.getElementById('notificationsPanel').classList.remove('open'); });
 function openLogout() { closeDropdown(); document.getElementById('logoutOverlay').classList.add('show'); }
 function closeLogout() { document.getElementById('logoutOverlay').classList.remove('show'); }
 function confirmLogout() {
@@ -478,6 +604,11 @@ function renderValidation() {
 }
 
 function actVal(id, action) {
+  const demande = demandes.find(d => d.id === id);
+  if (action === 'done' && demande) {
+    addNotification(demande.employe, demande.steps[0].date, demande.motif);
+  }
+  
   demandes = demandes.map(d => {
     if (d.id!==id) return d;
     const s = [...d.steps];
@@ -537,6 +668,7 @@ function renderKPI() {
 }
 
 renderDashboard();
+renderNotifications();
 </script>
 </body>
 </html>

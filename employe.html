@@ -159,7 +159,6 @@ nav { flex:1; padding:16px 10px; overflow-y:auto; }
 .form-input, .form-select, .form-textarea { width:100%; padding:10px 14px; background:var(--input-bg); border:1px solid var(--border); border-radius:10px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:.87rem; outline:none; transition:border-color .2s; }
 .form-input:focus, .form-select:focus, .form-textarea:focus { border-color:var(--accent); }
 .form-textarea { min-height:80px; resize:vertical; }
-.form-select option { background:var(--bg2); }
 .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
 
 /* ── CAPACITY BANNER ── */
@@ -229,6 +228,18 @@ nav { flex:1; padding:16px 10px; overflow-y:auto; }
 .slot-present { display:inline-block; padding:4px 10px; border-radius:6px; font-size:.73rem; font-weight:600; background:rgba(150,206,180,.2); color:#96CEB4; }
 .slot-off     { display:inline-block; padding:4px 10px; border-radius:6px; font-size:.73rem; font-weight:600; background:var(--input-bg); color:var(--muted); }
 
+/* ── NOTIFICATIONS ── */
+.notifications-panel { position:absolute; top:100%; right:0; width:380px; background:var(--card); border:1px solid var(--border); border-radius:16px; margin-top:8px; box-shadow:var(--shadow); display:none; z-index:1000; max-height:500px; overflow-y:auto; }
+.notifications-panel.open { display:block; animation:fadeMenuIn .2s ease; }
+.notif-header { padding:16px; border-bottom:1px solid var(--border); font-weight:700; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; background:var(--card); z-index:1; }
+.notif-item { padding:14px 16px; border-bottom:1px solid var(--border); cursor:pointer; transition:all .2s; }
+.notif-item:hover { background:var(--row-hover); transform:translateX(2px); }
+.notif-title { font-weight:700; font-size:.85rem; margin-bottom:6px; display:flex; align-items:center; gap:8px; }
+.notif-icon { font-size:1rem; }
+.notif-message { font-size:.8rem; margin-bottom:4px; color:var(--text); }
+.notif-detail { font-size:.73rem; color:var(--muted); margin-bottom:6px; }
+.notif-time { font-size:.68rem; color:var(--muted); }
+
 /* ── TOAST ── */
 .toast { position:fixed; bottom:28px; right:28px; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:14px 20px; display:flex; align-items:center; gap:12px; font-size:.85rem; font-weight:500; color:var(--text); box-shadow:0 8px 28px rgba(0,0,0,.18); z-index:8888; animation:slideToast .4s cubic-bezier(.34,1.56,.64,1); }
 .toast.out { animation:slideToastOut .3s ease forwards; }
@@ -297,15 +308,30 @@ nav { flex:1; padding:16px 10px; overflow-y:auto; }
           <span class="icon-sun">☀️</span>
           <span class="icon-moon">🌙</span>
         </button>
-        <button class="topbar-icon-btn" title="Notifications">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
-          <span class="notif-dot"></span>
-        </button>
+        <div style="position:relative">
+          <button class="topbar-icon-btn" onclick="toggleNotifications(event)" title="Notifications">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
+              <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+            </svg>
+            <span class="notif-dot" id="notifDot"></span>
+          </button>
+          <div class="notifications-panel" id="notificationsPanel">
+            <div class="notif-header">
+              <span>🔔 Notifications</span>
+              <button style="background:none;border:none;color:var(--muted);cursor:pointer" onclick="clearAllNotifications()">Tout marquer lu</button>
+            </div>
+            <div id="notificationsList"></div>
+          </div>
+        </div>
         <div class="topbar-divider"></div>
         <div class="topbar-avatar-btn" style="background:linear-gradient(135deg,#4ECDC4,#6ee7e0);border:2px solid #4ECDC4">AB</div>
         <div class="dropdown-wrapper">
           <button class="topbar-icon-btn" onclick="toggleDropdown(event)">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
           </button>
           <div class="dropdown-menu" id="settingsDropdown">
             <div class="dropdown-header">
@@ -327,10 +353,10 @@ nav { flex:1; padding:16px 10px; overflow-y:auto; }
     <!-- DASHBOARD -->
     <div class="section active" id="sec-dashboard">
       <div class="stats-grid">
-        <div class="stat-card" style="--c:#FFE66D"><div class="stat-icon">⏳</div><div class="stat-val">2</div><div class="stat-label">Demandes en attente</div></div>
-        <div class="stat-card" style="--c:#96CEB4"><div class="stat-icon">✅</div><div class="stat-val">3</div><div class="stat-label">Demandes approuvées</div></div>
-        <div class="stat-card" style="--c:#ff6b6b"><div class="stat-icon">✗</div><div class="stat-val">1</div><div class="stat-label">Demandes refusées</div></div>
-        <div class="stat-card" style="--c:#4ECDC4"><div class="stat-icon">📋</div><div class="stat-val">6</div><div class="stat-label">Total demandes TT</div></div>
+        <div class="stat-card" style="--c:#FFE66D"><div class="stat-icon">⏳</div><div class="stat-val" id="statPending">2</div><div class="stat-label">Demandes en attente</div></div>
+        <div class="stat-card" style="--c:#96CEB4"><div class="stat-icon">✅</div><div class="stat-val" id="statApproved">3</div><div class="stat-label">Demandes approuvées</div></div>
+        <div class="stat-card" style="--c:#ff6b6b"><div class="stat-icon">✗</div><div class="stat-val" id="statRejected">1</div><div class="stat-label">Demandes refusées</div></div>
+        <div class="stat-card" style="--c:#4ECDC4"><div class="stat-icon">📋</div><div class="stat-val" id="statTotal">6</div><div class="stat-label">Total demandes TT</div></div>
       </div>
       <div class="panel">
         <div class="panel-title">Mes dernières demandes de télétravail</div>
@@ -418,12 +444,10 @@ nav { flex:1; padding:16px 10px; overflow-y:auto; }
       <div class="panel">
         <div class="panel-title" style="display:flex;align-items:center;gap:8px"><span class="live-dot"></span> Planning télétravail équipe — Département IT</div>
         <div class="planning-wrap"><table class="pt" id="teamPlanningTable"></table></div>
-        <div style="display:flex;flex-wrap:wrap;gap:10px 20px;margin-top:16px;font-size:.75px">
-          <div style="display:flex;gap:16px;margin-top:14px;font-size:.75rem;flex-wrap:wrap">
-            <span><span class="slot-remote" style="margin-right:5px">TT</span>Télétravail</span>
-            <span><span class="slot-present" style="margin-right:5px">P</span>Présentiel</span>
-            <span><span class="slot-off" style="margin-right:5px">—</span>Repos/Indispo</span>
-          </div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px 20px;margin-top:16px;font-size:.75rem">
+          <span><span class="slot-remote" style="margin-right:5px">TT</span>Télétravail</span>
+          <span><span class="slot-present" style="margin-right:5px">P</span>Présentiel</span>
+          <span><span class="slot-off" style="margin-right:5px">—</span>Repos/Indispo</span>
         </div>
       </div>
     </div>
@@ -432,6 +456,161 @@ nav { flex:1; padding:16px 10px; overflow-y:auto; }
 </div>
 
 <script>
+// ── NOTIFICATIONS DATA ──
+let notifications = [
+  {
+    id: 1,
+    type: 'manager_approved',
+    title: '✅ Validation Manager',
+    message: 'Votre demande de télétravail pour le 15 Mars a été acceptée par votre Manager',
+    detail: 'Mohamed Trabelsi (Manager) a validé votre demande. En attente de validation finale RH.',
+    date: '2026-03-11',
+    time: 'Il y a 2 jours',
+    read: false
+  },
+  {
+    id: 2,
+    type: 'rh_rejected',
+    title: '❌ Demande refusée - RH',
+    message: 'Votre demande de télétravail pour le 18 Mars a été refusée par les RH',
+    detail: 'Motif : Capacité maximale du département atteinte ce jour (5/5 places utilisées)',
+    date: '2026-03-12',
+    time: 'Il y a 1 jour',
+    read: false
+  },
+  {
+    id: 3,
+    type: 'manager_approved',
+    title: '✅ Validation Manager',
+    message: 'Votre demande de télétravail pour le 22 Mars a été acceptée par votre Manager',
+    detail: 'Karim Ben Salah (Manager) a validé votre demande. En attente de validation RH.',
+    date: '2026-03-13',
+    time: 'Il y a 3 heures',
+    read: false
+  },
+  {
+    id: 4,
+    type: 'rh_rejected',
+    title: '❌ Demande refusée - RH',
+    message: 'Votre demande de télétravail pour le 25 Mars a été refusée par les RH',
+    detail: 'Motif : Non-conformité avec la politique TT (demande faite moins de 2 jours à l\'avance)',
+    date: '2026-03-14',
+    time: 'Il y a 1 heure',
+    read: false
+  },
+  {
+    id: 5,
+    type: 'manager_approved',
+    title: '✅ Validation Manager',
+    message: 'Votre demande de télétravail pour le 27 Mars a été acceptée par votre Manager',
+    detail: 'Mohamed Trabelsi (Manager) a validé votre demande. Transmission au service RH.',
+    date: '2026-03-14',
+    time: 'Il y a 30 minutes',
+    read: false
+  }
+];
+
+let unreadCount = notifications.filter(n => !n.read).length;
+
+function getNotificationIcon(type) {
+  const icons = {
+    'manager_approved': '👔✅',
+    'rh_rejected': '🏢❌'
+  };
+  return icons[type] || '📌';
+}
+
+function getNotificationColor(type) {
+  const colors = {
+    'manager_approved': '#45B7D1',
+    'rh_rejected': '#ff6b6b'
+  };
+  return colors[type] || '#4ECDC4';
+}
+
+function toggleNotifications(event) {
+  event.stopPropagation();
+  const panel = document.getElementById('notificationsPanel');
+  panel.classList.toggle('open');
+  renderNotifications();
+}
+
+function renderNotifications() {
+  const container = document.getElementById('notificationsList');
+  if (notifications.length === 0) {
+    container.innerHTML = '<div style="padding:20px;text-align:center;color:var(--muted)">Aucune notification</div>';
+    document.getElementById('notifDot').style.display = 'none';
+    return;
+  }
+  
+  container.innerHTML = notifications.map(notif => `
+    <div class="notif-item" style="border-left: 3px solid ${getNotificationColor(notif.type)}; ${!notif.read ? 'background: var(--row-hover);' : ''}" onclick="markAsRead(${notif.id})">
+      <div class="notif-title">
+        <span class="notif-icon">${getNotificationIcon(notif.type)}</span>
+        ${notif.title}
+      </div>
+      <div class="notif-message">${notif.message}</div>
+      <div class="notif-detail">${notif.detail}</div>
+      <div class="notif-time">${notif.time}</div>
+    </div>
+  `).join('');
+  
+  document.getElementById('notifDot').style.display = unreadCount > 0 ? 'block' : 'none';
+}
+
+function markAsRead(id) {
+  notifications = notifications.map(n => 
+    n.id === id ? { ...n, read: true } : n
+  );
+  unreadCount = notifications.filter(n => !n.read).length;
+  renderNotifications();
+}
+
+function clearAllNotifications() {
+  notifications = notifications.map(n => ({ ...n, read: true }));
+  unreadCount = 0;
+  renderNotifications();
+  document.getElementById('notificationsPanel').classList.remove('open');
+  showToast('🔔 Toutes les notifications ont été marquées comme lues');
+}
+
+function addNotification(type, demandeDate, managerName, reason) {
+  const today = new Date();
+  const timeString = "À l'instant";
+  
+  let newNotif;
+  if (type === 'manager_approved') {
+    newNotif = {
+      id: Date.now(),
+      type: 'manager_approved',
+      title: '✅ Validation Manager',
+      message: `Votre demande de télétravail pour le ${demandeDate} a été acceptée par votre Manager`,
+      detail: `${managerName || 'Le Manager'} a validé votre demande. En attente de validation finale RH.`,
+      date: today.toISOString().split('T')[0],
+      time: timeString,
+      read: false
+    };
+  } else if (type === 'rh_rejected') {
+    newNotif = {
+      id: Date.now(),
+      type: 'rh_rejected',
+      title: '❌ Demande refusée - RH',
+      message: `Votre demande de télétravail pour le ${demandeDate} a été refusée par les RH`,
+      detail: reason || 'Motif : Non-conformité avec la politique TT',
+      date: today.toISOString().split('T')[0],
+      time: timeString,
+      read: false
+    };
+  }
+  
+  if (newNotif) {
+    notifications.unshift(newNotif);
+    unreadCount++;
+    renderNotifications();
+    showToast(`🔔 ${newNotif.message}`);
+  }
+}
+
 // ── DARK MODE ──
 function toggleDarkMode() {
   const html = document.documentElement;
@@ -459,7 +638,7 @@ function showToast(msg) {
 // ── DROPDOWN & LOGOUT ──
 function toggleDropdown(e) { e.stopPropagation(); document.getElementById('settingsDropdown').classList.toggle('open'); }
 function closeDropdown() { document.getElementById('settingsDropdown').classList.remove('open'); }
-document.addEventListener('click', () => closeDropdown());
+document.addEventListener('click', () => { closeDropdown(); document.getElementById('notificationsPanel').classList.remove('open'); });
 function openLogout() { closeDropdown(); document.getElementById('logoutOverlay').classList.add('show'); }
 function closeLogout() { document.getElementById('logoutOverlay').classList.remove('show'); }
 function confirmLogout() {
@@ -481,23 +660,30 @@ const teamData = [
 let demandes = [
   { id:1, type:'Télétravail', dateDebut:'2026-03-15', dateFin:'2026-03-15', motif:'Plomberie à régler à domicile', steps:[
     { label:'Soumission', date:'10 Mar 2026', state:'done', note:'Envoyée' },
-    { label:'Validation\nManager (N1)', date:'11 Mar 2026', state:'done', note:'Validé' },
+    { label:'Validation\nManager (N1)', date:'11 Mar 2026', state:'done', note:'Validé ✓' },
     { label:'Validation\nRH (N2)', date:'12 Mar 2026', state:'active', note:'En attente RH' },
     { label:'Décision\nfinale', date:null, state:'waiting', note:'' }
   ]},
   { id:2, type:'Télétravail', dateDebut:'2026-03-20', dateFin:'2026-03-22', motif:'Environnement de travail calme requis', steps:[
     { label:'Soumission', date:'08 Mar 2026', state:'done', note:'Envoyée' },
-    { label:'Validation\nManager (N1)', date:'09 Mar 2026', state:'done', note:'Validé' },
-    { label:'Validation\nRH (N2)', date:'10 Mar 2026', state:'done', note:'Validé' },
+    { label:'Validation\nManager (N1)', date:'09 Mar 2026', state:'done', note:'Validé ✓' },
+    { label:'Validation\nRH (N2)', date:'10 Mar 2026', state:'done', note:'Validé ✓' },
     { label:'Décision\nfinale', date:'10 Mar 2026', state:'done', note:'Approuvé ✓' }
   ]},
   { id:3, type:'Télétravail', dateDebut:'2026-03-18', dateFin:'2026-03-18', motif:'Rendez-vous médical le matin', steps:[
-    { label:'Soumission', date:'12 Mar 2026', state:'pending', note:'Envoyée' },
-    { label:'Validation\nManager (N1)', date:null, state:'waiting', note:'' },
+    { label:'Soumission', date:'12 Mar 2026', state:'done', note:'Envoyée' },
+    { label:'Validation\nManager (N1)', date:null, state:'pending', note:'En attente Manager' },
     { label:'Validation\nRH (N2)', date:null, state:'waiting', note:'' },
     { label:'Décision\nfinale', date:null, state:'waiting', note:'' }
   ]},
+  { id:4, type:'Télétravail', dateDebut:'2026-03-18', dateFin:'2026-03-18', motif:'Rendez-vous médical le matin', steps:[
+    { label:'Soumission', date:'12 Mar 2026', state:'done', note:'Envoyée' },
+    { label:'Validation\nManager (N1)', date:'13 Mar 2026', state:'done', note:'Validé ✓' },
+    { label:'Validation\nRH (N2)', date:'14 Mar 2026', state:'refused', note:'Refusé ✗ - Capacité atteinte' },
+    { label:'Décision\nfinale', date:'14 Mar 2026', state:'refused', note:'Refusé' }
+  ]}
 ];
+
 const pageTitles = { dashboard:'Mon espace télétravail', soumettre:'Soumettre une demande TT', suivi:'Suivi de mes demandes TT', planning:'Planning télétravail' };
 const weekLabels = ['Sem. 9–13 Mars 2026','Sem. 16–20 Mars 2026','Sem. 23–27 Mars 2026'];
 let weekOffset = 0;
@@ -531,12 +717,12 @@ function renderCapWidget() {
 }
 
 function globalStatus(steps) {
-  const last = [...steps].reverse().find(s => s.state!=='waiting');
-  if (!last) return {text:'Soumis',cls:'pill-yellow'};
-  if (last.state==='refused') return {text:'Refusé',cls:'pill-red'};
-  if (last.label.includes('finale') && last.state==='done') return {text:'Approuvé ✓',cls:'pill-green'};
-  if (last.state==='pending'||last.state==='active') return {text:'En cours…',cls:'pill-yellow'};
-  if (last.state==='done') return {text:'En cours…',cls:'pill-blue'};
+  if (steps[3] && steps[3].state==='refused') return {text:'Refusé',cls:'pill-red'};
+  if (steps[2] && steps[2].state==='refused') return {text:'Refusé RH',cls:'pill-red'};
+  if (steps[2] && steps[2].state==='done') return {text:'Approuvé ✓',cls:'pill-green'};
+  if (steps[1] && steps[1].state==='done' && steps[2] && steps[2].state==='active') return {text:'En attente RH',cls:'pill-blue'};
+  if (steps[1] && steps[1].state==='pending') return {text:'En attente Manager',cls:'pill-yellow'};
+  if (steps[1] && steps[1].state==='done') return {text:'En attente RH',cls:'pill-blue'};
   return {text:'Soumis',cls:'pill-yellow'};
 }
 
@@ -565,30 +751,52 @@ function renderSuivi() {
       <div class="timeline">${stepsHtml}</div>
     </div>`;
   }).join('');
+  updateStats();
 }
 
 function renderDash() {
-  document.getElementById('dashRecent').innerHTML = demandes.map(d => {
+  document.getElementById('dashRecent').innerHTML = demandes.slice(0,3).map(d => {
     const gs = globalStatus(d.steps);
     return `<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)">
       <div><div style="font-weight:600;font-size:.88rem">🏡 ${d.type}</div>
       <div style="font-size:.74rem;color:var(--muted);margin-top:2px">${d.dateDebut} • ${d.motif}</div></div>
       <span class="status-pill ${gs.cls}">${gs.text}</span></div>`;
   }).join('');
+  updateStats();
+}
+
+function updateStats() {
+  const pending = demandes.filter(d => d.steps[1] && (d.steps[1].state==='pending' || d.steps[2]?.state==='active')).length;
+  const approved = demandes.filter(d => d.steps[2]?.state==='done' || d.steps[3]?.state==='done').length;
+  const rejected = demandes.filter(d => d.steps[2]?.state==='refused' || d.steps[1]?.state==='refused').length;
+  document.getElementById('statPending').textContent = pending;
+  document.getElementById('statApproved').textContent = approved;
+  document.getElementById('statRejected').textContent = rejected;
+  document.getElementById('statTotal').textContent = demandes.length;
 }
 
 function submitDemande() {
   const debut = document.getElementById('dateDebut').value;
+  const fin = document.getElementById('dateFin').value || debut;
   const motif = document.getElementById('motifInput').value;
   if (!debut || !motif) { alert('Veuillez remplir les champs requis.'); return; }
   if (capData.current >= capData.max) return;
-  demandes.unshift({id:Date.now(), type:'Télétravail', dateDebut:debut, dateFin:document.getElementById('dateFin').value||debut, motif,
+  
+  const newDemande = {
+    id: Date.now(),
+    type:'Télétravail',
+    dateDebut:debut,
+    dateFin:fin,
+    motif:motif,
     steps:[
       {label:'Soumission', date:new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'}), state:'done', note:'Envoyée'},
-      {label:'Validation\nManager (N1)', date:null, state:'pending', note:'En attente'},
+      {label:'Validation\nManager (N1)', date:null, state:'pending', note:'En attente Manager'},
       {label:'Validation\nRH (N2)', date:null, state:'waiting', note:''},
       {label:'Décision\nfinale', date:null, state:'waiting', note:''}
-    ]});
+    ]
+  };
+  
+  demandes.unshift(newDemande);
   capData.current++;
   renderCapWidget();
   document.getElementById('submitMsg').style.display = 'block';
@@ -597,6 +805,7 @@ function submitDemande() {
   document.getElementById('dateDebut').value = '';
   document.getElementById('dateFin').value = '';
   showToast('✅ Demande de télétravail soumise !');
+  updateStats();
 }
 
 const slotClass = s => s==='me'?'slot-me':s==='present'?'slot-present':s==='remote'?'slot-remote':'slot-off';
@@ -607,16 +816,17 @@ function nextWeek() { if (weekOffset<weekLabels.length-1) { weekOffset++; docume
 
 function renderPlanning() {
   const me = teamData.find(e => e.isMe);
-  const myHead = `<thead><tr><th>Journée</th>${days.map((d,i)=>`<th${i===todayIdx?` style="color:var(--accent)"`:''}>${d}${i===todayIdx?' ★':''}</th>`).join('')}</tr></thead>`;
-  const myBody = `<tbody><tr><td style="font-weight:700">Ahmed Ben Ali</td>${me.slots.map((s,i)=>`<td><span class="${slotClass(s)}">${slotText(s)}</span></td>`).join('')}</tr></tbody>`;
+  const myHead = `<thead>发展<th>Journée</th>${days.map((d,i)=>`<th${i===todayIdx?` style="color:var(--accent)"`:''}>${d}${i===todayIdx?' ★':''}</th>`).join('')}</thead>`;
+  const myBody = `<tbody>起步<td style="font-weight:700">Ahmed Ben Ali</td>${me.slots.map((s,i)=>`<td><span class="${slotClass(s)}">${slotText(s)}</span></td>`).join('')}</tbody>`;
   document.getElementById('myPlanningTable').innerHTML = myHead + myBody;
-  const head = `<thead><tr><th>Membre</th>${days.map((d,i)=>`<th${i===todayIdx?` style="color:var(--accent)"`:''}>${d}${i===todayIdx?' ●':''}</th>`).join('')}</tr></thead>`;
-  const body = `<tbody>${teamData.map(e=>`<tr><td><div style="font-weight:${e.isMe?'800':'600'};color:${e.isMe?'var(--accent)':'var(--text)'}">${e.nom}</div><div style="font-size:.71rem;color:var(--muted)">${e.poste}</div></td>${e.slots.map(s=>`<td><span class="${slotClass(s)}">${slotText(s)}</span></td>`).join('')}</tr>`).join('')}</tbody>`;
+  const head = `<thead>发展<th>Membre</th>${days.map((d,i)=>`<th${i===todayIdx?` style="color:var(--accent)"`:''}>${d}${i===todayIdx?' ●':''}</th>`).join('')}</thead>`;
+  const body = `<tbody>${teamData.map(e=>`<td><div style="font-weight:${e.isMe?'800':'600'};color:${e.isMe?'var(--accent)':'var(--text)'}">${e.nom}</div><div style="font-size:.71rem;color:var(--muted)">${e.poste}</div></td>${e.slots.map(s=>`<td><span class="${slotClass(s)}">${slotText(s)}</span></td>`).join('')}</tr>`).join('')}</tbody>`;
   document.getElementById('teamPlanningTable').innerHTML = head + body;
 }
 
 renderDash();
 renderCapWidget();
+renderNotifications();
 </script>
 </body>
 </html>
