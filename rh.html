@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,19 +7,49 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
+
+:root,
+[data-theme="dark"] {
   --accent: #4ECDC4;
   --accent2: #6ee7e0;
-  --bg: #08130f;
-  --bg2: #0b1812;
-  --sidebar: #091210;
+  --bg: #080b14;
+  --bg2: #0d1120;
+  --sidebar: #090c17;
   --card: rgba(255,255,255,0.04);
+  --card-border: rgba(255,255,255,0.07);
   --border: rgba(255,255,255,0.07);
-  --text: #e8f0ef;
+  --text: #e8eaf0;
   --muted: rgba(255,255,255,0.38);
+  --shadow: 0 4px 20px rgba(0,0,0,0.4);
+  --row-hover: rgba(255,255,255,0.03);
+  --input-bg: rgba(255,255,255,0.06);
+  --topbar-bg: #0d1120;
+  --icon-btn-hover: rgba(255,255,255,0.08);
+  --dropdown-bg: #090c17;
+  --overlay-modal-bg: #090c17;
 }
-body { display:flex; min-height:100vh; background:var(--bg); font-family:'DM Sans',sans-serif; color:var(--text); }
-.sidebar { width:240px; min-height:100vh; background:var(--sidebar); border-right:1px solid var(--border); display:flex; flex-direction:column; position:sticky; top:0; height:100vh; flex-shrink:0; }
+[data-theme="light"] {
+  --accent: #4ECDC4;
+  --accent2: #6ee7e0;
+  --bg: #F4F6FA;
+  --bg2: #FFFFFF;
+  --sidebar: #FFFFFF;
+  --card: #FFFFFF;
+  --card-border: rgba(0,0,0,0.07);
+  --border: rgba(0,0,0,0.09);
+  --text: #1a1d2e;
+  --muted: rgba(0,0,0,0.42);
+  --shadow: 0 2px 12px rgba(0,0,0,0.07);
+  --row-hover: rgba(0,0,0,0.025);
+  --input-bg: rgba(0,0,0,0.04);
+  --topbar-bg: #FFFFFF;
+  --icon-btn-hover: rgba(0,0,0,0.06);
+  --dropdown-bg: #FFFFFF;
+  --overlay-modal-bg: #FFFFFF;
+}
+
+body { display:flex; min-height:100vh; background:var(--bg); font-family:'DM Sans',sans-serif; color:var(--text); transition: background .3s, color .3s; }
+.sidebar { width:240px; min-height:100vh; background:var(--sidebar); border-right:1px solid var(--border); display:flex; flex-direction:column; position:sticky; top:0; height:100vh; flex-shrink:0; box-shadow:var(--shadow); transition: background .3s; }
 .sidebar-brand { padding:28px 20px 20px; border-bottom:1px solid var(--border); }
 .sidebar-brand h2 { font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:800; }
 .sidebar-brand h2 span { color:var(--accent); }
@@ -27,136 +57,95 @@ body { display:flex; min-height:100vh; background:var(--bg); font-family:'DM San
 .avatar { width:38px; height:38px; border-radius:50%; background:linear-gradient(135deg,var(--accent),var(--accent2)); display:flex; align-items:center; justify-content:center; font-size:1rem; border:2px solid var(--accent); flex-shrink:0; }
 .user-info .name { font-weight:600; font-size:.85rem; }
 .user-info .role { color:var(--accent); font-size:.72rem; margin-top:1px; }
-nav { flex:1; padding:16px 10px; }
+nav { flex:1; padding:16px 10px; overflow-y:auto; }
 .nav-section { font-size:.68rem; font-weight:700; letter-spacing:2px; color:var(--muted); text-transform:uppercase; padding:14px 10px 6px; }
 .nav-item { display:flex; align-items:center; gap:12px; padding:10px 14px; border-radius:10px; cursor:pointer; font-size:.85rem; color:var(--muted); font-weight:500; border:none; background:transparent; width:100%; text-align:left; margin-bottom:2px; transition:all .2s; border-left:3px solid transparent; }
-.nav-item:hover { background:rgba(78,205,196,.08); color:#fff; }
+.nav-item:hover { background:rgba(78,205,196,.08); color:var(--text); }
 .nav-item.active { background:rgba(78,205,196,.12); color:var(--accent); font-weight:600; border-left-color:var(--accent); }
 .nav-item .icon { font-size:1.05rem; flex-shrink:0; }
 .badge-count { margin-left:auto; background:var(--accent); color:#081a18; font-size:.68rem; font-weight:800; padding:2px 7px; border-radius:12px; }
 .main { flex:1; display:flex; flex-direction:column; overflow:hidden; }
-.topbar { padding:16px 24px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; background:var(--bg2); }
+.topbar { padding:18px 32px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; background:var(--topbar-bg); box-shadow:var(--shadow); transition: background .3s; }
 .page-title { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; }
 .page-sub { color:var(--muted); font-size:.8rem; margin-top:2px; }
 .topbar-icons { display:flex; align-items:center; gap:4px; }
-.topbar-icon-btn {
-  position:relative; width:38px; height:38px; border-radius:50%;
-  background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.09);
-  display:flex; align-items:center; justify-content:center; cursor:pointer;
-  transition:background .2s,border-color .2s;
-  font-size:1.05rem; color:rgba(255,255,255,0.65); flex-shrink:0;
-}
-.topbar-icon-btn:hover { background:rgba(255,255,255,0.12); border-color:rgba(255,255,255,0.18); color:#fff; }
-.topbar-icon-btn .notif-dot {
-  position:absolute; top:5px; right:5px; width:8px; height:8px;
-  border-radius:50%; background:#4ECDC4; border:2px solid var(--bg2);
-}
-.topbar-avatar-btn {
-  width:38px; height:38px; border-radius:50%;
-  display:flex; align-items:center; justify-content:center; cursor:pointer;
-  font-size:.82rem; color:#081a18; font-weight:800;
-  transition:transform .2s; flex-shrink:0; border:2px solid transparent;
-}
-.topbar-avatar-btn:hover { transform:scale(1.08); }
-.topbar-divider { width:1px; height:26px; background:rgba(255,255,255,0.1); margin:0 6px; flex-shrink:0; }
-
-/* ── DROPDOWN MENU ── */
-.dropdown-wrapper { position:relative; }
-.dropdown-menu {
-  display:none;
-  position:absolute;
-  top:calc(100% + 10px);
-  right:0;
-  min-width:200px;
-  background:#0f1f1b;
-  border:1px solid rgba(255,255,255,0.12);
-  border-radius:14px;
-  padding:6px;
-  z-index:999;
-  box-shadow:0 8px 32px rgba(0,0,0,0.5);
-  animation:fadeIn .15s ease;
-}
-@keyframes fadeIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
-.dropdown-menu.open { display:block; }
-.dropdown-header {
-  padding:10px 14px 8px;
-  border-bottom:1px solid rgba(255,255,255,0.07);
-  margin-bottom:4px;
-}
-.dropdown-header .dh-name { font-weight:700; font-size:.88rem; color:#e8f0ef; }
-.dropdown-header .dh-email { font-size:.73rem; color:rgba(255,255,255,.38); margin-top:2px; }
-.dropdown-item {
-  display:flex; align-items:center; gap:10px;
-  width:100%; padding:9px 14px; border-radius:9px;
-  background:transparent; border:none; cursor:pointer;
-  font-family:'DM Sans',sans-serif; font-size:.84rem;
-  color:rgba(255,255,255,.7); text-align:left;
-  transition:background .15s, color .15s;
-}
-.dropdown-item:hover { background:rgba(78,205,196,.08); color:#fff; }
-.dropdown-item .di-icon { font-size:.95rem; width:20px; text-align:center; }
-.dropdown-item.danger { color:rgba(255,107,107,.8); }
-.dropdown-item.danger:hover { background:rgba(255,107,107,.1); color:#ff6b6b; }
-.dropdown-divider { height:1px; background:rgba(255,255,255,.07); margin:4px 6px; }
-
-/* ── LOGOUT OVERLAY ── */
-.logout-overlay {
-  display:none; position:fixed; inset:0;
-  background:rgba(0,0,0,.7); z-index:9999;
-  align-items:center; justify-content:center;
-}
-.logout-overlay.show { display:flex; }
-.logout-modal {
-  background:#0f1f1b; border:1px solid rgba(255,255,255,.12);
-  border-radius:20px; padding:32px 28px; text-align:center;
-  max-width:340px; width:90%;
-  animation:fadeIn .2s ease;
-}
-.logout-modal h3 { font-family:'Syne',sans-serif; font-size:1.2rem; font-weight:800; margin-bottom:8px; }
-.logout-modal p { color:rgba(255,255,255,.45); font-size:.85rem; margin-bottom:24px; }
-.logout-modal .lm-icon { font-size:2.4rem; margin-bottom:14px; display:block; }
-.logout-btns { display:flex; gap:10px; justify-content:center; }
 .btn { padding:9px 18px; border-radius:9px; border:none; font-family:'DM Sans',sans-serif; font-weight:600; font-size:.83rem; cursor:pointer; transition:all .2s; }
 .btn-primary { background:var(--accent); color:#081a18; }
 .btn-primary:hover { background:var(--accent2); }
-.btn-ghost { background:rgba(255,255,255,.07); color:var(--text); border:1px solid var(--border); }
-.btn-danger { background:rgba(255,107,107,.15); color:#ff6b6b; border:1px solid rgba(255,107,107,.3); }
+.btn-ghost { background:var(--input-bg); color:var(--text); border:1px solid var(--border); }
+.btn-ghost:hover { background:var(--row-hover); }
+.topbar-icon-btn { position:relative; width:38px; height:38px; border-radius:50%; background:var(--input-bg); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background .2s; font-size:1.05rem; color:var(--muted); flex-shrink:0; }
+.topbar-icon-btn:hover { background:var(--icon-btn-hover); color:var(--text); }
+.topbar-icon-btn .notif-dot { position:absolute; top:5px; right:5px; width:8px; height:8px; border-radius:50%; background:var(--accent); border:2px solid var(--topbar-bg); }
+.topbar-avatar-btn { width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:.82rem; color:#081a18; font-weight:800; transition:transform .2s; flex-shrink:0; }
+.topbar-divider { width:1px; height:26px; background:var(--border); margin:0 6px; flex-shrink:0; }
+.dark-toggle { position:relative; width:38px; height:38px; border-radius:50%; background:var(--input-bg); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all .25s; font-size:1.1rem; flex-shrink:0; overflow:hidden; }
+.dark-toggle:hover { background:rgba(78,205,196,.12); border-color:rgba(78,205,196,.35); transform:scale(1.08); }
+.dark-toggle .icon-sun, .dark-toggle .icon-moon { position:absolute; transition:opacity .3s, transform .3s; }
+[data-theme="light"] .dark-toggle .icon-sun  { opacity:1; transform:scale(1); }
+[data-theme="light"] .dark-toggle .icon-moon { opacity:0; transform:scale(.5) rotate(45deg); }
+[data-theme="dark"]  .dark-toggle .icon-sun  { opacity:0; transform:scale(.5) rotate(-45deg); }
+[data-theme="dark"]  .dark-toggle .icon-moon { opacity:1; transform:scale(1); }
+.dropdown-wrapper { position:relative; }
+.dropdown-menu { display:none; position:absolute; top:calc(100% + 10px); right:0; min-width:200px; background:var(--dropdown-bg); border:1px solid var(--border); border-radius:14px; padding:6px; z-index:999; box-shadow:var(--shadow); animation:fadeMenuIn .15s ease; transition: background .3s; }
+@keyframes fadeMenuIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+.dropdown-menu.open { display:block; }
+.dropdown-header { padding:10px 14px 8px; border-bottom:1px solid var(--border); margin-bottom:4px; }
+.dropdown-header .dh-name { font-weight:700; font-size:.88rem; }
+.dropdown-header .dh-email { font-size:.73rem; color:var(--muted); margin-top:2px; }
+.dropdown-item { display:flex; align-items:center; gap:10px; width:100%; padding:9px 14px; border-radius:9px; background:transparent; border:none; cursor:pointer; font-family:'DM Sans',sans-serif; font-size:.84rem; color:var(--muted); text-align:left; transition:background .15s; }
+.dropdown-item:hover { background:rgba(78,205,196,.08); color:var(--text); }
+.dropdown-item .di-icon { font-size:.95rem; width:20px; text-align:center; }
+.dropdown-item.danger { color:rgba(255,107,107,.8); }
+.dropdown-item.danger:hover { background:rgba(255,107,107,.1); color:#ff6b6b; }
+.dropdown-divider { height:1px; background:var(--border); margin:4px 6px; }
+.logout-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:9999; align-items:center; justify-content:center; }
+.logout-overlay.show { display:flex; }
+.logout-modal { background:var(--overlay-modal-bg); border:1px solid var(--border); border-radius:20px; padding:32px 28px; text-align:center; max-width:340px; width:90%; animation:fadeMenuIn .2s ease; }
+.logout-modal h3 { font-family:'Syne',sans-serif; font-size:1.2rem; font-weight:800; margin-bottom:8px; }
+.logout-modal p { color:var(--muted); font-size:.85rem; margin-bottom:24px; }
+.logout-modal .lm-icon { font-size:2.4rem; margin-bottom:14px; display:block; }
+.logout-btns { display:flex; gap:10px; justify-content:center; }
+.btn-danger { background:rgba(255,107,107,.13); color:#ff6b6b; border:1px solid rgba(255,107,107,.3); border-radius:9px; padding:9px 18px; font-family:'DM Sans',sans-serif; font-weight:600; font-size:.83rem; cursor:pointer; transition:all .2s; }
 .btn-danger:hover { background:rgba(255,107,107,.28); }
-
-.content { flex:1; padding:32px; overflow-y:auto; }
+.content { flex:1; padding:32px; overflow-y:auto; background:var(--bg); transition: background .3s; }
+.section { display:none; }
+.section.active { display:block; }
 .stats-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:16px; margin-bottom:28px; }
-.stat-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:20px; position:relative; overflow:hidden; transition:transform .2s; }
+.stat-card { background:var(--card); border:1px solid var(--card-border); border-radius:16px; padding:20px; position:relative; overflow:hidden; transition:transform .2s; box-shadow:var(--shadow); }
 .stat-card:hover { transform:translateY(-3px); }
 .stat-card::before { content:''; position:absolute; top:0; right:0; width:80px; height:80px; background:radial-gradient(circle, var(--c) 0%, transparent 70%); opacity:.15; transform:translate(30%,-30%); }
 .stat-icon { font-size:1.5rem; margin-bottom:12px; }
 .stat-val { font-family:'Syne',sans-serif; font-size:2rem; font-weight:800; color:var(--c); }
 .stat-label { color:var(--muted); font-size:.78rem; margin-top:4px; }
-.panel { background:var(--card); border:1px solid var(--border); border-radius:18px; padding:24px; margin-bottom:20px; }
+.panel { background:var(--card); border:1px solid var(--card-border); border-radius:18px; padding:24px; margin-bottom:20px; box-shadow:var(--shadow); transition: background .3s; }
 .panel-title { font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; margin-bottom:18px; }
 .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px; }
+.badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:.73rem; font-weight:600; }
+.badge-green  { background:rgba(150,206,180,.18); color:#27ae60; }
+.badge-teal   { background:rgba(78,205,196,.18);  color:#4ECDC4; }
+.badge-yellow { background:rgba(255,200,60,.18);  color:#d4a017; }
+.badge-red    { background:rgba(255,107,107,.18); color:#e74c3c; }
+[data-theme="dark"] .badge-green  { background:rgba(150,206,180,.2); color:#96CEB4; }
+[data-theme="dark"] .badge-teal   { background:rgba(78,205,196,.2);  color:#4ECDC4; }
+[data-theme="dark"] .badge-yellow { background:rgba(255,230,109,.2); color:#FFE66D; }
+[data-theme="dark"] .badge-red    { background:rgba(255,107,107,.2); color:#ff6b6b; }
 table { width:100%; border-collapse:collapse; }
 th { padding:12px 14px; text-align:left; color:var(--muted); font-size:.75rem; font-weight:700; text-transform:uppercase; letter-spacing:.8px; border-bottom:1px solid var(--border); }
-td { padding:13px 14px; font-size:.85rem; border-bottom:1px solid rgba(255,255,255,.04); }
+td { padding:13px 14px; font-size:.85rem; border-bottom:1px solid var(--border); }
 tr:last-child td { border-bottom:none; }
-.badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:.73rem; font-weight:600; }
-.badge-green  { background:rgba(150,206,180,.2); color:#96CEB4; }
-.badge-teal   { background:rgba(78,205,196,.2);  color:#4ECDC4; }
-.badge-blue   { background:rgba(69,183,209,.2);  color:#45B7D1; }
-.badge-red    { background:rgba(255,107,107,.2); color:#ff6b6b; }
-.badge-yellow { background:rgba(255,230,109,.2); color:#FFE66D; }
-.section { display:none; }
-.section.active { display:block; }
-.legend-box { display:flex; flex-wrap:wrap; gap:10px 22px; background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:12px; padding:14px 18px; margin-bottom:20px; font-size:.78rem; }
+tr:hover td { background:var(--row-hover); }
+.legend-box { display:flex; flex-wrap:wrap; gap:10px 22px; background:var(--input-bg); border:1px solid var(--border); border-radius:12px; padding:14px 18px; margin-bottom:20px; font-size:.78rem; }
 .legend-item { display:flex; align-items:center; gap:7px; }
 .legend-dot { width:11px; height:11px; border-radius:50%; flex-shrink:0; }
-.demand-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:20px 22px; margin-bottom:14px; transition:border-color .2s; }
+.demand-card { background:var(--card); border:1px solid var(--card-border); border-radius:16px; padding:20px 22px; margin-bottom:14px; transition:border-color .2s; }
 .demand-card:hover { border-color:rgba(78,205,196,.3); }
 .demand-meta { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; }
 .status-pill { padding:4px 12px; border-radius:20px; font-size:.72rem; font-weight:700; white-space:nowrap; }
 .pill-yellow { background:rgba(255,230,109,.15); color:#FFE66D; border:1px solid rgba(255,230,109,.3); }
 .pill-green  { background:rgba(150,206,180,.15); color:#96CEB4; border:1px solid rgba(150,206,180,.3); }
 .pill-red    { background:rgba(255,107,107,.12); color:#ff6b6b; border:1px solid rgba(255,107,107,.3); }
-.pill-blue   { background:rgba(78,205,196,.15);  color:#4ECDC4; border:1px solid rgba(78,205,196,.3); }
+.pill-teal   { background:rgba(78,205,196,.15);  color:#4ECDC4; border:1px solid rgba(78,205,196,.3); }
 .timeline { display:flex; align-items:flex-start; padding:8px 0 0; }
 .tl-step { flex:1; display:flex; flex-direction:column; align-items:center; position:relative; }
 .tl-step:not(:last-child)::after { content:''; position:absolute; top:12px; left:calc(50% + 14px); width:calc(100% - 28px); height:2px; background:var(--border); z-index:0; }
@@ -166,7 +155,7 @@ tr:last-child td { border-bottom:none; }
 .tl-dot.active  { background:rgba(78,205,196,.2); border-color:#4ECDC4; color:#4ECDC4; animation:pulse 1.4s infinite; }
 .tl-dot.pending { background:rgba(255,230,109,.18); border-color:#FFE66D; color:#FFE66D; }
 .tl-dot.refused { background:rgba(255,107,107,.15); border-color:#ff6b6b; color:#ff6b6b; }
-.tl-dot.waiting { background:rgba(255,255,255,.06); border-color:rgba(255,255,255,.15); color:var(--muted); }
+.tl-dot.waiting { background:var(--input-bg); border-color:var(--border); color:var(--muted); }
 @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(78,205,196,.4)} 50%{box-shadow:0 0 0 6px rgba(78,205,196,0)} }
 .tl-label { font-size:.71rem; color:var(--muted); margin-top:7px; text-align:center; line-height:1.3; }
 .tl-date  { font-size:.68rem; margin-top:3px; text-align:center; font-weight:600; }
@@ -176,68 +165,78 @@ tr:last-child td { border-bottom:none; }
 .tl-date.teal   { color:#4ECDC4; }
 .tl-date.muted  { color:var(--muted); }
 .demand-actions { display:flex; gap:8px; margin-top:16px; padding-top:14px; border-top:1px solid var(--border); }
-.btn-validate { padding:7px 16px; background:rgba(150,206,180,.15); border:1px solid #96CEB4; border-radius:8px; color:#96CEB4; cursor:pointer; font-weight:600; font-size:.8rem; transition:all .2s; }
+.btn-validate { padding:7px 16px; background:rgba(150,206,180,.15); border:1px solid #96CEB4; border-radius:8px; color:#96CEB4; cursor:pointer; font-weight:600; font-size:.8rem; transition:all .2s; font-family:'DM Sans',sans-serif; }
 .btn-validate:hover { background:rgba(150,206,180,.3); }
-.btn-refuse { padding:7px 16px; background:rgba(255,107,107,.1); border:1px solid #ff6b6b; border-radius:8px; color:#ff6b6b; cursor:pointer; font-weight:600; font-size:.8rem; transition:all .2s; }
+.btn-refuse { padding:7px 16px; background:rgba(255,107,107,.1); border:1px solid #ff6b6b; border-radius:8px; color:#ff6b6b; cursor:pointer; font-weight:600; font-size:.8rem; transition:all .2s; font-family:'DM Sans',sans-serif; }
 .btn-refuse:hover { background:rgba(255,107,107,.25); }
-.emp-row { display:flex; align-items:center; justify-content:space-between; padding:13px 0; border-bottom:1px solid var(--border); }
-.emp-row:last-child { border-bottom:none; }
-.emp-avatar { width:38px; height:38px; border-radius:50%; background:linear-gradient(135deg,#4ECDC4,#45B7D1); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:.95rem; color:#fff; flex-shrink:0; }
-.rapport-card { display:flex; flex-direction:column; gap:8px; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:18px; cursor:pointer; transition:all .2s; }
-.rapport-card:hover { border-color:var(--accent); transform:translateY(-2px); }
+
+/* ── CAPACITY ── */
 .cap-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; margin-bottom:24px; }
-.cap-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:20px; position:relative; overflow:hidden; }
+.cap-card { background:var(--card); border:1px solid var(--card-border); border-radius:16px; padding:20px; }
 .cap-dept { font-weight:700; font-size:.92rem; margin-bottom:6px; }
-.cap-bar-wrap { height:10px; background:rgba(255,255,255,.07); border-radius:6px; overflow:hidden; margin:10px 0 8px; }
+.cap-bar-wrap { height:10px; background:var(--input-bg); border-radius:6px; overflow:hidden; margin:10px 0 8px; }
 .cap-bar { height:100%; border-radius:6px; transition:width .6s ease; }
 .cap-numbers { display:flex; justify-content:space-between; font-size:.75rem; color:var(--muted); }
-.cap-numbers span:first-child { font-weight:700; }
 .cap-input-row { display:flex; align-items:center; gap:10px; margin-top:12px; padding-top:12px; border-top:1px solid var(--border); }
-.cap-input { width:60px; padding:6px 10px; background:rgba(255,255,255,.06); border:1px solid var(--border); border-radius:8px; color:#fff; font-family:'DM Sans',sans-serif; font-size:.84rem; text-align:center; outline:none; }
+.cap-input { width:60px; padding:6px 10px; background:var(--input-bg); border:1px solid var(--border); border-radius:8px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:.84rem; text-align:center; outline:none; }
 .cap-input:focus { border-color:var(--accent); }
 .cap-label-sm { font-size:.75rem; color:var(--muted); }
 .cap-available { display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:20px; font-size:.73rem; font-weight:700; }
 .cap-ok   { background:rgba(150,206,180,.15); color:#96CEB4; border:1px solid rgba(150,206,180,.3); }
 .cap-warn { background:rgba(255,230,109,.15); color:#FFE66D; border:1px solid rgba(255,230,109,.3); }
 .cap-full { background:rgba(255,107,107,.12); color:#ff6b6b; border:1px solid rgba(255,107,107,.3); }
-.live-dot { width:8px; height:8px; border-radius:50%; background:#96CEB4; display:inline-block; margin-right:6px; animation:blink 1.8s infinite; }
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+/* ── POLICY ── */
 .policy-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
-.policy-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:22px; }
+.policy-card { background:var(--card); border:1px solid var(--card-border); border-radius:16px; padding:22px; }
 .policy-card-title { font-family:'Syne',sans-serif; font-weight:700; font-size:.95rem; margin-bottom:18px; display:flex; align-items:center; gap:8px; }
-.policy-row { display:flex; align-items:center; justify-content:space-between; padding:11px 0; border-bottom:1px solid rgba(255,255,255,.05); }
+.policy-row { display:flex; align-items:center; justify-content:space-between; padding:11px 0; border-bottom:1px solid var(--border); }
 .policy-row:last-child { border-bottom:none; }
-.policy-label { font-size:.83rem; color:rgba(255,255,255,.75); }
+.policy-label { font-size:.83rem; color:var(--text); opacity:.8; }
 .policy-ctrl { display:flex; align-items:center; gap:8px; }
-.policy-input { width:64px; padding:6px 10px; background:rgba(255,255,255,.06); border:1px solid var(--border); border-radius:8px; color:#fff; font-family:'DM Sans',sans-serif; font-size:.84rem; text-align:center; outline:none; transition:border-color .2s; }
+.policy-input { width:64px; padding:6px 10px; background:var(--input-bg); border:1px solid var(--border); border-radius:8px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:.84rem; text-align:center; outline:none; transition:border-color .2s; }
 .policy-input:focus { border-color:var(--accent); }
 .policy-unit { font-size:.73rem; color:var(--muted); }
 .policy-toggle { position:relative; display:inline-block; width:40px; height:22px; }
 .policy-toggle input { opacity:0; width:0; height:0; }
-.policy-toggle-slider { position:absolute; cursor:pointer; inset:0; background:rgba(255,255,255,.15); border-radius:22px; transition:.3s; }
+.policy-toggle-slider { position:absolute; cursor:pointer; inset:0; background:var(--input-bg); border-radius:22px; transition:.3s; }
 .policy-toggle-slider:before { content:''; position:absolute; width:16px; height:16px; left:3px; bottom:3px; background:#fff; border-radius:50%; transition:.3s; }
 .policy-toggle input:checked + .policy-toggle-slider { background:var(--accent); }
 .policy-toggle input:checked + .policy-toggle-slider:before { transform:translateX(18px); }
-.policy-save-msg { display:none; background:rgba(150,206,180,.1); border:1px solid #96CEB4; border-radius:10px; padding:12px 16px; color:#96CEB4; font-weight:600; margin-top:16px; text-align:center; }
-.dept-quota-row { display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid rgba(255,255,255,.05); }
+.save-msg { display:none; background:rgba(150,206,180,.1); border:1px solid #96CEB4; border-radius:10px; padding:12px 16px; color:#96CEB4; font-weight:600; margin-top:16px; text-align:center; }
+
+.dept-quota-row { display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid var(--border); }
 .dept-quota-row:last-child { border-bottom:none; }
 .dq-name { flex:1; font-size:.84rem; font-weight:600; }
-.dq-bar-wrap { flex:2; height:7px; background:rgba(255,255,255,.07); border-radius:4px; overflow:hidden; }
+.dq-bar-wrap { flex:2; height:7px; background:var(--input-bg); border-radius:4px; overflow:hidden; }
 .dq-bar { height:100%; border-radius:4px; }
 .dq-val { font-size:.78rem; color:var(--muted); width:36px; text-align:right; }
+
+.live-dot { width:7px; height:7px; border-radius:50%; background:#96CEB4; display:inline-block; margin-right:5px; animation:blink 1.8s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+.kpi-row { display:flex; align-items:center; gap:14px; margin-bottom:12px; }
+.kpi-label { font-size:.83rem; color:var(--text); width:220px; flex-shrink:0; opacity:.8; }
+.kpi-bar-wrap { flex:1; height:8px; background:var(--input-bg); border-radius:4px; overflow:hidden; }
+.kpi-bar { height:100%; border-radius:4px; }
+.kpi-pct { font-size:.78rem; color:var(--muted); width:40px; text-align:right; }
+
+.toast { position:fixed; bottom:28px; right:28px; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:14px 20px; display:flex; align-items:center; gap:12px; font-size:.85rem; font-weight:500; color:var(--text); box-shadow:0 8px 28px rgba(0,0,0,.18); z-index:8888; animation:slideToast .4s cubic-bezier(.34,1.56,.64,1); }
+.toast.out { animation:slideToastOut .3s ease forwards; }
+@keyframes slideToast { from{opacity:0;transform:translateY(20px) scale(.9)} to{opacity:1;transform:translateY(0) scale(1)} }
+@keyframes slideToastOut { from{opacity:1;transform:translateY(0) scale(1)} to{opacity:0;transform:translateY(10px) scale(.95)} }
 </style>
 </head>
 <body>
 
-<!-- LOGOUT CONFIRMATION MODAL -->
 <div class="logout-overlay" id="logoutOverlay">
   <div class="logout-modal">
     <span class="lm-icon">🔐</span>
     <h3>Se déconnecter ?</h3>
-    <p>Vous allez quitter votre session RH.<br>Toutes les modifications non sauvegardées seront perdues.</p>
+    <p>Vous allez quitter votre session RH.</p>
     <div class="logout-btns">
       <button class="btn btn-ghost" onclick="closeLogout()">Annuler</button>
-      <button class="btn btn-danger" onclick="confirmLogout()">Oui, se déconnecter</button>
+      <button class="btn-danger" onclick="confirmLogout()">Oui, se déconnecter</button>
     </div>
   </div>
 </div>
@@ -256,15 +255,14 @@ tr:last-child td { border-bottom:none; }
   <nav>
     <div class="nav-section">Principal</div>
     <button class="nav-item active" onclick="show('dashboard',this)"><span class="icon">🏠</span> Tableau de bord</button>
-    <div class="nav-section">RH</div>
-    <button class="nav-item" onclick="show('suivi',this)"><span class="icon">📋</span> Suivi employés</button>
-    <button class="nav-item" onclick="show('teletravail',this)"><span class="icon">🏡</span> Demandes télétravail <span class="badge-count">3</span></button>
+    <div class="nav-section">Télétravail</div>
     <button class="nav-item" onclick="show('validation',this)"><span class="icon">✅</span> Valider demandes N2 <span class="badge-count" id="badgeN2">2</span></button>
+    <button class="nav-item" onclick="show('suivi',this)"><span class="icon">📋</span> Suivi des demandes TT</button>
     <div class="nav-section">Configuration</div>
     <button class="nav-item" onclick="show('capacite',this)"><span class="icon">📊</span> Capacité télétravail</button>
     <button class="nav-item" onclick="show('politiques',this)"><span class="icon">⚙️</span> Politiques TT</button>
     <div class="nav-section">Rapports</div>
-    <button class="nav-item" onclick="show('rapports',document.querySelectorAll('.nav-item')[6])"><span class="icon">📊</span> Consulter rapports</button>
+    <button class="nav-item" onclick="show('rapports',this)"><span class="icon">📈</span> Rapports télétravail</button>
   </nav>
 </aside>
 
@@ -276,23 +274,19 @@ tr:last-child td { border-bottom:none; }
     </div>
     <div style="display:flex;align-items:center;gap:10px">
       <button class="btn btn-ghost">📤 Exporter</button>
-      <button class="btn btn-primary" onclick="show('rapports',document.querySelectorAll('.nav-item')[6])">📊 Voir rapports</button>
       <div class="topbar-icons">
-        <button class="topbar-icon-btn" title="Langue" style="font-size:1.25rem">🇹🇳</button>
-        <button class="topbar-icon-btn" title="Messagerie">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-          <span class="notif-dot"></span>
+        <button class="dark-toggle" onclick="toggleDarkMode()" title="Thème">
+          <span class="icon-sun">☀️</span>
+          <span class="icon-moon">🌙</span>
         </button>
-        <button class="topbar-icon-btn" title="Alertes">
+        <button class="topbar-icon-btn" title="Notifications">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
           <span class="notif-dot"></span>
         </button>
         <div class="topbar-divider"></div>
-        <div class="topbar-avatar-btn" title="Mon profil" style="background:linear-gradient(135deg,#4ECDC4,#6ee7e0);border:2px solid #4ECDC4" onmouseenter="this.style.boxShadow='0 0 0 3px #4ECDC455'" onmouseleave="this.style.boxShadow='none'">SM</div>
-
-        <!-- SETTINGS BUTTON WITH DROPDOWN -->
+        <div class="topbar-avatar-btn" style="background:linear-gradient(135deg,#4ECDC4,#6ee7e0);border:2px solid #4ECDC4">SM</div>
         <div class="dropdown-wrapper">
-          <button class="topbar-icon-btn" title="Paramètres" id="settingsBtn" onclick="toggleDropdown(event)">
+          <button class="topbar-icon-btn" onclick="toggleDropdown(event)">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
           </button>
           <div class="dropdown-menu" id="settingsDropdown">
@@ -300,25 +294,12 @@ tr:last-child td { border-bottom:none; }
               <div class="dh-name">Sonia Mansour</div>
               <div class="dh-email">s.mansour@studiaafrique.com</div>
             </div>
-            <button class="dropdown-item" onclick="closeDropdown()">
-              <span class="di-icon">👤</span> Mon profil
-            </button>
-            <button class="dropdown-item" onclick="closeDropdown()">
-              <span class="di-icon">⚙️</span> Paramètres
-            </button>
-            <button class="dropdown-item" onclick="closeDropdown()">
-              <span class="di-icon">🔔</span> Notifications
-            </button>
-            <button class="dropdown-item" onclick="closeDropdown()">
-              <span class="di-icon">🌙</span> Thème sombre
-            </button>
+            <button class="dropdown-item" onclick="closeDropdown()"><span class="di-icon">👤</span> Mon profil</button>
+            <button class="dropdown-item" onclick="closeDropdown()"><span class="di-icon">⚙️</span> Paramètres</button>
             <div class="dropdown-divider"></div>
-            <button class="dropdown-item danger" onclick="openLogout()">
-              <span class="di-icon">🚪</span> Se déconnecter
-            </button>
+            <button class="dropdown-item danger" onclick="openLogout()"><span class="di-icon">🚪</span> Se déconnecter</button>
           </div>
         </div>
-
       </div>
     </div>
   </div>
@@ -328,346 +309,219 @@ tr:last-child td { border-bottom:none; }
     <!-- DASHBOARD -->
     <div class="section active" id="sec-dashboard">
       <div class="stats-grid">
-        <div class="stat-card" style="--c:#4ECDC4"><div class="stat-icon">👥</div><div class="stat-val">47</div><div class="stat-label">Employés totaux</div></div>
-        <div class="stat-card" style="--c:#FF6B35"><div class="stat-icon">📋</div><div class="stat-val" id="dashPending">2</div><div class="stat-label">Demandes N2 en attente</div></div>
+        <div class="stat-card" style="--c:#4ECDC4"><div class="stat-icon">📋</div><div class="stat-val" id="dashN2">2</div><div class="stat-label">Demandes N2 en attente</div></div>
         <div class="stat-card" style="--c:#45B7D1"><div class="stat-icon">🏡</div><div class="stat-val">12</div><div class="stat-label">En télétravail aujourd'hui</div></div>
-        <div class="stat-card" style="--c:#96CEB4"><div class="stat-icon">✅</div><div class="stat-val">94%</div><div class="stat-label">Taux de présence</div></div>
+        <div class="stat-card" style="--c:#96CEB4"><div class="stat-icon">✅</div><div class="stat-val">71%</div><div class="stat-label">Taux d'approbation TT</div></div>
+        <div class="stat-card" style="--c:#FFE66D"><div class="stat-icon">📊</div><div class="stat-val">34%</div><div class="stat-label">Capacité TT utilisée</div></div>
       </div>
       <div class="grid2">
-        <div class="panel"><div class="panel-title">Demandes N2 récentes</div><div id="recentDemandes"></div></div>
-        <div class="panel"><div class="panel-title">Présences aujourd'hui</div><div id="presenceAujourdhui"></div></div>
-      </div>
-    </div>
-
-    <!-- SUIVI EMPLOYÉS -->
-    <div class="section" id="sec-suivi">
-      <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:24px;">Suivi des employés</h2>
-      <div class="panel">
-        <div style="display:flex;gap:10px;margin-bottom:16px">
-          <input type="text" id="suiviSearch" oninput="filterSuivi()" placeholder="🔍 Rechercher..." style="flex:1;padding:9px 14px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:9px;color:#fff;font-family:'DM Sans',sans-serif;outline:none;font-size:.85rem">
-          <select onchange="filterSuiviStatut(this.value)" style="padding:9px 14px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:9px;color:#fff;font-family:'DM Sans',sans-serif;outline:none">
-            <option value="">Tous statuts</option>
-            <option>Présent</option><option>Télétravail</option><option>Absent</option>
-          </select>
+        <div class="panel">
+          <div class="panel-title">Demandes TT — N2 récentes</div>
+          <div id="recentDemandes"></div>
         </div>
-        <div id="suiviList"></div>
+        <div class="panel">
+          <div class="panel-title">Capacité TT par département</div>
+          <div id="capSummary"></div>
+        </div>
       </div>
-    </div>
-
-    <!-- TÉLÉTRAVAIL -->
-    <div class="section" id="sec-teletravail">
-      <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:24px;">Demandes de télétravail</h2>
-      <div id="teletravailList"></div>
     </div>
 
     <!-- VALIDATION N2 -->
     <div class="section" id="sec-validation">
-      <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:6px;">Valider demandes — Niveau 2</h2>
-      <p style="color:var(--muted);font-size:.83rem;margin-bottom:20px;">Ces demandes ont été validées au N1 par le Manager et attendent votre décision finale</p>
+      <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:6px;">Valider demandes — Niveau 2 (Final)</h2>
+      <p style="color:var(--muted);font-size:.83rem;margin-bottom:20px;">Ces demandes ont été validées au N1 par le Manager et attendent votre décision finale RH</p>
       <div class="legend-box">
         <div class="legend-item"><div class="legend-dot" style="background:#96CEB4"></div><span style="color:#96CEB4">Validé par Manager (N1)</span></div>
-        <div class="legend-item"><div class="legend-dot" style="background:#4ECDC4"></div><span style="color:#4ECDC4">Étape active — votre action requise</span></div>
-        <div class="legend-item"><div class="legend-dot" style="background:#FFE66D"></div><span style="color:#FFE66D">En attente de validation</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#4ECDC4"></div><span style="color:#4ECDC4">Votre action requise (N2)</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#FFE66D"></div><span style="color:#FFE66D">En attente N1</span></div>
         <div class="legend-item"><div class="legend-dot" style="background:#ff6b6b"></div><span style="color:#ff6b6b">Refusé</span></div>
-        <div class="legend-item"><div class="legend-dot" style="background:rgba(255,255,255,.15)"></div><span style="color:var(--muted)">En attente (étape suivante)</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:rgba(255,255,255,.15)"></div><span style="color:var(--muted)">Étape suivante</span></div>
       </div>
       <div id="validationN2List"></div>
     </div>
 
-    <!-- RAPPORTS -->
-    <div class="section" id="sec-rapports">
-      <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:24px;">Consulter les rapports</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-bottom:28px">
-        <div class="rapport-card" onclick="showReport('presence')">
-          <span style="font-size:2rem">✔️</span>
-          <div style="font-weight:700;color:#96CEB4">Rapport de présence</div>
-          <div style="font-size:.76rem;color:var(--muted)">Mars 2026 • 47 employés</div>
-          <button class="btn btn-ghost" style="font-size:.78rem;padding:6px 12px;width:fit-content">Consulter</button>
+    <!-- SUIVI DES DEMANDES TT -->
+    <div class="section" id="sec-suivi">
+      <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:24px;">Suivi des demandes de télétravail</h2>
+      <div class="panel">
+        <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+          <input type="text" id="suiviSearch" oninput="filterSuivi()" placeholder="🔍 Rechercher un employé..." style="flex:1;min-width:180px;padding:9px 14px;background:var(--input-bg);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:'DM Sans',sans-serif;outline:none;font-size:.85rem">
+          <select id="suiviStatut" onchange="filterSuivi()" style="padding:9px 14px;background:var(--input-bg);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:'DM Sans',sans-serif;outline:none">
+            <option value="">Tous statuts</option>
+            <option>En attente N1</option>
+            <option>Validé N1 — en attente N2</option>
+            <option>Approuvé</option>
+            <option>Refusé</option>
+          </select>
         </div>
-        <div class="rapport-card" onclick="showReport('teletravail')">
-          <span style="font-size:2rem">🏡</span>
-          <div style="font-weight:700;color:#45B7D1">Rapport télétravail</div>
-          <div style="font-size:.76rem;color:var(--muted)">Mars 2026 • 12 actifs</div>
-          <button class="btn btn-ghost" style="font-size:.78rem;padding:6px 12px;width:fit-content">Consulter</button>
-        </div>
-        <div class="rapport-card" onclick="showReport('conges')">
-          <span style="font-size:2rem">🌴</span>
-          <div style="font-weight:700;color:#FFE66D">Rapport congés</div>
-          <div style="font-size:.76rem;color:var(--muted)">Mars 2026 • 5 en cours</div>
-          <button class="btn btn-ghost" style="font-size:.78rem;padding:6px 12px;width:fit-content">Consulter</button>
-        </div>
-        <div class="rapport-card" onclick="showReport('recrutement')">
-          <span style="font-size:2rem">🎯</span>
-          <div style="font-weight:700;color:#FF6B35">Recrutement</div>
-          <div style="font-size:.76rem;color:var(--muted)">Mars 2026 • 3 postes</div>
-          <button class="btn btn-ghost" style="font-size:.78rem;padding:6px 12px;width:fit-content">Consulter</button>
-        </div>
-      </div>
-      <div class="panel" id="reportDetail" style="display:none">
-        <div id="reportContent"></div>
+        <table>
+          <thead><tr><th>Employé</th><th>Département</th><th>Dates TT</th><th>Motif</th><th>Statut</th></tr></thead>
+          <tbody id="suiviTable"></tbody>
+        </table>
       </div>
     </div>
 
-    <!-- CAPACITÉ TÉLÉTRAVAIL -->
+    <!-- CAPACITÉ -->
     <div class="section" id="sec-capacite">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px">
         <div>
-          <h2 style="font-family:'Syne',sans-serif;font-weight:800;">Gestion de la capacité</h2>
+          <h2 style="font-family:'Syne',sans-serif;font-weight:800;">Gestion de la capacité télétravail</h2>
           <p style="color:var(--muted);font-size:.83rem;margin-top:4px;">Définir le nombre maximum d'employés en télétravail par département</p>
         </div>
         <button class="btn btn-primary" onclick="saveCapacity()">💾 Enregistrer</button>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px">
         <div class="panel" style="margin:0;text-align:center">
           <div style="font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px"><span class="live-dot"></span>En télétravail maintenant</div>
-          <div style="font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;color:#4ECDC4" id="capLive">12</div>
-          <div style="font-size:.75rem;color:var(--muted);margin-top:4px">sur <span id="capTotal">35</span> autorisés</div>
+          <div style="font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;color:#4ECDC4">12</div>
+          <div style="font-size:.75rem;color:var(--muted);margin-top:4px">sur 35 autorisés</div>
         </div>
         <div class="panel" style="margin:0;text-align:center">
           <div style="font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Places disponibles</div>
-          <div style="font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;color:#96CEB4" id="capAvail">23</div>
+          <div style="font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;color:#96CEB4">23</div>
           <div style="font-size:.75rem;color:var(--muted);margin-top:4px">aujourd'hui</div>
         </div>
         <div class="panel" style="margin:0;text-align:center">
           <div style="font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Taux d'occupation</div>
-          <div style="font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;color:#FFE66D" id="capRate">34%</div>
+          <div style="font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;color:#FFE66D">34%</div>
           <div style="font-size:.75rem;color:var(--muted);margin-top:4px">de la capacité totale</div>
         </div>
       </div>
       <div class="cap-grid" id="capCards"></div>
-      <div class="policy-save-msg" id="capSaveMsg">✅ Capacités enregistrées avec succès !</div>
+      <div class="save-msg" id="capSaveMsg">✅ Capacités enregistrées avec succès !</div>
     </div>
 
-    <!-- POLITIQUES TÉLÉTRAVAIL -->
+    <!-- POLITIQUES -->
     <div class="section" id="sec-politiques">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px">
         <div>
           <h2 style="font-family:'Syne',sans-serif;font-weight:800;">Politiques de télétravail</h2>
           <p style="color:var(--muted);font-size:.83rem;margin-top:4px;">Définir les règles globales et quotas par département</p>
         </div>
         <button class="btn btn-primary" onclick="savePolicies()">💾 Enregistrer les règles</button>
       </div>
-      <div class="policy-grid" style="margin-top:20px">
+      <div class="policy-grid">
         <div class="policy-card">
           <div class="policy-card-title">⚙️ Règles globales</div>
-          <div class="policy-row"><div class="policy-label">Jours max / semaine</div><div class="policy-ctrl"><input type="number" class="policy-input" id="pol_maxWeek" value="3" min="1" max="5"><span class="policy-unit">jours</span></div></div>
-          <div class="policy-row"><div class="policy-label">Jours max / mois</div><div class="policy-ctrl"><input type="number" class="policy-input" id="pol_maxMonth" value="12" min="1" max="22"><span class="policy-unit">jours</span></div></div>
-          <div class="policy-row"><div class="policy-label">Délai minimum demande</div><div class="policy-ctrl"><input type="number" class="policy-input" id="pol_delay" value="2" min="0" max="14"><span class="policy-unit">jours avant</span></div></div>
-          <div class="policy-row"><div class="policy-label">Consécutifs autorisés</div><div class="policy-ctrl"><input type="number" class="policy-input" id="pol_consec" value="2" min="1" max="5"><span class="policy-unit">jours max</span></div></div>
-          <div class="policy-row"><div class="policy-label">Validation Manager obligatoire</div><div class="policy-ctrl"><label class="policy-toggle"><input type="checkbox" checked id="pol_managerReq"><span class="policy-toggle-slider"></span></label></div></div>
-          <div class="policy-row"><div class="policy-label">Validation RH obligatoire</div><div class="policy-ctrl"><label class="policy-toggle"><input type="checkbox" checked id="pol_rhReq"><span class="policy-toggle-slider"></span></label></div></div>
-          <div class="policy-row"><div class="policy-label">Télétravail le vendredi</div><div class="policy-ctrl"><label class="policy-toggle"><input type="checkbox" id="pol_friday"><span class="policy-toggle-slider"></span></label></div></div>
-          <div class="policy-row"><div class="policy-label">Notification email auto</div><div class="policy-ctrl"><label class="policy-toggle"><input type="checkbox" checked id="pol_email"><span class="policy-toggle-slider"></span></label></div></div>
+          <div class="policy-row"><div class="policy-label">Jours max / semaine</div><div class="policy-ctrl"><input type="number" class="policy-input" value="3" min="1" max="5"><span class="policy-unit">jours</span></div></div>
+          <div class="policy-row"><div class="policy-label">Jours max / mois</div><div class="policy-ctrl"><input type="number" class="policy-input" value="12" min="1" max="22"><span class="policy-unit">jours</span></div></div>
+          <div class="policy-row"><div class="policy-label">Délai minimum de demande</div><div class="policy-ctrl"><input type="number" class="policy-input" value="2" min="0" max="14"><span class="policy-unit">jours avant</span></div></div>
+          <div class="policy-row"><div class="policy-label">Consécutifs autorisés</div><div class="policy-ctrl"><input type="number" class="policy-input" value="2" min="1" max="5"><span class="policy-unit">jours max</span></div></div>
+          <div class="policy-row"><div class="policy-label">Validation Manager obligatoire</div><div class="policy-ctrl"><label class="policy-toggle"><input type="checkbox" checked><span class="policy-toggle-slider"></span></label></div></div>
+          <div class="policy-row"><div class="policy-label">Validation RH obligatoire</div><div class="policy-ctrl"><label class="policy-toggle"><input type="checkbox" checked><span class="policy-toggle-slider"></span></label></div></div>
+          <div class="policy-row"><div class="policy-label">Télétravail le vendredi autorisé</div><div class="policy-ctrl"><label class="policy-toggle"><input type="checkbox"><span class="policy-toggle-slider"></span></label></div></div>
+          <div class="policy-row"><div class="policy-label">Notification email automatique</div><div class="policy-ctrl"><label class="policy-toggle"><input type="checkbox" checked><span class="policy-toggle-slider"></span></label></div></div>
         </div>
         <div>
           <div class="policy-card" style="margin-bottom:16px">
-            <div class="policy-card-title">🏢 Quotas par département <span style="font-size:.72rem;font-weight:400;color:var(--muted);margin-left:4px">(% max en TT simultanément)</span></div>
+            <div class="policy-card-title">🏢 Quotas TT par département <span style="font-size:.72rem;font-weight:400;color:var(--muted)">(% max simultanément)</span></div>
             <div id="deptQuotas"></div>
           </div>
           <div class="policy-card">
-            <div class="policy-card-title">📅 Jours autorisés par rôle</div>
-            <div class="policy-row"><div class="policy-label">💼 Manager</div><div class="policy-ctrl"><input type="number" class="policy-input" id="pol_managerDays" value="2" min="0" max="5"><span class="policy-unit">j/sem</span></div></div>
-            <div class="policy-row"><div class="policy-label">👤 Employé</div><div class="policy-ctrl"><input type="number" class="policy-input" id="pol_empDays" value="3" min="0" max="5"><span class="policy-unit">j/sem</span></div></div>
-            <div class="policy-row"><div class="policy-label">🧑‍💻 Dev / Tech</div><div class="policy-ctrl"><input type="number" class="policy-input" id="pol_devDays" value="4" min="0" max="5"><span class="policy-unit">j/sem</span></div></div>
-            <div class="policy-row"><div class="policy-label">📊 Finance / RH</div><div class="policy-ctrl"><input type="number" class="policy-input" id="pol_finDays" value="2" min="0" max="5"><span class="policy-unit">j/sem</span></div></div>
+            <div class="policy-card-title">📅 Jours TT autorisés par rôle</div>
+            <div class="policy-row"><div class="policy-label">💼 Manager</div><div class="policy-ctrl"><input type="number" class="policy-input" value="2" min="0" max="5"><span class="policy-unit">j/sem</span></div></div>
+            <div class="policy-row"><div class="policy-label">👤 Employé standard</div><div class="policy-ctrl"><input type="number" class="policy-input" value="3" min="0" max="5"><span class="policy-unit">j/sem</span></div></div>
+            <div class="policy-row"><div class="policy-label">🧑‍💻 Dev / Tech</div><div class="policy-ctrl"><input type="number" class="policy-input" value="4" min="0" max="5"><span class="policy-unit">j/sem</span></div></div>
+            <div class="policy-row"><div class="policy-label">📊 Finance / RH</div><div class="policy-ctrl"><input type="number" class="policy-input" value="2" min="0" max="5"><span class="policy-unit">j/sem</span></div></div>
           </div>
         </div>
       </div>
-      <div class="policy-save-msg" id="polSaveMsg">✅ Politiques enregistrées ! Applicables dès demain matin.</div>
+      <div class="save-msg" id="polSaveMsg">✅ Politiques enregistrées ! Applicables dès demain matin.</div>
+    </div>
+
+    <!-- RAPPORTS -->
+    <div class="section" id="sec-rapports">
+      <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:24px;">Rapports télétravail</h2>
+      <div class="stats-grid" style="margin-bottom:24px">
+        <div class="stat-card" style="--c:#4ECDC4"><div class="stat-icon">📅</div><div class="stat-val">698</div><div class="stat-label">Total jours TT (2024)</div></div>
+        <div class="stat-card" style="--c:#96CEB4"><div class="stat-icon">✅</div><div class="stat-val">71%</div><div class="stat-label">Taux d'approbation</div></div>
+        <div class="stat-card" style="--c:#FFE66D"><div class="stat-icon">⏳</div><div class="stat-val">18</div><div class="stat-label">Demandes en attente</div></div>
+        <div class="stat-card" style="--c:#FF6B35"><div class="stat-icon">🏡</div><div class="stat-val">48%</div><div class="stat-label">Taux TT moyen</div></div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">📊 KPI Télétravail global — 2026</div>
+        <div id="globalKPI"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">Bilan TT par département</div>
+        <table>
+          <thead><tr><th>Département</th><th>Employés</th><th>Jours TT / mois</th><th>Taux TT</th><th>Approbation</th></tr></thead>
+          <tbody>
+            <tr><td>IT / Développement</td><td>18</td><td>8j / employé</td><td><span class="badge badge-teal">44%</span></td><td>78%</td></tr>
+            <tr><td>Gestion Projet</td><td>12</td><td>5j / employé</td><td><span class="badge badge-green">27%</span></td><td>85%</td></tr>
+            <tr><td>Département Qualité</td><td>10</td><td>6j / employé</td><td><span class="badge badge-teal">33%</span></td><td>72%</td></tr>
+            <tr><td>RH</td><td>6</td><td>3j / employé</td><td><span class="badge badge-green">16%</span></td><td>90%</td></tr>
+            <tr><td>Testeur</td><td>7</td><td>7j / employé</td><td><span class="badge badge-yellow">38%</span></td><td>65%</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
   </div>
 </div>
 
 <script>
-const employees = [
-  { id:1, nom:'Ahmed Ben Ali',    poste:'Dev Frontend',  dept:'IT',      statut:'Présent',     besoin:'Aucun' },
-  { id:2, nom:'Fatima Khelil',    poste:'Designer UI',   dept:'Design',  statut:'Télétravail', besoin:'Nouveau écran' },
-  { id:3, nom:'Mohamed Trabelsi', poste:'Dev Backend',   dept:'IT',      statut:'Absent',      besoin:'Congé maladie' },
-  { id:4, nom:'Karim Zouari',     poste:'Comptable',     dept:'Finance', statut:'Présent',     besoin:'Aucun' },
-  { id:5, nom:'Nadia Ben Salah',  poste:'Dev Mobile',    dept:'IT',      statut:'Télétravail', besoin:'Accès VPN' },
-];
-let allEmployees = [...employees];
+function toggleDarkMode() {
+  const html = document.documentElement;
+  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('theme-rh', next);
+  showToast(next === 'dark' ? '🌙 Mode sombre activé' : '☀️ Mode clair activé');
+}
+(function() {
+  const saved = localStorage.getItem('theme-rh') || 'dark';
+  document.documentElement.setAttribute('data-theme', saved);
+})();
+
+let toastTimer;
+function showToast(msg) {
+  let t = document.getElementById('globalToast');
+  if (!t) { t = document.createElement('div'); t.id = 'globalToast'; t.className = 'toast'; document.body.appendChild(t); }
+  t.className = 'toast';
+  t.innerHTML = `<span>✨</span><span>${msg}</span>`;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.classList.add('out'); setTimeout(() => t.remove(), 350); }, 2500);
+}
+
+function toggleDropdown(e) { e.stopPropagation(); document.getElementById('settingsDropdown').classList.toggle('open'); }
+function closeDropdown() { document.getElementById('settingsDropdown').classList.remove('open'); }
+document.addEventListener('click', () => closeDropdown());
+function openLogout() { closeDropdown(); document.getElementById('logoutOverlay').classList.add('show'); }
+function closeLogout() { document.getElementById('logoutOverlay').classList.remove('show'); }
+function confirmLogout() {
+  document.getElementById('logoutOverlay').innerHTML = '<div class="logout-modal"><span class="lm-icon">✅</span><h3 style="color:#96CEB4">Déconnexion réussie</h3><p>À bientôt, Sonia.</p></div>';
+  setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+}
+
 const today = new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'});
+const titles = { dashboard:'Tableau de bord RH', validation:'Validation N2 — Télétravail', suivi:'Suivi demandes TT', capacite:'Capacité télétravail', politiques:'Politiques TT', rapports:'Rapports télétravail' };
 
 let demandes = [
-  { id:1, type:'Congé', employe:'Fatima Khelil', motif:'Vacances planifiées',
-    steps:[ { label:'Soumission', date:'08 Mar 2026', state:'done', note:'Envoyée' }, { label:'Manager\n(N1)', date:'09 Mar 2026', state:'done', note:'Validé ✓' }, { label:'RH\n(N2)', date:null, state:'active', note:'Votre action requise' }, { label:'Décision\nfinale', date:null, state:'waiting', note:'' } ] },
-  { id:2, type:'Congé', employe:'Karim Zouari', motif:'Mariage dans la famille',
-    steps:[ { label:'Soumission', date:'09 Mar 2026', state:'done', note:'Envoyée' }, { label:'Manager\n(N1)', date:'11 Mar 2026', state:'done', note:'Validé ✓' }, { label:'RH\n(N2)', date:null, state:'active', note:'Votre action requise' }, { label:'Décision\nfinale', date:null, state:'waiting', note:'' } ] },
-  { id:3, type:'Télétravail', employe:'Ahmed Ben Ali', motif:'Plomberie à domicile',
-    steps:[ { label:'Soumission', date:'10 Mar 2026', state:'done', note:'Envoyée' }, { label:'Manager\n(N1)', date:null, state:'pending', note:'En attente Manager' }, { label:'RH\n(N2)', date:null, state:'waiting', note:'' }, { label:'Décision\nfinale', date:null, state:'waiting', note:'' } ] },
-  { id:4, type:'Télétravail', employe:'Nadia Ben Salah', motif:'Rendez-vous médical',
-    steps:[ { label:'Soumission', date:'12 Mar 2026', state:'done', note:'Envoyée' }, { label:'Manager\n(N1)', date:null, state:'pending', note:'En attente Manager' }, { label:'RH\n(N2)', date:null, state:'waiting', note:'' }, { label:'Décision\nfinale', date:null, state:'waiting', note:'' } ] },
+  { id:1, employe:'Fatima Khelil', dept:'Design', dates:'15 Mar', motif:'Environnement calme requis', steps:[
+    {label:'Soumission', date:'08 Mar 2026', state:'done', note:'Envoyée'},
+    {label:'Manager\n(N1)', date:'09 Mar 2026', state:'done', note:'Validé ✓'},
+    {label:'RH\n(N2)', date:null, state:'active', note:'Votre action requise'},
+    {label:'Décision\nfinale', date:null, state:'waiting', note:''}
+  ]},
+  { id:2, employe:'Karim Zouari', dept:'Finance', dates:'16–17 Mar', motif:'Concentration pour livrables', steps:[
+    {label:'Soumission', date:'09 Mar 2026', state:'done', note:'Envoyée'},
+    {label:'Manager\n(N1)', date:'11 Mar 2026', state:'done', note:'Validé ✓'},
+    {label:'RH\n(N2)', date:null, state:'active', note:'Votre action requise'},
+    {label:'Décision\nfinale', date:null, state:'waiting', note:''}
+  ]},
+  { id:3, employe:'Ahmed Ben Ali', dept:'IT', dates:'18 Mar', motif:'Plomberie à domicile', steps:[
+    {label:'Soumission', date:'10 Mar 2026', state:'done', note:'Envoyée'},
+    {label:'Manager\n(N1)', date:null, state:'pending', note:'En attente Manager'},
+    {label:'RH\n(N2)', date:null, state:'waiting', note:''},
+    {label:'Décision\nfinale', date:null, state:'waiting', note:''}
+  ]},
+  { id:4, employe:'Nadia Ben Salah', dept:'IT', dates:'20 Mar', motif:'Rendez-vous médical matin', steps:[
+    {label:'Soumission', date:'12 Mar 2026', state:'done', note:'Envoyée'},
+    {label:'Manager\n(N1)', date:null, state:'pending', note:'En attente Manager'},
+    {label:'RH\n(N2)', date:null, state:'waiting', note:''},
+    {label:'Décision\nfinale', date:null, state:'waiting', note:''}
+  ]},
 ];
-
-const titles = { dashboard:'Tableau de bord RH', suivi:'Suivi des employés', teletravail:'Demandes télétravail', validation:'Validation N2', rapports:'Rapports RH', capacite:'Gestion de la capacité', politiques:'Politiques de télétravail' };
-
-/* ── DROPDOWN ── */
-function toggleDropdown(e) {
-  e.stopPropagation();
-  document.getElementById('settingsDropdown').classList.toggle('open');
-}
-function closeDropdown() {
-  document.getElementById('settingsDropdown').classList.remove('open');
-}
-document.addEventListener('click', () => closeDropdown());
-
-/* ── LOGOUT ── */
-function openLogout() {
-  closeDropdown();
-  document.getElementById('logoutOverlay').classList.add('show');
-}
-function closeLogout() {
-  document.getElementById('logoutOverlay').classList.remove('show');
-}
-function confirmLogout() {
-  document.getElementById('logoutOverlay').innerHTML = `
-    <div class="logout-modal">
-      <span class="lm-icon">✅</span>
-      <h3 style="color:#96CEB4">Déconnexion réussie</h3>
-      <p>À bientôt, Sonia.<br>Redirection vers la page de connexion…</p>
-    </div>`;
-  setTimeout(() => {
-    window.location.href = 'file:///C:/Users/user/Downloads/interfaceTT/index.html';
-  }, 1500);
-}
-
-function show(sec, btn) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-  document.getElementById('sec-'+sec).classList.add('active');
-  if(btn) btn.classList.add('active');
-  document.getElementById('pageTitle').textContent = titles[sec] || sec;
-  if (sec==='suivi') renderSuivi(allEmployees);
-  if (sec==='teletravail') renderTeletravail();
-  if (sec==='validation') renderValidationN2();
-  if (sec==='dashboard') renderDashboard();
-  if (sec==='capacite') renderCapacity();
-  if (sec==='politiques') renderPolicies();
-}
-
-document.getElementById('pageDate').textContent =
-  new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-
-const statutBadge = s => s==='Présent'?'badge-green':s==='Télétravail'?'badge-teal':'badge-red';
-const dotIcon = s => ({ done:'✓', active:'▶', pending:'⏳', refused:'✗', waiting:'○' }[s] || '?');
-const dateColor = s => ({ done:'green', active:'teal', refused:'red', waiting:'muted', pending:'yellow' }[s]);
-
-function buildTimeline(steps) {
-  return steps.map((s,i) => {
-    const lineColor = s.state==='done'?'#96CEB4':s.state==='refused'?'#ff6b6b':'var(--border)';
-    return `<div class="tl-step ${s.state==='done'?'done':''}" style="--line-color:${lineColor}">
-      <div class="tl-dot ${s.state}">${dotIcon(s.state)}</div>
-      <div class="tl-label">${s.label.replace(/\n/,'<br>')}</div>
-      ${s.date?`<div class="tl-date ${dateColor(s.state)}">${s.date}</div>`:`<div class="tl-date muted">—</div>`}
-      ${s.note?`<div style="font-size:.65rem;color:rgba(255,255,255,.3);text-align:center;margin-top:2px;max-width:72px">${s.note}</div>`:''}
-    </div>`;
-  }).join('');
-}
-
-function renderValidationN2() {
-  const pending = demandes.filter(d => d.steps[2].state==='active'||d.steps[2].state==='pending');
-  document.getElementById('badgeN2').textContent = pending.length;
-  document.getElementById('dashPending').textContent = pending.length;
-  document.getElementById('validationN2List').innerHTML = pending.length
-    ? pending.map(d=>`<div class="demand-card">
-        <div class="demand-meta">
-          <div>
-            <div style="font-weight:700;font-size:.98rem">${d.employe}</div>
-            <div style="font-size:.78rem;color:var(--muted);margin-top:2px">📌 ${d.type}</div>
-            <div style="font-size:.76rem;color:rgba(255,255,255,.45);margin-top:5px">💬 ${d.motif}</div>
-          </div>
-          <span class="status-pill pill-blue">✓ N1 validé — en attente RH</span>
-        </div>
-        <div class="timeline">${buildTimeline(d.steps)}</div>
-        <div class="demand-actions">
-          <button class="btn-validate" onclick="actN2(${d.id},'done')">✓ Approuver définitivement</button>
-          <button class="btn-refuse" onclick="actN2(${d.id},'refused')">✗ Refuser</button>
-        </div>
-      </div>`).join('')
-    : '<div style="text-align:center;color:var(--muted);padding:32px;background:var(--card);border-radius:14px;border:1px solid var(--border)">✅ Aucune demande N2 en attente</div>';
-}
-
-function actN2(id, action) {
-  demandes = demandes.map(d => {
-    if (d.id!==id) return d;
-    const s=[...d.steps];
-    if (action==='done') { s[2]={...s[2],state:'done',date:today,note:'Approuvé ✓'}; s[3]={...s[3],state:'done',date:today,note:'Décision finale'}; }
-    else { s[2]={...s[2],state:'refused',date:today,note:'Refusé ✗'}; s[3]={...s[3],state:'refused',note:'Clôturé'}; }
-    return { ...d, steps:s };
-  });
-  renderValidationN2();
-}
-
-function renderTeletravail() {
-  const tele = demandes.filter(d => d.type==='Télétravail');
-  document.getElementById('teletravailList').innerHTML = tele.map(d=>`
-    <div class="demand-card">
-      <div class="demand-meta">
-        <div>
-          <div style="font-weight:700">${d.employe}</div>
-          <div style="font-size:.78rem;color:var(--muted);margin-top:3px">📌 ${d.type} • 💬 ${d.motif}</div>
-        </div>
-        <span class="status-pill pill-yellow">⏳ Niveau 1</span>
-      </div>
-      <div class="timeline">${buildTimeline(d.steps)}</div>
-    </div>`).join('') || '<p style="color:var(--muted)">Aucune demande.</p>';
-}
-
-function renderDashboard() {
-  document.getElementById('recentDemandes').innerHTML = demandes.slice(0,4).map(d=>{
-    const s=d.steps[2].state==='done'?'Approuvé':d.steps[2].state==='active'?'Validé N1':d.steps[1].state==='refused'?'Refusé':'En attente';
-    const cls=s==='Approuvé'?'badge-green':s==='Validé N1'?'badge-teal':s==='Refusé'?'badge-red':'badge-yellow';
-    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)">
-      <div><div style="font-weight:600;font-size:.85rem">${d.employe}</div><div style="font-size:.74rem;color:var(--muted)">${d.type}</div></div>
-      <span class="badge ${cls}">${s}</span>
-    </div>`;
-  }).join('');
-  document.getElementById('presenceAujourdhui').innerHTML = employees.map(e=>`
-    <div class="emp-row">
-      <div style="display:flex;align-items:center;gap:10px">
-        <div class="emp-avatar">${e.nom[0]}</div>
-        <div><div style="font-weight:600;font-size:.85rem">${e.nom}</div><div style="font-size:.74rem;color:var(--muted)">${e.poste}</div></div>
-      </div>
-      <span class="badge ${statutBadge(e.statut)}">${e.statut}</span>
-    </div>`).join('');
-}
-
-function renderSuivi(data) {
-  document.getElementById('suiviList').innerHTML = data.map(e=>`
-    <div class="emp-row">
-      <div style="display:flex;align-items:center;gap:12px">
-        <div class="emp-avatar">${e.nom[0]}</div>
-        <div><div style="font-weight:600">${e.nom}</div><div style="font-size:.76rem;color:var(--muted)">${e.poste} • ${e.dept}</div></div>
-      </div>
-      <div style="display:flex;align-items:center;gap:10px">
-        <span style="font-size:.78rem;color:${e.besoin!=='Aucun'?'#FFE66D':'var(--muted)'}">📌 ${e.besoin}</span>
-        <span class="badge ${statutBadge(e.statut)}">${e.statut}</span>
-      </div>
-    </div>`).join('');
-}
-
-function filterSuivi() {
-  const q=document.getElementById('suiviSearch').value.toLowerCase();
-  renderSuivi(allEmployees.filter(e=>e.nom.toLowerCase().includes(q)||e.poste.toLowerCase().includes(q)));
-}
-function filterSuiviStatut(s) { renderSuivi(s?allEmployees.filter(e=>e.statut===s):allEmployees); }
-
-function showReport(type) {
-  const reports = {
-    presence: '<h3 style="font-family:Syne,sans-serif;margin-bottom:16px;color:#96CEB4">Rapport de présence — Mars 2026</h3><table><thead><tr><th>Employé</th><th>Présences</th><th>Absences</th><th>Télétravail</th></tr></thead><tbody><tr><td>Ahmed Ben Ali</td><td>21</td><td>1</td><td>5</td></tr><tr><td>Fatima Khelil</td><td>20</td><td>2</td><td>8</td></tr><tr><td>Karim Zouari</td><td>22</td><td>0</td><td>3</td></tr></tbody></table>',
-    teletravail: '<h3 style="font-family:Syne,sans-serif;margin-bottom:16px;color:#45B7D1">Rapport télétravail — Mars 2026</h3><table><thead><tr><th>Employé</th><th>Jours/sem</th><th>Mode</th><th>Statut</th></tr></thead><tbody><tr><td>Fatima Khelil</td><td>3j</td><td>Hybride</td><td><span class="badge badge-green">Actif</span></td></tr><tr><td>Nadia Ben Salah</td><td>5j</td><td>Full remote</td><td><span class="badge badge-teal">Actif</span></td></tr></tbody></table>',
-    conges: '<h3 style="font-family:Syne,sans-serif;margin-bottom:16px;color:#FFE66D">Rapport congés — Mars 2026</h3><table><thead><tr><th>Employé</th><th>Type</th><th>Début</th><th>Fin</th><th>Statut</th></tr></thead><tbody><tr><td>Mohamed Trabelsi</td><td>Maladie</td><td>10 Mars</td><td>15 Mars</td><td><span class="badge badge-yellow">En cours</span></td></tr></tbody></table>',
-    recrutement: '<h3 style="font-family:Syne,sans-serif;margin-bottom:16px;color:#FF6B35">Rapport recrutement — Mars 2026</h3><table><thead><tr><th>Poste</th><th>Candidatures</th><th>Entretiens</th></tr></thead><tbody><tr><td>Dev iOS</td><td>5</td><td>2</td></tr><tr><td>Designer UX</td><td>4</td><td>1</td></tr></tbody></table>',
-  };
-  const d=document.getElementById('reportDetail');
-  d.style.display='block';
-  document.getElementById('reportContent').innerHTML = reports[type]||'';
-  d.scrollIntoView({ behavior:'smooth', block:'start' });
-}
-
-renderDashboard();
 
 let capDepts = [
   { name:'IT',         color:'#FF6B35', total:18, max:10, current:5 },
@@ -677,43 +531,144 @@ let capDepts = [
   { name:'Commercial', color:'#96CEB4', total:5,  max:3,  current:1 },
 ];
 
-function updateCapSummary() {
-  const live  = capDepts.reduce((s,d)=>s+d.current,0);
-  const total = capDepts.reduce((s,d)=>s+d.max,0);
-  const avail = total - live;
-  const rate  = total > 0 ? Math.round(live/total*100) : 0;
-  document.getElementById('capLive').textContent  = live;
-  document.getElementById('capTotal').textContent = total;
-  document.getElementById('capAvail').textContent = avail;
-  document.getElementById('capRate').textContent  = rate + '%';
+function show(sec, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  document.getElementById('sec-'+sec).classList.add('active');
+  if (btn) btn.classList.add('active');
+  document.getElementById('pageTitle').textContent = titles[sec] || sec;
+  if (sec==='validation') renderValidationN2();
+  if (sec==='dashboard')  renderDashboard();
+  if (sec==='capacite')   renderCapacity();
+  if (sec==='politiques') renderPolicies();
+  if (sec==='suivi')      renderSuiviTable(demandes);
+  if (sec==='rapports')   renderKPI();
+}
+document.getElementById('pageDate').textContent = new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+const dotIcon = s => ({done:'✓',active:'▶',pending:'⏳',refused:'✗',waiting:'○'}[s]||'?');
+const dateColor = s => ({done:'green',active:'teal',refused:'red',waiting:'muted',pending:'yellow'}[s]);
+
+function buildTimeline(steps) {
+  return steps.map(s => {
+    const lineColor = s.state==='done'?'#96CEB4':s.state==='refused'?'#ff6b6b':'var(--border)';
+    return `<div class="tl-step ${s.state==='done'?'done':''}" style="--line-color:${lineColor}">
+      <div class="tl-dot ${s.state}">${dotIcon(s.state)}</div>
+      <div class="tl-label">${s.label.replace(/\n/,'<br>')}</div>
+      ${s.date?`<div class="tl-date ${dateColor(s.state)}">${s.date}</div>`:`<div class="tl-date muted">—</div>`}
+      ${s.note?`<div style="font-size:.65rem;color:var(--muted);text-align:center;margin-top:2px;max-width:72px">${s.note}</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+function renderValidationN2() {
+  const pending = demandes.filter(d => d.steps[2].state==='active');
+  document.getElementById('badgeN2').textContent = pending.length;
+  document.getElementById('dashN2').textContent = pending.length;
+  document.getElementById('validationN2List').innerHTML = pending.length
+    ? pending.map(d=>`<div class="demand-card">
+        <div class="demand-meta">
+          <div>
+            <div style="font-weight:700;font-size:.98rem">🏡 ${d.employe} <span style="font-size:.8rem;color:var(--muted);font-weight:400">• ${d.dept}</span></div>
+            <div style="font-size:.76rem;color:var(--muted);margin-top:2px">📅 ${d.dates}</div>
+            <div style="font-size:.76rem;color:var(--muted);margin-top:5px">💬 ${d.motif}</div>
+          </div>
+          <span class="status-pill pill-teal">✓ N1 validé — en attente RH</span>
+        </div>
+        <div class="timeline">${buildTimeline(d.steps)}</div>
+        <div class="demand-actions">
+          <button class="btn-validate" onclick="actN2(${d.id},'done')">✓ Approuver définitivement</button>
+          <button class="btn-refuse" onclick="actN2(${d.id},'refused')">✗ Refuser</button>
+        </div>
+      </div>`).join('')
+    : '<div style="text-align:center;color:var(--muted);padding:32px;background:var(--card);border-radius:14px;border:1px solid var(--card-border)">✅ Aucune demande TT N2 en attente</div>';
+}
+
+function actN2(id, action) {
+  demandes = demandes.map(d => {
+    if (d.id!==id) return d;
+    const s = [...d.steps];
+    if (action==='done') { s[2]={...s[2],state:'done',date:today,note:'Approuvé ✓'}; s[3]={...s[3],state:'done',date:today,note:'Décision finale'}; }
+    else { s[2]={...s[2],state:'refused',date:today,note:'Refusé ✗'}; s[3]={...s[3],state:'refused',note:'Clôturé'}; }
+    return {...d,steps:s};
+  });
+  renderValidationN2();
+  showToast(action==='done' ? '✅ Demande TT approuvée définitivement' : '✗ Demande TT refusée');
+}
+
+function getStatus(steps) {
+  if (steps[3].state==='done') return {text:'Approuvé',cls:'badge-green'};
+  if (steps[2].state==='refused'||steps[1].state==='refused') return {text:'Refusé',cls:'badge-red'};
+  if (steps[2].state==='active') return {text:'Validé N1 — en attente N2',cls:'badge-teal'};
+  if (steps[1].state==='pending'||steps[1].state==='active') return {text:'En attente N1',cls:'badge-yellow'};
+  return {text:'Soumis',cls:'badge-yellow'};
+}
+
+function renderSuiviTable(data) {
+  document.getElementById('suiviTable').innerHTML = data.map(d => {
+    const s = getStatus(d.steps);
+    return `<tr>
+      <td style="font-weight:600">🏡 ${d.employe}</td>
+      <td style="color:var(--muted)">${d.dept}</td>
+      <td>${d.dates}</td>
+      <td style="font-size:.8rem;color:var(--muted)">${d.motif}</td>
+      <td><span class="badge ${s.cls}">${s.text}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+function filterSuivi() {
+  const q = document.getElementById('suiviSearch').value.toLowerCase();
+  const st = document.getElementById('suiviStatut').value;
+  renderSuiviTable(demandes.filter(d => {
+    const matchQ = d.employe.toLowerCase().includes(q) || d.dept.toLowerCase().includes(q);
+    const matchS = !st || getStatus(d.steps).text === st;
+    return matchQ && matchS;
+  }));
+}
+
+function renderDashboard() {
+  document.getElementById('recentDemandes').innerHTML = demandes.slice(0,4).map(d => {
+    const s = getStatus(d.steps);
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)">
+      <div><div style="font-weight:600;font-size:.85rem">🏡 ${d.employe}</div>
+      <div style="font-size:.74rem;color:var(--muted)">${d.dates} • ${d.motif}</div></div>
+      <span class="badge ${s.cls}">${s.text}</span>
+    </div>`;
+  }).join('');
+  document.getElementById('capSummary').innerHTML = capDepts.map(d => {
+    const pct = Math.round(d.current/d.max*100);
+    const avail = d.max - d.current;
+    return `<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+      <div style="width:10px;height:10px;border-radius:50%;background:${d.color};flex-shrink:0"></div>
+      <div style="flex:1;font-size:.82rem">${d.name}</div>
+      <div style="flex:2;height:7px;background:var(--input-bg);border-radius:4px;overflow:hidden">
+        <div style="height:100%;width:${pct}%;background:${d.color};border-radius:4px"></div>
+      </div>
+      <div style="font-size:.74rem;color:var(--muted);width:70px;text-align:right">${d.current}/${d.max} — ${avail} libre${avail>1?'s':''}</div>
+    </div>`;
+  }).join('');
 }
 
 function renderCapacity() {
-  updateCapSummary();
-  const container = document.getElementById('capCards');
-  container.innerHTML = capDepts.map((d,i) => {
+  document.getElementById('capCards').innerHTML = capDepts.map((d,i) => {
     const avail = d.max - d.current;
-    const pct   = d.max > 0 ? Math.round(d.current/d.max*100) : 0;
-    const cls   = avail <= 0 ? 'cap-full' : avail <= 1 ? 'cap-warn' : 'cap-ok';
-    const label = avail <= 0 ? '🔴 Complet' : avail === 1 ? `⚠️ 1 place` : `✅ ${avail} places`;
+    const pct = d.max > 0 ? Math.round(d.current/d.max*100) : 0;
+    const cls = avail<=0?'cap-full':avail<=1?'cap-warn':'cap-ok';
+    const label = avail<=0?'🔴 Complet':avail===1?`⚠️ 1 place`:`✅ ${avail} places`;
     return `<div class="cap-card">
       <div style="display:flex;justify-content:space-between;align-items:center">
         <div class="cap-dept" style="color:${d.color}">${d.name}</div>
         <span class="cap-available ${cls}">${label}</span>
       </div>
       <div style="font-size:.76rem;color:var(--muted);margin-top:2px">${d.total} employés • ${d.current} en TT actuellement</div>
-      <div class="cap-bar-wrap">
-        <div class="cap-bar" style="width:${pct}%;background:${d.color}"></div>
-      </div>
-      <div class="cap-numbers">
-        <span style="color:${d.color}">${d.current} / ${d.max}</span>
-        <span>${pct}% utilisé</span>
-      </div>
+      <div class="cap-bar-wrap"><div class="cap-bar" style="width:${pct}%;background:${d.color}"></div></div>
+      <div class="cap-numbers"><span style="color:${d.color}">${d.current} / ${d.max}</span><span>${pct}% utilisé</span></div>
       <div class="cap-input-row">
         <span class="cap-label-sm">Max autorisés :</span>
         <input class="cap-input" type="number" min="0" max="${d.total}" value="${d.max}"
-          onchange="updateCapMax(${i}, this.value)">
-        <span class="cap-label-sm">/ ${d.total} employés</span>
+          onchange="updateCapMax(${i},this.value)">
+        <span class="cap-label-sm">/ ${d.total}</span>
       </div>
     </div>`;
   }).join('');
@@ -726,18 +681,17 @@ function updateCapMax(idx, val) {
 function saveCapacity() {
   const m = document.getElementById('capSaveMsg');
   m.style.display = 'block';
-  setTimeout(() => m.style.display = 'none', 3000);
+  setTimeout(() => m.style.display='none', 3000);
+  showToast('💾 Capacités TT enregistrées');
 }
 
 function renderPolicies() {
   const quotas = [
-    { name:'IT',         color:'#FF6B35', quota:55 },
-    { name:'Design',     color:'#4ECDC4', quota:62 },
-    { name:'RH',         color:'#45B7D1', quota:50 },
-    { name:'Finance',    color:'#FFE66D', quota:40 },
-    { name:'Commercial', color:'#96CEB4', quota:60 },
+    {name:'IT', color:'#FF6B35', quota:55}, {name:'Design', color:'#4ECDC4', quota:62},
+    {name:'RH', color:'#45B7D1', quota:50}, {name:'Finance', color:'#FFE66D', quota:40},
+    {name:'Commercial', color:'#96CEB4', quota:60},
   ];
-  document.getElementById('deptQuotas').innerHTML = quotas.map(q => `
+  document.getElementById('deptQuotas').innerHTML = quotas.map(q=>`
     <div class="dept-quota-row">
       <div class="dq-name" style="color:${q.color}">${q.name}</div>
       <div class="dq-bar-wrap"><div class="dq-bar" style="width:${q.quota}%;background:${q.color}"></div></div>
@@ -747,12 +701,28 @@ function renderPolicies() {
       <span class="policy-unit" style="margin-left:4px">%</span>
     </div>`).join('');
 }
-
 function savePolicies() {
   const m = document.getElementById('polSaveMsg');
   m.style.display = 'block';
-  setTimeout(() => m.style.display = 'none', 3500);
+  setTimeout(() => m.style.display='none', 3500);
+  showToast('⚙️ Politiques TT enregistrées');
 }
+
+function renderKPI() {
+  const kpis = [
+    {label:'Taux d\'approbation global', pct:71, color:'#96CEB4'},
+    {label:'Respect des politiques TT', pct:87, color:'#4ECDC4'},
+    {label:'Taux TT moyen par employé', pct:48, color:'#45B7D1'},
+    {label:'Demandes soumises à temps', pct:93, color:'#FFE66D'},
+    {label:'Satisfaction du processus', pct:76, color:'#FF6B35'},
+  ];
+  document.getElementById('globalKPI').innerHTML = kpis.map(k=>`
+    <div class="kpi-row"><div class="kpi-label">${k.label}</div>
+    <div class="kpi-bar-wrap"><div class="kpi-bar" style="width:${k.pct}%;background:${k.color}"></div></div>
+    <div class="kpi-pct">${k.pct}%</div></div>`).join('');
+}
+
+renderDashboard();
 </script>
 </body>
 </html>

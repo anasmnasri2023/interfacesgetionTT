@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,13 +7,49 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --accent: #45B7D1; --accent2: #63cce0; --bg: #080e14; --bg2: #0b121a;
-  --sidebar: #090d14; --card: rgba(255,255,255,0.04); --border: rgba(255,255,255,0.07);
-  --text: #e0eaf0; --muted: rgba(255,255,255,0.38);
+
+:root,
+[data-theme="dark"] {
+  --accent: #45B7D1;
+  --accent2: #63cce0;
+  --bg: #080b14;
+  --bg2: #0d1120;
+  --sidebar: #090c17;
+  --card: rgba(255,255,255,0.04);
+  --card-border: rgba(255,255,255,0.07);
+  --border: rgba(255,255,255,0.07);
+  --text: #e8eaf0;
+  --muted: rgba(255,255,255,0.38);
+  --shadow: 0 4px 20px rgba(0,0,0,0.4);
+  --row-hover: rgba(255,255,255,0.03);
+  --input-bg: rgba(255,255,255,0.06);
+  --topbar-bg: #0d1120;
+  --icon-btn-hover: rgba(255,255,255,0.08);
+  --dropdown-bg: #090c17;
+  --overlay-modal-bg: #090c17;
 }
-body { display:flex; min-height:100vh; background:var(--bg); font-family:'DM Sans',sans-serif; color:var(--text); }
-.sidebar { width:240px; min-height:100vh; background:var(--sidebar); border-right:1px solid var(--border); display:flex; flex-direction:column; position:sticky; top:0; height:100vh; flex-shrink:0; }
+[data-theme="light"] {
+  --accent: #45B7D1;
+  --accent2: #63cce0;
+  --bg: #F4F6FA;
+  --bg2: #FFFFFF;
+  --sidebar: #FFFFFF;
+  --card: #FFFFFF;
+  --card-border: rgba(0,0,0,0.07);
+  --border: rgba(0,0,0,0.09);
+  --text: #1a1d2e;
+  --muted: rgba(0,0,0,0.42);
+  --shadow: 0 2px 12px rgba(0,0,0,0.07);
+  --row-hover: rgba(0,0,0,0.025);
+  --input-bg: rgba(0,0,0,0.04);
+  --topbar-bg: #FFFFFF;
+  --icon-btn-hover: rgba(0,0,0,0.06);
+  --dropdown-bg: #FFFFFF;
+  --overlay-modal-bg: #FFFFFF;
+}
+
+body { display:flex; min-height:100vh; background:var(--bg); font-family:'DM Sans',sans-serif; color:var(--text); transition: background .3s, color .3s; }
+.sidebar { width:240px; min-height:100vh; background:var(--sidebar); border-right:1px solid var(--border); display:flex; flex-direction:column; position:sticky; top:0; height:100vh; flex-shrink:0; box-shadow:var(--shadow); transition: background .3s; }
 .sidebar-brand { padding:28px 20px 20px; border-bottom:1px solid var(--border); }
 .sidebar-brand h2 { font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:800; }
 .sidebar-brand h2 span { color:var(--accent); }
@@ -24,108 +60,94 @@ body { display:flex; min-height:100vh; background:var(--bg); font-family:'DM San
 nav { flex:1; padding:16px 10px; overflow-y:auto; }
 .nav-section { font-size:.68rem; font-weight:700; letter-spacing:2px; color:var(--muted); text-transform:uppercase; padding:14px 10px 6px; }
 .nav-item { display:flex; align-items:center; gap:12px; padding:10px 14px; border-radius:10px; cursor:pointer; font-size:.85rem; color:var(--muted); font-weight:500; border:none; background:transparent; width:100%; text-align:left; margin-bottom:2px; transition:all .2s; border-left:3px solid transparent; }
-.nav-item:hover { background:rgba(69,183,209,.08); color:#fff; }
+.nav-item:hover { background:rgba(69,183,209,.08); color:var(--text); }
 .nav-item.active { background:rgba(69,183,209,.12); color:var(--accent); font-weight:600; border-left-color:var(--accent); }
 .nav-item .icon { font-size:1.05rem; flex-shrink:0; }
 .badge-count { margin-left:auto; background:var(--accent); color:#08101a; font-size:.68rem; font-weight:800; padding:2px 7px; border-radius:12px; }
 .main { flex:1; display:flex; flex-direction:column; overflow:hidden; }
-.topbar { padding:16px 24px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; background:var(--bg2); }
+.topbar { padding:18px 32px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; background:var(--topbar-bg); box-shadow:var(--shadow); transition: background .3s; }
 .page-title { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; }
 .page-sub { color:var(--muted); font-size:.8rem; margin-top:2px; }
 .topbar-icons { display:flex; align-items:center; gap:4px; }
-.topbar-icon-btn { position:relative; width:38px; height:38px; border-radius:50%; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.09); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background .2s,border-color .2s; font-size:1.05rem; color:rgba(255,255,255,0.65); flex-shrink:0; }
-.topbar-icon-btn:hover { background:rgba(255,255,255,0.12); border-color:rgba(255,255,255,0.18); color:#fff; }
-.topbar-icon-btn .notif-dot { position:absolute; top:5px; right:5px; width:8px; height:8px; border-radius:50%; background:#45B7D1; border:2px solid var(--bg2); }
-.topbar-avatar-btn { width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:.82rem; color:#08101a; font-weight:800; transition:transform .2s; flex-shrink:0; border:2px solid transparent; }
-.topbar-avatar-btn:hover { transform:scale(1.08); }
-.topbar-divider { width:1px; height:26px; background:rgba(255,255,255,0.1); margin:0 6px; flex-shrink:0; }
 .btn { padding:9px 18px; border-radius:9px; border:none; font-family:'DM Sans',sans-serif; font-weight:600; font-size:.83rem; cursor:pointer; transition:all .2s; }
 .btn-primary { background:var(--accent); color:#08101a; }
 .btn-primary:hover { background:var(--accent2); }
-.btn-ghost { background:rgba(255,255,255,.07); color:var(--text); border:1px solid var(--border); }
-/* ── DROPDOWN ── */
+.btn-ghost { background:var(--input-bg); color:var(--text); border:1px solid var(--border); }
+.btn-ghost:hover { background:var(--row-hover); }
+.topbar-icon-btn { position:relative; width:38px; height:38px; border-radius:50%; background:var(--input-bg); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background .2s; font-size:1.05rem; color:var(--muted); flex-shrink:0; }
+.topbar-icon-btn:hover { background:var(--icon-btn-hover); color:var(--text); }
+.topbar-icon-btn .notif-dot { position:absolute; top:5px; right:5px; width:8px; height:8px; border-radius:50%; background:var(--accent); border:2px solid var(--topbar-bg); }
+.topbar-avatar-btn { width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:.82rem; color:#08101a; font-weight:800; transition:transform .2s; flex-shrink:0; }
+.topbar-divider { width:1px; height:26px; background:var(--border); margin:0 6px; flex-shrink:0; }
+.dark-toggle { position:relative; width:38px; height:38px; border-radius:50%; background:var(--input-bg); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all .25s; font-size:1.1rem; flex-shrink:0; overflow:hidden; }
+.dark-toggle:hover { background:rgba(69,183,209,.12); border-color:rgba(69,183,209,.35); transform:scale(1.08); }
+.dark-toggle .icon-sun, .dark-toggle .icon-moon { position:absolute; transition:opacity .3s, transform .3s; }
+[data-theme="light"] .dark-toggle .icon-sun  { opacity:1; transform:scale(1); }
+[data-theme="light"] .dark-toggle .icon-moon { opacity:0; transform:scale(.5) rotate(45deg); }
+[data-theme="dark"]  .dark-toggle .icon-sun  { opacity:0; transform:scale(.5) rotate(-45deg); }
+[data-theme="dark"]  .dark-toggle .icon-moon { opacity:1; transform:scale(1); }
 .dropdown-wrapper { position:relative; }
-.dropdown-menu { display:none; position:absolute; top:calc(100% + 10px); right:0; min-width:200px; background:#0a1520; border:1px solid rgba(255,255,255,0.12); border-radius:14px; padding:6px; z-index:999; box-shadow:0 8px 32px rgba(0,0,0,0.5); animation:fadeMenuIn .15s ease; }
+.dropdown-menu { display:none; position:absolute; top:calc(100% + 10px); right:0; min-width:200px; background:var(--dropdown-bg); border:1px solid var(--border); border-radius:14px; padding:6px; z-index:999; box-shadow:var(--shadow); animation:fadeMenuIn .15s ease; }
 @keyframes fadeMenuIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
 .dropdown-menu.open { display:block; }
-.dropdown-header { padding:10px 14px 8px; border-bottom:1px solid rgba(255,255,255,0.07); margin-bottom:4px; }
-.dropdown-header .dh-name { font-weight:700; font-size:.88rem; color:#e0eaf0; }
-.dropdown-header .dh-email { font-size:.73rem; color:rgba(255,255,255,.38); margin-top:2px; }
-.dropdown-item { display:flex; align-items:center; gap:10px; width:100%; padding:9px 14px; border-radius:9px; background:transparent; border:none; cursor:pointer; font-family:'DM Sans',sans-serif; font-size:.84rem; color:rgba(255,255,255,.7); text-align:left; transition:background .15s,color .15s; }
-.dropdown-item:hover { background:rgba(69,183,209,.08); color:#fff; }
+.dropdown-header { padding:10px 14px 8px; border-bottom:1px solid var(--border); margin-bottom:4px; }
+.dropdown-header .dh-name { font-weight:700; font-size:.88rem; }
+.dropdown-header .dh-email { font-size:.73rem; color:var(--muted); margin-top:2px; }
+.dropdown-item { display:flex; align-items:center; gap:10px; width:100%; padding:9px 14px; border-radius:9px; background:transparent; border:none; cursor:pointer; font-family:'DM Sans',sans-serif; font-size:.84rem; color:var(--muted); text-align:left; transition:background .15s; }
+.dropdown-item:hover { background:rgba(69,183,209,.08); color:var(--text); }
 .dropdown-item .di-icon { font-size:.95rem; width:20px; text-align:center; }
 .dropdown-item.danger { color:rgba(255,107,107,.8); }
 .dropdown-item.danger:hover { background:rgba(255,107,107,.1); color:#ff6b6b; }
-.dropdown-divider { height:1px; background:rgba(255,255,255,.07); margin:4px 6px; }
-/* ── LOGOUT OVERLAY ── */
-.logout-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.7); z-index:9999; align-items:center; justify-content:center; }
+.dropdown-divider { height:1px; background:var(--border); margin:4px 6px; }
+.logout-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:9999; align-items:center; justify-content:center; }
 .logout-overlay.show { display:flex; }
-.logout-modal { background:#0a1520; border:1px solid rgba(255,255,255,.12); border-radius:20px; padding:32px 28px; text-align:center; max-width:340px; width:90%; animation:fadeMenuIn .2s ease; }
+.logout-modal { background:var(--overlay-modal-bg); border:1px solid var(--border); border-radius:20px; padding:32px 28px; text-align:center; max-width:340px; width:90%; animation:fadeMenuIn .2s ease; }
 .logout-modal h3 { font-family:'Syne',sans-serif; font-size:1.2rem; font-weight:800; margin-bottom:8px; }
-.logout-modal p { color:rgba(255,255,255,.45); font-size:.85rem; margin-bottom:24px; }
+.logout-modal p { color:var(--muted); font-size:.85rem; margin-bottom:24px; }
 .logout-modal .lm-icon { font-size:2.4rem; margin-bottom:14px; display:block; }
 .logout-btns { display:flex; gap:10px; justify-content:center; }
-.btn-danger { background:rgba(255,107,107,.15); color:#ff6b6b; border:1px solid rgba(255,107,107,.3); border-radius:9px; padding:9px 18px; font-family:'DM Sans',sans-serif; font-weight:600; font-size:.83rem; cursor:pointer; transition:all .2s; }
+.btn-danger { background:rgba(255,107,107,.13); color:#ff6b6b; border:1px solid rgba(255,107,107,.3); border-radius:9px; padding:9px 18px; font-family:'DM Sans',sans-serif; font-weight:600; font-size:.83rem; cursor:pointer; transition:all .2s; }
 .btn-danger:hover { background:rgba(255,107,107,.28); }
-.content { flex:1; padding:32px; overflow-y:auto; }
+.content { flex:1; padding:32px; overflow-y:auto; background:var(--bg); transition: background .3s; }
+.section { display:none; }
+.section.active { display:block; }
 .stats-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:16px; margin-bottom:28px; }
-.stat-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:20px; position:relative; overflow:hidden; transition:transform .2s; }
+.stat-card { background:var(--card); border:1px solid var(--card-border); border-radius:16px; padding:20px; position:relative; overflow:hidden; transition:transform .2s; box-shadow:var(--shadow); }
 .stat-card:hover { transform:translateY(-3px); }
 .stat-card::before { content:''; position:absolute; top:0; right:0; width:80px; height:80px; background:radial-gradient(circle, var(--c) 0%, transparent 70%); opacity:.15; transform:translate(30%,-30%); }
 .stat-icon { font-size:1.5rem; margin-bottom:12px; }
 .stat-val { font-family:'Syne',sans-serif; font-size:2rem; font-weight:800; color:var(--c); }
 .stat-label { color:var(--muted); font-size:.78rem; margin-top:4px; }
-.panel { background:var(--card); border:1px solid var(--border); border-radius:18px; padding:24px; margin-bottom:20px; }
+.panel { background:var(--card); border:1px solid var(--card-border); border-radius:18px; padding:24px; margin-bottom:20px; box-shadow:var(--shadow); transition: background .3s; }
 .panel-title { font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; margin-bottom:18px; }
 .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px; }
-table { width:100%; border-collapse:collapse; }
-th { padding:12px 14px; text-align:left; color:var(--muted); font-size:.75rem; font-weight:700; text-transform:uppercase; letter-spacing:.8px; border-bottom:1px solid var(--border); }
-td { padding:13px 14px; font-size:.85rem; border-bottom:1px solid rgba(255,255,255,.04); }
-tr:last-child td { border-bottom:none; }
 .badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:.73rem; font-weight:600; }
-.badge-green  { background:rgba(150,206,180,.2); color:#96CEB4; }
-.badge-teal   { background:rgba(78,205,196,.2);  color:#4ECDC4; }
-.badge-blue   { background:rgba(69,183,209,.2);  color:#45B7D1; }
-.badge-orange { background:rgba(255,107,53,.2);  color:#FF6B35; }
-.badge-red    { background:rgba(255,107,107,.2); color:#ff6b6b; }
-.badge-yellow { background:rgba(255,230,109,.2); color:#FFE66D; }
-.section { display:none; }
-.section.active { display:block; }
-.planning-grid { overflow-x:auto; }
-.planning-table { width:100%; border-collapse:collapse; min-width:600px; }
-.planning-table th, .planning-table td { padding:11px 10px; border:1px solid var(--border); font-size:.82rem; }
-.planning-table thead th { background:rgba(255,255,255,.04); color:var(--muted); font-weight:700; text-transform:uppercase; font-size:.7rem; letter-spacing:.8px; }
-.planning-table .emp-cell { font-weight:600; color:var(--text); background:rgba(255,255,255,.03); }
-.slot { display:block; text-align:center; padding:5px 8px; border-radius:6px; font-size:.73rem; font-weight:600; cursor:pointer; transition:all .2s; }
-.slot-present { background:rgba(150,206,180,.2); color:#96CEB4; }
-.slot-remote  { background:rgba(69,183,209,.2);  color:#45B7D1; }
-.slot-off     { background:rgba(255,255,255,.04); color:var(--muted); }
-.slot:hover   { filter:brightness(1.2); }
-.kpi-row { display:flex; align-items:center; gap:14px; margin-bottom:12px; }
-.kpi-label { font-size:.83rem; color:rgba(255,255,255,.7); width:160px; flex-shrink:0; }
-.kpi-bar-wrap { flex:1; height:8px; background:rgba(255,255,255,.07); border-radius:4px; overflow:hidden; }
-.kpi-bar { height:100%; border-radius:4px; }
-.kpi-pct { font-size:.78rem; color:var(--muted); width:40px; text-align:right; }
-.legend-box { display:flex; flex-wrap:wrap; gap:10px 22px; background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:12px; padding:14px 18px; margin-bottom:20px; font-size:.78rem; }
-.legend-item { display:flex; align-items:center; gap:7px; }
-.legend-dot { width:11px; height:11px; border-radius:50%; flex-shrink:0; }
-.demand-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:20px 22px; margin-bottom:14px; transition:border-color .2s; }
+.badge-green  { background:rgba(150,206,180,.18); color:#27ae60; }
+.badge-yellow { background:rgba(255,200,60,.18);  color:#d4a017; }
+.badge-red    { background:rgba(255,107,107,.18); color:#e74c3c; }
+.badge-blue   { background:rgba(69,183,209,.18);  color:#45B7D1; }
+[data-theme="dark"] .badge-green  { background:rgba(150,206,180,.2); color:#96CEB4; }
+[data-theme="dark"] .badge-yellow { background:rgba(255,230,109,.2); color:#FFE66D; }
+[data-theme="dark"] .badge-red    { background:rgba(255,107,107,.2); color:#ff6b6b; }
+[data-theme="dark"] .badge-blue   { background:rgba(69,183,209,.2); color:#45B7D1; }
+.demand-card { background:var(--card); border:1px solid var(--card-border); border-radius:16px; padding:20px 22px; margin-bottom:14px; transition:border-color .2s; }
 .demand-card:hover { border-color:rgba(69,183,209,.3); }
 .demand-meta { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; }
 .status-pill { padding:4px 12px; border-radius:20px; font-size:.72rem; font-weight:700; white-space:nowrap; }
 .pill-yellow { background:rgba(255,230,109,.15); color:#FFE66D; border:1px solid rgba(255,230,109,.3); }
 .pill-green  { background:rgba(150,206,180,.15); color:#96CEB4; border:1px solid rgba(150,206,180,.3); }
 .pill-red    { background:rgba(255,107,107,.12); color:#ff6b6b; border:1px solid rgba(255,107,107,.3); }
+.pill-blue   { background:rgba(69,183,209,.15);  color:#45B7D1; border:1px solid rgba(69,183,209,.3); }
 .timeline { display:flex; align-items:flex-start; padding:8px 0 0; }
 .tl-step { flex:1; display:flex; flex-direction:column; align-items:center; position:relative; }
 .tl-step:not(:last-child)::after { content:''; position:absolute; top:12px; left:calc(50% + 14px); width:calc(100% - 28px); height:2px; background:var(--border); z-index:0; transition:background .4s; }
-.tl-step.done:not(:last-child)::after { background:var(--line-color, #96CEB4); }
+.tl-step.done:not(:last-child)::after { background:var(--line-color,#96CEB4); }
 .tl-dot { width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.75rem; font-weight:800; z-index:1; position:relative; border:2px solid transparent; }
-.tl-dot.pending  { background:rgba(255,230,109,.18); border-color:#FFE66D; color:#FFE66D; }
-.tl-dot.done     { background:rgba(150,206,180,.2);  border-color:#96CEB4; color:#96CEB4; }
-.tl-dot.refused  { background:rgba(255,107,107,.15); border-color:#ff6b6b; color:#ff6b6b; }
-.tl-dot.waiting  { background:rgba(255,255,255,.06); border-color:rgba(255,255,255,.15); color:var(--muted); }
-.tl-dot.active   { background:rgba(69,183,209,.2);   border-color:#45B7D1; color:#45B7D1; animation:pulse 1.4s infinite; }
+.tl-dot.done    { background:rgba(150,206,180,.2); border-color:#96CEB4; color:#96CEB4; }
+.tl-dot.active  { background:rgba(69,183,209,.2); border-color:#45B7D1; color:#45B7D1; animation:pulse 1.4s infinite; }
+.tl-dot.pending { background:rgba(255,230,109,.18); border-color:#FFE66D; color:#FFE66D; }
+.tl-dot.refused { background:rgba(255,107,107,.15); border-color:#ff6b6b; color:#ff6b6b; }
+.tl-dot.waiting { background:var(--input-bg); border-color:var(--border); color:var(--muted); }
 @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(69,183,209,.4)} 50%{box-shadow:0 0 0 6px rgba(69,183,209,0)} }
 .tl-label { font-size:.71rem; color:var(--muted); margin-top:7px; text-align:center; line-height:1.3; }
 .tl-date  { font-size:.68rem; margin-top:3px; text-align:center; font-weight:600; }
@@ -135,55 +157,54 @@ tr:last-child td { border-bottom:none; }
 .tl-date.muted  { color:var(--muted); }
 .tl-date.blue   { color:#45B7D1; }
 .demand-actions { display:flex; gap:8px; margin-top:16px; padding-top:14px; border-top:1px solid var(--border); }
-.btn-validate { padding:7px 16px; background:rgba(150,206,180,.15); border:1px solid #96CEB4; border-radius:8px; color:#96CEB4; cursor:pointer; font-weight:600; font-size:.8rem; transition:all .2s; }
+.btn-validate { padding:7px 16px; background:rgba(150,206,180,.15); border:1px solid #96CEB4; border-radius:8px; color:#96CEB4; cursor:pointer; font-weight:600; font-size:.8rem; transition:all .2s; font-family:'DM Sans',sans-serif; }
 .btn-validate:hover { background:rgba(150,206,180,.3); }
-.btn-refuse { padding:7px 16px; background:rgba(255,107,107,.1); border:1px solid #ff6b6b; border-radius:8px; color:#ff6b6b; cursor:pointer; font-weight:600; font-size:.8rem; transition:all .2s; }
+.btn-refuse { padding:7px 16px; background:rgba(255,107,107,.1); border:1px solid #ff6b6b; border-radius:8px; color:#ff6b6b; cursor:pointer; font-weight:600; font-size:.8rem; transition:all .2s; font-family:'DM Sans',sans-serif; }
 .btn-refuse:hover { background:rgba(255,107,107,.25); }
-.live-dot { width:7px; height:7px; border-radius:50%; background:#96CEB4; display:inline-block; margin-right:5px; animation:blink 1.8s infinite; flex-shrink:0; }
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
-.presence-header-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:22px; }
-.phs-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:16px 18px; text-align:center; position:relative; overflow:hidden; }
-.phs-card::before { content:''; position:absolute; top:-20px; right:-20px; width:60px; height:60px; border-radius:50%; background:var(--cc); opacity:.12; }
-.phs-num { font-family:'Syne',sans-serif; font-size:2rem; font-weight:800; color:var(--cc); }
-.phs-lbl { font-size:.74rem; color:var(--muted); margin-top:3px; }
-.emp-presence-card { display:flex; align-items:center; gap:14px; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:14px 18px; margin-bottom:10px; transition:border-color .2s, transform .2s; }
-.emp-presence-card:hover { border-color:rgba(69,183,209,.3); transform:translateX(3px); }
-.emp-avatar { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1rem; color:#fff; flex-shrink:0; }
-.emp-info { flex:1; }
-.emp-name { font-weight:700; font-size:.9rem; }
-.emp-role { font-size:.73rem; color:var(--muted); margin-top:1px; }
-.emp-status-block { display:flex; flex-direction:column; align-items:flex-end; gap:4px; }
-.emp-status-badge { padding:4px 12px; border-radius:20px; font-size:.72rem; font-weight:700; white-space:nowrap; }
-.status-present { background:rgba(150,206,180,.15); color:#96CEB4; border:1px solid rgba(150,206,180,.3); }
-.status-remote  { background:rgba(69,183,209,.15);  color:#45B7D1; border:1px solid rgba(69,183,209,.3); }
-.status-absent  { background:rgba(255,107,107,.1);  color:#ff6b6b; border:1px solid rgba(255,107,107,.3); }
-.status-off     { background:rgba(255,255,255,.07); color:var(--muted); border:1px solid var(--border); }
-.emp-since { font-size:.68rem; color:var(--muted); }
-.presence-filter { display:flex; gap:8px; margin-bottom:18px; flex-wrap:wrap; }
-.pf-btn { padding:6px 14px; border-radius:20px; border:1px solid var(--border); background:transparent; color:var(--muted); font-family:'DM Sans',sans-serif; font-size:.78rem; cursor:pointer; transition:all .2s; }
-.pf-btn.active, .pf-btn:hover { background:rgba(69,183,209,.1); border-color:rgba(69,183,209,.4); color:#45B7D1; }
-.week-map-wrap { overflow-x:auto; }
-.week-map { width:100%; border-collapse:collapse; min-width:520px; }
-.week-map th, .week-map td { padding:9px 10px; border:1px solid var(--border); font-size:.8rem; text-align:center; }
-.week-map thead th { background:rgba(255,255,255,.04); color:var(--muted); font-weight:700; text-transform:uppercase; font-size:.68rem; }
-.week-map td:first-child { text-align:left; font-weight:600; min-width:150px; }
-.wm-p { display:inline-block; padding:3px 8px; border-radius:5px; font-size:.7rem; font-weight:600; background:rgba(150,206,180,.18); color:#96CEB4; }
-.wm-r { display:inline-block; padding:3px 8px; border-radius:5px; font-size:.7rem; font-weight:600; background:rgba(69,183,209,.18); color:#45B7D1; }
-.wm-o { display:inline-block; padding:3px 8px; border-radius:5px; font-size:.7rem; font-weight:600; background:rgba(255,255,255,.04); color:var(--muted); }
-.wm-a { display:inline-block; padding:3px 8px; border-radius:5px; font-size:.7rem; font-weight:600; background:rgba(255,107,107,.12); color:#ff6b6b; }
+.legend-box { display:flex; flex-wrap:wrap; gap:10px 22px; background:var(--input-bg); border:1px solid var(--border); border-radius:12px; padding:14px 18px; margin-bottom:20px; font-size:.78rem; }
+.legend-item { display:flex; align-items:center; gap:7px; }
+.legend-dot { width:11px; height:11px; border-radius:50%; flex-shrink:0; }
+
+/* ── PLANNING ── */
+.planning-table { width:100%; border-collapse:collapse; min-width:600px; }
+.planning-table th, .planning-table td { padding:11px 10px; border:1px solid var(--border); font-size:.82rem; }
+.planning-table thead th { background:var(--input-bg); color:var(--muted); font-weight:700; text-transform:uppercase; font-size:.7rem; letter-spacing:.8px; }
+.planning-table .emp-cell { font-weight:600; }
+.slot { display:block; text-align:center; padding:5px 8px; border-radius:6px; font-size:.73rem; font-weight:600; cursor:pointer; transition:all .2s; }
+.slot-present { background:rgba(150,206,180,.2); color:#96CEB4; }
+.slot-remote  { background:rgba(69,183,209,.2);  color:#45B7D1; }
+.slot-off     { background:var(--input-bg); color:var(--muted); }
+.slot:hover   { filter:brightness(1.2); }
+
+/* ── RAPPORT ── */
+.kpi-row { display:flex; align-items:center; gap:14px; margin-bottom:12px; }
+.kpi-label { font-size:.83rem; color:var(--text); width:180px; flex-shrink:0; opacity:.8; }
+.kpi-bar-wrap { flex:1; height:8px; background:var(--input-bg); border-radius:4px; overflow:hidden; }
+.kpi-bar { height:100%; border-radius:4px; }
+.kpi-pct { font-size:.78rem; color:var(--muted); width:40px; text-align:right; }
+
+table { width:100%; border-collapse:collapse; }
+th { padding:12px 14px; text-align:left; color:var(--muted); font-size:.75rem; font-weight:700; text-transform:uppercase; letter-spacing:.8px; border-bottom:1px solid var(--border); }
+td { padding:13px 14px; font-size:.85rem; border-bottom:1px solid var(--border); }
+tr:last-child td { border-bottom:none; }
+tr:hover td { background:var(--row-hover); }
+
+.toast { position:fixed; bottom:28px; right:28px; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:14px 20px; display:flex; align-items:center; gap:12px; font-size:.85rem; font-weight:500; color:var(--text); box-shadow:0 8px 28px rgba(0,0,0,.18); z-index:8888; animation:slideToast .4s cubic-bezier(.34,1.56,.64,1); }
+.toast.out { animation:slideToastOut .3s ease forwards; }
+@keyframes slideToast { from{opacity:0;transform:translateY(20px) scale(.9)} to{opacity:1;transform:translateY(0) scale(1)} }
+@keyframes slideToastOut { from{opacity:1;transform:translateY(0) scale(1)} to{opacity:0;transform:translateY(10px) scale(.95)} }
 </style>
 </head>
 <body>
 
-<!-- LOGOUT MODAL -->
 <div class="logout-overlay" id="logoutOverlay">
   <div class="logout-modal">
     <span class="lm-icon">🔐</span>
     <h3>Se déconnecter ?</h3>
-    <p>Vous allez quitter votre session Manager.<br>Toutes les modifications non sauvegardées seront perdues.</p>
+    <p>Vous allez quitter votre session Manager.</p>
     <div class="logout-btns">
       <button class="btn btn-ghost" onclick="closeLogout()">Annuler</button>
-      <button class="btn btn-danger" onclick="confirmLogout()">Oui, se déconnecter</button>
+      <button class="btn-danger" onclick="confirmLogout()">Oui, se déconnecter</button>
     </div>
   </div>
 </div>
@@ -202,14 +223,11 @@ tr:last-child td { border-bottom:none; }
   <nav>
     <div class="nav-section">Principal</div>
     <button class="nav-item active" onclick="show('dashboard',this)"><span class="icon">🏠</span> Tableau de bord</button>
-    <div class="nav-section">Équipe</div>
-    <button class="nav-item" onclick="show('presence',this)"><span class="icon">👁️</span> Présence temps réel <span class="badge-count" id="badgeTT">2</span></button>
-    <button class="nav-item" onclick="show('planning',this)"><span class="icon">📅</span> Planifier l'équipe</button>
+    <div class="nav-section">Télétravail équipe</div>
+    <button class="nav-item" onclick="show('planning',this)"><span class="icon">📅</span> Planifier télétravail</button>
     <button class="nav-item" onclick="show('validation',this)"><span class="icon">✅</span> Valider demandes N1 <span class="badge-count" id="badgeN1">4</span></button>
-    <button class="nav-item" onclick="show('equipe',this)"><span class="icon">👥</span> Rapports équipe</button>
     <div class="nav-section">Rapports</div>
-    <button class="nav-item" onclick="show('rapports',this)"><span class="icon">📈</span> Générer rapports</button>
-    <button class="nav-item" onclick="show('tableaux',this)"><span class="icon">📊</span> Tableaux de bord</button>
+    <button class="nav-item" onclick="show('rapports',this)"><span class="icon">📈</span> Rapport télétravail</button>
   </nav>
 </aside>
 
@@ -220,23 +238,19 @@ tr:last-child td { border-bottom:none; }
       <div class="page-sub" id="pageDate"></div>
     </div>
     <div style="display:flex;align-items:center;gap:10px">
-      <button class="btn btn-ghost">📤 Exporter</button>
-      <button class="btn btn-primary" onclick="show('presence',document.querySelectorAll('.nav-item')[1])">👁️ Présence équipe</button>
       <div class="topbar-icons">
-        <button class="topbar-icon-btn" title="Langue" style="font-size:1.25rem">🇹🇳</button>
-        <button class="topbar-icon-btn" title="Messagerie">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-          <span class="notif-dot"></span>
+        <button class="dark-toggle" onclick="toggleDarkMode()" title="Thème">
+          <span class="icon-sun">☀️</span>
+          <span class="icon-moon">🌙</span>
         </button>
-        <button class="topbar-icon-btn" title="Alertes">
+        <button class="topbar-icon-btn" title="Notifications">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
           <span class="notif-dot"></span>
         </button>
         <div class="topbar-divider"></div>
-        <div class="topbar-avatar-btn" title="Mon profil" style="background:linear-gradient(135deg,#45B7D1,#63cce0);border:2px solid #45B7D1" onmouseenter="this.style.boxShadow='0 0 0 3px #45B7D155'" onmouseleave="this.style.boxShadow='none'">MT</div>
-        <!-- SETTINGS DROPDOWN -->
+        <div class="topbar-avatar-btn" style="background:linear-gradient(135deg,#45B7D1,#63cce0);border:2px solid #45B7D1">MT</div>
         <div class="dropdown-wrapper">
-          <button class="topbar-icon-btn" title="Paramètres" onclick="toggleDropdown(event)">
+          <button class="topbar-icon-btn" onclick="toggleDropdown(event)">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
           </button>
           <div class="dropdown-menu" id="settingsDropdown">
@@ -246,8 +260,6 @@ tr:last-child td { border-bottom:none; }
             </div>
             <button class="dropdown-item" onclick="closeDropdown()"><span class="di-icon">👤</span> Mon profil</button>
             <button class="dropdown-item" onclick="closeDropdown()"><span class="di-icon">⚙️</span> Paramètres</button>
-            <button class="dropdown-item" onclick="closeDropdown()"><span class="di-icon">🔔</span> Notifications</button>
-            <button class="dropdown-item" onclick="closeDropdown()"><span class="di-icon">🌙</span> Thème sombre</button>
             <div class="dropdown-divider"></div>
             <button class="dropdown-item danger" onclick="openLogout()"><span class="di-icon">🚪</span> Se déconnecter</button>
           </div>
@@ -257,56 +269,23 @@ tr:last-child td { border-bottom:none; }
   </div>
 
   <div class="content">
+
     <!-- DASHBOARD -->
     <div class="section active" id="sec-dashboard">
       <div class="stats-grid">
         <div class="stat-card" style="--c:#45B7D1"><div class="stat-icon">👥</div><div class="stat-val">12</div><div class="stat-label">Membres de l'équipe</div></div>
-        <div class="stat-card" style="--c:#FF6B35"><div class="stat-icon">✅</div><div class="stat-val" id="dashCount">4</div><div class="stat-label">Demandes à valider</div></div>
-        <div class="stat-card" style="--c:#96CEB4"><div class="stat-icon">📊</div><div class="stat-val">94%</div><div class="stat-label">Taux de présence</div></div>
-        <div class="stat-card" style="--c:#FFE66D"><div class="stat-icon">🎯</div><div class="stat-val">8/10</div><div class="stat-label">Objectifs atteints</div></div>
+        <div class="stat-card" style="--c:#FF6B35"><div class="stat-icon">✅</div><div class="stat-val" id="dashCount">4</div><div class="stat-label">Demandes TT à valider (N1)</div></div>
+        <div class="stat-card" style="--c:#96CEB4"><div class="stat-icon">🏡</div><div class="stat-val">5</div><div class="stat-label">En télétravail aujourd'hui</div></div>
+        <div class="stat-card" style="--c:#FFE66D"><div class="stat-icon">📊</div><div class="stat-val">48%</div><div class="stat-label">Taux TT ce mois</div></div>
       </div>
       <div class="grid2">
-        <div class="panel"><div class="panel-title">Demandes en attente</div><div id="dashDemandes"></div></div>
-        <div class="panel"><div class="panel-title">Équipe aujourd'hui</div><div id="dashEquipe"></div></div>
-      </div>
-    </div>
-
-    <!-- PRÉSENCE TEMPS RÉEL -->
-    <div class="section" id="sec-presence">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
-        <div>
-          <h2 style="font-family:'Syne',sans-serif;font-weight:800;">Présence de l'équipe</h2>
-          <p style="color:var(--muted);font-size:.83rem;margin-top:4px;display:flex;align-items:center;gap:6px"><span class="live-dot"></span> Données en temps réel</p>
+        <div class="panel">
+          <div class="panel-title">Demandes TT en attente</div>
+          <div id="dashDemandes"></div>
         </div>
-        <button class="btn btn-ghost" onclick="refreshPresence()">🔄 Actualiser</button>
-      </div>
-      <div class="presence-header-stats">
-        <div class="phs-card" style="--cc:#96CEB4"><div class="phs-num" id="presNum">2</div><div class="phs-lbl">En présentiel</div></div>
-        <div class="phs-card" style="--cc:#45B7D1"><div class="phs-num" id="remNum">2</div><div class="phs-lbl">En télétravail</div></div>
-        <div class="phs-card" style="--cc:#ff6b6b"><div class="phs-num" id="absNum">1</div><div class="phs-lbl">Absents</div></div>
-        <div class="phs-card" style="--cc:#FFE66D"><div class="phs-num" id="offNum">1</div><div class="phs-lbl">Congé / Repos</div></div>
-      </div>
-      <div class="presence-filter">
-        <button class="pf-btn active" onclick="filterPresence('all',this)">Tous (6)</button>
-        <button class="pf-btn" onclick="filterPresence('present',this)">Présentiel (2)</button>
-        <button class="pf-btn" onclick="filterPresence('remote',this)">Télétravail (2)</button>
-        <button class="pf-btn" onclick="filterPresence('absent',this)">Absent (1)</button>
-        <button class="pf-btn" onclick="filterPresence('off',this)">Congé (1)</button>
-      </div>
-      <div id="presenceList"></div>
-      <div class="panel" style="margin-top:6px">
-        <div class="panel-title">📅 Vue hebdomadaire — Semaine du 9 au 13 Mars</div>
-        <div class="week-map-wrap">
-          <table class="week-map">
-            <thead><tr><th>Membre</th><th>Lundi 9</th><th>Mardi 10</th><th>Mercredi 11</th><th>Jeudi 12</th><th style="color:var(--accent)">Vendredi 13 ★</th></tr></thead>
-            <tbody id="weekMapBody"></tbody>
-          </table>
-        </div>
-        <div style="display:flex;gap:16px;margin-top:14px;font-size:.75rem;flex-wrap:wrap">
-          <span><span class="wm-p" style="margin-right:5px">P</span>Présentiel</span>
-          <span><span class="wm-r" style="margin-right:5px">TT</span>Télétravail</span>
-          <span><span class="wm-a" style="margin-right:5px">A</span>Absent</span>
-          <span><span class="wm-o" style="margin-right:5px">—</span>Repos/Congé</span>
+        <div class="panel">
+          <div class="panel-title">Planning TT équipe — Semaine en cours</div>
+          <div id="dashPlanning"></div>
         </div>
       </div>
     </div>
@@ -315,25 +294,25 @@ tr:last-child td { border-bottom:none; }
     <div class="section" id="sec-planning">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px">
         <div>
-          <h2 style="font-family:'Syne',sans-serif;font-weight:800;">Planification de l'équipe</h2>
+          <h2 style="font-family:'Syne',sans-serif;font-weight:800;">Planification télétravail équipe</h2>
           <p style="color:var(--muted);font-size:.83rem;margin-top:4px;">Semaine du 9 au 13 Mars 2026</p>
         </div>
-        <button class="btn btn-primary" onclick="savePlanning()">💾 Enregistrer planning</button>
+        <button class="btn btn-primary" onclick="savePlanning()">💾 Enregistrer le planning</button>
       </div>
       <div class="panel">
-        <div class="planning-grid">
+        <div style="overflow-x:auto">
           <table class="planning-table">
             <thead><tr><th>Employé</th><th>Lundi</th><th>Mardi</th><th>Mercredi</th><th>Jeudi</th><th style="color:var(--accent)">Vendredi ★</th></tr></thead>
             <tbody id="planningBody"></tbody>
           </table>
         </div>
         <div style="display:flex;gap:16px;margin-top:16px;font-size:.78rem">
-          <span><span class="slot slot-present" style="display:inline-block;width:70px;margin-right:6px">Présentiel</span></span>
-          <span><span class="slot slot-remote" style="display:inline-block;width:70px;margin-right:6px">Télétravail</span></span>
-          <span><span class="slot slot-off" style="display:inline-block;width:70px;margin-right:6px">Repos/Congé</span></span>
+          <span><span class="slot slot-present" style="display:inline-block;width:80px;margin-right:6px">Présentiel</span></span>
+          <span><span class="slot slot-remote" style="display:inline-block;width:80px;margin-right:6px">Télétravail</span></span>
+          <span><span class="slot slot-off" style="display:inline-block;width:80px;margin-right:6px">— Repos —</span></span>
         </div>
       </div>
-      <div id="planningMsg" style="display:none;background:rgba(150,206,180,.1);border:1px solid #96CEB4;border-radius:12px;padding:14px;color:#96CEB4;font-weight:600;margin-top:12px;text-align:center">✅ Planning enregistré avec succès !</div>
+      <div id="planningMsg" style="display:none;background:rgba(150,206,180,.1);border:1px solid #96CEB4;border-radius:12px;padding:14px;color:#96CEB4;font-weight:600;margin-top:12px;text-align:center">✅ Planning télétravail enregistré avec succès !</div>
     </div>
 
     <!-- VALIDATION N1 -->
@@ -343,89 +322,113 @@ tr:last-child td { border-bottom:none; }
       <div class="legend-box">
         <div class="legend-item"><div class="legend-dot" style="background:#FFE66D"></div><span style="color:#FFE66D">En attente de votre validation</span></div>
         <div class="legend-item"><div class="legend-dot" style="background:#45B7D1"></div><span style="color:#45B7D1">Action requise</span></div>
-        <div class="legend-item"><div class="legend-dot" style="background:#96CEB4"></div><span style="color:#96CEB4">Validé</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#96CEB4"></div><span style="color:#96CEB4">Validé N1 — transmis au RH</span></div>
         <div class="legend-item"><div class="legend-dot" style="background:#ff6b6b"></div><span style="color:#ff6b6b">Refusé</span></div>
       </div>
       <div id="validationList"></div>
     </div>
 
-    <!-- RAPPORTS ÉQUIPE -->
-    <div class="section" id="sec-equipe">
-      <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:24px;">Rapports de l'équipe</h2>
+    <!-- RAPPORT -->
+    <div class="section" id="sec-rapports">
+      <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:24px;">Rapport télétravail équipe</h2>
+      <div class="stats-grid" style="margin-bottom:24px">
+        <div class="stat-card" style="--c:#45B7D1"><div class="stat-icon">📅</div><div class="stat-val">22</div><div class="stat-label">Jours TT ce mois</div></div>
+        <div class="stat-card" style="--c:#96CEB4"><div class="stat-icon">🏡</div><div class="stat-val">48%</div><div class="stat-label">Taux télétravail</div></div>
+        <div class="stat-card" style="--c:#FFE66D"><div class="stat-icon">✅</div><div class="stat-val">71%</div><div class="stat-label">Taux d'approbation</div></div>
+        <div class="stat-card" style="--c:#FF6B35"><div class="stat-icon">⏳</div><div class="stat-val">2</div><div class="stat-label">En attente validation</div></div>
+      </div>
       <div class="panel">
-        <div class="panel-title">Performance & KPI — Mars 2026</div>
+        <div class="panel-title">📊 KPI Télétravail — Mars 2026</div>
         <div id="kpiSection"></div>
       </div>
       <div class="panel">
-        <div class="panel-title">Détail par membre</div>
+        <div class="panel-title">Détail TT par membre</div>
         <table>
-          <thead><tr><th>Employé</th><th>Présences</th><th>Télétravail</th><th>Tâches</th><th>Performance</th></tr></thead>
+          <thead><tr><th>Employé</th><th>Jours TT / mois</th><th>Taux TT</th><th>Demandes</th><th>Statut</th></tr></thead>
           <tbody>
-            <tr><td>Ahmed Ben Ali</td><td>21/22</td><td>5j</td><td>18/20</td><td><span class="badge badge-green">Excellent</span></td></tr>
-            <tr><td>Fatima Khelil</td><td>20/22</td><td>8j</td><td>15/18</td><td><span class="badge badge-blue">Bien</span></td></tr>
-            <tr><td>Nadia Ben Salah</td><td>22/22</td><td>10j</td><td>20/22</td><td><span class="badge badge-green">Excellent</span></td></tr>
-            <tr><td>Karim Zouari</td><td>19/22</td><td>3j</td><td>12/16</td><td><span class="badge badge-yellow">Correct</span></td></tr>
+            <tr><td>Ahmed Ben Ali</td><td>8j</td><td>36%</td><td>3 / 3 approuvées</td><td><span class="badge badge-green">Conforme</span></td></tr>
+            <tr><td>Fatima Khelil</td><td>10j</td><td>45%</td><td>4 / 5</td><td><span class="badge badge-green">Conforme</span></td></tr>
+            <tr><td>Nadia Ben Salah</td><td>12j</td><td>54%</td><td>5 / 5</td><td><span class="badge badge-yellow">Limite atteinte</span></td></tr>
+            <tr><td>Karim Zouari</td><td>3j</td><td>14%</td><td>2 / 3</td><td><span class="badge badge-blue">Sous quota</span></td></tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- GÉNÉRER RAPPORTS -->
-    <div class="section" id="sec-rapports">
-      <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:24px;">Générer des rapports</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px">
-        <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px">
-          <div style="font-size:2rem;margin-bottom:10px">📊</div>
-          <div style="font-weight:700;color:#45B7D1;margin-bottom:4px">Rapport hebdomadaire</div>
-          <div style="font-size:.76rem;color:var(--muted);margin-bottom:14px">Semaine 10 • 12 membres</div>
-          <button class="btn btn-primary" style="width:100%" onclick="genReport(this)">Générer PDF</button>
-        </div>
-        <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px">
-          <div style="font-size:2rem;margin-bottom:10px">📈</div>
-          <div style="font-weight:700;color:#FF6B35;margin-bottom:4px">Rapport mensuel</div>
-          <div style="font-size:.76rem;color:var(--muted);margin-bottom:14px">Mars 2026 • Département IT</div>
-          <button class="btn btn-primary" style="width:100%;background:#FF6B35" onclick="genReport(this)">Générer PDF</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- TABLEAUX DE BORD -->
-    <div class="section" id="sec-tableaux">
-      <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:24px;">Tableaux de bord</h2>
-      <div class="stats-grid">
-        <div class="stat-card" style="--c:#45B7D1"><div class="stat-icon">📅</div><div class="stat-val">22</div><div class="stat-label">Jours travaillés</div></div>
-        <div class="stat-card" style="--c:#96CEB4"><div class="stat-icon">🏡</div><div class="stat-val">48%</div><div class="stat-label">Taux télétravail</div></div>
-        <div class="stat-card" style="--c:#FFE66D"><div class="stat-icon">⏱️</div><div class="stat-val">168h</div><div class="stat-label">Heures totales</div></div>
-        <div class="stat-card" style="--c:#FF6B35"><div class="stat-icon">📋</div><div class="stat-val">73</div><div class="stat-label">Tâches complétées</div></div>
-      </div>
-    </div>
   </div>
 </div>
 
 <script>
-const teamMembers = [
-  { nom:'Ahmed Ben Ali',   poste:'Dev Frontend', avatar:'#45B7D1', statut:'remote',  lieu:'Domicile — Tunis',   heure:'08:45', week:['present','present','remote','present','remote'] },
-  { nom:'Fatima Khelil',   poste:'Designer UI',  avatar:'#4ECDC4', statut:'present', lieu:'Bureau — Open Space', heure:'09:12', week:['remote','present','remote','remote','present'] },
-  { nom:'Nadia Ben Salah', poste:'Dev Mobile',   avatar:'#96CEB4', statut:'absent',  lieu:'Congé maladie',       heure:'—',     week:['remote','remote','absent','present','absent'] },
-  { nom:'Karim Zouari',    poste:'Analyste',     avatar:'#FFE66D', statut:'present', lieu:'Bureau — Salle A',    heure:'08:30', week:['present','present','present','off','present'] },
-  { nom:'Youssef Hamdi',   poste:'Dev Backend',  avatar:'#FF6B35', statut:'remote',  lieu:'Domicile — Sousse',   heure:'09:05', week:['present','remote','present','remote','remote'] },
-  { nom:'Sara Bouzid',     poste:'QA Engineer',  avatar:'#45B7D1', statut:'off',     lieu:'Congé annuel',        heure:'—',     week:['present','present','present','present','off'] },
-];
+function toggleDarkMode() {
+  const html = document.documentElement;
+  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('theme-manager', next);
+  showToast(next === 'dark' ? '🌙 Mode sombre activé' : '☀️ Mode clair activé');
+}
+(function() {
+  const saved = localStorage.getItem('theme-manager') || 'dark';
+  document.documentElement.setAttribute('data-theme', saved);
+})();
+
+let toastTimer;
+function showToast(msg) {
+  let t = document.getElementById('globalToast');
+  if (!t) { t = document.createElement('div'); t.id = 'globalToast'; t.className = 'toast'; document.body.appendChild(t); }
+  t.className = 'toast';
+  t.innerHTML = `<span>✨</span><span>${msg}</span>`;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.classList.add('out'); setTimeout(() => t.remove(), 350); }, 2500);
+}
+
+function toggleDropdown(e) { e.stopPropagation(); document.getElementById('settingsDropdown').classList.toggle('open'); }
+function closeDropdown() { document.getElementById('settingsDropdown').classList.remove('open'); }
+document.addEventListener('click', () => closeDropdown());
+function openLogout() { closeDropdown(); document.getElementById('logoutOverlay').classList.add('show'); }
+function closeLogout() { document.getElementById('logoutOverlay').classList.remove('show'); }
+function confirmLogout() {
+  document.getElementById('logoutOverlay').innerHTML = '<div class="logout-modal"><span class="lm-icon">✅</span><h3 style="color:#96CEB4">Déconnexion réussie</h3><p>À bientôt, Mohamed.</p></div>';
+  setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+}
+
+const today = new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'});
+const titles = { dashboard:'Tableau de bord Manager', planning:'Planification télétravail', validation:'Validation demandes N1', rapports:'Rapport télétravail' };
+
 const team = [
   { nom:'Ahmed Ben Ali',   poste:'Dev Frontend', slots:['present','present','remote','present','remote'] },
   { nom:'Fatima Khelil',   poste:'Designer UI',  slots:['remote','present','remote','remote','present'] },
   { nom:'Nadia Ben Salah', poste:'Dev Mobile',   slots:['remote','remote','remote','present','remote'] },
   { nom:'Karim Zouari',    poste:'Analyste',     slots:['present','present','present','off','present'] },
+  { nom:'Youssef Hamdi',   poste:'Dev Backend',  slots:['present','remote','present','remote','off'] },
 ];
 const planningState = team.map(e => [...e.slots]);
+
 let demandes = [
-  { id:1, employe:'Ahmed Ben Ali', type:'Télétravail', motif:'Plomberie à régler à domicile', steps:[ { label:'Soumission', date:'10 Mar 2026', state:'done', note:'Envoyée' }, { label:'Manager\n(N1)', date:null, state:'active', note:'Votre action requise' }, { label:'RH\n(N2)', date:null, state:'waiting', note:'' }, { label:'Décision\nfinale', date:null, state:'waiting', note:'' } ] },
-  { id:2, employe:'Fatima Khelil', type:'Congé', motif:'Vacances planifiées', steps:[ { label:'Soumission', date:'08 Mar 2026', state:'done', note:'Envoyée' }, { label:'Manager\n(N1)', date:null, state:'active', note:'Votre action requise' }, { label:'RH\n(N2)', date:null, state:'waiting', note:'' }, { label:'Décision\nfinale', date:null, state:'waiting', note:'' } ] },
-  { id:3, employe:'Nadia Ben Salah', type:'Télétravail', motif:'Rendez-vous médical matin', steps:[ { label:'Soumission', date:'12 Mar 2026', state:'done', note:'Envoyée' }, { label:'Manager\n(N1)', date:null, state:'active', note:'Votre action requise' }, { label:'RH\n(N2)', date:null, state:'waiting', note:'' }, { label:'Décision\nfinale', date:null, state:'waiting', note:'' } ] },
-  { id:4, employe:'Karim Zouari', type:'Congé', motif:'Mariage dans la famille', steps:[ { label:'Soumission', date:'09 Mar 2026', state:'done', note:'Envoyée' }, { label:'Manager\n(N1)', date:null, state:'active', note:'Votre action requise' }, { label:'RH\n(N2)', date:null, state:'waiting', note:'' }, { label:'Décision\nfinale', date:null, state:'waiting', note:'' } ] },
+  { id:1, employe:'Ahmed Ben Ali', motif:'Plomberie à régler à domicile', steps:[
+    {label:'Soumission', date:'10 Mar 2026', state:'done', note:'Envoyée'},
+    {label:'Manager (N1)', date:null, state:'active', note:'Votre action requise'},
+    {label:'RH (N2)', date:null, state:'waiting', note:''},
+    {label:'Décision finale', date:null, state:'waiting', note:''}
+  ]},
+  { id:2, employe:'Fatima Khelil', motif:'Environnement de travail calme', steps:[
+    {label:'Soumission', date:'08 Mar 2026', state:'done', note:'Envoyée'},
+    {label:'Manager (N1)', date:null, state:'active', note:'Votre action requise'},
+    {label:'RH (N2)', date:null, state:'waiting', note:''},
+    {label:'Décision finale', date:null, state:'waiting', note:''}
+  ]},
+  { id:3, employe:'Nadia Ben Salah', motif:'Rendez-vous médical matin', steps:[
+    {label:'Soumission', date:'12 Mar 2026', state:'done', note:'Envoyée'},
+    {label:'Manager (N1)', date:null, state:'active', note:'Votre action requise'},
+    {label:'RH (N2)', date:null, state:'waiting', note:''},
+    {label:'Décision finale', date:null, state:'waiting', note:''}
+  ]},
+  { id:4, employe:'Karim Zouari', motif:'Travail de concentration requis', steps:[
+    {label:'Soumission', date:'09 Mar 2026', state:'done', note:'Envoyée'},
+    {label:'Manager (N1)', date:null, state:'active', note:'Votre action requise'},
+    {label:'RH (N2)', date:null, state:'waiting', note:''},
+    {label:'Décision finale', date:null, state:'waiting', note:''}
+  ]},
 ];
-const titles = { dashboard:'Tableau de bord Manager', presence:'Présence de l\'équipe', planning:'Planification équipe', validation:'Validation demandes N1', equipe:'Rapports équipe', rapports:'Générer rapports', tableaux:'Tableaux de bord' };
-const today = new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'});
 
 function show(sec, btn) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -436,139 +439,102 @@ function show(sec, btn) {
   if (sec==='validation') renderValidation();
   if (sec==='planning')   renderPlanning();
   if (sec==='dashboard')  renderDashboard();
-  if (sec==='equipe')     renderKPI();
-  if (sec==='presence')   renderPresence('all');
+  if (sec==='rapports')   renderKPI();
 }
 document.getElementById('pageDate').textContent = new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-
-/* ── DROPDOWN & LOGOUT ── */
-function toggleDropdown(e){e.stopPropagation();document.getElementById('settingsDropdown').classList.toggle('open');}
-function closeDropdown(){document.getElementById('settingsDropdown').classList.remove('open');}
-document.addEventListener('click',()=>closeDropdown());
-function openLogout(){closeDropdown();document.getElementById('logoutOverlay').classList.add('show');}
-function closeLogout(){document.getElementById('logoutOverlay').classList.remove('show');}
-function confirmLogout(){
-  document.getElementById('logoutOverlay').innerHTML='<div class="logout-modal"><span class="lm-icon">✅</span><h3 style="color:#96CEB4">Déconnexion réussie</h3><p>À bientôt, Mohamed.<br>Redirection vers la page de connexion…</p></div>';
-  setTimeout(function(){window.location.href='file:///C:/Users/user/Downloads/interfaceTT/index.html';},1500);
-}
-
-function statusClass(s) { return {present:'status-present',remote:'status-remote',absent:'status-absent',off:'status-off'}[s]||'status-off'; }
-function statusLabel(s) { return {present:'🏢 Présentiel',remote:'🏡 Télétravail',absent:'❌ Absent',off:'🌴 Congé'}[s]||'—'; }
-function wmClass(s)     { return {present:'wm-p',remote:'wm-r',absent:'wm-a',off:'wm-o'}[s]||'wm-o'; }
-function wmLabel(s)     { return {present:'P',remote:'TT',absent:'A',off:'—'}[s]||'—'; }
-let currentFilter = 'all';
-
-function renderPresence(filter) {
-  currentFilter = filter;
-  const filtered = filter === 'all' ? teamMembers : teamMembers.filter(m => m.statut === filter);
-  document.getElementById('presNum').textContent = teamMembers.filter(m=>m.statut==='present').length;
-  document.getElementById('remNum').textContent  = teamMembers.filter(m=>m.statut==='remote').length;
-  document.getElementById('absNum').textContent  = teamMembers.filter(m=>m.statut==='absent').length;
-  document.getElementById('offNum').textContent  = teamMembers.filter(m=>m.statut==='off').length;
-  document.getElementById('badgeTT').textContent = teamMembers.filter(m=>m.statut==='remote').length;
-  document.getElementById('presenceList').innerHTML = filtered.map(m => `
-    <div class="emp-presence-card">
-      <div class="emp-avatar" style="background:${m.avatar};">${m.nom[0]}</div>
-      <div class="emp-info"><div class="emp-name">${m.nom}</div><div class="emp-role">${m.poste}</div><div style="margin-top:4px;font-size:.72rem;color:var(--muted)">📍 ${m.lieu}</div></div>
-      <div class="emp-status-block">
-        <span class="emp-status-badge ${statusClass(m.statut)}">${statusLabel(m.statut)}</span>
-        <div class="emp-since">${m.heure!=='—'?'<span class="live-dot" style="width:5px;height:5px"></span>Connecté depuis '+m.heure:m.statut==='off'?'🌴 Absent toute la journée':'—'}</div>
-      </div>
-    </div>`).join('');
-  document.getElementById('weekMapBody').innerHTML = teamMembers.map(m=>`
-    <tr><td><div style="font-weight:700;font-size:.83rem">${m.nom}</div><div style="font-size:.7rem;color:var(--muted)">${m.poste}</div></td>
-    ${m.week.map((s,i)=>`<td style="${i===4?'background:rgba(69,183,209,.04)':''}text-align:center"><span class="${wmClass(s)}">${wmLabel(s)}</span></td>`).join('')}</tr>`).join('');
-}
-function filterPresence(type, btn) {
-  document.querySelectorAll('.pf-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active'); renderPresence(type);
-}
-function refreshPresence() {
-  const btn = event.target; btn.textContent='⏳ Actualisation...'; btn.disabled=true;
-  setTimeout(()=>{btn.textContent='🔄 Actualiser';btn.disabled=false;renderPresence(currentFilter);},1200);
-}
 
 const dotIcon = s => ({done:'✓',active:'▶',pending:'⏳',refused:'✗',waiting:'○'}[s]||'?');
 const dateColor = s => ({done:'green',active:'blue',refused:'red',waiting:'muted',pending:'yellow'}[s]);
 
 function buildTimeline(steps) {
-  return steps.map(s=>{
-    const lineColor=s.state==='done'?'#96CEB4':s.state==='refused'?'#ff6b6b':'var(--border)';
+  return steps.map(s => {
+    const lineColor = s.state==='done'?'#96CEB4':s.state==='refused'?'#ff6b6b':'var(--border)';
     return `<div class="tl-step ${s.state==='done'?'done':''}" style="--line-color:${lineColor}">
       <div class="tl-dot ${s.state}">${dotIcon(s.state)}</div>
       <div class="tl-label">${s.label.replace(/\n/,'<br>')}</div>
       ${s.date?`<div class="tl-date ${dateColor(s.state)}">${s.date}</div>`:`<div class="tl-date muted">—</div>`}
-      ${s.note?`<div style="font-size:.65rem;color:rgba(255,255,255,.3);text-align:center;margin-top:2px;max-width:72px">${s.note}</div>`:''}
+      ${s.note?`<div style="font-size:.65rem;color:var(--muted);text-align:center;margin-top:2px;max-width:80px">${s.note}</div>`:''}
     </div>`;
   }).join('');
 }
 
 function renderValidation() {
-  const pending = demandes.filter(d=>d.steps[1].state==='active'||d.steps[1].state==='pending');
+  const pending = demandes.filter(d => d.steps[1].state==='active' || d.steps[1].state==='pending');
   document.getElementById('validationList').innerHTML = pending.length
     ? pending.map(d=>`<div class="demand-card">
         <div class="demand-meta">
-          <div><div style="font-weight:700;font-size:.98rem">${d.employe}</div>
-          <div style="font-size:.78rem;color:var(--muted);margin-top:2px">📌 ${d.type}</div>
-          <div style="font-size:.76rem;color:rgba(255,255,255,.45);margin-top:5px">💬 ${d.motif}</div></div>
-          <span class="status-pill pill-yellow">⏳ En attente</span>
+          <div><div style="font-weight:700;font-size:.98rem">🏡 ${d.employe}</div>
+          <div style="font-size:.76rem;color:var(--muted);margin-top:5px">💬 ${d.motif}</div></div>
+          <span class="status-pill pill-yellow">⏳ En attente N1</span>
         </div>
         <div class="timeline">${buildTimeline(d.steps)}</div>
         <div class="demand-actions">
           <button class="btn-validate" onclick="actVal(${d.id},'done')">✓ Valider N1 → transmettre au RH</button>
           <button class="btn-refuse" onclick="actVal(${d.id},'refused')">✗ Refuser</button>
         </div></div>`).join('')
-    : '<div style="text-align:center;color:var(--muted);padding:32px;background:var(--card);border-radius:14px;border:1px solid var(--border)">✅ Aucune demande en attente</div>';
+    : '<div style="text-align:center;color:var(--muted);padding:32px;background:var(--card);border-radius:14px;border:1px solid var(--card-border)">✅ Aucune demande TT en attente</div>';
   document.getElementById('badgeN1').textContent = pending.length;
   document.getElementById('dashCount').textContent = pending.length;
 }
 
 function actVal(id, action) {
-  demandes = demandes.map(d=>{
-    if(d.id!==id) return d;
-    const s=[...d.steps];
-    if(action==='done'){s[1]={...s[1],state:'done',date:today,note:'Validé ✓'};s[2]={...s[2],state:'pending',note:'Transmis au RH'};}
-    else{s[1]={...s[1],state:'refused',date:today,note:'Refusé ✗'};s[3]={...s[3],state:'refused',note:'Clôturé'};}
+  demandes = demandes.map(d => {
+    if (d.id!==id) return d;
+    const s = [...d.steps];
+    if (action==='done') { s[1]={...s[1],state:'done',date:today,note:'Validé ✓'}; s[2]={...s[2],state:'pending',note:'Transmis RH'}; }
+    else { s[1]={...s[1],state:'refused',date:today,note:'Refusé ✗'}; s[3]={...s[3],state:'refused',note:'Clôturé'}; }
     return {...d,steps:s};
   });
   renderValidation();
+  showToast(action==='done' ? '✅ Demande validée, transmise au RH' : '✗ Demande refusée');
 }
 
 function renderDashboard() {
-  document.getElementById('dashDemandes').innerHTML = demandes.slice(0,3).map(d=>`
+  document.getElementById('dashDemandes').innerHTML = demandes.filter(d=>d.steps[1].state==='active').slice(0,3).map(d=>`
     <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)">
-      <div><div style="font-weight:600;font-size:.85rem">${d.employe}</div><div style="font-size:.74rem;color:var(--muted)">${d.type}</div></div>
-      <span class="badge badge-yellow">En attente</span></div>`).join('');
-  document.getElementById('dashEquipe').innerHTML = teamMembers.slice(0,5).map(m=>`
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)">
-      <div style="display:flex;align-items:center;gap:10px">
-        <div style="width:34px;height:34px;border-radius:50%;background:${m.avatar};display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:.9rem">${m.nom[0]}</div>
-        <div style="font-weight:600;font-size:.84rem">${m.nom}</div>
-      </div>
-      <span class="emp-status-badge ${statusClass(m.statut)}" style="font-size:.68rem;padding:3px 9px">${statusLabel(m.statut)}</span>
-    </div>`).join('');
+      <div><div style="font-weight:600;font-size:.85rem">🏡 ${d.employe}</div>
+      <div style="font-size:.74rem;color:var(--muted)">${d.motif}</div></div>
+      <span class="badge badge-yellow">En attente</span></div>`).join('') || '<p style="color:var(--muted);font-size:.84rem">Aucune demande en attente.</p>';
+
+  document.getElementById('dashPlanning').innerHTML = team.map(e=>{
+    const ttDays = e.slots.filter(s=>s==='remote').length;
+    return `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+      <div style="flex:1;font-size:.84rem;font-weight:600">${e.nom}</div>
+      <div style="display:flex;gap:4px">${e.slots.map(s=>`<span style="width:22px;height:22px;border-radius:4px;background:${s==='remote'?'rgba(69,183,209,.3)':'rgba(255,255,255,.06)'};display:flex;align-items:center;justify-content:center;font-size:.6rem;color:${s==='remote'?'#45B7D1':'var(--muted)'}">${s==='remote'?'TT':'P'}</span>`).join('')}</div>
+      <span style="font-size:.74rem;color:var(--muted)">${ttDays}j TT</span>
+    </div>`;
+  }).join('');
+}
+
+const slotClass = s => s==='present'?'slot-present':s==='remote'?'slot-remote':'slot-off';
+const slotLabel = s => s==='present'?'🏢 Présentiel':s==='remote'?'🏡 Télétravail':'— Repos —';
+const slotCycle = s => s==='present'?'remote':s==='remote'?'off':'present';
+
+function renderPlanning() {
+  document.getElementById('planningBody').innerHTML = team.map((e,ri)=>`
+    <tr><td class="emp-cell"><div>${e.nom}</div><div style="font-size:.72rem;color:var(--muted)">${e.poste}</div></td>
+    ${planningState[ri].map((s,ci)=>`<td style="text-align:center${ci===4?';background:rgba(69,183,209,.04)':''}"><span class="slot ${slotClass(s)}" onclick="cycleSlot(${ri},${ci})">${slotLabel(s)}</span></td>`).join('')}</tr>`).join('');
+}
+
+function cycleSlot(ri, ci) { planningState[ri][ci] = slotCycle(planningState[ri][ci]); renderPlanning(); }
+function savePlanning() {
+  document.getElementById('planningMsg').style.display = 'block';
+  setTimeout(() => document.getElementById('planningMsg').style.display = 'none', 3000);
+  showToast('💾 Planning télétravail enregistré');
 }
 
 function renderKPI() {
-  const kpis=[{label:'Taux de présence',pct:94,color:'#96CEB4'},{label:'Tâches complétées',pct:83,color:'#45B7D1'},{label:'Objectifs atteints',pct:80,color:'#FFE66D'},{label:'Satisfaction équipe',pct:88,color:'#FF6B35'}];
+  const kpis = [
+    {label:'Taux télétravail mensuel', pct:48, color:'#45B7D1'},
+    {label:'Taux d\'approbation des demandes', pct:71, color:'#96CEB4'},
+    {label:'Respect des politiques TT', pct:85, color:'#FFE66D'},
+    {label:'Demandes soumises à temps', pct:92, color:'#FF6B35'},
+  ];
   document.getElementById('kpiSection').innerHTML = kpis.map(k=>`
     <div class="kpi-row"><div class="kpi-label">${k.label}</div>
     <div class="kpi-bar-wrap"><div class="kpi-bar" style="width:${k.pct}%;background:${k.color}"></div></div>
     <div class="kpi-pct">${k.pct}%</div></div>`).join('');
 }
-
-const slotClass = s => s==='present'?'slot-present':s==='remote'?'slot-remote':'slot-off';
-const slotLabel = s => s==='present'?'Présentiel':s==='remote'?'Télétravail':'— Congé —';
-const slotCycle = s => s==='present'?'remote':s==='remote'?'off':'present';
-
-function renderPlanning() {
-  document.getElementById('planningBody').innerHTML = team.map((e,ri)=>`
-    <tr><td class="emp-cell"><div style="font-weight:700">${e.nom}</div><div style="font-size:.72rem;color:var(--muted)">${e.poste}</div></td>
-    ${planningState[ri].map((s,ci)=>`<td style="text-align:center${ci===4?';background:rgba(69,183,209,.04)':''}"><span class="slot ${slotClass(s)}" onclick="cycleSlot(${ri},${ci})">${slotLabel(s)}</span></td>`).join('')}</tr>`).join('');
-}
-function cycleSlot(ri,ci){planningState[ri][ci]=slotCycle(planningState[ri][ci]);renderPlanning();}
-function savePlanning(){const m=document.getElementById('planningMsg');m.style.display='block';setTimeout(()=>m.style.display='none',3000);}
-function genReport(btn){btn.textContent='⏳ Génération...';btn.disabled=true;setTimeout(()=>{btn.textContent='✅ Rapport prêt !';setTimeout(()=>{btn.textContent='Générer PDF';btn.disabled=false;},2500);},1500);}
 
 renderDashboard();
 </script>
