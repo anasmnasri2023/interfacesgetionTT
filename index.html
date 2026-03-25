@@ -2,19 +2,23 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STUDIAAFRIQUE — Connexion</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>STUDIAAFRIQUE — Connexion & Inscription</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
 
   :root {
-    --admin:  #FF6B35;
-    --rh:     #4ECDC4;
-    --manager:#45B7D1;
-    --employe:#96CEB4;
-    --bg:     #080b14;
-    --card:   rgba(255,255,255,0.04);
+    --admin: #FF6B35;
+    --rh: #4ECDC4;
+    --manager: #45B7D1;
+    --employe: #96CEB4;
+    --bg: #080b14;
+    --card: rgba(255,255,255,0.05);
     --border: rgba(255,255,255,0.08);
   }
 
@@ -26,230 +30,235 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
+    padding: 20px;
+    position: relative;
+    overflow-y: auto;
   }
 
-  /* animated background */
+  /* fond animé */
   body::before {
-    content:'';
-    position:fixed; inset:0;
-    background:
-      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(255,107,53,.13) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 80% at 80% 90%, rgba(78,205,196,.10) 0%, transparent 60%),
-      radial-gradient(ellipse 50% 50% at 50% 50%, rgba(69,183,209,.06) 0%, transparent 70%);
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 20% 10%, rgba(255,107,53,.13) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 80% at 80% 90%, rgba(78,205,196,.10) 0%, transparent 60%);
     animation: bgPulse 8s ease-in-out infinite alternate;
-    pointer-events:none;
+    pointer-events: none;
   }
+
   @keyframes bgPulse {
-    from { opacity:.7; }
-    to   { opacity:1; }
+    from { opacity: 0.7; }
+    to { opacity: 1; }
   }
 
   .grid-overlay {
-    position:fixed; inset:0;
-    background-image:
-      linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
-    background-size:48px 48px;
-    pointer-events:none;
+    position: fixed;
+    inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
   }
 
   .wrapper {
-    position:relative; z-index:10;
-    width:100%; max-width:480px;
-    padding:24px;
-    animation: fadeUp .6s ease both;
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 420px;  /* Réduit de 540px à 420px pour un rectangle plus compact */
+    margin: 0 auto;
+    animation: fadeUp .5s ease both;
   }
+
   @keyframes fadeUp {
-    from { opacity:0; transform:translateY(32px); }
-    to   { opacity:1; transform:translateY(0); }
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   .brand {
-    text-align:center;
-    margin-bottom:40px;
+    text-align: center;
+    margin-bottom: 20px;
   }
+
   .brand-logo {
-    width:56px; height:56px;
-    background:linear-gradient(135deg,#FF6B35,#4ECDC4);
-    border-radius:16px;
-    display:inline-flex; align-items:center; justify-content:center;
-    font-size:1.6rem; margin-bottom:16px;
-    box-shadow:0 8px 32px rgba(255,107,53,.35);
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #FF6B35, #4ECDC4);
+    border-radius: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    box-shadow: 0 6px 20px rgba(255,107,53,.3);
   }
+
   .brand h1 {
-    font-family:'Syne',sans-serif;
-    font-size:2.2rem; font-weight:800; letter-spacing:-1px;
+    font-family: 'Syne', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
   }
-  .brand h1 span { color:var(--admin); }
-  .brand p { color:rgba(255,255,255,.4); font-size:.9rem; margin-top:6px; }
+
+  .brand h1 span { color: var(--admin); }
 
   .card {
-    background:rgba(255,255,255,.05);
-    backdrop-filter:blur(24px);
-    border:1px solid var(--border);
-    border-radius:24px;
-    padding:36px;
+    background: rgba(18, 22, 35, 0.85);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    padding: 24px 22px 28px;
+    transition: all 0.2s ease;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
   }
 
   .card-title {
-    font-family:'Syne',sans-serif;
-    font-size:1.2rem; font-weight:700;
-    color:rgba(255,255,255,.8);
-    text-align:center;
-    margin-bottom:28px;
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.9);
+    text-align: center;
+    margin-bottom: 20px;
+    letter-spacing: -0.2px;
   }
 
   .form-group {
-    margin-bottom:24px;
+    margin-bottom: 16px;
+  }
+
+  .form-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 0;
+  }
+
+  .form-row .form-group {
+    flex: 1;
+    margin-bottom: 16px;
   }
 
   .form-group label {
-    display:block;
-    margin-bottom:8px;
-    font-size:0.85rem;
-    font-weight:500;
-    color:rgba(255,255,255,.6);
-    letter-spacing:0.5px;
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.65);
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
   }
 
   .form-group input {
-    width:100%;
-    padding:14px 16px;
-    background:rgba(255,255,255,.05);
-    border:2px solid rgba(255,255,255,.08);
-    border-radius:12px;
-    color:#fff;
-    font-family:'DM Sans',sans-serif;
-    font-size:1rem;
-    transition:all .25s ease;
+    width: 100%;
+    padding: 11px 14px;
+    background: rgba(255,255,255,0.06);
+    border: 1.5px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
   }
 
   .form-group input:focus {
-    outline:none;
-    border-color:var(--border-focus, #FF6B35);
-    background:rgba(255,255,255,.08);
+    outline: none;
+    border-color: #FF6B35;
+    background: rgba(255,255,255,0.1);
+    box-shadow: 0 0 0 3px rgba(255,107,53,0.2);
   }
 
   .form-group input::placeholder {
-    color:rgba(255,255,255,.3);
+    color: rgba(255,255,255,0.35);
+    font-weight: 400;
+    font-size: 0.85rem;
   }
 
   .forgot-password {
     text-align: right;
-    margin-top: -16px;
-    margin-bottom: 24px;
+    margin-top: -4px;
+    margin-bottom: 20px;
   }
 
   .forgot-password a {
-    color: rgba(255,255,255,.5);
-    font-size: 0.8rem;
+    color: rgba(255,255,255,0.55);
+    font-size: 0.75rem;
     text-decoration: none;
-    transition: color 0.3s ease;
+    cursor: pointer;
+    transition: color 0.2s;
   }
 
   .forgot-password a:hover {
     color: var(--admin);
   }
 
-  .login-btn {
-    width:100%;
-    padding:16px;
-    background:linear-gradient(135deg, #FF6B35, #FF8C5A);
-    border:none;
-    border-radius:12px;
-    color:#fff;
-    font-family:'Syne',sans-serif;
-    font-weight:700;
-    font-size:1rem;
-    cursor:pointer;
-    transition:all .3s;
-    letter-spacing:.5px;
-    box-shadow:0 4px 15px rgba(255,107,53,.3);
+  .login-btn, .register-btn {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(105deg, #FF6B35, #FF8C5A);
+    border: none;
+    border-radius: 40px;
+    color: white;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.25s;
+    letter-spacing: 0.3px;
+    margin-top: 4px;
+    box-shadow: 0 4px 14px rgba(255,107,53,0.3);
   }
 
-  .login-btn:hover {
-    transform:translateY(-2px);
-    box-shadow:0 6px 20px rgba(255,107,53,.4);
+  .login-btn:hover, .register-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.05);
+    box-shadow: 0 8px 20px rgba(255,107,53,0.4);
   }
 
-  .login-btn:active {
-    transform:translateY(0);
+  .error-message, .success-message {
+    border-radius: 16px;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+    font-size: 0.8rem;
+    text-align: center;
+    display: none;
+    font-weight: 500;
   }
 
   .error-message {
-    background:rgba(255,70,70,.2);
-    border:1px solid rgba(255,70,70,.3);
-    border-radius:12px;
-    padding:12px;
-    margin-bottom:20px;
-    color:#ff6b6b;
-    font-size:0.85rem;
-    text-align:center;
-    display:none;
+    background: rgba(255,70,70,0.18);
+    border: 1px solid rgba(255,80,80,0.35);
+    color: #ff8989;
   }
 
-  .divider {
-    text-align:center;
-    color:rgba(255,255,255,.2);
-    font-size:.78rem;
-    margin-top:24px;
+  .success-message {
+    background: rgba(78,205,196,0.18);
+    border: 1px solid rgba(78,205,196,0.4);
+    color: #8de4db;
   }
 
-  .register-link {
+  .register-link, .back-to-login {
     text-align: center;
-    margin-top: 24px;
-    padding-top: 20px;
-    border-top: 1px solid rgba(255,255,255,.1);
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,0.08);
   }
 
-  .register-link a {
+  .register-link p, .back-to-login p {
+    font-size: 0.85rem;
+  }
+
+  .register-link a, .back-to-login a {
     color: var(--admin);
     text-decoration: none;
     font-weight: 600;
-    transition: all 0.3s ease;
+    cursor: pointer;
+    transition: all 0.2s;
   }
 
-  .register-link a:hover {
+  .register-link a:hover, .back-to-login a:hover {
     color: #FF8C5A;
     text-decoration: underline;
   }
 
-  .register-link p {
-    color: rgba(255,255,255,.5);
-    font-size: 0.9rem;
-  }
-
-  .demo-credentials {
-    margin-top:20px;
-    padding:12px;
-    background:rgba(255,255,255,.03);
-    border-radius:12px;
-    font-size:0.75rem;
-    color:rgba(255,255,255,.4);
-    text-align:center;
-  }
-
-  .demo-credentials span {
-    color:#FF6B35;
-    font-weight:600;
-  }
-
-  .demo-credentials .role-badge {
-    display:inline-block;
-    margin:4px 6px;
-    padding:2px 8px;
-    border-radius:6px;
-    font-size:0.7rem;
-    font-weight:600;
-  }
-
-  .role-admin { color:#FF6B35; }
-  .role-rh { color:#4ECDC4; }
-  .role-manager { color:#45B7D1; }
-  .role-employe { color:#96CEB4; }
-
-  /* Modal styles pour Forgot Password */
+  /* MODAL FORGOT PASSWORD */
   .modal {
     display: none;
     position: fixed;
@@ -257,67 +266,144 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.8);
-    backdrop-filter: blur(10px);
-    z-index: 1000;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(14px);
+    z-index: 1100;
     align-items: center;
     justify-content: center;
   }
 
   .modal-content {
-    background: rgba(255,255,255,.1);
-    backdrop-filter: blur(20px);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    padding: 32px;
-    max-width: 400px;
+    background: rgba(20, 25, 45, 0.96);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 28px;
+    padding: 28px 24px;
+    max-width: 360px;
     width: 90%;
-    animation: fadeUp 0.3s ease;
+    animation: fadeUp 0.25s ease;
   }
 
   .modal-content h3 {
     font-family: 'Syne', sans-serif;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: white;
+  }
+
+  .modal-content p {
+    color: rgba(255,255,255,0.65);
     margin-bottom: 20px;
-    color: #fff;
+    font-size: 0.85rem;
   }
 
   .modal-content input {
     width: 100%;
-    padding: 12px;
-    background: rgba(255,255,255,.05);
-    border: 2px solid rgba(255,255,255,.08);
-    border-radius: 12px;
-    color: #fff;
-    margin-bottom: 20px;
+    padding: 12px 14px;
+    background: rgba(255,255,255,0.05);
+    border: 1.5px solid rgba(255,255,255,0.12);
+    border-radius: 24px;
+    color: white;
+    margin-bottom: 24px;
+    font-size: 0.9rem;
+  }
+
+  .modal-content input:focus {
+    outline: none;
+    border-color: #FF6B35;
   }
 
   .modal-buttons {
     display: flex;
     gap: 12px;
+    margin-bottom: 16px;
   }
 
   .modal-buttons button {
     flex: 1;
-    padding: 12px;
+    padding: 10px;
     border: none;
-    border-radius: 12px;
+    border-radius: 40px;
     cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s ease;
+    font-weight: 700;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
   }
 
   .modal-buttons button:first-child {
-    background: linear-gradient(135deg, #FF6B35, #FF8C5A);
+    background: linear-gradient(105deg, #FF6B35, #FF8C5A);
     color: white;
   }
 
-  .modal-buttons button:last-child {
-    background: rgba(255,255,255,.1);
-    color: white;
-  }
-
-  .modal-buttons button:hover {
+  .modal-buttons button:first-child:hover {
     transform: translateY(-2px);
+    filter: brightness(1.05);
+  }
+
+  .modal-back-link {
+    text-align: center;
+    margin-top: 4px;
+  }
+
+  .modal-back-link a {
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: color 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .modal-back-link a:hover {
+    color: var(--admin);
+  }
+
+  /* basculement formulaires */
+  .login-form-container {
+    display: block;
+  }
+
+  .login-form-container.hide {
+    display: none;
+  }
+
+  .register-form-container {
+    display: none;
+  }
+
+  .register-form-container.active {
+    display: block;
+  }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    .wrapper {
+      max-width: 100%;
+    }
+    .card {
+      padding: 20px 18px;
+    }
+    .form-row {
+      flex-direction: column;
+      gap: 0;
+    }
+    .form-row .form-group {
+      margin-bottom: 16px;
+    }
+    .card-title {
+      font-size: 1.1rem;
+    }
+    body {
+      padding: 16px;
+    }
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:focus {
+    -webkit-text-fill-color: white;
+    transition: background-color 600000s 0s, color 600000s 0s;
   }
 </style>
 </head>
@@ -330,273 +416,353 @@
     <h1>STUDIA<span>AFRIQUE</span></h1>
   </div>
 
-  <div class="card">
-    <div class="card-title">🔐 LOGIN</div>
+  <!-- FORMULAIRE DE CONNEXION -->
+  <div id="loginFormContainer" class="login-form-container">
+    <div class="card">
+      <div class="card-title">🔐 CONNEXION</div>
 
-    <div class="error-message" id="errorMessage">
-      ⚠️ Identifiants incorrects. Veuillez vérifier vos informations.
+      <div class="error-message" id="loginErrorMessage">
+        ⚠️ Identifiants incorrects
+      </div>
+      <div class="success-message" id="loginSuccessMessage"></div>
+
+      <div class="form-group">
+        <label>👤 Nom / Email</label>
+        <input type="text" id="loginNom" placeholder="Nom ou email" autocomplete="off">
+      </div>
+
+      <div class="form-group">
+        <label>🔑 Mot de passe</label>
+        <input type="password" id="loginPassword" placeholder="Mot de passe" autocomplete="off">
+      </div>
+
+      <div class="forgot-password">
+        <a id="forgotPasswordLink">Mot de passe oublié ?</a>
+      </div>
+
+      <button class="login-btn" id="loginBtn">Se connecter</button>
+
+      <div class="register-link">
+        <p>Pas encore inscrit ? <a id="showRegisterLink">Créer un compte</a></p>
+      </div>
     </div>
+  </div>
 
-    <div class="form-group">
-      <label>👤 Nom / Email</label>
-      <input type="text" id="nom" placeholder="Votre nom ou email" autocomplete="off">
+  <!-- FORMULAIRE D'INSCRIPTION -->
+  <div id="registerFormContainer" class="register-form-container">
+    <div class="card">
+      <div class="card-title"> CRÉER UN COMPTE</div>
+
+      <div class="error-message" id="registerErrorMessage"></div>
+      <div class="success-message" id="registerSuccessMessage"></div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Prénom</label>
+          <input type="text" id="regFirstname" placeholder="Prénom" autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label>Nom</label>
+          <input type="text" id="regLastname" placeholder="Nom" autocomplete="off">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>📧 Email</label>
+        <input type="email" id="regEmail" placeholder="exemple@studiaafrique.com" autocomplete="off">
+      </div>
+
+      <div class="form-group">
+        <label>📱 Téléphone</label>
+        <input type="tel" id="regPhone" placeholder="+216 XX XXX XXX" autocomplete="off">
+      </div>
+
+      <div class="form-group">
+        <label>🔑 Mot de passe</label>
+        <input type="password" id="regPassword" placeholder="Min. 6 caractères" autocomplete="off">
+      </div>
+
+      <div class="form-group">
+        <label>✔️ Confirmer</label>
+        <input type="password" id="regConfirmPassword" placeholder="Confirmez le mot de passe" autocomplete="off">
+      </div>
+
+      <button class="register-btn" id="registerBtn">S'inscrire</button>
+
+      <div class="back-to-login">
+        <p><a id="backToLoginLink">← Retour à la connexion</a></p>
+      </div>
     </div>
-
-    <div class="form-group">
-      <label>🔑 Mot de passe</label>
-      <input type="password" id="password" placeholder="Votre mot de passe" autocomplete="off">
-    </div>
-
-    <div class="forgot-password">
-      <a href="#" id="forgotPasswordLink">🔐 Forgot password?</a>
-    </div>
-
-    <button class="login-btn" id="loginBtn">Se connecter</button>
-
-    <div class="register-link">
-      <p>Not Registered Yet? <a href="#" id="createAccountLink">Create an account</a></p>
-    </div>
-
-   
-
   </div>
 </div>
 
-<!-- Modal Forgot Password -->
+<!-- MODAL MOT DE PASSE OUBLIÉ -->
 <div id="forgotModal" class="modal">
   <div class="modal-content">
-    <h3>Réinitialisation du mot de passe</h3>
-    <p style="color: rgba(255,255,255,.6); margin-bottom: 20px;">Entrez votre email pour recevoir un lien de réinitialisation</p>
+    <h3>🔐 Réinitialisation</h3>
+    <p>Entrez votre email pour recevoir un lien</p>
     <input type="email" id="resetEmail" placeholder="Votre adresse email">
     <div class="modal-buttons">
-      <button id="sendResetLink">Envoyer</button>
-      <button id="closeModal">Fermer</button>
+      <button id="sendResetLink">Envoyer l'email</button>
+    </div>
+    <div class="modal-back-link">
+      <a id="modalBackToLogin">← Retour à la connexion</a>
     </div>
   </div>
 </div>
 
 <script>
-  // Fonction de hachage simple SHA-256
-  async function hashPassword(password) {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(password);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    return hashHex;
-  }
-
-  // Base de données des utilisateurs avec les bons mots de passe hachés
-  // Les mots de passe sont identiques aux noms: admin, nada, anas, messi
-  const users = [
-    { 
-      nom: 'admin', 
-      prenom: 'admin', 
-      role: 'admin', 
-      file: 'admin.html', 
-      displayRole: 'Administrateur',
-      passwordHash: '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918' // admin
-    },
-    { 
-      nom: 'nada', 
-      prenom: 'nada', 
-      role: 'rh', 
-      file: 'rh.html', 
-      displayRole: 'Ressources Humaines',
-      passwordHash: '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918' // nada (ATTENTION: ceci est le hash de "admin", à corriger)
-    },
-    { 
-      nom: 'anas', 
-      prenom: 'anas', 
-      role: 'manager', 
-      file: 'manager.html', 
-      displayRole: 'Manager',
-      passwordHash: '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918' // anas (ATTENTION: ceci est le hash de "admin", à corriger)
-    },
-    { 
-      nom: 'messi', 
-      prenom: 'messi', 
-      role: 'employe', 
-      file: 'employe.html', 
-      displayRole: 'Employé',
-      passwordHash: '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918' // messi (ATTENTION: ceci est le hash de "admin", à corriger)
-    }
+  // ========== BASE DE DONNÉES UTILISATEURS ==========
+  let defaultUsers = [
+    { nom: 'admin', prenom: 'admin', role: 'admin', file: 'admin.html', displayRole: 'Administrateur', email: 'admin@studiaafrique.com', phone: '00000000', password: 'admin' },
+    { nom: 'nada', prenom: 'nada', role: 'rh', file: 'rh.html', displayRole: 'Ressources Humaines', email: 'nada@studiaafrique.com', phone: '11111111', password: 'nada' },
+    { nom: 'anas', prenom: 'anas', role: 'manager', file: 'manager.html', displayRole: 'Manager', email: 'anas@studiaafrique.com', phone: '22222222', password: 'anas' },
+    { nom: 'messi', prenom: 'messi', role: 'employe', file: 'employe.html', displayRole: 'Employé', email: 'messi@studiaafrique.com', phone: '33333333', password: 'messi' }
   ];
 
-  // Fonction pour générer les hashs corrects au chargement de la page
-  async function initializeUsers() {
-    // Générer les bons hashs pour chaque utilisateur
-    for (let user of users) {
-      const correctHash = await hashPassword(user.nom);
-      user.passwordHash = correctHash;
+  let users = [...defaultUsers];
+
+  function loadUsersFromStorage() {
+    const stored = localStorage.getItem('studia_users');
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      const existingSet = new Set(users.map(u => u.nom.toLowerCase()));
+      for (let newUser of parsed) {
+        if (!existingSet.has(newUser.nom.toLowerCase())) {
+          users.push(newUser);
+        }
+      }
     }
+    saveUsersToStorage();
   }
 
-  // Masquer le message d'erreur
-  function hideError() {
-    const errorDiv = document.getElementById('errorMessage');
-    errorDiv.style.display = 'none';
+  function saveUsersToStorage() {
+    localStorage.setItem('studia_users', JSON.stringify(users));
   }
 
-  // Afficher le message d'erreur
-  function showError(message) {
-    const errorDiv = document.getElementById('errorMessage');
-    errorDiv.innerHTML = message || '⚠️ Identifiants incorrects. Veuillez vérifier vos informations.';
-    errorDiv.style.display = 'block';
-    setTimeout(() => {
-      errorDiv.style.opacity = '0';
-      setTimeout(() => {
-        errorDiv.style.display = 'none';
-        errorDiv.style.opacity = '1';
-        errorDiv.innerHTML = '⚠️ Identifiants incorrects. Veuillez vérifier vos informations.';
-      }, 300);
-    }, 3000);
+  // ========== AFFICHAGE / MESSAGES ==========
+  function showLoginError(msg) {
+    const errDiv = document.getElementById('loginErrorMessage');
+    errDiv.innerHTML = msg || '⚠️ Identifiants incorrects.';
+    errDiv.style.display = 'block';
+    setTimeout(() => { errDiv.style.opacity = '0'; setTimeout(() => { errDiv.style.display = 'none'; errDiv.style.opacity = '1'; }, 250); }, 2800);
+  }
+  
+  function showRegisterError(msg) {
+    const errDiv = document.getElementById('registerErrorMessage');
+    errDiv.innerHTML = msg;
+    errDiv.style.display = 'block';
+    setTimeout(() => { errDiv.style.display = 'none'; }, 3000);
+  }
+  
+  function showRegisterSuccess(msg) {
+    const sucDiv = document.getElementById('registerSuccessMessage');
+    sucDiv.innerHTML = msg;
+    sucDiv.style.display = 'block';
+    setTimeout(() => { sucDiv.style.display = 'none'; }, 3000);
+  }
+  
+  function showLoginSuccessMessage(msg) {
+    const sucDiv = document.getElementById('loginSuccessMessage');
+    sucDiv.innerHTML = msg;
+    sucDiv.style.display = 'block';
+    setTimeout(() => { sucDiv.style.display = 'none'; }, 3500);
   }
 
-  // Afficher un message de succès temporaire
-  function showSuccess(message) {
-    const errorDiv = document.getElementById('errorMessage');
-    errorDiv.style.background = 'rgba(78,205,196,.2)';
-    errorDiv.style.borderColor = 'rgba(78,205,196,.3)';
-    errorDiv.style.color = '#4ECDC4';
-    errorDiv.innerHTML = message;
-    errorDiv.style.display = 'block';
-    setTimeout(() => {
-      errorDiv.style.opacity = '0';
-      setTimeout(() => {
-        errorDiv.style.display = 'none';
-        errorDiv.style.opacity = '1';
-        errorDiv.style.background = 'rgba(255,70,70,.2)';
-        errorDiv.style.borderColor = 'rgba(255,70,70,.3)';
-        errorDiv.style.color = '#ff6b6b';
-      }, 300);
-    }, 3000);
+  // ========== AUTHENTIFICATION ==========
+  function authenticateUser(identifier, password) {
+    const user = users.find(u => u.nom.toLowerCase() === identifier.toLowerCase() || u.email.toLowerCase() === identifier.toLowerCase());
+    return (user && user.password === password) ? user : null;
   }
 
-  // Vérifier les identifiants avec mot de passe haché
-  async function authenticateUser(nom, password) {
-    const user = users.find(u => u.nom.toLowerCase() === nom.toLowerCase());
-    
-    if (!user) {
-      return null;
-    }
-    
-    // Hacher le mot de passe fourni et comparer avec le haché stocké
-    const hashedPassword = await hashPassword(password);
-    
-    if (hashedPassword === user.passwordHash) {
-      return user;
-    }
-    
-    return null;
-  }
-
-  // Gérer la connexion
-  async function handleLogin() {
-    const nomInput = document.getElementById('nom');
-    const passwordInput = document.getElementById('password');
-    
-    const nom = nomInput.value.trim();
-    const password = passwordInput.value.trim();
-    
-    // Vérifier si tous les champs sont remplis
-    if (!nom || !password) {
-      showError('⚠️ Veuillez remplir tous les champs (Nom/Email et Mot de passe)');
+  function handleLogin() {
+    const identifier = document.getElementById('loginNom').value.trim();
+    const password = document.getElementById('loginPassword').value.trim();
+    if (!identifier || !password) {
+      showLoginError('⚠️ Veuillez remplir tous les champs.');
       return;
     }
-    
-    // Afficher un message de chargement
     const loginBtn = document.getElementById('loginBtn');
     const originalText = loginBtn.textContent;
-    loginBtn.textContent = 'Connexion en cours...';
+    loginBtn.textContent = 'Connexion...';
     loginBtn.disabled = true;
-    
-    try {
-      // Authentifier l'utilisateur
-      const user = await authenticateUser(nom, password);
-      
+
+    setTimeout(() => {
+      const user = authenticateUser(identifier, password);
       if (user) {
-        // Stocker les informations de l'utilisateur dans sessionStorage
         sessionStorage.setItem('user', JSON.stringify({
           nom: user.nom,
           prenom: user.prenom,
           role: user.role,
           displayRole: user.displayRole,
-          email: `${user.prenom}@studiaafrique.com`,
+          email: user.email,
           loginTime: new Date().toISOString()
         }));
-        
-        // Redirection vers la page correspondante
         window.location.href = user.file;
       } else {
-        // Message d'erreur personnalisé
-        const lowerNom = nom.toLowerCase();
-        const userExists = users.some(u => u.nom.toLowerCase() === lowerNom);
-        
-        if (userExists) {
-          showError(`⚠️ Mot de passe incorrect pour "${nom}". Vérifiez vos identifiants.`);
-        } else {
-          showError('⚠️ Identifiants non reconnus. Veuillez utiliser les comptes de démonstration.');
-        }
+        showLoginError('❌ Identifiants incorrects. Vérifiez vos informations.');
       }
-    } catch (error) {
-      console.error('Erreur de connexion:', error);
-      showError('⚠️ Une erreur est survenue. Veuillez réessayer.');
-    } finally {
-      // Réinitialiser le bouton
       loginBtn.textContent = originalText;
       loginBtn.disabled = false;
-    }
+    }, 400);
   }
 
-  // Gérer le mot de passe oublié
-  function handleForgotPassword() {
-    const modal = document.getElementById('forgotModal');
-    modal.style.display = 'flex';
-  }
+  // ========== INSCRIPTION ==========
+  function handleRegister() {
+    const firstname = document.getElementById('regFirstname').value.trim();
+    const lastname = document.getElementById('regLastname').value.trim();
+    const email = document.getElementById('regEmail').value.trim();
+    const phone = document.getElementById('regPhone').value.trim();
+    const password = document.getElementById('regPassword').value;
+    const confirmPwd = document.getElementById('regConfirmPassword').value;
 
-  // Envoyer le lien de réinitialisation
-  function sendResetLink() {
-    const email = document.getElementById('resetEmail').value.trim();
-    if (!email) {
-      showError('⚠️ Veuillez entrer votre adresse email');
+    if (!firstname || !lastname || !email || !phone || !password) {
+      showRegisterError('⚠️ Tous les champs sont obligatoires.');
       return;
     }
+    if (password.length < 6) {
+      showRegisterError('⚠️ Le mot de passe doit contenir au moins 6 caractères.');
+      return;
+    }
+    if (password !== confirmPwd) {
+      showRegisterError('⚠️ Les mots de passe ne correspondent pas.');
+      return;
+    }
+    if (users.some(u => u.email.toLowerCase() === email.toLowerCase())) {
+      showRegisterError('⚠️ Cet email est déjà utilisé.');
+      return;
+    }
+    if (users.some(u => u.nom.toLowerCase() === lastname.toLowerCase())) {
+      showRegisterError('⚠️ Ce nom d\'utilisateur existe déjà.');
+      return;
+    }
+
+    const newUser = {
+      nom: lastname,
+      prenom: firstname,
+      role: 'employe',
+      file: 'employe.html',
+      displayRole: 'Employé',
+      email: email,
+      phone: phone,
+      password: password
+    };
+    users.push(newUser);
+    saveUsersToStorage();
+
+    showRegisterSuccess('✅ Compte créé avec succès !');
     
-    // Simuler l'envoi d'un email
-    showSuccess(`✅ Un lien de réinitialisation a été envoyé à ${email}`);
-    document.getElementById('forgotModal').style.display = 'none';
+    document.getElementById('regFirstname').value = '';
+    document.getElementById('regLastname').value = '';
+    document.getElementById('regEmail').value = '';
+    document.getElementById('regPhone').value = '';
+    document.getElementById('regPassword').value = '';
+    document.getElementById('regConfirmPassword').value = '';
+
+    setTimeout(() => {
+      showLoginForm();
+      showLoginSuccessMessage('✨ Compte créé ! Connectez-vous.');
+    }, 1600);
+  }
+
+  // ========== FORGOT PASSWORD ==========
+  function showForgotPasswordModal() {
+    const modal = document.getElementById('forgotModal');
+    modal.style.display = 'flex';
     document.getElementById('resetEmail').value = '';
   }
 
-  // Gérer la création de compte
-  function handleCreateAccount() {
-    showSuccess('📝 Fonctionnalité d\'inscription en développement. Veuillez contacter votre administrateur.');
-    // Redirection vers une page d'inscription (à décommenter quand la page existe)
-    // window.location.href = 'register.html';
+  function sendResetLink() {
+    const email = document.getElementById('resetEmail').value.trim();
+    if (!email) {
+      showModalTemporaryMessage('Veuillez entrer votre adresse email.', false);
+      return;
+    }
+    const userExists = users.some(u => u.email.toLowerCase() === email.toLowerCase());
+    if (userExists) {
+      showModalTemporaryMessage(`✅ Un lien a été envoyé à ${email}.`, true);
+    } else {
+      showModalTemporaryMessage(`❌ Aucun compte associé à ${email}.`, false);
+    }
+    document.getElementById('resetEmail').value = '';
   }
 
-  // Initialiser les utilisateurs avec les bons hashs au chargement de la page
-  initializeUsers().then(() => {
-    console.log('Utilisateurs initialisés avec les bons mots de passe');
-  });
+  function showModalTemporaryMessage(message, isSuccess) {
+    const modalContent = document.querySelector('#forgotModal .modal-content');
+    const originalHTML = modalContent.innerHTML;
+    modalContent.innerHTML = `
+      <h3>${isSuccess ? '✅ Email envoyé' : '❌ Erreur'}</h3>
+      <p style="margin-bottom: 28px;">${message}</p>
+      <div class="modal-back-link" style="margin-top: 8px;">
+        <a id="modalTempBack">← Retour à la connexion</a>
+      </div>
+    `;
+    const backLink = document.getElementById('modalTempBack');
+    if (backLink) {
+      backLink.addEventListener('click', () => {
+        document.getElementById('forgotModal').style.display = 'none';
+        modalContent.innerHTML = originalHTML;
+        reattachModalEvents();
+      });
+    }
+    const modalBg = document.getElementById('forgotModal');
+    const closeModalHandler = () => {
+      document.getElementById('forgotModal').style.display = 'none';
+      modalContent.innerHTML = originalHTML;
+      reattachModalEvents();
+      modalBg.removeEventListener('click', closeModalHandler);
+    };
+    modalBg.addEventListener('click', function onClickOutside(e) {
+      if (e.target === modalBg) {
+        closeModalHandler();
+        modalBg.removeEventListener('click', onClickOutside);
+      }
+    });
+  }
 
-  // Ajouter les événements
+  function reattachModalEvents() {
+    const sendBtn = document.getElementById('sendResetLink');
+    const backLink = document.getElementById('modalBackToLogin');
+    if (sendBtn) sendBtn.addEventListener('click', sendResetLink);
+    if (backLink) backLink.addEventListener('click', () => {
+      document.getElementById('forgotModal').style.display = 'none';
+      showLoginForm();
+    });
+  }
+
+  // ========== BASCULE FORMULAIRES ==========
+  function showLoginForm() {
+    document.getElementById('loginFormContainer').classList.remove('hide');
+    document.getElementById('loginFormContainer').style.display = 'block';
+    document.getElementById('registerFormContainer').classList.remove('active');
+    document.getElementById('registerFormContainer').style.display = 'none';
+    document.getElementById('loginErrorMessage').style.display = 'none';
+    document.getElementById('registerErrorMessage').style.display = 'none';
+  }
+
+  function showRegisterForm() {
+    document.getElementById('loginFormContainer').style.display = 'none';
+    document.getElementById('loginFormContainer').classList.add('hide');
+    document.getElementById('registerFormContainer').style.display = 'block';
+    document.getElementById('registerFormContainer').classList.add('active');
+    document.getElementById('registerErrorMessage').style.display = 'none';
+    document.getElementById('registerSuccessMessage').style.display = 'none';
+  }
+
+  // ========== INITIALISATION ==========
+  loadUsersFromStorage();
+
   document.getElementById('loginBtn').addEventListener('click', handleLogin);
-  document.getElementById('forgotPasswordLink').addEventListener('click', (e) => {
-    e.preventDefault();
-    handleForgotPassword();
-  });
-  document.getElementById('createAccountLink').addEventListener('click', (e) => {
-    e.preventDefault();
-    handleCreateAccount();
-  });
+  document.getElementById('showRegisterLink').addEventListener('click', (e) => { e.preventDefault(); showRegisterForm(); });
+  document.getElementById('backToLoginLink').addEventListener('click', (e) => { e.preventDefault(); showLoginForm(); });
+  document.getElementById('forgotPasswordLink').addEventListener('click', (e) => { e.preventDefault(); showForgotPasswordModal(); });
+  document.getElementById('registerBtn').addEventListener('click', handleRegister);
   document.getElementById('sendResetLink').addEventListener('click', sendResetLink);
-  document.getElementById('closeModal').addEventListener('click', () => {
+  document.getElementById('modalBackToLogin').addEventListener('click', () => {
     document.getElementById('forgotModal').style.display = 'none';
+    showLoginForm();
   });
 
-  // Fermer le modal en cliquant en dehors
   window.addEventListener('click', (e) => {
     const modal = document.getElementById('forgotModal');
     if (e.target === modal) {
@@ -604,14 +770,10 @@
     }
   });
 
-  // Ajouter l'événement Enter sur les champs
-  document.getElementById('nom').addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') handleLogin();
-  });
-  
-  document.getElementById('password').addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') handleLogin();
-  });
+  document.getElementById('loginNom').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleLogin(); });
+  document.getElementById('loginPassword').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleLogin(); });
+  document.getElementById('regPassword').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleRegister(); });
+  document.getElementById('regConfirmPassword').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleRegister(); });
 </script>
 </body>
 </html>

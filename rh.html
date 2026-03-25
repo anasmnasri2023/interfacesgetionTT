@@ -6,7 +6,6 @@
 <title>STUDIAAFRIQUE — Ressources Humaines</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  /* ... (garder tous les styles existants) ... */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root,
@@ -184,49 +183,16 @@
   .cap-ok   { background:rgba(150,206,180,.15); color:#96CEB4; border:1px solid rgba(150,206,180,.3); }
   .cap-warn { background:rgba(255,230,109,.15); color:#FFE66D; border:1px solid rgba(255,230,109,.3); }
   .cap-full { background:rgba(255,107,107,.12); color:#ff6b6b; border:1px solid rgba(255,107,107,.3); }
-  .policy-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
-  .policy-card { background:var(--card); border:1px solid var(--card-border); border-radius:16px; padding:22px; }
-  .policy-card-title { font-family:'Syne',sans-serif; font-weight:700; font-size:.95rem; margin-bottom:18px; display:flex; align-items:center; gap:8px; }
-  .policy-row { display:flex; align-items:center; justify-content:space-between; padding:11px 0; border-bottom:1px solid var(--border); }
-  .policy-row:last-child { border-bottom:none; }
-  .policy-label { font-size:.83rem; color:var(--text); opacity:.8; }
-  .policy-ctrl { display:flex; align-items:center; gap:8px; }
-  .policy-input { width:64px; padding:6px 10px; background:var(--input-bg); border:1px solid var(--border); border-radius:8px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:.84rem; text-align:center; outline:none; transition:border-color .2s; }
-  .policy-input:focus { border-color:var(--accent); }
-  .policy-unit { font-size:.73rem; color:var(--muted); }
-  .policy-toggle { position:relative; display:inline-block; width:40px; height:22px; }
-  .policy-toggle input { opacity:0; width:0; height:0; }
-  .policy-toggle-slider { position:absolute; cursor:pointer; inset:0; background:var(--input-bg); border-radius:22px; transition:.3s; }
-  .policy-toggle-slider:before { content:''; position:absolute; width:16px; height:16px; left:3px; bottom:3px; background:#fff; border-radius:50%; transition:.3s; }
-  .policy-toggle input:checked + .policy-toggle-slider { background:var(--accent); }
-  .policy-toggle input:checked + .policy-toggle-slider:before { transform:translateX(18px); }
-  .save-msg { display:none; background:rgba(150,206,180,.1); border:1px solid #96CEB4; border-radius:10px; padding:12px 16px; color:#96CEB4; font-weight:600; margin-top:16px; text-align:center; }
-  .dept-quota-row { display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid var(--border); }
-  .dept-quota-row:last-child { border-bottom:none; }
-  .dq-name { flex:1; font-size:.84rem; font-weight:600; }
-  .dq-bar-wrap { flex:2; height:7px; background:var(--input-bg); border-radius:4px; overflow:hidden; }
-  .dq-bar { height:100%; border-radius:4px; }
-  .dq-val { font-size:.78rem; color:var(--muted); width:36px; text-align:right; }
-  .live-dot { width:7px; height:7px; border-radius:50%; background:#96CEB4; display:inline-block; margin-right:5px; animation:blink 1.8s infinite; }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
-  .kpi-row { display:flex; align-items:center; gap:14px; margin-bottom:12px; }
-  .kpi-label { font-size:.83rem; color:var(--text); width:220px; flex-shrink:0; opacity:.8; }
-  .kpi-bar-wrap { flex:1; height:8px; background:var(--input-bg); border-radius:4px; overflow:hidden; }
-  .kpi-bar { height:100%; border-radius:4px; }
-  .kpi-pct { font-size:.78rem; color:var(--muted); width:40px; text-align:right; }
   .toast { position:fixed; bottom:28px; right:28px; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:14px 20px; display:flex; align-items:center; gap:12px; font-size:.85rem; font-weight:500; color:var(--text); box-shadow:0 8px 28px rgba(0,0,0,.18); z-index:8888; animation:slideToast .4s cubic-bezier(.34,1.56,.64,1); }
   .toast.out { animation:slideToastOut .3s ease forwards; }
   @keyframes slideToast { from{opacity:0;transform:translateY(20px) scale(.9)} to{opacity:1;transform:translateY(0) scale(1)} }
   @keyframes slideToastOut { from{opacity:1;transform:translateY(0) scale(1)} to{opacity:0;transform:translateY(10px) scale(.95)} }
   
-  /* Notifications panel */
   .notifications-panel { position:absolute; top:100%; right:0; width:360px; background:var(--card); border:1px solid var(--border); border-radius:16px; margin-top:8px; box-shadow:var(--shadow); display:none; z-index:1000; max-height:500px; overflow-y:auto; }
   .notifications-panel.open { display:block; animation:fadeMenuIn .2s ease; }
   .notif-header { padding:16px; border-bottom:1px solid var(--border); font-weight:700; display:flex; justify-content:space-between; align-items:center; }
   .notif-item { padding:14px 16px; border-bottom:1px solid var(--border); cursor:pointer; transition:background .2s; }
   .notif-item:hover { background:var(--row-hover); }
-  .notif-item.accepted { border-left:3px solid #96CEB4; }
-  .notif-item.rejected { border-left:3px solid #ff6b6b; }
   .notif-title { font-weight:600; font-size:.85rem; margin-bottom:4px; }
   .notif-detail { font-size:.75rem; color:var(--muted); margin-bottom:4px; }
   .notif-time { font-size:.7rem; color:var(--muted); }
@@ -289,14 +255,11 @@
         </button>
         <div style="position:relative">
           <button class="topbar-icon-btn" onclick="toggleNotifications(event)" title="Notifications">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
             <span class="notif-dot" id="notifDot"></span>
           </button>
           <div class="notifications-panel" id="notificationsPanel">
-            <div class="notif-header">
-              <span>🔔 Notifications</span>
-              <button style="background:none;border:none;color:var(--muted);cursor:pointer" onclick="clearNotifications()">Tout marquer lu</button>
-            </div>
+            <div class="notif-header"><span>🔔 Notifications</span><button style="background:none;border:none;color:var(--muted);cursor:pointer" onclick="clearNotifications()">Tout marquer lu</button></div>
             <div id="notificationsList"></div>
           </div>
         </div>
@@ -304,13 +267,10 @@
         <div class="topbar-avatar-btn" style="background:linear-gradient(135deg,#4ECDC4,#6ee7e0);border:2px solid #4ECDC4">SM</div>
         <div class="dropdown-wrapper">
           <button class="topbar-icon-btn" onclick="toggleDropdown(event)">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
           </button>
           <div class="dropdown-menu" id="settingsDropdown">
-            <div class="dropdown-header">
-              <div class="dh-name">Sonia Mansour</div>
-              <div class="dh-email">s.mansour@studiaafrique.com</div>
-            </div>
+            <div class="dropdown-header"><div class="dh-name">Sonia Mansour</div><div class="dh-email">s.mansour@studiaafrique.com</div></div>
             <button class="dropdown-item" onclick="closeDropdown()"><span class="di-icon">👤</span> Mon profil</button>
             <button class="dropdown-item" onclick="closeDropdown()"><span class="di-icon">⚙️</span> Paramètres</button>
             <div class="dropdown-divider"></div>
@@ -322,283 +282,80 @@
   </div>
 
   <div class="content">
-    <!-- DASHBOARD -->
-    <div class="section active" id="sec-dashboard">
-      <div class="stats-grid">
-        <div class="stat-card" style="--c:#4ECDC4"><div class="stat-icon">📋</div><div class="stat-val" id="dashN2">2</div><div class="stat-label">Demandes N2 en attente</div></div>
-        <div class="stat-card" style="--c:#45B7D1"><div class="stat-icon">🏡</div><div class="stat-val">12</div><div class="stat-label">En télétravail aujourd'hui</div></div>
-        <div class="stat-card" style="--c:#96CEB4"><div class="stat-icon">✅</div><div class="stat-val">71%</div><div class="stat-label">Taux d'approbation TT</div></div>
-        <div class="stat-card" style="--c:#FFE66D"><div class="stat-icon">📊</div><div class="stat-val">34%</div><div class="stat-label">Capacité TT utilisée</div></div>
-      </div>
-      <div class="grid2">
-        <div class="panel">
-          <div class="panel-title">Demandes TT — N2 récentes</div>
-          <div id="recentDemandes"></div>
-        </div>
-        <div class="panel">
-          <div class="panel-title">Capacité TT par département</div>
-          <div id="capSummary"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- VALIDATION N2 -->
-    <div class="section" id="sec-validation">
-      <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:6px;">Valider demandes — Niveau 2 (Final)</h2>
-      <p style="color:var(--muted);font-size:.83rem;margin-bottom:20px;">Ces demandes ont été validées au N1 par le Manager et attendent votre décision finale RH</p>
-      <div class="legend-box">
-        <div class="legend-item"><div class="legend-dot" style="background:#96CEB4"></div><span style="color:#96CEB4">Validé par Manager (N1)</span></div>
-        <div class="legend-item"><div class="legend-dot" style="background:#4ECDC4"></div><span style="color:#4ECDC4">Votre action requise (N2)</span></div>
-        <div class="legend-item"><div class="legend-dot" style="background:#FFE66D"></div><span style="color:#FFE66D">En attente N1</span></div>
-        <div class="legend-item"><div class="legend-dot" style="background:#ff6b6b"></div><span style="color:#ff6b6b">Refusé</span></div>
-      </div>
-      <div id="validationN2List"></div>
-    </div>
-
-    <!-- SUIVI DES DEMANDES TT -->
-    <div class="section" id="sec-suivi">
-      <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:24px;">Suivi des demandes de télétravail</h2>
-      <div class="panel">
-        <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">
-          <input type="text" id="suiviSearch" oninput="filterSuivi()" placeholder="🔍 Rechercher un employé..." style="flex:1;min-width:180px;padding:9px 14px;background:var(--input-bg);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:'DM Sans',sans-serif;outline:none;font-size:.85rem">
-          <select id="suiviStatut" onchange="filterSuivi()" style="padding:9px 14px;background:var(--input-bg);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:'DM Sans',sans-serif;outline:none">
-            <option value="">Tous statuts</option>
-            <option>En attente N1</option>
-            <option>Validé N1 — en attente N2</option>
-            <option>Approuvé</option>
-            <option>Refusé</option>
-          </select>
-        </div>
-        <table>
-          <thead><tr><th>Employé</th><th>Département</th><th>Dates TT</th><th>Motif</th><th>Statut</th></tr></thead>
-          <tbody id="suiviTable"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- CAPACITÉ -->
-    <div class="section" id="sec-capacite">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px">
-        <div>
-          <h2 style="font-family:'Syne',sans-serif;font-weight:800;">Gestion de la capacité télétravail</h2>
-          <p style="color:var(--muted);font-size:.83rem;margin-top:4px;">Définir le nombre maximum d'employés en télétravail par département</p>
-        </div>
-        <button class="btn btn-primary" onclick="saveCapacity()">💾 Enregistrer</button>
-      </div>
-      <div class="cap-grid" id="capCards"></div>
-      <div class="save-msg" id="capSaveMsg">✅ Capacités enregistrées avec succès !</div>
-    </div>
-
-    <!-- POLITIQUES -->
-    <div class="section" id="sec-politiques">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px">
-        <div>
-          <h2 style="font-family:'Syne',sans-serif;font-weight:800;">Politiques de télétravail</h2>
-          <p style="color:var(--muted);font-size:.83rem;margin-top:4px;">Définir les règles globales et quotas par département</p>
-        </div>
-        <button class="btn btn-primary" onclick="savePolicies()">💾 Enregistrer les règles</button>
-      </div>
-      <div class="policy-grid">
-        <div class="policy-card">
-          <div class="policy-card-title">⚙️ Règles globales</div>
-          <div class="policy-row"><div class="policy-label">Jours max / semaine</div><div class="policy-ctrl"><input type="number" class="policy-input" value="3" min="1" max="5"><span class="policy-unit">jours</span></div></div>
-          <div class="policy-row"><div class="policy-label">Jours max / mois</div><div class="policy-ctrl"><input type="number" class="policy-input" value="12" min="1" max="22"><span class="policy-unit">jours</span></div></div>
-          <div class="policy-row"><div class="policy-label">Délai minimum de demande</div><div class="policy-ctrl"><input type="number" class="policy-input" value="2" min="0" max="14"><span class="policy-unit">jours avant</span></div></div>
-          <div class="policy-row"><div class="policy-label">Consécutifs autorisés</div><div class="policy-ctrl"><input type="number" class="policy-input" value="2" min="1" max="5"><span class="policy-unit">jours max</span></div></div>
-          <div class="policy-row"><div class="policy-label">Validation Manager obligatoire</div><div class="policy-ctrl"><label class="policy-toggle"><input type="checkbox" checked><span class="policy-toggle-slider"></span></label></div></div>
-          <div class="policy-row"><div class="policy-label">Validation RH obligatoire</div><div class="policy-ctrl"><label class="policy-toggle"><input type="checkbox" checked><span class="policy-toggle-slider"></span></label></div></div>
-        </div>
-        <div>
-          <div class="policy-card" style="margin-bottom:16px">
-            <div class="policy-card-title">🏢 Quotas TT par département</div>
-            <div id="deptQuotas"></div>
-          </div>
-        </div>
-      </div>
-      <div class="save-msg" id="polSaveMsg">✅ Politiques enregistrées ! Applicables dès demain matin.</div>
-    </div>
-
-    <!-- RAPPORTS -->
-    <div class="section" id="sec-rapports">
-      <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:24px;">Rapports télétravail</h2>
-      <div class="stats-grid" style="margin-bottom:24px">
-        <div class="stat-card" style="--c:#4ECDC4"><div class="stat-icon">📅</div><div class="stat-val">698</div><div class="stat-label">Total jours TT (2024)</div></div>
-        <div class="stat-card" style="--c:#96CEB4"><div class="stat-icon">✅</div><div class="stat-val">71%</div><div class="stat-label">Taux d'approbation</div></div>
-        <div class="stat-card" style="--c:#FFE66D"><div class="stat-icon">⏳</div><div class="stat-val">18</div><div class="stat-label">Demandes en attente</div></div>
-        <div class="stat-card" style="--c:#FF6B35"><div class="stat-icon">🏡</div><div class="stat-val">48%</div><div class="stat-label">Taux TT moyen</div></div>
-      </div>
-      <div class="panel">
-        <div class="panel-title">📊 KPI Télétravail global — 2026</div>
-        <div id="globalKPI"></div>
-      </div>
-    </div>
+    <div class="section active" id="sec-dashboard"><div class="stats-grid"><div class="stat-card" style="--c:#4ECDC4"><div class="stat-icon">📋</div><div class="stat-val" id="dashN2">2</div><div class="stat-label">Demandes N2 en attente</div></div><div class="stat-card" style="--c:#45B7D1"><div class="stat-icon">🏡</div><div class="stat-val">12</div><div class="stat-label">En télétravail aujourd'hui</div></div><div class="stat-card" style="--c:#96CEB4"><div class="stat-icon">✅</div><div class="stat-val">71%</div><div class="stat-label">Taux d'approbation TT</div></div><div class="stat-card" style="--c:#FFE66D"><div class="stat-icon">📊</div><div class="stat-val">34%</div><div class="stat-label">Capacité TT utilisée</div></div></div><div class="grid2"><div class="panel"><div class="panel-title">Demandes TT — N2 récentes</div><div id="recentDemandes"></div></div><div class="panel"><div class="panel-title">Capacité TT par département</div><div id="capSummary"></div></div></div></div>
+    <div class="section" id="sec-validation"><h2 style="font-family:'Syne';font-weight:800;margin-bottom:6px;">Valider demandes — Niveau 2</h2><p style="color:var(--muted);margin-bottom:20px;">Demandes validées par Manager en attente décision RH</p><div class="legend-box"><div class="legend-item"><div class="legend-dot" style="background:#96CEB4"></div><span>Validé Manager (N1)</span></div><div class="legend-item"><div class="legend-dot" style="background:#4ECDC4"></div><span>Action RH requise</span></div></div><div id="validationN2List"></div></div>
+    <div class="section" id="sec-suivi"><h2 style="font-family:'Syne';font-weight:800;margin-bottom:24px;">Suivi des demandes TT</h2><div class="panel"><div style="display:flex;gap:10px;margin-bottom:16px"><input type="text" id="suiviSearch" oninput="filterSuivi()" placeholder="🔍 Rechercher..." style="flex:1;padding:9px 14px;background:var(--input-bg);border:1px solid var(--border);border-radius:9px;color:var(--text);outline:none"><select id="suiviStatut" onchange="filterSuivi()" style="padding:9px 14px;background:var(--input-bg);border:1px solid var(--border);border-radius:9px;color:var(--text)"><option value="">Tous statuts</option><option>En attente N1</option><option>Validé N1 — en attente N2</option><option>Approuvé</option><option>Refusé</option></select></div><table><thead><tr><th>Employé</th><th>Département</th><th>Dates TT</th><th>Motif</th><th>Statut</th></tr></thead><tbody id="suiviTable"></tbody></table></div></div>
+    <div class="section" id="sec-capacite"><div style="display:flex;justify-content:space-between;margin-bottom:20px"><div><h2 style="font-family:'Syne';font-weight:800;">Capacité TT</h2><p style="color:var(--muted)">Max TT par département</p></div><button class="btn btn-primary" onclick="saveCapacity()">💾 Enregistrer</button></div><div class="cap-grid" id="capCards"></div><div class="save-msg" id="capSaveMsg" style="display:none;background:rgba(150,206,180,.1);border:1px solid #96CEB4;border-radius:10px;padding:12px;color:#96CEB4;text-align:center">✅ Capacités enregistrées</div></div>
+    <div class="section" id="sec-politiques"><div style="display:flex;justify-content:space-between;margin-bottom:20px"><div><h2 style="font-family:'Syne';font-weight:800;">Politiques TT</h2><p style="color:var(--muted)">Règles globales</p></div><button class="btn btn-primary" onclick="savePolicies()">💾 Enregistrer</button></div><div class="policy-grid" style="display:grid;grid-template-columns:1fr;gap:20px"><div class="panel"><div class="panel-title">⚙️ Règles générales</div><div class="policy-row" style="display:flex;justify-content:space-between;padding:11px 0"><div>Jours max / semaine</div><div><input type="number" id="maxWeek" value="3" min="1" max="5" style="width:70px;padding:6px;background:var(--input-bg);border:1px solid var(--border);border-radius:8px;color:var(--text)"> jours</div></div><div class="policy-row" style="display:flex;justify-content:space-between;padding:11px 0"><div>Jours max / mois</div><div><input type="number" id="maxMonth" value="12" min="1" max="22" style="width:70px;padding:6px;background:var(--input-bg);border:1px solid var(--border);border-radius:8px;color:var(--text)"> jours</div></div><div class="policy-row" style="display:flex;justify-content:space-between;padding:11px 0"><div>Délai minimum demande</div><div><input type="number" id="minDelay" value="2" min="0" max="14" style="width:70px;padding:6px;background:var(--input-bg);border:1px solid var(--border);border-radius:8px;color:var(--text)"> jours avant</div></div></div></div><div class="save-msg" id="polSaveMsg" style="display:none;background:rgba(150,206,180,.1);border:1px solid #96CEB4;border-radius:10px;padding:12px;color:#96CEB4;text-align:center;margin-top:16px">✅ Politiques enregistrées</div></div>
+    <div class="section" id="sec-rapports"><h2 style="font-family:'Syne';font-weight:800;margin-bottom:24px;">Rapports TT</h2><div class="stats-grid"><div class="stat-card" style="--c:#4ECDC4"><div class="stat-icon">📅</div><div class="stat-val">698</div><div class="stat-label">Total jours TT (2024)</div></div><div class="stat-card" style="--c:#96CEB4"><div class="stat-icon">✅</div><div class="stat-val">71%</div><div class="stat-label">Taux d'approbation</div></div><div class="stat-card" style="--c:#FFE66D"><div class="stat-icon">⏳</div><div class="stat-val">18</div><div class="stat-label">Demandes en attente</div></div></div><div class="panel"><div class="panel-title">📊 KPI Télétravail</div><div id="globalKPI"></div></div></div>
   </div>
 </div>
 
 <script>
-// Notifications data
-let notifications = [
-  {
-    id: 1,
-    employe: "Fatima Khelil",
-    manager: "Karim Ben Salah",
-    dates: "15 Mars 2026",
-    status: "accepted",
-    message: "✅ Demande de télétravail acceptée par Manager Karim Ben Salah",
-    time: "Il y a 2 heures"
-  },
-  {
-    id: 2,
-    employe: "Ahmed Ben Ali",
-    manager: "Yasmine Laouini",
-    dates: "18 Mars 2026",
-    status: "rejected",
-    message: "❌ Demande de télétravail refusée par Manager Yasmine Laouini",
-    reason: "Motif: Charge de travail importante en présentiel cette semaine",
-    time: "Il y a 1 heure"
-  },
-  {
-    id: 3,
-    employe: "Nadia Ben Salah",
-    manager: "Karim Ben Salah",
-    dates: "20 Mars 2026",
-    status: "accepted",
-    message: "✅ Demande de télétravail acceptée par Manager Karim Ben Salah",
-    time: "Il y a 30 minutes"
-  },
-  {
-    id: 4,
-    employe: "Sofien Trabelsi",
-    manager: "Yasmine Laouini",
-    dates: "22 Mars 2026",
-    status: "rejected",
-    message: "❌ Demande de télétravail refusée par Manager Yasmine Laouini",
-    reason: "Motif: Réunion d'équipe obligatoire ce jour",
-    time: "Il y a 15 minutes"
-  }
+// Départements STUDIA officiels
+const DEPARTEMENTS = [
+  "Développement",
+  "Technique / Infrastructure",
+  "Qualité",
+  "Odoo",
+  "Gestion de Projet"
 ];
 
+// Données de capacité avec les bons départements
+let capDepts = [
+  { name:"Développement", color:"#FF6B35", total:18, max:10, current:6 },
+  { name:"Technique / Infrastructure", color:"#4ECDC4", total:12, max:7, current:4 },
+  { name:"Qualité", color:"#45B7D1", total:8, max:5, current:2 },
+  { name:"Odoo", color:"#96CEB4", total:6, max:3, current:1 },
+  { name:"Gestion de Projet", color:"#FFE66D", total:7, max:4, current:2 }
+];
+
+// Demandes avec départements STUDIA
+let demandes = [
+  { id:1, employe:'Fatima Khelil', dept:'Développement', dates:'15 Mar', motif:'Environnement calme requis', steps:[
+    {label:'Soumission', date:'08 Mar', state:'done', note:'Envoyée'},
+    {label:'Manager\n(N1)', date:'09 Mar', state:'done', note:'Validé ✓'},
+    {label:'RH\n(N2)', date:null, state:'active', note:'Votre action'},
+    {label:'Décision', date:null, state:'waiting', note:''}
+  ]},
+  { id:2, employe:'Karim Zouari', dept:'Technique / Infrastructure', dates:'16–17 Mar', motif:'Concentration livrables', steps:[
+    {label:'Soumission', date:'09 Mar', state:'done', note:'Envoyée'},
+    {label:'Manager\n(N1)', date:'11 Mar', state:'done', note:'Validé ✓'},
+    {label:'RH\n(N2)', date:null, state:'active', note:'Votre action'},
+    {label:'Décision', date:null, state:'waiting', note:''}
+  ]},
+  { id:3, employe:'Ahmed Ben Ali', dept:'Qualité', dates:'18 Mar', motif:'Plomberie domicile', steps:[
+    {label:'Soumission', date:'10 Mar', state:'done', note:'Envoyée'},
+    {label:'Manager\n(N1)', date:null, state:'pending', note:'En attente'},
+    {label:'RH\n(N2)', date:null, state:'waiting', note:''},
+    {label:'Décision', date:null, state:'waiting', note:''}
+  ]},
+  { id:4, employe:'Nadia Ben Salah', dept:'Gestion de Projet', dates:'20 Mar', motif:'Rendez-vous médical', steps:[
+    {label:'Soumission', date:'12 Mar', state:'done', note:'Envoyée'},
+    {label:'Manager\n(N1)', date:null, state:'pending', note:'En attente'},
+    {label:'RH\n(N2)', date:null, state:'waiting', note:''},
+    {label:'Décision', date:null, state:'waiting', note:''}
+  ]}
+];
+
+let notifications = [
+  { id:1, employe:'Fatima Khelil', dept:'Développement', dates:'15 Mar', status:'accepted', message:'✅ Demande TT acceptée par Manager', time:'Il y a 2h' },
+  { id:2, employe:'Karim Zouari', dept:'Technique / Infrastructure', dates:'16-17 Mar', status:'accepted', message:'✅ Demande TT acceptée par Manager', time:'Il y a 1h' }
+];
 let unreadCount = notifications.length;
 
-function toggleNotifications(event) {
-  event.stopPropagation();
-  const panel = document.getElementById('notificationsPanel');
-  panel.classList.toggle('open');
-  renderNotifications();
-}
-
-function renderNotifications() {
-  const container = document.getElementById('notificationsList');
-  if (notifications.length === 0) {
-    container.innerHTML = '<div style="padding:20px;text-align:center;color:var(--muted)">Aucune notification</div>';
-    document.getElementById('notifDot').style.display = 'none';
-    return;
-  }
-  
-  container.innerHTML = notifications.map(notif => `
-    <div class="notif-item ${notif.status}" onclick="markAsRead(${notif.id})">
-      <div class="notif-title">
-        <span class="notif-badge ${notif.status}"></span>
-        ${notif.message}
-      </div>
-      <div class="notif-detail">👤 ${notif.employe} • 📅 ${notif.dates}</div>
-      ${notif.reason ? `<div class="notif-detail" style="color:#ff6b6b">${notif.reason}</div>` : ''}
-      <div class="notif-time">${notif.time}</div>
-    </div>
-  `).join('');
-  
-  document.getElementById('notifDot').style.display = unreadCount > 0 ? 'block' : 'none';
-}
-
-function markAsRead(id) {
-  notifications = notifications.filter(n => n.id !== id);
-  unreadCount = notifications.length;
-  renderNotifications();
-  if (unreadCount === 0) {
-    document.getElementById('notificationsPanel').classList.remove('open');
-  }
-}
-
-function clearNotifications() {
-  notifications = [];
-  unreadCount = 0;
-  renderNotifications();
-  document.getElementById('notificationsPanel').classList.remove('open');
-  showToast('🔔 Toutes les notifications ont été marquées comme lues');
-}
-
-// Rest of the existing code...
-function toggleDarkMode() {
-  const html = document.documentElement;
-  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  html.setAttribute('data-theme', next);
-  localStorage.setItem('theme-rh', next);
-  showToast(next === 'dark' ? '🌙 Mode sombre activé' : '☀️ Mode clair activé');
-}
-
-(function() {
-  const saved = localStorage.getItem('theme-rh') || 'dark';
-  document.documentElement.setAttribute('data-theme', saved);
-})();
-
-let toastTimer;
-function showToast(msg) {
-  let t = document.getElementById('globalToast');
-  if (!t) { t = document.createElement('div'); t.id = 'globalToast'; t.className = 'toast'; document.body.appendChild(t); }
-  t.className = 'toast';
-  t.innerHTML = `<span>✨</span><span>${msg}</span>`;
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => { t.classList.add('out'); setTimeout(() => t.remove(), 350); }, 2500);
-}
-
+function toggleDarkMode() { const html = document.documentElement; const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; html.setAttribute('data-theme', next); localStorage.setItem('theme-rh', next); showToast(next === 'dark' ? '🌙 Mode sombre' : '☀️ Mode clair'); }
+(function() { const saved = localStorage.getItem('theme-rh') || 'dark'; document.documentElement.setAttribute('data-theme', saved); })();
+function showToast(msg) { let t = document.getElementById('globalToast'); if (!t) { t = document.createElement('div'); t.id = 'globalToast'; t.className = 'toast'; document.body.appendChild(t); } t.innerHTML = `<span>✨</span><span>${msg}</span>`; setTimeout(() => t.remove(), 2500); }
 function toggleDropdown(e) { e.stopPropagation(); document.getElementById('settingsDropdown').classList.toggle('open'); }
 function closeDropdown() { document.getElementById('settingsDropdown').classList.remove('open'); }
-document.addEventListener('click', () => { closeDropdown(); document.getElementById('notificationsPanel').classList.remove('open'); });
+document.addEventListener('click', () => { closeDropdown(); document.getElementById('notificationsPanel')?.classList.remove('open'); });
 function openLogout() { closeDropdown(); document.getElementById('logoutOverlay').classList.add('show'); }
 function closeLogout() { document.getElementById('logoutOverlay').classList.remove('show'); }
-function confirmLogout() {
-  document.getElementById('logoutOverlay').innerHTML = '<div class="logout-modal"><span class="lm-icon">✅</span><h3 style="color:#96CEB4">Déconnexion réussie</h3><p>À bientôt, Sonia.</p></div>';
-  setTimeout(() => { window.location.href = 'index.html'; }, 1500);
-}
+function confirmLogout() { document.getElementById('logoutOverlay').innerHTML = '<div class="logout-modal"><span class="lm-icon">✅</span><h3 style="color:#96CEB4">Déconnexion</h3><p>À bientôt</p></div>'; setTimeout(() => { window.location.href = 'index.html'; }, 1500); }
+document.getElementById('pageDate').textContent = new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 
-const today = new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'});
-const titles = { dashboard:'Tableau de bord RH', validation:'Validation N2 — Télétravail', suivi:'Suivi demandes TT', capacite:'Capacité télétravail', politiques:'Politiques TT', rapports:'Rapports télétravail' };
-
-let demandes = [
-  { id:1, employe:'Fatima Khelil', dept:'Design', dates:'15 Mar', motif:'Environnement calme requis', steps:[
-    {label:'Soumission', date:'08 Mar 2026', state:'done', note:'Envoyée'},
-    {label:'Manager\n(N1)', date:'09 Mar 2026', state:'done', note:'Validé ✓'},
-    {label:'RH\n(N2)', date:null, state:'active', note:'Votre action requise'},
-    {label:'Décision\nfinale', date:null, state:'waiting', note:''}
-  ]},
-  { id:2, employe:'Karim Zouari', dept:'Finance', dates:'16–17 Mar', motif:'Concentration pour livrables', steps:[
-    {label:'Soumission', date:'09 Mar 2026', state:'done', note:'Envoyée'},
-    {label:'Manager\n(N1)', date:'11 Mar 2026', state:'done', note:'Validé ✓'},
-    {label:'RH\n(N2)', date:null, state:'active', note:'Votre action requise'},
-    {label:'Décision\nfinale', date:null, state:'waiting', note:''}
-  ]},
-  { id:3, employe:'Ahmed Ben Ali', dept:'IT', dates:'18 Mar', motif:'Plomberie à domicile', steps:[
-    {label:'Soumission', date:'10 Mar 2026', state:'done', note:'Envoyée'},
-    {label:'Manager\n(N1)', date:null, state:'pending', note:'En attente Manager'},
-    {label:'RH\n(N2)', date:null, state:'waiting', note:''},
-    {label:'Décision\nfinale', date:null, state:'waiting', note:''}
-  ]},
-  { id:4, employe:'Nadia Ben Salah', dept:'IT', dates:'20 Mar', motif:'Rendez-vous médical matin', steps:[
-    {label:'Soumission', date:'12 Mar 2026', state:'done', note:'Envoyée'},
-    {label:'Manager\n(N1)', date:null, state:'pending', note:'En attente Manager'},
-    {label:'RH\n(N2)', date:null, state:'waiting', note:''},
-    {label:'Décision\nfinale', date:null, state:'waiting', note:''}
-  ]},
-];
-
-let capDepts = [
-  { name:'IT',         color:'#FF6B35', total:18, max:10, current:5 },
-  { name:'Design',     color:'#4ECDC4', total:8,  max:5,  current:3 },
-  { name:'RH',         color:'#45B7D1', total:6,  max:3,  current:1 },
-  { name:'Finance',    color:'#FFE66D', total:10, max:6,  current:2 },
-  { name:'Commercial', color:'#96CEB4', total:5,  max:3,  current:1 },
-];
-
+const titles = { dashboard:'Tableau de bord RH', validation:'Validation N2', suivi:'Suivi demandes TT', capacite:'Capacité TT', politiques:'Politiques TT', rapports:'Rapports TT' };
 function show(sec, btn) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
@@ -606,192 +363,66 @@ function show(sec, btn) {
   if (btn) btn.classList.add('active');
   document.getElementById('pageTitle').textContent = titles[sec] || sec;
   if (sec==='validation') renderValidationN2();
-  if (sec==='dashboard')  renderDashboard();
-  if (sec==='capacite')   renderCapacity();
-  if (sec==='politiques') renderPolicies();
-  if (sec==='suivi')      renderSuiviTable(demandes);
-  if (sec==='rapports')   renderKPI();
+  if (sec==='dashboard') renderDashboard();
+  if (sec==='capacite') renderCapacity();
+  if (sec==='suivi') renderSuiviTable(demandes);
+  if (sec==='rapports') renderKPI();
 }
-document.getElementById('pageDate').textContent = new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 
-const dotIcon = s => ({done:'✓',active:'▶',pending:'⏳',refused:'✗',waiting:'○'}[s]||'?');
-const dateColor = s => ({done:'green',active:'teal',refused:'red',waiting:'muted',pending:'yellow'}[s]);
-
-function buildTimeline(steps) {
-  return steps.map(s => {
-    const lineColor = s.state==='done'?'#96CEB4':s.state==='refused'?'#ff6b6b':'var(--border)';
-    return `<div class="tl-step ${s.state==='done'?'done':''}" style="--line-color:${lineColor}">
-      <div class="tl-dot ${s.state}">${dotIcon(s.state)}</div>
-      <div class="tl-label">${s.label.replace(/\n/,'<br>')}</div>
-      ${s.date?`<div class="tl-date ${dateColor(s.state)}">${s.date}</div>`:`<div class="tl-date muted">—</div>`}
-      ${s.note?`<div style="font-size:.65rem;color:var(--muted);text-align:center;margin-top:2px;max-width:72px">${s.note}</div>`:''}
-    </div>`;
-  }).join('');
-}
+function dotIcon(s) { return {done:'✓',active:'▶',pending:'⏳',waiting:'○'}[s]||'?'; }
+function dateColor(s) { return {done:'green',active:'teal',waiting:'muted',pending:'yellow'}[s]; }
+function buildTimeline(steps) { return steps.map(s => `<div class="tl-step ${s.state==='done'?'done':''}"><div class="tl-dot ${s.state}">${dotIcon(s.state)}</div><div class="tl-label">${s.label.replace(/\n/,'<br>')}</div>${s.date?`<div class="tl-date ${dateColor(s.state)}">${s.date}</div>`:'<div class="tl-date muted">—</div>'}</div>`).join(''); }
 
 function renderValidationN2() {
-  const pending = demandes.filter(d => d.steps[2].state==='active');
+  const pending = demandes.filter(d => d.steps[2]?.state==='active');
   document.getElementById('badgeN2').textContent = pending.length;
   document.getElementById('dashN2').textContent = pending.length;
-  document.getElementById('validationN2List').innerHTML = pending.length
-    ? pending.map(d=>`<div class="demand-card">
-        <div class="demand-meta">
-          <div>
-            <div style="font-weight:700;font-size:.98rem">🏡 ${d.employe} <span style="font-size:.8rem;color:var(--muted);font-weight:400">• ${d.dept}</span></div>
-            <div style="font-size:.76rem;color:var(--muted);margin-top:2px">📅 ${d.dates}</div>
-            <div style="font-size:.76rem;color:var(--muted);margin-top:5px">💬 ${d.motif}</div>
-          </div>
-          <span class="status-pill pill-teal">✓ N1 validé — en attente RH</span>
-        </div>
-        <div class="timeline">${buildTimeline(d.steps)}</div>
-        <div class="demand-actions">
-          <button class="btn-validate" onclick="actN2(${d.id},'done')">✓ Approuver définitivement</button>
-          <button class="btn-refuse" onclick="actN2(${d.id},'refused')">✗ Refuser</button>
-        </div>
-      </div>`).join('')
-    : '<div style="text-align:center;color:var(--muted);padding:32px;background:var(--card);border-radius:14px;border:1px solid var(--card-border)">✅ Aucune demande TT N2 en attente</div>';
+  document.getElementById('validationN2List').innerHTML = pending.length ? pending.map(d=>`<div class="demand-card"><div class="demand-meta"><div><div style="font-weight:700">🏡 ${d.employe} <span style="font-size:.8rem;color:var(--muted)">• ${d.dept}</span></div><div style="font-size:.76rem;color:var(--muted)">📅 ${d.dates}</div><div style="font-size:.76rem;margin-top:5px">💬 ${d.motif}</div></div><span class="status-pill pill-teal">✓ N1 validé</span></div><div class="timeline">${buildTimeline(d.steps)}</div><div class="demand-actions"><button class="btn-validate" onclick="actN2(${d.id},'done')">✓ Approuver</button><button class="btn-refuse" onclick="actN2(${d.id},'refused')">✗ Refuser</button></div></div>`).join('') : '<div style="text-align:center;padding:32px;background:var(--card);border-radius:14px">✅ Aucune demande N2 en attente</div>';
 }
 
 function actN2(id, action) {
-  demandes = demandes.map(d => {
-    if (d.id!==id) return d;
-    const s = [...d.steps];
-    if (action==='done') { s[2]={...s[2],state:'done',date:today,note:'Approuvé ✓'}; s[3]={...s[3],state:'done',date:today,note:'Décision finale'}; }
-    else { s[2]={...s[2],state:'refused',date:today,note:'Refusé ✗'}; s[3]={...s[3],state:'refused',note:'Clôturé'}; }
+  demandes = demandes.map(d => { if(d.id!==id) return d;
+    const s = [...d.steps]; const today = new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'short'});
+    if(action==='done') { s[2]={...s[2],state:'done',date:today,note:'Approuvé'}; s[3]={...s[3],state:'done',date:today,note:'Final'}; }
+    else { s[2]={...s[2],state:'refused',date:today,note:'Refusé'}; s[3]={...s[3],state:'refused',note:'Clôturé'}; }
     return {...d,steps:s};
   });
-  renderValidationN2();
-  showToast(action==='done' ? '✅ Demande TT approuvée définitivement' : '✗ Demande TT refusée');
+  renderValidationN2(); renderDashboard(); renderSuiviTable(demandes);
+  showToast(action==='done' ? '✅ Demande approuvée' : '✗ Demande refusée');
 }
 
 function getStatus(steps) {
-  if (steps[3].state==='done') return {text:'Approuvé',cls:'badge-green'};
-  if (steps[2].state==='refused'||steps[1].state==='refused') return {text:'Refusé',cls:'badge-red'};
-  if (steps[2].state==='active') return {text:'Validé N1 — en attente N2',cls:'badge-teal'};
-  if (steps[1].state==='pending'||steps[1].state==='active') return {text:'En attente N1',cls:'badge-yellow'};
+  if (steps[3]?.state==='done') return {text:'Approuvé',cls:'badge-green'};
+  if (steps[2]?.state==='refused') return {text:'Refusé',cls:'badge-red'};
+  if (steps[2]?.state==='active') return {text:'Validé N1 — en attente N2',cls:'badge-teal'};
+  if (steps[1]?.state==='pending') return {text:'En attente N1',cls:'badge-yellow'};
   return {text:'Soumis',cls:'badge-yellow'};
 }
 
 function renderSuiviTable(data) {
-  document.getElementById('suiviTable').innerHTML = data.map(d => {
-    const s = getStatus(d.steps);
-    return `<tr>
-      <td style="font-weight:600">🏡 ${d.employe}</td>
-      <td style="color:var(--muted)">${d.dept}</td>
-      <td>${d.dates}</td>
-      <td style="font-size:.8rem;color:var(--muted)">${d.motif}</td>
-      <td><span class="badge ${s.cls}">${s.text}</span></td>
-    </tr>`;
-  }).join('');
+  document.getElementById('suiviTable').innerHTML = data.map(d => { const s = getStatus(d.steps); return `<tr><td style="font-weight:600">🏡 ${d.employe}</td><td>${d.dept}</td><td>${d.dates}</td><td>${d.motif}</td><td><span class="badge ${s.cls}">${s.text}</span></td></tr>`; }).join('');
 }
-
-function filterSuivi() {
-  const q = document.getElementById('suiviSearch').value.toLowerCase();
-  const st = document.getElementById('suiviStatut').value;
-  renderSuiviTable(demandes.filter(d => {
-    const matchQ = d.employe.toLowerCase().includes(q) || d.dept.toLowerCase().includes(q);
-    const matchS = !st || getStatus(d.steps).text === st;
-    return matchQ && matchS;
-  }));
-}
+function filterSuivi() { const q = document.getElementById('suiviSearch').value.toLowerCase(); const st = document.getElementById('suiviStatut').value; renderSuiviTable(demandes.filter(d => (d.employe.toLowerCase().includes(q)||d.dept.toLowerCase().includes(q)) && (!st || getStatus(d.steps).text === st))); }
 
 function renderDashboard() {
-  document.getElementById('recentDemandes').innerHTML = demandes.slice(0,4).map(d => {
-    const s = getStatus(d.steps);
-    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)">
-      <div><div style="font-weight:600;font-size:.85rem">🏡 ${d.employe}</div>
-      <div style="font-size:.74rem;color:var(--muted)">${d.dates} • ${d.motif}</div></div>
-      <span class="badge ${s.cls}">${s.text}</span>
-    </div>`;
-  }).join('');
-  document.getElementById('capSummary').innerHTML = capDepts.map(d => {
-    const pct = Math.round(d.current/d.max*100);
-    const avail = d.max - d.current;
-    return `<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-      <div style="width:10px;height:10px;border-radius:50%;background:${d.color};flex-shrink:0"></div>
-      <div style="flex:1;font-size:.82rem">${d.name}</div>
-      <div style="flex:2;height:7px;background:var(--input-bg);border-radius:4px;overflow:hidden">
-        <div style="height:100%;width:${pct}%;background:${d.color};border-radius:4px"></div>
-      </div>
-      <div style="font-size:.74rem;color:var(--muted);width:70px;text-align:right">${d.current}/${d.max} — ${avail} libre${avail>1?'s':''}</div>
-    </div>`;
-  }).join('');
+  document.getElementById('recentDemandes').innerHTML = demandes.slice(0,4).map(d => { const s = getStatus(d.steps); return `<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)"><div><div style="font-weight:600">🏡 ${d.employe}</div><div style="font-size:.74rem;color:var(--muted)">${d.dates} • ${d.motif}</div></div><span class="badge ${s.cls}">${s.text}</span></div>`; }).join('');
+  document.getElementById('capSummary').innerHTML = capDepts.map(d => { const pct = Math.round(d.current/d.max*100); return `<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><div style="width:10px;height:10px;border-radius:50%;background:${d.color}"></div><div style="flex:1">${d.name}</div><div style="flex:2;height:7px;background:var(--input-bg);border-radius:4px"><div style="height:100%;width:${pct}%;background:${d.color};border-radius:4px"></div></div><div style="font-size:.74rem;width:70px;text-align:right">${d.current}/${d.max}</div></div>`; }).join('');
 }
 
 function renderCapacity() {
-  document.getElementById('capCards').innerHTML = capDepts.map((d,i) => {
-    const avail = d.max - d.current;
-    const pct = d.max > 0 ? Math.round(d.current/d.max*100) : 0;
-    const cls = avail<=0?'cap-full':avail<=1?'cap-warn':'cap-ok';
-    const label = avail<=0?'🔴 Complet':avail===1?`⚠️ 1 place`:`✅ ${avail} places`;
-    return `<div class="cap-card">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div class="cap-dept" style="color:${d.color}">${d.name}</div>
-        <span class="cap-available ${cls}">${label}</span>
-      </div>
-      <div style="font-size:.76rem;color:var(--muted);margin-top:2px">${d.total} employés • ${d.current} en TT actuellement</div>
-      <div class="cap-bar-wrap"><div class="cap-bar" style="width:${pct}%;background:${d.color}"></div></div>
-      <div class="cap-numbers"><span style="color:${d.color}">${d.current} / ${d.max}</span><span>${pct}% utilisé</span></div>
-      <div class="cap-input-row">
-        <span class="cap-label-sm">Max autorisés :</span>
-        <input class="cap-input" type="number" min="0" max="${d.total}" value="${d.max}"
-          onchange="updateCapMax(${i},this.value)">
-        <span class="cap-label-sm">/ ${d.total}</span>
-      </div>
-    </div>`;
-  }).join('');
+  document.getElementById('capCards').innerHTML = capDepts.map((d,i) => { const pct = Math.round(d.current/d.max*100); const avail = d.max - d.current; const cls = avail<=0?'cap-full':avail<=1?'cap-warn':'cap-ok'; const label = avail<=0?'🔴 Complet':avail===1?'⚠️ 1 place':`✅ ${avail} places`; return `<div class="cap-card"><div style="display:flex;justify-content:space-between"><div class="cap-dept" style="color:${d.color}">${d.name}</div><span class="cap-available ${cls}">${label}</span></div><div style="font-size:.76rem;color:var(--muted)">${d.total} employés • ${d.current} en TT</div><div class="cap-bar-wrap"><div class="cap-bar" style="width:${pct}%;background:${d.color}"></div></div><div class="cap-numbers"><span>${d.current} / ${d.max}</span><span>${pct}%</span></div><div class="cap-input-row"><span class="cap-label-sm">Max TT :</span><input class="cap-input" type="number" min="0" max="${d.total}" value="${d.max}" onchange="updateCapMax(${i},this.value)"><span class="cap-label-sm">/ ${d.total}</span></div></div>`; }).join('');
 }
+function updateCapMax(idx, val) { capDepts[idx].max = Math.max(0, Math.min(parseInt(val)||0, capDepts[idx].total)); renderCapacity(); }
+function saveCapacity() { const m = document.getElementById('capSaveMsg'); m.style.display = 'block'; setTimeout(() => m.style.display='none', 3000); showToast('💾 Capacités enregistrées'); }
+function savePolicies() { const m = document.getElementById('polSaveMsg'); m.style.display = 'block'; setTimeout(() => m.style.display='none', 3000); showToast('⚙️ Politiques enregistrées'); }
+function renderKPI() { const kpis = [{label:'Taux d\'approbation',pct:71,color:'#96CEB4'},{label:'Respect des politiques',pct:87,color:'#4ECDC4'},{label:'Taux TT moyen',pct:48,color:'#45B7D1'},{label:'Demandes à temps',pct:93,color:'#FFE66D'}]; document.getElementById('globalKPI').innerHTML = kpis.map(k=>`<div class="kpi-row" style="display:flex;align-items:center;gap:14px;margin-bottom:12px"><div style="width:180px">${k.label}</div><div style="flex:1;height:8px;background:var(--input-bg);border-radius:4px"><div style="height:100%;width:${k.pct}%;background:${k.color};border-radius:4px"></div></div><div style="width:40px">${k.pct}%</div></div>`).join(''); }
 
-function updateCapMax(idx, val) {
-  capDepts[idx].max = Math.max(0, Math.min(parseInt(val)||0, capDepts[idx].total));
-  renderCapacity();
-}
-function saveCapacity() {
-  const m = document.getElementById('capSaveMsg');
-  m.style.display = 'block';
-  setTimeout(() => m.style.display='none', 3000);
-  showToast('💾 Capacités TT enregistrées');
-}
+function toggleNotifications(e) { e.stopPropagation(); const panel = document.getElementById('notificationsPanel'); panel.classList.toggle('open'); renderNotifications(); }
+function renderNotifications() { const container = document.getElementById('notificationsList'); if(notifications.length===0) { container.innerHTML = '<div style="padding:20px;text-align:center">Aucune notification</div>'; document.getElementById('notifDot').style.display='none'; return; } container.innerHTML = notifications.map(n=>`<div class="notif-item" onclick="markAsRead(${n.id})"><div class="notif-title"><span class="notif-badge ${n.status}"></span>${n.message}</div><div class="notif-detail">👤 ${n.employe} • ${n.dept} • 📅 ${n.dates}</div><div class="notif-time">${n.time}</div></div>`).join(''); document.getElementById('notifDot').style.display = unreadCount>0 ? 'block' : 'none'; }
+function markAsRead(id) { notifications = notifications.filter(n=>n.id!==id); unreadCount = notifications.length; renderNotifications(); if(unreadCount===0) document.getElementById('notificationsPanel').classList.remove('open'); }
+function clearNotifications() { notifications = []; unreadCount = 0; renderNotifications(); document.getElementById('notificationsPanel').classList.remove('open'); showToast('🔔 Notifications effacées'); }
 
-function renderPolicies() {
-  const quotas = [
-    {name:'IT', color:'#FF6B35', quota:55}, {name:'Design', color:'#4ECDC4', quota:62},
-    {name:'RH', color:'#45B7D1', quota:50}, {name:'Finance', color:'#FFE66D', quota:40},
-    {name:'Commercial', color:'#96CEB4', quota:60},
-  ];
-  document.getElementById('deptQuotas').innerHTML = quotas.map(q=>`
-    <div class="dept-quota-row">
-      <div class="dq-name" style="color:${q.color}">${q.name}</div>
-      <div class="dq-bar-wrap"><div class="dq-bar" style="width:${q.quota}%;background:${q.color}"></div></div>
-      <input type="number" class="cap-input" min="0" max="100" value="${q.quota}"
-        style="width:52px;margin-left:8px"
-        onchange="this.previousElementSibling.firstElementChild.style.width=this.value+'%'">
-      <span class="policy-unit" style="margin-left:4px">%</span>
-    </div>`).join('');
-}
-function savePolicies() {
-  const m = document.getElementById('polSaveMsg');
-  m.style.display = 'block';
-  setTimeout(() => m.style.display='none', 3500);
-  showToast('⚙️ Politiques TT enregistrées');
-}
-
-function renderKPI() {
-  const kpis = [
-    {label:'Taux d\'approbation global', pct:71, color:'#96CEB4'},
-    {label:'Respect des politiques TT', pct:87, color:'#4ECDC4'},
-    {label:'Taux TT moyen par employé', pct:48, color:'#45B7D1'},
-    {label:'Demandes soumises à temps', pct:93, color:'#FFE66D'},
-    {label:'Satisfaction du processus', pct:76, color:'#FF6B35'},
-  ];
-  document.getElementById('globalKPI').innerHTML = kpis.map(k=>`
-    <div class="kpi-row"><div class="kpi-label">${k.label}</div>
-    <div class="kpi-bar-wrap"><div class="kpi-bar" style="width:${k.pct}%;background:${k.color}"></div></div>
-    <div class="kpi-pct">${k.pct}%</div></div>`).join('');
-}
-
-renderDashboard();
-renderNotifications();
+renderDashboard(); renderNotifications();
 </script>
 </body>
 </html>
