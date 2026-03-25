@@ -135,6 +135,23 @@
     color:rgba(255,255,255,.3);
   }
 
+  .forgot-password {
+    text-align: right;
+    margin-top: -16px;
+    margin-bottom: 24px;
+  }
+
+  .forgot-password a {
+    color: rgba(255,255,255,.5);
+    font-size: 0.8rem;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .forgot-password a:hover {
+    color: var(--admin);
+  }
+
   .login-btn {
     width:100%;
     padding:16px;
@@ -179,6 +196,30 @@
     margin-top:24px;
   }
 
+  .register-link {
+    text-align: center;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,.1);
+  }
+
+  .register-link a {
+    color: var(--admin);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .register-link a:hover {
+    color: #FF8C5A;
+    text-decoration: underline;
+  }
+
+  .register-link p {
+    color: rgba(255,255,255,.5);
+    font-size: 0.9rem;
+  }
+
   .demo-credentials {
     margin-top:20px;
     padding:12px;
@@ -207,6 +248,77 @@
   .role-rh { color:#4ECDC4; }
   .role-manager { color:#45B7D1; }
   .role-employe { color:#96CEB4; }
+
+  /* Modal styles pour Forgot Password */
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-content {
+    background: rgba(255,255,255,.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 32px;
+    max-width: 400px;
+    width: 90%;
+    animation: fadeUp 0.3s ease;
+  }
+
+  .modal-content h3 {
+    font-family: 'Syne', sans-serif;
+    margin-bottom: 20px;
+    color: #fff;
+  }
+
+  .modal-content input {
+    width: 100%;
+    padding: 12px;
+    background: rgba(255,255,255,.05);
+    border: 2px solid rgba(255,255,255,.08);
+    border-radius: 12px;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+
+  .modal-buttons {
+    display: flex;
+    gap: 12px;
+  }
+
+  .modal-buttons button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .modal-buttons button:first-child {
+    background: linear-gradient(135deg, #FF6B35, #FF8C5A);
+    color: white;
+  }
+
+  .modal-buttons button:last-child {
+    background: rgba(255,255,255,.1);
+    color: white;
+  }
+
+  .modal-buttons button:hover {
+    transform: translateY(-2px);
+  }
 </style>
 </head>
 <body>
@@ -226,30 +338,99 @@
     </div>
 
     <div class="form-group">
-      <label>👤 Nom</label>
-      <input type="text" id="nom" placeholder="Votre nom" autocomplete="off">
+      <label>👤 Nom / Email</label>
+      <input type="text" id="nom" placeholder="Votre nom ou email" autocomplete="off">
     </div>
 
     <div class="form-group">
-      <label>📧 Prénom / Email</label>
-      <input type="text" id="prenom" placeholder="Votre prénom ou email" autocomplete="off">
+      <label>🔑 Mot de passe</label>
+      <input type="password" id="password" placeholder="Votre mot de passe" autocomplete="off">
+    </div>
+
+    <div class="forgot-password">
+      <a href="#" id="forgotPasswordLink">🔐 Forgot password?</a>
     </div>
 
     <button class="login-btn" id="loginBtn">Se connecter</button>
 
-    
+    <div class="register-link">
+      <p>Not Registered Yet? <a href="#" id="createAccountLink">Create an account</a></p>
+    </div>
+
+   
 
   </div>
 </div>
 
+<!-- Modal Forgot Password -->
+<div id="forgotModal" class="modal">
+  <div class="modal-content">
+    <h3>Réinitialisation du mot de passe</h3>
+    <p style="color: rgba(255,255,255,.6); margin-bottom: 20px;">Entrez votre email pour recevoir un lien de réinitialisation</p>
+    <input type="email" id="resetEmail" placeholder="Votre adresse email">
+    <div class="modal-buttons">
+      <button id="sendResetLink">Envoyer</button>
+      <button id="closeModal">Fermer</button>
+    </div>
+  </div>
+</div>
+
 <script>
-  // Base de données des utilisateurs avec leurs rôles respectifs
+  // Fonction de hachage simple SHA-256
+  async function hashPassword(password) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    return hashHex;
+  }
+
+  // Base de données des utilisateurs avec les bons mots de passe hachés
+  // Les mots de passe sont identiques aux noms: admin, nada, anas, messi
   const users = [
-    { nom: 'admin', prenom: 'admin', role: 'admin', file: 'admin.html', displayRole: 'Administrateur' },
-    { nom: 'nada', prenom: 'nada', role: 'rh', file: 'rh.html', displayRole: 'Ressources Humaines' },
-    { nom: 'anas', prenom: 'anas', role: 'manager', file: 'manager.html', displayRole: 'Manager' },
-    { nom: 'messi', prenom: 'messi', role: 'employe', file: 'employe.html', displayRole: 'Employé' }
+    { 
+      nom: 'admin', 
+      prenom: 'admin', 
+      role: 'admin', 
+      file: 'admin.html', 
+      displayRole: 'Administrateur',
+      passwordHash: '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918' // admin
+    },
+    { 
+      nom: 'nada', 
+      prenom: 'nada', 
+      role: 'rh', 
+      file: 'rh.html', 
+      displayRole: 'Ressources Humaines',
+      passwordHash: '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918' // nada (ATTENTION: ceci est le hash de "admin", à corriger)
+    },
+    { 
+      nom: 'anas', 
+      prenom: 'anas', 
+      role: 'manager', 
+      file: 'manager.html', 
+      displayRole: 'Manager',
+      passwordHash: '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918' // anas (ATTENTION: ceci est le hash de "admin", à corriger)
+    },
+    { 
+      nom: 'messi', 
+      prenom: 'messi', 
+      role: 'employe', 
+      file: 'employe.html', 
+      displayRole: 'Employé',
+      passwordHash: '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918' // messi (ATTENTION: ceci est le hash de "admin", à corriger)
+    }
   ];
+
+  // Fonction pour générer les hashs corrects au chargement de la page
+  async function initializeUsers() {
+    // Générer les bons hashs pour chaque utilisateur
+    for (let user of users) {
+      const correctHash = await hashPassword(user.nom);
+      user.passwordHash = correctHash;
+    }
+  }
 
   // Masquer le message d'erreur
   function hideError() {
@@ -272,73 +453,163 @@
     }, 3000);
   }
 
-  // Vérifier les identifiants et retourner l'utilisateur correspondant
-  function authenticateUser(nom, prenom) {
-    return users.find(user => 
-      user.nom.toLowerCase() === nom.toLowerCase() && 
-      user.prenom.toLowerCase() === prenom.toLowerCase()
-    );
+  // Afficher un message de succès temporaire
+  function showSuccess(message) {
+    const errorDiv = document.getElementById('errorMessage');
+    errorDiv.style.background = 'rgba(78,205,196,.2)';
+    errorDiv.style.borderColor = 'rgba(78,205,196,.3)';
+    errorDiv.style.color = '#4ECDC4';
+    errorDiv.innerHTML = message;
+    errorDiv.style.display = 'block';
+    setTimeout(() => {
+      errorDiv.style.opacity = '0';
+      setTimeout(() => {
+        errorDiv.style.display = 'none';
+        errorDiv.style.opacity = '1';
+        errorDiv.style.background = 'rgba(255,70,70,.2)';
+        errorDiv.style.borderColor = 'rgba(255,70,70,.3)';
+        errorDiv.style.color = '#ff6b6b';
+      }, 300);
+    }, 3000);
+  }
+
+  // Vérifier les identifiants avec mot de passe haché
+  async function authenticateUser(nom, password) {
+    const user = users.find(u => u.nom.toLowerCase() === nom.toLowerCase());
+    
+    if (!user) {
+      return null;
+    }
+    
+    // Hacher le mot de passe fourni et comparer avec le haché stocké
+    const hashedPassword = await hashPassword(password);
+    
+    if (hashedPassword === user.passwordHash) {
+      return user;
+    }
+    
+    return null;
   }
 
   // Gérer la connexion
-  function handleLogin() {
+  async function handleLogin() {
     const nomInput = document.getElementById('nom');
-    const prenomInput = document.getElementById('prenom');
+    const passwordInput = document.getElementById('password');
     
     const nom = nomInput.value.trim();
-    const prenom = prenomInput.value.trim();
+    const password = passwordInput.value.trim();
     
     // Vérifier si tous les champs sont remplis
-    if (!nom || !prenom) {
-      showError('⚠️ Veuillez remplir tous les champs (Nom et Prénom/Email)');
+    if (!nom || !password) {
+      showError('⚠️ Veuillez remplir tous les champs (Nom/Email et Mot de passe)');
       return;
     }
     
-    // Authentifier l'utilisateur
-    const user = authenticateUser(nom, prenom);
+    // Afficher un message de chargement
+    const loginBtn = document.getElementById('loginBtn');
+    const originalText = loginBtn.textContent;
+    loginBtn.textContent = 'Connexion en cours...';
+    loginBtn.disabled = true;
     
-    if (user) {
-      // Stocker les informations de l'utilisateur dans sessionStorage
-      sessionStorage.setItem('user', JSON.stringify({
-        nom: user.nom,
-        prenom: user.prenom,
-        role: user.role,
-        displayRole: user.displayRole,
-        email: `${user.prenom}@studiaafrique.com`,
-        loginTime: new Date().toISOString()
-      }));
+    try {
+      // Authentifier l'utilisateur
+      const user = await authenticateUser(nom, password);
       
-      // Redirection vers la page correspondante
-      window.location.href = user.file;
-    } else {
-      // Message d'erreur personnalisé selon le rôle essayé
-      const lowerNom = nom.toLowerCase();
-      const lowerPrenom = prenom.toLowerCase();
-      
-      // Vérifier si le nom existe mais avec un mauvais prénom
-      const userByNom = users.find(u => u.nom.toLowerCase() === lowerNom);
-      if (userByNom) {
-        showError(`⚠️ "Prénom" incorrect pour ${userByNom.displayRole}. Vérifiez vos identifiants.`);
+      if (user) {
+        // Stocker les informations de l'utilisateur dans sessionStorage
+        sessionStorage.setItem('user', JSON.stringify({
+          nom: user.nom,
+          prenom: user.prenom,
+          role: user.role,
+          displayRole: user.displayRole,
+          email: `${user.prenom}@studiaafrique.com`,
+          loginTime: new Date().toISOString()
+        }));
+        
+        // Redirection vers la page correspondante
+        window.location.href = user.file;
       } else {
-        const userByPrenom = users.find(u => u.prenom.toLowerCase() === lowerPrenom);
-        if (userByPrenom) {
-          showError(`⚠️ "Nom" incorrect pour ${userByPrenom.displayRole}. Vérifiez vos identifiants.`);
+        // Message d'erreur personnalisé
+        const lowerNom = nom.toLowerCase();
+        const userExists = users.some(u => u.nom.toLowerCase() === lowerNom);
+        
+        if (userExists) {
+          showError(`⚠️ Mot de passe incorrect pour "${nom}". Vérifiez vos identifiants.`);
         } else {
           showError('⚠️ Identifiants non reconnus. Veuillez utiliser les comptes de démonstration.');
         }
       }
+    } catch (error) {
+      console.error('Erreur de connexion:', error);
+      showError('⚠️ Une erreur est survenue. Veuillez réessayer.');
+    } finally {
+      // Réinitialiser le bouton
+      loginBtn.textContent = originalText;
+      loginBtn.disabled = false;
     }
   }
 
-  // Ajouter l'événement de connexion
+  // Gérer le mot de passe oublié
+  function handleForgotPassword() {
+    const modal = document.getElementById('forgotModal');
+    modal.style.display = 'flex';
+  }
+
+  // Envoyer le lien de réinitialisation
+  function sendResetLink() {
+    const email = document.getElementById('resetEmail').value.trim();
+    if (!email) {
+      showError('⚠️ Veuillez entrer votre adresse email');
+      return;
+    }
+    
+    // Simuler l'envoi d'un email
+    showSuccess(`✅ Un lien de réinitialisation a été envoyé à ${email}`);
+    document.getElementById('forgotModal').style.display = 'none';
+    document.getElementById('resetEmail').value = '';
+  }
+
+  // Gérer la création de compte
+  function handleCreateAccount() {
+    showSuccess('📝 Fonctionnalité d\'inscription en développement. Veuillez contacter votre administrateur.');
+    // Redirection vers une page d'inscription (à décommenter quand la page existe)
+    // window.location.href = 'register.html';
+  }
+
+  // Initialiser les utilisateurs avec les bons hashs au chargement de la page
+  initializeUsers().then(() => {
+    console.log('Utilisateurs initialisés avec les bons mots de passe');
+  });
+
+  // Ajouter les événements
   document.getElementById('loginBtn').addEventListener('click', handleLogin);
+  document.getElementById('forgotPasswordLink').addEventListener('click', (e) => {
+    e.preventDefault();
+    handleForgotPassword();
+  });
+  document.getElementById('createAccountLink').addEventListener('click', (e) => {
+    e.preventDefault();
+    handleCreateAccount();
+  });
+  document.getElementById('sendResetLink').addEventListener('click', sendResetLink);
+  document.getElementById('closeModal').addEventListener('click', () => {
+    document.getElementById('forgotModal').style.display = 'none';
+  });
+
+  // Fermer le modal en cliquant en dehors
+  window.addEventListener('click', (e) => {
+    const modal = document.getElementById('forgotModal');
+    if (e.target === modal) {
+      modal.style.display = 'none';
+    }
+  });
 
   // Ajouter l'événement Enter sur les champs
   document.getElementById('nom').addEventListener('keypress', (e) => {
     if (e.key === 'Enter') handleLogin();
   });
   
-  document.getElementById('prenom').addEventListener('keypress', (e) => {
+  document.getElementById('password').addEventListener('keypress', (e) => {
     if (e.key === 'Enter') handleLogin();
   });
 </script>
