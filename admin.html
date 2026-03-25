@@ -9,7 +9,6 @@
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ── LIGHT THEME (default) ── */
 :root,
 [data-theme="light"] {
   --accent: #FF6B35;
@@ -33,7 +32,6 @@
   --overlay-modal-bg: #FFFFFF;
 }
 
-/* ── DARK THEME ── */
 [data-theme="dark"] {
   --accent: #FF6B35;
   --accent2: #FF8C5A;
@@ -141,7 +139,6 @@ nav { flex: 1; padding: 16px 10px; overflow-y: auto; }
 }
 .btn-ghost:hover { background: var(--row-hover); }
 
-/* ── TOPBAR ICONS ── */
 .topbar-icons { display: flex; align-items: center; gap: 4px; }
 .topbar-icon-btn {
   position: relative; width: 38px; height: 38px; border-radius: 50%;
@@ -165,14 +162,12 @@ nav { flex: 1; padding: 16px 10px; overflow-y: auto; }
 .topbar-avatar-btn:hover { transform: scale(1.08); }
 .topbar-divider { width: 1px; height: 26px; background: var(--border); margin: 0 6px; flex-shrink: 0; }
 
-/* ── DARK MODE TOGGLE BUTTON ── */
 .dark-toggle {
   position: relative; width: 38px; height: 38px; border-radius: 50%;
   background: var(--input-bg); border: 1px solid var(--border);
   display: flex; align-items: center; justify-content: center;
   cursor: pointer; transition: all .25s;
-  font-size: 1.1rem; flex-shrink: 0;
-  overflow: hidden;
+  font-size: 1.1rem; flex-shrink: 0; overflow: hidden;
 }
 .dark-toggle:hover {
   background: rgba(255,107,53,.12);
@@ -189,7 +184,6 @@ nav { flex: 1; padding: 16px 10px; overflow-y: auto; }
 [data-theme="dark"]  .dark-toggle .icon-sun  { opacity: 0;  transform: scale(.5) rotate(-45deg); }
 [data-theme="dark"]  .dark-toggle .icon-moon { opacity: 1;  transform: scale(1); }
 
-/* ── DROPDOWN ── */
 .dropdown-wrapper { position: relative; }
 .dropdown-menu {
   display: none; position: absolute; top: calc(100% + 10px); right: 0;
@@ -220,7 +214,6 @@ nav { flex: 1; padding: 16px 10px; overflow-y: auto; }
 .dropdown-item.danger:hover { background: rgba(255,107,107,.1); color: #ff6b6b; }
 .dropdown-divider { height: 1px; background: var(--border); margin: 4px 6px; }
 
-/* ── LOGOUT OVERLAY ── */
 .logout-overlay {
   display: none; position: fixed; inset: 0;
   background: rgba(0,0,0,.55); z-index: 9999;
@@ -269,13 +262,22 @@ nav { flex: 1; padding: 16px 10px; overflow-y: auto; }
 .stat-label { color: var(--muted); font-size: .78rem; margin-top: 4px; }
 
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+
+/* ── PANEL ── */
 .panel {
-  background: var(--card); border: 1px solid var(--card-border);
-  border-radius: 18px; padding: 24px;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 18px;
+  padding: 24px;
   box-shadow: var(--shadow);
   transition: background .3s;
 }
-.panel-title { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 18px; }
+.panel-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem; font-weight: 700;
+  margin-bottom: 18px;
+  color: var(--text);
+}
 
 /* ── TABLE ── */
 .table-wrap { overflow-x: auto; }
@@ -328,53 +330,67 @@ tr:hover td { background: var(--row-hover); }
 }
 @keyframes slideDown { from { opacity:0; transform:translateY(-12px) } to { opacity:1; transform:translateY(0) } }
 
-/* ── ACTIVITY ── */
-.activity-item {
-  display: flex; gap: 14px; align-items: center;
-  padding: 11px 0; border-bottom: 1px solid var(--border);
-}
-.activity-item:last-child { border-bottom: none; }
-.act-icon { font-size: 1.2rem; flex-shrink: 0; }
-.act-msg { font-size: .84rem; color: var(--text); }
-.act-time { font-size: .73rem; color: var(--muted); margin-top: 2px; }
+/* ── ROLES PANEL ── */
+.role-list { display: flex; flex-direction: column; gap: 12px; }
 
-/* section visibility */
-.section { display: none; }
-.section.active { display: block; }
-
-/* ── TOGGLE SWITCH ── */
-.toggle { position: relative; display: inline-block; width: 40px; height: 22px; }
-.toggle input { opacity: 0; width: 0; height: 0; }
-.toggle-slider {
-  position: absolute; cursor: pointer; inset: 0;
-  background: var(--toggle-off); border-radius: 22px; transition: .3s;
+.role-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 13px 16px; border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  transition: box-shadow .2s, border-color .2s, background .3s;
+  cursor: default;
 }
-.toggle-slider:before {
-  content: ''; position: absolute;
-  width: 16px; height: 16px; left: 3px; bottom: 3px;
-  background: #fff; border-radius: 50%; transition: .3s;
+.role-item:hover {
+  border-color: var(--accent);
+  box-shadow: 0 2px 10px rgba(255,107,53,.1);
 }
-.toggle input:checked + .toggle-slider { background: #7B61FF; }
-.toggle input:checked + .toggle-slider:before { transform: translateX(18px); }
-
-/* search input */
-.search-input {
-  padding: 9px 14px; background: var(--input-bg);
-  border: 1px solid var(--border); border-radius: 9px;
-  color: var(--text); font-family: 'DM Sans', sans-serif;
-  outline: none; font-size: .85rem; min-width: 200px;
+.role-icon {
+  width: 40px; height: 40px; border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
 }
-.search-input:focus { border-color: var(--accent); }
+.icon-admin   { background: #ede9fe; }
+.icon-rh      { background: #dbeafe; }
+.icon-manager { background: #d1fae5; }
+.icon-employe { background: #fef3c7; }
 
-/* action icon buttons */
-.icon-btn {
-  background: none; border: none; cursor: pointer;
-  padding: 5px 7px; border-radius: 6px; font-size: 1rem;
-  transition: background .2s;
+.role-info { flex: 1; min-width: 0; }
+.role-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.role-desc { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+.role-right {
+  display: flex; flex-direction: column;
+  align-items: flex-end; gap: 4px; min-width: 76px;
 }
-.icon-btn:hover { background: var(--icon-btn-hover); }
+.role-count { font-size: 21px; font-weight: 800; line-height: 1; }
+.role-pct   { font-size: 11px; color: var(--muted); }
 
-/* ── TÉLÉTRAVAIL CHARTS ── */
+.bar-track {
+  width: 76px; height: 5px;
+  background: var(--border); border-radius: 99px; overflow: hidden;
+}
+.bar-fill { height: 100%; border-radius: 99px; transition: width .7s ease; }
+
+.c-admin   { color: #7c3aed; }
+.c-rh      { color: #2563eb; }
+.c-manager { color: #059669; }
+.c-employe { color: #d97706; }
+
+.fill-admin   { background: #7c3aed; }
+.fill-rh      { background: #2563eb; }
+.fill-manager { background: #059669; }
+.fill-employe { background: #d97706; }
+
+.total-row {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 16px; padding-top: 14px;
+  border-top: 1px solid var(--border);
+  font-size: 13px; color: var(--muted);
+}
+.total-row strong { font-size: 19px; font-weight: 800; color: var(--text); }
+
+/* ── TÉLÉTRAVAIL ── */
 .tele-section { margin-top: 28px; }
 .tele-header {
   display: flex; align-items: center; justify-content: space-between;
@@ -410,16 +426,41 @@ tr:hover td { background: var(--row-hover); }
   font-size: .85rem; font-weight: 600; color: var(--muted);
   text-transform: uppercase; letter-spacing: .8px; margin-bottom: 16px;
 }
-.chart-full {
-  background: var(--card); border: 1px solid var(--card-border);
-  border-radius: 18px; padding: 22px; margin-bottom: 20px;
-  box-shadow: var(--shadow);
-}
 .legend-row { display: flex; gap: 20px; margin-bottom: 14px; flex-wrap: wrap; }
 .legend-item { display: flex; align-items: center; gap: 6px; font-size: .77rem; color: var(--muted); }
 .legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
 
-/* ── NOTIFICATION TOAST ── */
+/* ── TOGGLE SWITCH ── */
+.toggle { position: relative; display: inline-block; width: 40px; height: 22px; }
+.toggle input { opacity: 0; width: 0; height: 0; }
+.toggle-slider {
+  position: absolute; cursor: pointer; inset: 0;
+  background: var(--toggle-off); border-radius: 22px; transition: .3s;
+}
+.toggle-slider:before {
+  content: ''; position: absolute;
+  width: 16px; height: 16px; left: 3px; bottom: 3px;
+  background: #fff; border-radius: 50%; transition: .3s;
+}
+.toggle input:checked + .toggle-slider { background: #7B61FF; }
+.toggle input:checked + .toggle-slider:before { transform: translateX(18px); }
+
+.search-input {
+  padding: 9px 14px; background: var(--input-bg);
+  border: 1px solid var(--border); border-radius: 9px;
+  color: var(--text); font-family: 'DM Sans', sans-serif;
+  outline: none; font-size: .85rem; min-width: 200px;
+}
+.search-input:focus { border-color: var(--accent); }
+
+.icon-btn {
+  background: none; border: none; cursor: pointer;
+  padding: 5px 7px; border-radius: 6px; font-size: 1rem;
+  transition: background .2s;
+}
+.icon-btn:hover { background: var(--icon-btn-hover); }
+
+/* ── TOAST ── */
 .toast {
   position: fixed; bottom: 28px; right: 28px;
   background: var(--card); border: 1px solid var(--border);
@@ -435,11 +476,14 @@ tr:hover td { background: var(--row-hover); }
 @keyframes slideToast { from { opacity:0; transform:translateY(20px) scale(.9) } to { opacity:1; transform:translateY(0) scale(1) } }
 @keyframes slideToastOut { from { opacity:1; transform:translateY(0) scale(1) } to { opacity:0; transform:translateY(10px) scale(.95) } }
 .toast-icon { font-size: 1.3rem; }
+
+.section { display: none; }
+.section.active { display: block; }
 </style>
 </head>
 <body>
 
-<!-- ── LOGOUT OVERLAY ── -->
+<!-- LOGOUT OVERLAY -->
 <div class="logout-overlay" id="logoutOverlay">
   <div class="logout-modal">
     <span class="lm-icon">🔐</span>
@@ -464,13 +508,11 @@ tr:hover td { background: var(--row-hover); }
       </div>
     </div>
   </div>
-
   <nav>
     <div class="nav-section">Principal</div>
     <button class="nav-item active" onclick="show('dashboard',this)">
       <span class="icon">🏠</span> Tableau de bord
     </button>
-
     <div class="nav-section">Gestion</div>
     <button class="nav-item" onclick="show('list-roles',this)">
       <span class="icon">🔑</span> List Roles
@@ -479,7 +521,6 @@ tr:hover td { background: var(--row-hover); }
       <span class="icon">👤</span> Utilisateurs
     </button>
   </nav>
-
   <div class="sidebar-bottom"></div>
 </aside>
 
@@ -492,35 +533,23 @@ tr:hover td { background: var(--row-hover); }
     </div>
     <div class="topbar-actions">
       <div class="topbar-icons">
-
-        <!-- FLAG -->
         <button class="topbar-icon-btn" title="Langue" style="font-size:1.25rem">FR</button>
-
-        <!-- MESSAGES -->
         <button class="topbar-icon-btn" title="Messagerie">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
           <span class="notif-dot"></span>
         </button>
-
-        <!-- 🌙 DARK MODE TOGGLE -->
         <button class="dark-toggle" id="darkToggle" onclick="toggleDarkMode()" title="Basculer le thème">
           <span class="icon-sun">☀️</span>
           <span class="icon-moon">🌙</span>
         </button>
-
-        <!-- NOTIFICATIONS BELL -->
         <button class="topbar-icon-btn" title="Notifications" onclick="showNotifToast()">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
           <span class="notif-dot"></span>
         </button>
-
         <div class="topbar-divider"></div>
-
         <div class="topbar-avatar-btn"
           style="background:linear-gradient(135deg,#FF6B35,#FF8C5A);border:2px solid #FF6B35"
           title="Mon profil">SA</div>
-
-        <!-- SETTINGS DROPDOWN -->
         <div class="dropdown-wrapper">
           <button class="topbar-icon-btn" title="Paramètres" onclick="toggleDropdown(event)">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -536,7 +565,6 @@ tr:hover td { background: var(--row-hover); }
             <button class="dropdown-item danger" onclick="openLogout()"><span class="di-icon">🚪</span> Se déconnecter</button>
           </div>
         </div>
-
       </div>
     </div>
   </div>
@@ -556,15 +584,10 @@ tr:hover td { background: var(--row-hover); }
           <div class="stat-val">4</div>
           <div class="stat-label">Rôles configurés</div>
         </div>
-        <div class="stat-card" style="--c:#FFB347">
-          <div class="stat-icon">📁</div>
-          <div class="stat-val">3</div>
-          <div class="stat-label">Projets en cours</div>
-        </div>
         <div class="stat-card" style="--c:#96CEB4">
-          <div class="stat-icon">✅</div>
-          <div class="stat-val">99.8%</div>
-          <div class="stat-label">Uptime système</div>
+          <div class="stat-icon">📄</div>
+          <div class="stat-val">128</div>
+          <div class="stat-label">Demandes TT approuvées</div>
         </div>
         <div class="stat-card" style="--c:#7B61FF">
           <div class="stat-icon">🏡</div>
@@ -574,32 +597,24 @@ tr:hover td { background: var(--row-hover); }
       </div>
 
       <div class="grid2">
+        <!-- ══ PANNEAU GAUCHE : Utilisateurs par rôle ══ -->
         <div class="panel">
-          <div class="panel-title">Activité récente</div>
-          <div class="activity-item">
-            <span class="act-icon">✔️</span>
-            <div><div class="act-msg">Ahmed Ben Ali a déclaré sa présence</div><div class="act-time">09:42 — Aujourd'hui</div></div>
-          </div>
-          <div class="activity-item">
-            <span class="act-icon">🏡</span>
-            <div><div class="act-msg">Nouvelle demande télétravail — Fatima Khelil</div><div class="act-time">09:15 — Aujourd'hui</div></div>
-          </div>
-          <div class="activity-item">
-            <span class="act-icon">🔐</span>
-            <div><div class="act-msg">Rôle Manager mis à jour par Admin</div><div class="act-time">08:50 — Aujourd'hui</div></div>
-          </div>
-          <div class="activity-item">
-            <span class="act-icon">➕</span>
-            <div><div class="act-msg">Nouvel employé ajouté : Karim Zouari</div><div class="act-time">08:22 — Aujourd'hui</div></div>
+          <div class="panel-title">Utilisateurs par rôle</div>
+          <div class="role-list" id="role-list"></div>
+          <div class="total-row">
+            <span>Total utilisateurs</span>
+            <strong id="total-users">—</strong>
           </div>
         </div>
+
+        <!-- ══ PANNEAU DROIT : Répartition par département ══ -->
         <div class="panel">
           <div class="panel-title">Répartition par département</div>
           <div id="deptChart"></div>
         </div>
       </div>
 
-      <!-- ── SECTION TÉLÉTRAVAIL ── -->
+      <!-- TÉLÉTRAVAIL -->
       <div class="tele-section">
         <div class="tele-header">
           <h3>📊 Statistiques Télétravail</h3>
@@ -609,7 +624,6 @@ tr:hover td { background: var(--row-hover); }
             <button class="period-tab" onclick="switchPeriod('annee',this)">Année</button>
           </div>
         </div>
-
         <div class="tele-stats-mini">
           <div class="mini-stat" style="--c:#7B61FF">
             <div class="mini-stat-val" id="kpi1">18</div>
@@ -624,19 +638,6 @@ tr:hover td { background: var(--row-hover); }
             <div class="mini-stat-label" id="kpi3-label">En attente</div>
           </div>
         </div>
-
-        <div class="chart-full">
-          <div class="chart-panel-title" id="lineChartTitle">Évolution des demandes — Semaine en cours</div>
-          <div class="legend-row">
-            <div class="legend-item"><div class="legend-dot" style="background:#7B61FF"></div>Demandes soumises</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#4ECDC4"></div>Approuvées</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#FF6B35"></div>Refusées</div>
-          </div>
-          <div style="position:relative;width:100%;height:240px">
-            <canvas id="lineChart"></canvas>
-          </div>
-        </div>
-
         <div class="chart-row">
           <div class="chart-panel">
             <div class="chart-panel-title">Répartition statuts</div>
@@ -667,13 +668,11 @@ tr:hover td { background: var(--row-hover); }
           <p style="color:var(--muted);font-size:.83rem;margin-top:4px;">Gérer les rôles du système</p>
         </div>
       </div>
-
       <div class="panel" style="margin-bottom:20px">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px">
           <button class="btn btn-primary" onclick="toggleRoleForm()">+ Add Role</button>
           <input type="text" class="search-input" placeholder="Rechercher un rôle…" oninput="filterRoles(this.value)">
         </div>
-
         <div class="slide-panel" id="addRoleForm" style="display:none;margin-bottom:20px">
           <h3 style="font-family:'Syne',sans-serif;color:var(--accent);margin-bottom:16px;">Nouveau rôle</h3>
           <div class="form-grid">
@@ -691,7 +690,6 @@ tr:hover td { background: var(--row-hover); }
             <button class="btn btn-ghost" onclick="toggleRoleForm()">Annuler</button>
           </div>
         </div>
-
         <div class="table-wrap">
           <table>
             <thead>
@@ -711,13 +709,11 @@ tr:hover td { background: var(--row-hover); }
           <p style="color:var(--muted);font-size:.83rem;margin-top:4px;">Gestion des comptes utilisateurs</p>
         </div>
       </div>
-
       <div class="panel">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px">
           <button class="btn btn-primary" onclick="toggleUserForm()">+ Add User</button>
           <input type="text" class="search-input" placeholder="Rechercher un utilisateur…" oninput="filterUsers(this.value)">
         </div>
-
         <div class="slide-panel" id="addUserForm" style="display:none;margin-bottom:20px">
           <h3 style="font-family:'Syne',sans-serif;color:var(--accent);margin-bottom:16px;">Nouvel utilisateur</h3>
           <div class="form-grid">
@@ -729,12 +725,11 @@ tr:hover td { background: var(--row-hover); }
             <div class="form-group"><label>Email</label><input type="email" id="uEmail" placeholder="email@example.com"></div>
             <div class="form-group"><label>Département</label>
               <select id="uFunc">
-                <option>Gestion de Projet Technique</option>
-                <option>IT / Développement</option>
-                <option>Département Qualité</option>
+                <option>Développement</option>
+                <option>Technique / Infrastructure</option>
+                <option>Qualité</option>
                 <option>RH</option>
-                <option>Manager</option>
-                <option>Testeur</option>
+                <option>Gestion de Projet</option>
               </select>
             </div>
             <div class="form-group"><label>Mobile</label><input type="text" id="uMobile" placeholder="Ex : 99000000"></div>
@@ -744,7 +739,6 @@ tr:hover td { background: var(--row-hover); }
             <button class="btn btn-ghost" onclick="toggleUserForm()">Annuler</button>
           </div>
         </div>
-
         <div class="table-wrap">
           <table>
             <thead>
@@ -760,87 +754,50 @@ tr:hover td { background: var(--row-hover); }
       </div>
     </div>
 
-  </div><!-- end .content -->
-</div><!-- end .main -->
+  </div>
+</div>
 
 <script>
-// ── DARK MODE ─────────────────────────────────────────────────────────────────
+/* ── DARK MODE ── */
 function toggleDarkMode() {
   const html = document.documentElement;
-  const isDark = html.getAttribute('data-theme') === 'dark';
-  const next = isDark ? 'light' : 'dark';
+  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
   html.setAttribute('data-theme', next);
   localStorage.setItem('theme', next);
-  // update dropdown label
-  document.getElementById('dropThemeIcon').textContent = next === 'dark' ? '☀️' : '🌙';
-  document.getElementById('dropThemeLabel').textContent = next === 'dark' ? 'Mode clair' : 'Mode sombre';
-  // re-build charts with correct grid color
   rebuildCharts();
   showToast(next === 'dark' ? '🌙 Mode sombre activé' : '☀️ Mode clair activé');
 }
-
-// restore on load
 (function() {
   const saved = localStorage.getItem('theme') || 'light';
   document.documentElement.setAttribute('data-theme', saved);
-  if (saved === 'dark') {
-    document.getElementById('dropThemeIcon') && (document.getElementById('dropThemeIcon').textContent = '☀️');
-    document.getElementById('dropThemeLabel') && (document.getElementById('dropThemeLabel').textContent = 'Mode clair');
-  }
 })();
 
-// ── TOAST ─────────────────────────────────────────────────────────────────────
+/* ── TOAST ── */
 let toastTimer;
 function showToast(msg) {
   let t = document.getElementById('globalToast');
-  if (!t) {
-    t = document.createElement('div');
-    t.id = 'globalToast';
-    t.className = 'toast';
-    document.body.appendChild(t);
-  }
+  if (!t) { t = document.createElement('div'); t.id = 'globalToast'; t.className = 'toast'; document.body.appendChild(t); }
   t.className = 'toast';
   t.innerHTML = `<span class="toast-icon">✨</span><span>${msg}</span>`;
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => {
-    t.classList.add('out');
-    setTimeout(() => t.remove(), 350);
-  }, 2500);
+  toastTimer = setTimeout(() => { t.classList.add('out'); setTimeout(() => t.remove(), 350); }, 2500);
 }
+function showNotifToast() { showToast('🔔 3 demandes en attente de validation'); }
 
-function showNotifToast() {
-  showToast('🔔 3 demandes en attente de validation');
-}
-
-// ── DROPDOWN & LOGOUT ─────────────────────────────────────────────────────────
-function toggleDropdown(e) {
-  e.stopPropagation();
-  document.getElementById('settingsDropdown').classList.toggle('open');
-}
-function closeDropdown() {
-  document.getElementById('settingsDropdown').classList.remove('open');
-}
+/* ── DROPDOWN & LOGOUT ── */
+function toggleDropdown(e) { e.stopPropagation(); document.getElementById('settingsDropdown').classList.toggle('open'); }
+function closeDropdown() { document.getElementById('settingsDropdown').classList.remove('open'); }
 document.addEventListener('click', () => closeDropdown());
-
-function openLogout() {
-  closeDropdown();
-  document.getElementById('logoutOverlay').classList.add('show');
-}
-function closeLogout() {
-  document.getElementById('logoutOverlay').classList.remove('show');
-}
+function openLogout() { closeDropdown(); document.getElementById('logoutOverlay').classList.add('show'); }
+function closeLogout() { document.getElementById('logoutOverlay').classList.remove('show'); }
 function confirmLogout() {
   document.getElementById('logoutOverlay').innerHTML =
-    '<div class="logout-modal"><span class="lm-icon">✅</span><h3 style="color:#27ae60">Déconnexion réussie</h3><p>À bientôt, Super Admin.<br>Redirection vers la page de connexion…</p></div>';
+    '<div class="logout-modal"><span class="lm-icon">✅</span><h3 style="color:#27ae60">Déconnexion réussie</h3><p>À bientôt, Super Admin.<br>Redirection…</p></div>';
   setTimeout(() => { window.location.href = 'index.html'; }, 1500);
 }
 
-// ── NAVIGATION ────────────────────────────────────────────────────────────────
-const titles = {
-  dashboard: 'Tableau de bord',
-  'list-roles': 'List Roles',
-  utilisateurs: 'Utilisateurs'
-};
+/* ── NAVIGATION ── */
+const titles = { dashboard:'Tableau de bord', 'list-roles':'List Roles', utilisateurs:'Utilisateurs' };
 function show(sec, btn) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
@@ -849,139 +806,98 @@ function show(sec, btn) {
   document.getElementById('pageTitle').textContent = titles[sec] || sec;
 }
 
-// ── DATE ──────────────────────────────────────────────────────────────────────
+/* ── DATE ── */
 document.getElementById('pageDate').textContent =
   new Date().toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
 
-// ── DEPARTMENTS ───────────────────────────────────────────────────────────────
-const depts = [
-  { name: 'IT / Développement',           count: 18, color: '#FF6B35' },
-  { name: 'Gestion de Projet Technique',  count: 12, color: '#7B61FF' },
-  { name: 'Département Qualité',          count: 10, color: '#4ECDC4' },
-  { name: 'RH',                           count: 6,  color: '#45B7D1' },
-  { name: 'Testeur',                       count: 7,  color: '#FFB347' },
+/* ══════════════════════════════════════════════════
+   PANNEAU : Utilisateurs par rôle
+   FIX : ce bloc était absent dans le code original
+══════════════════════════════════════════════════ */
+const ROLES_DASHBOARD = [
+  { key:'admin',   icon:'🛡️', iconClass:'icon-admin',   colorClass:'c-admin',   fillClass:'fill-admin',   name:'Administrateur', desc:'Gestion système & permissions',    count:2  },
+  { key:'rh',      icon:'👥', iconClass:'icon-rh',      colorClass:'c-rh',      fillClass:'fill-rh',      name:'RH',             desc:'Politiques, rapports, validation', count:5  },
+  { key:'manager', icon:'📋', iconClass:'icon-manager', colorClass:'c-manager', fillClass:'fill-manager', name:'Manager',        desc:'Validation N1, planification',     count:8  },
+  { key:'employe', icon:'💼', iconClass:'icon-employe', colorClass:'c-employe', fillClass:'fill-employe', name:'Employé',        desc:'Demandes TT, présence, planning',  count:47 },
 ];
-const total = depts.reduce((a,b) => a + b.count, 0);
+
+function renderRolesDashboard() {
+  const totalUsers = ROLES_DASHBOARD.reduce((s, r) => s + r.count, 0);
+  const maxCount   = Math.max(...ROLES_DASHBOARD.map(r => r.count));
+  document.getElementById('total-users').textContent = totalUsers;
+  document.getElementById('role-list').innerHTML = ROLES_DASHBOARD.map(r => {
+    const pct  = Math.round((r.count / totalUsers) * 100);
+    const barW = Math.round((r.count / maxCount) * 100);
+    return `
+      <div class="role-item">
+        <div class="role-icon ${r.iconClass}">${r.icon}</div>
+        <div class="role-info">
+          <div class="role-name">${r.name}</div>
+          <div class="role-desc">${r.desc}</div>
+        </div>
+        <div class="role-right">
+          <span class="role-count ${r.colorClass}">${r.count}</span>
+          <span class="role-pct">${pct}%</span>
+          <div class="bar-track">
+            <div class="bar-fill ${r.fillClass}" style="width:${barW}%"></div>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+/* ── DÉPARTEMENT ── */
+const depts = [
+  { name:'Développement',          count:18, color:'#FF6B35' },
+  { name:'Technique / Infrastructure', count:12, color:'#7B61FF' },
+  { name:'Qualité',         count:10, color:'#4ECDC4' },
+  { name:'RH',                          count:6,  color:'#45B7D1' },
+  { name:'Gestion de Projet',                     count:7,  color:'#FFB347' },
+];
+const deptTotal = depts.reduce((a,b) => a + b.count, 0);
 document.getElementById('deptChart').innerHTML = depts.map(d => `
   <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
     <div style="width:10px;height:10px;border-radius:50%;background:${d.color};flex-shrink:0"></div>
     <div style="flex:1;font-size:.82rem;color:var(--text)">${d.name}</div>
     <div style="flex:2;height:8px;background:var(--border);border-radius:4px;overflow:hidden">
-      <div style="height:100%;width:${(d.count/total*100).toFixed(0)}%;background:${d.color};border-radius:4px;transition:width .8s ease"></div>
+      <div style="height:100%;width:${(d.count/deptTotal*100).toFixed(0)}%;background:${d.color};border-radius:4px;transition:width .8s ease"></div>
     </div>
     <div style="font-size:.78rem;color:var(--muted);width:28px;text-align:right">${d.count}</div>
   </div>
 `).join('');
 
-// ── CHART HELPERS ─────────────────────────────────────────────────────────────
-function getGridColor() {
-  return document.documentElement.getAttribute('data-theme') === 'dark'
-    ? 'rgba(255,255,255,0.06)'
-    : 'rgba(0,0,0,0.07)';
-}
-function getTickColor() {
-  return document.documentElement.getAttribute('data-theme') === 'dark'
-    ? 'rgba(255,255,255,0.35)'
-    : 'rgba(0,0,0,0.45)';
-}
+/* ── CHARTS ── */
+function getGridColor()  { return document.documentElement.getAttribute('data-theme')==='dark' ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.07)'; }
+function getTickColor()  { return document.documentElement.getAttribute('data-theme')==='dark' ? 'rgba(255,255,255,0.35)' : 'rgba(0,0,0,0.45)'; }
 
-// ── TÉLÉTRAVAIL DATA ──────────────────────────────────────────────────────────
 const teleData = {
-  semaine: {
-    line: { labels:['Lun','Mar','Mer','Jeu','Ven'], submitted:[6,8,5,9,7], approved:[5,6,4,7,6], rejected:[1,2,1,2,1] },
-    pie: { approved:28, pending:5, rejected:7 },
-    bar: { labels:['IT / Dév.','Gestion Proj.','Qualité','RH','Testeur'], data:[8,5,4,3,4] },
-    kpis: ['18','72%','5'], kpiLabels:["Jours cette semaine","Taux d'approbation","En attente"]
-  },
-  mois: {
-    line: { labels:['S1','S2','S3','S4'], submitted:[24,31,28,35], approved:[18,25,22,28], rejected:[6,6,6,7] },
-    pie: { approved:93, pending:12, rejected:25 },
-    bar: { labels:['IT / Dév.','Gestion Proj.','Qualité','RH','Testeur'], data:[35,22,18,12,15] },
-    kpis: ['118','71%','12'], kpiLabels:["Jours ce mois","Taux d'approbation","En attente"]
-  },
-  annee: {
-    line: { labels:['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'], submitted:[45,52,48,60,72,68,55,40,65,78,82,75], approved:[36,40,38,50,60,55,44,32,52,63,70,62], rejected:[9,12,10,10,12,13,11,8,13,15,12,13] },
-    pie: { approved:552, pending:18, rejected:128 },
-    bar: { labels:['IT / Dév.','Gestion Proj.','Qualité','RH','Testeur'], data:[180,110,95,60,88] },
-    kpis: ['698','69%','18'], kpiLabels:["Total demandes","Taux d'approbation","En attente"]
-  }
+  semaine: { pie:{approved:28,pending:5,rejected:7},  bar:{labels:['Développement.','Gestion Projet.','Qualité','RH','Technique '],data:[8,5,4,3,4]},  kpis:['18','72%','5'],   kpiLabels:["Jours cette semaine","Taux d'approbation","En attente"] },
+  mois:    { pie:{approved:93,pending:12,rejected:25}, bar:{labels:['Développement.','Gestion Projet.','Qualité','RH','Technique '],data:[35,22,18,12,15]},kpis:['118','71%','12'],kpiLabels:["Jours ce mois","Taux d'approbation","En attente"] },
+  annee:   { pie:{approved:552,pending:18,rejected:128},bar:{labels:['Développement.','Gestion Projet.','Qualité','RH','Technique '],data:[180,110,95,60,88]},kpis:['698','69%','18'],kpiLabels:["Total demandes","Taux d'approbation","En attente"] },
 };
-
-let currentPeriod = 'semaine';
-let lineChartInst, pieChartInst, barChartInst;
-
-function buildLineChart(period) {
-  const d = teleData[period].line;
-  const ctx = document.getElementById('lineChart').getContext('2d');
-  if (lineChartInst) lineChartInst.destroy();
-  lineChartInst = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: d.labels,
-      datasets: [
-        { label:'Soumises',   data:d.submitted, borderColor:'#7B61FF', backgroundColor:'rgba(123,97,255,0.12)', borderWidth:2.5, pointBackgroundColor:'#7B61FF', pointRadius:4, tension:.45, fill:true },
-        { label:'Approuvées', data:d.approved,  borderColor:'#4ECDC4', backgroundColor:'rgba(78,205,196,0.10)', borderWidth:2.5, pointBackgroundColor:'#4ECDC4', pointRadius:4, tension:.45, fill:true },
-        { label:'Refusées',   data:d.rejected,  borderColor:'#FF6B35', backgroundColor:'rgba(255,107,53,0.07)', borderWidth:2,   pointBackgroundColor:'#FF6B35', pointRadius:4, tension:.45, fill:true }
-      ]
-    },
-    options: {
-      responsive:true, maintainAspectRatio:false,
-      plugins:{ legend:{ display:false } },
-      scales: {
-        x:{ grid:{ color:getGridColor() }, ticks:{ color:getTickColor(), font:{ size:11 } } },
-        y:{ grid:{ color:getGridColor() }, ticks:{ color:getTickColor(), font:{ size:11 } } }
-      }
-    }
-  });
-}
+let currentPeriod = 'semaine', pieChartInst, barChartInst;
 
 function buildPieChart(period) {
   const d = teleData[period].pie;
   const ctx = document.getElementById('pieChart').getContext('2d');
   if (pieChartInst) pieChartInst.destroy();
   pieChartInst = new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: ['Approuvé','En attente','Refusé'],
-      datasets: [{ data:[d.approved,d.pending,d.rejected], backgroundColor:['#4ECDC4','#FFB347','#ff6b6b'], borderColor:['#4ECDC4','#FFB347','#ff6b6b'], borderWidth:2, hoverOffset:6 }]
-    },
-    options: {
-      responsive:true, maintainAspectRatio:false, cutout:'62%',
-      plugins:{
-        legend:{ display:false },
-        tooltip:{ callbacks:{ label:(ctx)=>{ const tot=ctx.dataset.data.reduce((a,b)=>a+b,0); return ` ${ctx.label}: ${ctx.parsed} (${Math.round(ctx.parsed/tot*100)}%)`; } } }
-      }
-    }
+    type:'doughnut',
+    data:{ labels:['Approuvé','En attente','Refusé'], datasets:[{ data:[d.approved,d.pending,d.rejected], backgroundColor:['#4ECDC4','#FFB347','#ff6b6b'], borderColor:['#4ECDC4','#FFB347','#ff6b6b'], borderWidth:2, hoverOffset:6 }] },
+    options:{ responsive:true, maintainAspectRatio:false, cutout:'62%', plugins:{ legend:{display:false}, tooltip:{callbacks:{label:(ctx)=>{ const tot=ctx.dataset.data.reduce((a,b)=>a+b,0); return ` ${ctx.label}: ${ctx.parsed} (${Math.round(ctx.parsed/tot*100)}%)`; }}} } }
   });
 }
-
 function buildBarChart(period) {
   const d = teleData[period].bar;
   const ctx = document.getElementById('barChart').getContext('2d');
   if (barChartInst) barChartInst.destroy();
   barChartInst = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: d.labels,
-      datasets: [{ label:'Jours télétravail', data:d.data, backgroundColor:['#7B61FF','#4ECDC4','#45B7D1','#FFB347','#FF6B35'], borderRadius:8, borderSkipped:false }]
-    },
-    options: {
-      responsive:true, maintainAspectRatio:false,
-      plugins:{ legend:{ display:false } },
-      scales: {
-        x:{ grid:{ display:false }, ticks:{ color:getTickColor(), font:{ size:10 } } },
-        y:{ grid:{ color:getGridColor() }, ticks:{ color:getTickColor(), font:{ size:11 } } }
-      }
-    }
+    type:'bar',
+    data:{ labels:d.labels, datasets:[{ label:'Jours télétravail', data:d.data, backgroundColor:['#7B61FF','#4ECDC4','#45B7D1','#FFB347','#FF6B35'], borderRadius:8, borderSkipped:false }] },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ x:{grid:{display:false},ticks:{color:getTickColor(),font:{size:10}}}, y:{grid:{color:getGridColor()},ticks:{color:getTickColor(),font:{size:11}}} } }
   });
 }
-
-function rebuildCharts() {
-  buildLineChart(currentPeriod);
-  buildPieChart(currentPeriod);
-  buildBarChart(currentPeriod);
-}
-
+function rebuildCharts() { buildPieChart(currentPeriod); buildBarChart(currentPeriod); }
 function updateKPIs(period) {
   const d = teleData[period];
   document.getElementById('kpi1').textContent = d.kpis[0];
@@ -990,10 +906,7 @@ function updateKPIs(period) {
   document.getElementById('kpi1-label').textContent = d.kpiLabels[0];
   document.getElementById('kpi2-label').textContent = d.kpiLabels[1];
   document.getElementById('kpi3-label').textContent = d.kpiLabels[2];
-  const titleMap = { semaine:'Évolution des demandes — Semaine en cours', mois:'Évolution des demandes — Mois en cours', annee:'Évolution des demandes — Année 2024' };
-  document.getElementById('lineChartTitle').textContent = titleMap[period];
 }
-
 function switchPeriod(period, btn) {
   currentPeriod = period;
   document.querySelectorAll('.period-tab').forEach(t => t.classList.remove('active'));
@@ -1002,7 +915,7 @@ function switchPeriod(period, btn) {
   rebuildCharts();
 }
 
-// ── ROLES ─────────────────────────────────────────────────────────────────────
+/* ── ROLES TABLE ── */
 let roles = [
   { id:1, name:'SAO2',      visibility:'specific', enabled:false },
   { id:2, name:'adminrole', visibility:'specific', enabled:true  },
@@ -1013,7 +926,6 @@ let roles = [
   { id:7, name:'Manager',   visibility:'specific', enabled:true  },
   { id:8, name:'Employé',   visibility:'specific', enabled:true  },
 ];
-
 function renderRolesTable(data) {
   document.getElementById('rolesTable').innerHTML = data.map(r => `
     <tr>
@@ -1021,139 +933,72 @@ function renderRolesTable(data) {
       <td><span class="badge badge-blue">${r.visibility}</span></td>
       <td><span class="badge ${r.enabled ? 'badge-green' : 'badge-red'}">${r.enabled ? 'Active' : 'Inactive'}</span></td>
       <td style="text-align:right">
-        <button class="icon-btn" title="Modifier" onclick="editRole(${r.id})">✏️</button>
-        <button class="icon-btn" title="Supprimer" onclick="deleteRole(${r.id})">🗑️</button>
-        <label class="toggle">
-          <input type="checkbox" ${r.enabled ? 'checked' : ''} onchange="toggleRole(${r.id},this.checked)">
-          <span class="toggle-slider"></span>
-        </label>
+        <button class="icon-btn" onclick="editRole(${r.id})">✏️</button>
+        <button class="icon-btn" onclick="deleteRole(${r.id})">🗑️</button>
+        <label class="toggle"><input type="checkbox" ${r.enabled?'checked':''} onchange="toggleRole(${r.id},this.checked)"><span class="toggle-slider"></span></label>
       </td>
-    </tr>
-  `).join('');
+    </tr>`).join('');
 }
-
-function toggleRoleForm() {
-  const f = document.getElementById('addRoleForm');
-  f.style.display = f.style.display === 'none' ? 'block' : 'none';
-}
+function toggleRoleForm() { const f=document.getElementById('addRoleForm'); f.style.display=f.style.display==='none'?'block':'none'; }
 function addRole() {
-  const name = document.getElementById('rName').value.trim();
-  const vis  = document.getElementById('rVis').value;
+  const name=document.getElementById('rName').value.trim(), vis=document.getElementById('rVis').value;
   if (!name) return;
-  roles.push({ id: Date.now(), name, visibility: vis, enabled: true });
-  document.getElementById('rName').value = '';
-  toggleRoleForm();
-  renderRolesTable(roles);
-  showToast('✅ Rôle « ' + name + ' » ajouté');
+  roles.push({ id:Date.now(), name, visibility:vis, enabled:true });
+  document.getElementById('rName').value='';
+  toggleRoleForm(); renderRolesTable(roles); showToast('✅ Rôle « '+name+' » ajouté');
 }
-function deleteRole(id) {
-  const r = roles.find(x => x.id === id);
-  roles = roles.filter(r => r.id !== id);
-  renderRolesTable(roles);
-  if (r) showToast('🗑️ Rôle « ' + r.name + ' » supprimé');
-}
-function editRole(id) {
-  const r = roles.find(x => x.id === id);
-  if (!r) return;
-  const newName = prompt('Nouveau nom du rôle :', r.name);
-  if (newName && newName.trim()) { r.name = newName.trim(); renderRolesTable(roles); showToast('✏️ Rôle mis à jour'); }
-}
-function toggleRole(id, val) {
-  const r = roles.find(x => x.id === id);
-  if (r) { r.enabled = val; renderRolesTable(roles); showToast(val ? '✅ Rôle activé' : '⛔ Rôle désactivé'); }
-}
-function filterRoles(q) { renderRolesTable(roles.filter(r => r.name.toLowerCase().includes(q.toLowerCase()))); }
+function deleteRole(id) { const r=roles.find(x=>x.id===id); roles=roles.filter(r=>r.id!==id); renderRolesTable(roles); if(r) showToast('🗑️ Rôle « '+r.name+' » supprimé'); }
+function editRole(id) { const r=roles.find(x=>x.id===id); if(!r) return; const n=prompt('Nouveau nom :',r.name); if(n&&n.trim()){r.name=n.trim();renderRolesTable(roles);showToast('✏️ Rôle mis à jour');} }
+function toggleRole(id,val) { const r=roles.find(x=>x.id===id); if(r){r.enabled=val;renderRolesTable(roles);showToast(val?'✅ Rôle activé':'⛔ Rôle désactivé');} }
+function filterRoles(q) { renderRolesTable(roles.filter(r=>r.name.toLowerCase().includes(q.toLowerCase()))); }
 
-// ── USERS ─────────────────────────────────────────────────────────────────────
+/* ── USERS TABLE ── */
 let users = [
-  { id:1, civ:'M',   first:'Firas',  last:'Khadraoui', email:'khadraoufiras@gmail.com',          func:'IT / Développement',          mobile:'99999999', enabled:true  },
-  { id:2, civ:'M.',  first:'Yassin', last:'Abda',       email:'abdayassin@gmail.com',              func:'Département Qualité',         mobile:'94002552', enabled:true  },
-  { id:3, civ:'M',   first:'Abda',   last:'Yassine',    email:'yessin.abda@etudiant-isi.utm.tn',  func:'Département Qualité',         mobile:'99385385', enabled:true  },
-  { id:4, civ:'M.',  first:'John',   last:'Doe',        email:'john.doe@example.com',              func:'IT / Développement',          mobile:'12345657', enabled:true  },
-  { id:5, civ:'M.',  first:'Ahmed',  last:'Ben',        email:'romdhane.ahmed@gmail.tn',           func:'Gestion de Projet Technique', mobile:'25910687', enabled:true  },
-  { id:6, civ:'Mme', first:'Sonia',  last:'Mansour',    email:'sonia@hr.tn',                       func:'RH',                          mobile:'55001122', enabled:true  },
-  { id:7, civ:'M.',  first:'Karim',  last:'Zouari',     email:'karim@hr.tn',                       func:'Testeur',                     mobile:'77334455', enabled:true  },
+  { id:1, civ:'M',   first:'Firas',  last:'Khadraoui', email:'khadraoufiras@gmail.com',         func:'Développement',          mobile:'99999999', enabled:true },
+  { id:2, civ:'M.',  first:'Yassin', last:'Abda',       email:'abdayassin@gmail.com',             func:'Département Qualité',         mobile:'94002552', enabled:true },
+  { id:3, civ:'M',   first:'Abda',   last:'Yassine',    email:'yessin.abda@etudiant-isi.utm.tn', func:'Département Qualité',         mobile:'99385385', enabled:true },
+  { id:4, civ:'M.',  first:'John',   last:'Doe',        email:'john.doe@example.com',             func:'Développement',          mobile:'12345657', enabled:true },
+  { id:5, civ:'M.',  first:'Ahmed',  last:'Ben',        email:'romdhane.ahmed@gmail.tn',          func:'Gestion de Projet Technique', mobile:'25910687', enabled:true },
+  { id:6, civ:'Mme', first:'Sonia',  last:'Mansour',    email:'sonia@hr.tn',                      func:'RH',                          mobile:'55001122', enabled:true },
+  { id:7, civ:'M.',  first:'Karim',  last:'Zouari',     email:'karim@hr.tn',                      func:'Technique / Infrastructure',                     mobile:'77334455', enabled:true },
 ];
-
 function renderUsersTable(data) {
-  const funcColor = {
-    'RH': 'badge-blue',
-    'Manager': 'badge-orange',
-    'Testeur': 'badge-yellow',
-    'IT / Développement': 'badge-blue',
-    'Gestion de Projet Technique': 'badge-orange',
-    'Département Qualité': 'badge-green',
-  };
-  document.getElementById('usersTable').innerHTML = data.map(u => `
+  const fc={'RH':'badge-blue','Manager':'badge-orange','Technique':'badge-yellow','Développement':'badge-blue','Gestion de Projet Technique':'badge-orange','Département Qualité':'badge-green'};
+  document.getElementById('usersTable').innerHTML = data.map(u=>`
     <tr>
       <td style="color:var(--muted)">${u.civ}</td>
       <td style="font-weight:700">${u.first}</td>
       <td style="font-weight:700">${u.last}</td>
       <td style="font-size:.8rem;color:var(--muted)">${u.email}</td>
-      <td><span class="badge ${funcColor[u.func]||'badge-green'}">${u.func}</span></td>
+      <td><span class="badge ${fc[u.func]||'badge-green'}">${u.func}</span></td>
       <td style="font-size:.83rem">${u.mobile}</td>
-      <td><span class="badge ${u.enabled ? 'badge-green' : 'badge-red'}">${u.enabled ? 'Active' : 'Inactive'}</span></td>
+      <td><span class="badge ${u.enabled?'badge-green':'badge-red'}">${u.enabled?'Active':'Inactive'}</span></td>
       <td style="text-align:right">
-        <button class="icon-btn" title="Modifier" onclick="editUser(${u.id})">✏️</button>
-        <button class="icon-btn" title="Supprimer" onclick="deleteUser(${u.id})">🗑️</button>
-        <label class="toggle">
-          <input type="checkbox" ${u.enabled ? 'checked' : ''} onchange="toggleUser(${u.id},this.checked)">
-          <span class="toggle-slider"></span>
-        </label>
+        <button class="icon-btn" onclick="editUser(${u.id})">✏️</button>
+        <button class="icon-btn" onclick="deleteUser(${u.id})">🗑️</button>
+        <label class="toggle"><input type="checkbox" ${u.enabled?'checked':''} onchange="toggleUser(${u.id},this.checked)"><span class="toggle-slider"></span></label>
       </td>
-    </tr>
-  `).join('');
+    </tr>`).join('');
 }
-
-function toggleUserForm() {
-  const f = document.getElementById('addUserForm');
-  f.style.display = f.style.display === 'none' ? 'block' : 'none';
-}
+function toggleUserForm() { const f=document.getElementById('addUserForm'); f.style.display=f.style.display==='none'?'block':'none'; }
 function addUser() {
-  const civ    = document.getElementById('uCiv').value;
-  const first  = document.getElementById('uFirst').value.trim();
-  const last   = document.getElementById('uLast').value.trim();
-  const email  = document.getElementById('uEmail').value.trim();
-  const func   = document.getElementById('uFunc').value;
-  const mobile = document.getElementById('uMobile').value.trim();
-  if (!first || !last) return;
-  users.push({ id: Date.now(), civ, first, last, email: email || first + '@hr.tn', func, mobile: mobile || '00000000', enabled: true });
-  toggleUserForm();
-  renderUsersTable(users);
-  showToast('✅ Utilisateur « ' + first + ' ' + last + ' » ajouté');
+  const civ=document.getElementById('uCiv').value, first=document.getElementById('uFirst').value.trim(),
+        last=document.getElementById('uLast').value.trim(), email=document.getElementById('uEmail').value.trim(),
+        func=document.getElementById('uFunc').value, mobile=document.getElementById('uMobile').value.trim();
+  if(!first||!last) return;
+  users.push({id:Date.now(),civ,first,last,email:email||first+'@hr.tn',func,mobile:mobile||'00000000',enabled:true});
+  toggleUserForm(); renderUsersTable(users); showToast('✅ Utilisateur « '+first+' '+last+' » ajouté');
 }
-function deleteUser(id) {
-  const u = users.find(x => x.id === id);
-  users = users.filter(u => u.id !== id);
-  renderUsersTable(users);
-  if (u) showToast('🗑️ Utilisateur supprimé');
-}
-function editUser(id) {
-  const u = users.find(x => x.id === id);
-  if (!u) return;
-  const newFirst = prompt('Prénom :', u.first);
-  if (newFirst && newFirst.trim()) { u.first = newFirst.trim(); renderUsersTable(users); showToast('✏️ Utilisateur mis à jour'); }
-}
-function toggleUser(id, val) {
-  const u = users.find(x => x.id === id);
-  if (u) { u.enabled = val; renderUsersTable(users); showToast(val ? '✅ Compte activé' : '⛔ Compte désactivé'); }
-}
-function filterUsers(q) {
-  const lq = q.toLowerCase();
-  renderUsersTable(users.filter(u =>
-    u.first.toLowerCase().includes(lq) || u.last.toLowerCase().includes(lq) ||
-    u.email.toLowerCase().includes(lq) || u.func.toLowerCase().includes(lq)
-  ));
-}
+function deleteUser(id) { const u=users.find(x=>x.id===id); users=users.filter(u=>u.id!==id); renderUsersTable(users); if(u) showToast('🗑️ Utilisateur supprimé'); }
+function editUser(id) { const u=users.find(x=>x.id===id); if(!u) return; const n=prompt('Prénom :',u.first); if(n&&n.trim()){u.first=n.trim();renderUsersTable(users);showToast('✏️ Utilisateur mis à jour');} }
+function toggleUser(id,val) { const u=users.find(x=>x.id===id); if(u){u.enabled=val;renderUsersTable(users);showToast(val?'✅ Compte activé':'⛔ Compte désactivé');} }
+function filterUsers(q) { const lq=q.toLowerCase(); renderUsersTable(users.filter(u=>u.first.toLowerCase().includes(lq)||u.last.toLowerCase().includes(lq)||u.email.toLowerCase().includes(lq)||u.func.toLowerCase().includes(lq))); }
 
-// ── INIT ──────────────────────────────────────────────────────────────────────
+/* ── INIT ── */
+renderRolesDashboard();   /* FIX : appel manquant dans l'original */
 renderRolesTable(roles);
 renderUsersTable(users);
-window.addEventListener('load', () => {
-  buildLineChart('semaine');
-  buildPieChart('semaine');
-  buildBarChart('semaine');
-});
+window.addEventListener('load', () => { buildPieChart('semaine'); buildBarChart('semaine'); });
 </script>
 </body>
 </html>
