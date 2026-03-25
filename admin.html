@@ -837,7 +837,7 @@ tr:hover td { background: var(--row-hover); }
                 <option>Développement</option>
                 <option>Technique / Infrastructure</option>
                 <option>Qualité</option>
-                <option>RH</option>
+                <option>Odoo</option>
                 <option>Gestion de Projet</option>
               </select>
             </div>
@@ -983,7 +983,7 @@ const depts = [
   { name:'Développement',              count:18, color:'#FF6B35' },
   { name:'Technique / Infrastructure', count:12, color:'#7B61FF' },
   { name:'Qualité',                    count:10, color:'#4ECDC4' },
-  { name:'RH',                         count:6,  color:'#45B7D1' },
+  { name:'Odoo',                         count:6,  color:'#45B7D1' },
   { name:'Gestion de Projet',          count:7,  color:'#FFB347' },
 ];
 const deptTotal = depts.reduce((a,b) => a + b.count, 0);
@@ -1003,9 +1003,9 @@ function getGridColor() { return document.documentElement.getAttribute('data-the
 function getTickColor() { return document.documentElement.getAttribute('data-theme')==='dark' ? 'rgba(255,255,255,0.35)' : 'rgba(0,0,0,0.45)'; }
 
 const teleData = {
-  semaine: { pie:{approved:28,pending:5,rejected:7},  bar:{labels:['Développement','Gestion Projet','Qualité','RH','Technique'],data:[8,5,4,3,4]},  kpis:['18','72%','5'],   kpiLabels:["Jours cette semaine","Taux d'approbation","En attente"] },
-  mois:    { pie:{approved:93,pending:12,rejected:25}, bar:{labels:['Développement','Gestion Projet','Qualité','RH','Technique'],data:[35,22,18,12,15]},kpis:['118','71%','12'],kpiLabels:["Jours ce mois","Taux d'approbation","En attente"] },
-  annee:   { pie:{approved:552,pending:18,rejected:128},bar:{labels:['Développement','Gestion Projet','Qualité','RH','Technique'],data:[180,110,95,60,88]},kpis:['698','69%','18'],kpiLabels:["Total demandes","Taux d'approbation","En attente"] },
+  semaine: { pie:{approved:28,pending:5,rejected:7},  bar:{labels:['Développement','Gestion Projet','Qualité','Odoo','Technique'],data:[8,5,4,3,4]},  kpis:['18','72%','5'],   kpiLabels:["Jours cette semaine","Taux d'approbation","En attente"] },
+  mois:    { pie:{approved:93,pending:12,rejected:25}, bar:{labels:['Développement','Gestion Projet','Qualité','Odoo','Technique'],data:[35,22,18,12,15]},kpis:['118','71%','12'],kpiLabels:["Jours ce mois","Taux d'approbation","En attente"] },
+  annee:   { pie:{approved:552,pending:18,rejected:128},bar:{labels:['Développement','Gestion Projet','Qualité','Odoo','Technique'],data:[180,110,95,60,88]},kpis:['698','69%','18'],kpiLabels:["Total demandes","Taux d'approbation","En attente"] },
 };
 let currentPeriod = 'semaine', pieChartInst, barChartInst;
 
