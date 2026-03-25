@@ -332,7 +332,6 @@ tr:hover td { background: var(--row-hover); }
 
 /* ── ROLES PANEL ── */
 .role-list { display: flex; flex-direction: column; gap: 12px; }
-
 .role-item {
   display: flex; align-items: center; gap: 14px;
   padding: 13px 16px; border-radius: 12px;
@@ -459,6 +458,92 @@ tr:hover td { background: var(--row-hover); }
   transition: background .2s;
 }
 .icon-btn:hover { background: var(--icon-btn-hover); }
+
+/* ── PAGINATION ── */
+.pagination-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  padding: 14px 4px 4px;
+  border-top: 1px solid var(--border);
+  margin-top: 2px;
+  flex-wrap: wrap;
+}
+.pagination-label {
+  font-size: .8rem;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+.pagination-label strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.items-per-page-select {
+  padding: 4px 28px 4px 8px;
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: .8rem;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23999' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  transition: border-color .2s;
+}
+.items-per-page-select:focus { border-color: var(--accent); }
+
+.page-info {
+  font-size: .8rem;
+  color: var(--muted);
+  white-space: nowrap;
+  min-width: 72px;
+  text-align: center;
+}
+
+.page-btns {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.page-btn {
+  width: 30px; height: 30px;
+  border: 1px solid var(--border);
+  background: var(--input-bg);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: .75rem;
+  font-weight: 700;
+  transition: all .18s;
+  flex-shrink: 0;
+}
+.page-btn:hover:not(:disabled) {
+  background: rgba(255,107,53,.1);
+  border-color: rgba(255,107,53,.35);
+  color: var(--accent);
+}
+.page-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.page-btn svg {
+  width: 14px; height: 14px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 
 /* ── TOAST ── */
 .toast {
@@ -597,7 +682,6 @@ tr:hover td { background: var(--row-hover); }
       </div>
 
       <div class="grid2">
-        <!-- ══ PANNEAU GAUCHE : Utilisateurs par rôle ══ -->
         <div class="panel">
           <div class="panel-title">Utilisateurs par rôle</div>
           <div class="role-list" id="role-list"></div>
@@ -606,8 +690,6 @@ tr:hover td { background: var(--row-hover); }
             <strong id="total-users">—</strong>
           </div>
         </div>
-
-        <!-- ══ PANNEAU DROIT : Répartition par département ══ -->
         <div class="panel">
           <div class="panel-title">Répartition par département</div>
           <div id="deptChart"></div>
@@ -671,7 +753,7 @@ tr:hover td { background: var(--row-hover); }
       <div class="panel" style="margin-bottom:20px">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px">
           <button class="btn btn-primary" onclick="toggleRoleForm()">+ Add Role</button>
-          <input type="text" class="search-input" placeholder="Rechercher un rôle…" oninput="filterRoles(this.value)">
+          <input type="text" class="search-input" placeholder="Rechercher un rôle…" oninput="rolesSearchFilter(this.value)">
         </div>
         <div class="slide-panel" id="addRoleForm" style="display:none;margin-bottom:20px">
           <h3 style="font-family:'Syne',sans-serif;color:var(--accent);margin-bottom:16px;">Nouveau rôle</h3>
@@ -698,6 +780,33 @@ tr:hover td { background: var(--row-hover); }
             <tbody id="rolesTable"></tbody>
           </table>
         </div>
+        <!-- PAGINATION ROLES -->
+        <div class="pagination-bar" id="rolesPaginationBar">
+          <div class="pagination-label">
+            Items per page:
+            <select class="items-per-page-select" id="rolesPerPage" onchange="rolesChangePerPage(this.value)">
+              <option value="5" selected>5</option>
+              <option value="6">6</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+            </select>
+          </div>
+          <div class="page-info" id="rolesPageInfo"></div>
+          <div class="page-btns">
+            <button class="page-btn" id="rolesBtnFirst" onclick="rolesGoFirst()" title="Première page">
+              <svg viewBox="0 0 24 24"><polyline points="11 17 6 12 11 7"/><line x1="18" y1="7" x2="18" y2="17"/></svg>
+            </button>
+            <button class="page-btn" id="rolesBtnPrev" onclick="rolesGoPrev()" title="Page précédente">
+              <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <button class="page-btn" id="rolesBtnNext" onclick="rolesGoNext()" title="Page suivante">
+              <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <button class="page-btn" id="rolesBtnLast" onclick="rolesGoLast()" title="Dernière page">
+              <svg viewBox="0 0 24 24"><polyline points="13 17 18 12 13 7"/><line x1="6" y1="7" x2="6" y2="17"/></svg>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -712,7 +821,7 @@ tr:hover td { background: var(--row-hover); }
       <div class="panel">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px">
           <button class="btn btn-primary" onclick="toggleUserForm()">+ Add User</button>
-          <input type="text" class="search-input" placeholder="Rechercher un utilisateur…" oninput="filterUsers(this.value)">
+          <input type="text" class="search-input" placeholder="Rechercher un utilisateur…" oninput="usersSearchFilter(this.value)">
         </div>
         <div class="slide-panel" id="addUserForm" style="display:none;margin-bottom:20px">
           <h3 style="font-family:'Syne',sans-serif;color:var(--accent);margin-bottom:16px;">Nouvel utilisateur</h3>
@@ -750,6 +859,33 @@ tr:hover td { background: var(--row-hover); }
             </thead>
             <tbody id="usersTable"></tbody>
           </table>
+        </div>
+        <!-- PAGINATION USERS -->
+        <div class="pagination-bar" id="usersPaginationBar">
+          <div class="pagination-label">
+            Items per page:
+            <select class="items-per-page-select" id="usersPerPage" onchange="usersChangePerPage(this.value)">
+              <option value="5" selected>5</option>
+              <option value="6">6</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+            </select>
+          </div>
+          <div class="page-info" id="usersPageInfo"></div>
+          <div class="page-btns">
+            <button class="page-btn" id="usersBtnFirst" onclick="usersGoFirst()" title="Première page">
+              <svg viewBox="0 0 24 24"><polyline points="11 17 6 12 11 7"/><line x1="18" y1="7" x2="18" y2="17"/></svg>
+            </button>
+            <button class="page-btn" id="usersBtnPrev" onclick="usersGoPrev()" title="Page précédente">
+              <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <button class="page-btn" id="usersBtnNext" onclick="usersGoNext()" title="Page suivante">
+              <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <button class="page-btn" id="usersBtnLast" onclick="usersGoLast()" title="Dernière page">
+              <svg viewBox="0 0 24 24"><polyline points="13 17 18 12 13 7"/><line x1="6" y1="7" x2="6" y2="17"/></svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -810,17 +946,13 @@ function show(sec, btn) {
 document.getElementById('pageDate').textContent =
   new Date().toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
 
-/* ══════════════════════════════════════════════════
-   PANNEAU : Utilisateurs par rôle
-   FIX : ce bloc était absent dans le code original
-══════════════════════════════════════════════════ */
+/* ── ROLES DASHBOARD ── */
 const ROLES_DASHBOARD = [
   { key:'admin',   icon:'🛡️', iconClass:'icon-admin',   colorClass:'c-admin',   fillClass:'fill-admin',   name:'Administrateur', desc:'Gestion système & permissions',    count:2  },
   { key:'rh',      icon:'👥', iconClass:'icon-rh',      colorClass:'c-rh',      fillClass:'fill-rh',      name:'RH',             desc:'Politiques, rapports, validation', count:5  },
   { key:'manager', icon:'📋', iconClass:'icon-manager', colorClass:'c-manager', fillClass:'fill-manager', name:'Manager',        desc:'Validation N1, planification',     count:8  },
   { key:'employe', icon:'💼', iconClass:'icon-employe', colorClass:'c-employe', fillClass:'fill-employe', name:'Employé',        desc:'Demandes TT, présence, planning',  count:47 },
 ];
-
 function renderRolesDashboard() {
   const totalUsers = ROLES_DASHBOARD.reduce((s, r) => s + r.count, 0);
   const maxCount   = Math.max(...ROLES_DASHBOARD.map(r => r.count));
@@ -848,11 +980,11 @@ function renderRolesDashboard() {
 
 /* ── DÉPARTEMENT ── */
 const depts = [
-  { name:'Développement',          count:18, color:'#FF6B35' },
+  { name:'Développement',              count:18, color:'#FF6B35' },
   { name:'Technique / Infrastructure', count:12, color:'#7B61FF' },
-  { name:'Qualité',         count:10, color:'#4ECDC4' },
-  { name:'RH',                          count:6,  color:'#45B7D1' },
-  { name:'Gestion de Projet',                     count:7,  color:'#FFB347' },
+  { name:'Qualité',                    count:10, color:'#4ECDC4' },
+  { name:'RH',                         count:6,  color:'#45B7D1' },
+  { name:'Gestion de Projet',          count:7,  color:'#FFB347' },
 ];
 const deptTotal = depts.reduce((a,b) => a + b.count, 0);
 document.getElementById('deptChart').innerHTML = depts.map(d => `
@@ -867,13 +999,13 @@ document.getElementById('deptChart').innerHTML = depts.map(d => `
 `).join('');
 
 /* ── CHARTS ── */
-function getGridColor()  { return document.documentElement.getAttribute('data-theme')==='dark' ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.07)'; }
-function getTickColor()  { return document.documentElement.getAttribute('data-theme')==='dark' ? 'rgba(255,255,255,0.35)' : 'rgba(0,0,0,0.45)'; }
+function getGridColor() { return document.documentElement.getAttribute('data-theme')==='dark' ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.07)'; }
+function getTickColor() { return document.documentElement.getAttribute('data-theme')==='dark' ? 'rgba(255,255,255,0.35)' : 'rgba(0,0,0,0.45)'; }
 
 const teleData = {
-  semaine: { pie:{approved:28,pending:5,rejected:7},  bar:{labels:['Développement.','Gestion Projet.','Qualité','RH','Technique '],data:[8,5,4,3,4]},  kpis:['18','72%','5'],   kpiLabels:["Jours cette semaine","Taux d'approbation","En attente"] },
-  mois:    { pie:{approved:93,pending:12,rejected:25}, bar:{labels:['Développement.','Gestion Projet.','Qualité','RH','Technique '],data:[35,22,18,12,15]},kpis:['118','71%','12'],kpiLabels:["Jours ce mois","Taux d'approbation","En attente"] },
-  annee:   { pie:{approved:552,pending:18,rejected:128},bar:{labels:['Développement.','Gestion Projet.','Qualité','RH','Technique '],data:[180,110,95,60,88]},kpis:['698','69%','18'],kpiLabels:["Total demandes","Taux d'approbation","En attente"] },
+  semaine: { pie:{approved:28,pending:5,rejected:7},  bar:{labels:['Développement','Gestion Projet','Qualité','RH','Technique'],data:[8,5,4,3,4]},  kpis:['18','72%','5'],   kpiLabels:["Jours cette semaine","Taux d'approbation","En attente"] },
+  mois:    { pie:{approved:93,pending:12,rejected:25}, bar:{labels:['Développement','Gestion Projet','Qualité','RH','Technique'],data:[35,22,18,12,15]},kpis:['118','71%','12'],kpiLabels:["Jours ce mois","Taux d'approbation","En attente"] },
+  annee:   { pie:{approved:552,pending:18,rejected:128},bar:{labels:['Développement','Gestion Projet','Qualité','RH','Technique'],data:[180,110,95,60,88]},kpis:['698','69%','18'],kpiLabels:["Total demandes","Taux d'approbation","En attente"] },
 };
 let currentPeriod = 'semaine', pieChartInst, barChartInst;
 
@@ -915,7 +1047,50 @@ function switchPeriod(period, btn) {
   rebuildCharts();
 }
 
-/* ── ROLES TABLE ── */
+/* ════════════════════════════════════════════════
+   PAGINATION ENGINE (générique, réutilisable)
+════════════════════════════════════════════════ */
+function createPaginator(cfg) {
+  // cfg: { getAll, getFiltered, renderFn, infoId, btnFirst, btnPrev, btnNext, btnLast, perPageId }
+  let currentPage = 1;
+  let perPage = parseInt(document.getElementById(cfg.perPageId).value, 10);
+  let filteredData = cfg.getFiltered();
+
+  function totalPages() { return Math.max(1, Math.ceil(filteredData.length / perPage)); }
+
+  function updateInfo() {
+    const total = filteredData.length;
+    const from  = total === 0 ? 0 : (currentPage - 1) * perPage + 1;
+    const to    = Math.min(currentPage * perPage, total);
+    document.getElementById(cfg.infoId).textContent = `${from} – ${to} of ${total}`;
+    document.getElementById(cfg.btnFirst).disabled = currentPage <= 1;
+    document.getElementById(cfg.btnPrev).disabled  = currentPage <= 1;
+    document.getElementById(cfg.btnNext).disabled  = currentPage >= totalPages();
+    document.getElementById(cfg.btnLast).disabled  = currentPage >= totalPages();
+  }
+
+  function render() {
+    const start = (currentPage - 1) * perPage;
+    const slice = filteredData.slice(start, start + perPage);
+    cfg.renderFn(slice);
+    updateInfo();
+  }
+
+  return {
+    setFiltered(data) { filteredData = data; currentPage = 1; render(); },
+    setPerPage(n)     { perPage = parseInt(n, 10); currentPage = 1; render(); },
+    goFirst() { currentPage = 1; render(); },
+    goPrev()  { if (currentPage > 1) { currentPage--; render(); } },
+    goNext()  { if (currentPage < totalPages()) { currentPage++; render(); } },
+    goLast()  { currentPage = totalPages(); render(); },
+    refresh() { filteredData = cfg.getFiltered(); render(); },
+    init()    { render(); }
+  };
+}
+
+/* ════════════════════════════════════════════════
+   ROLES TABLE + PAGINATION
+════════════════════════════════════════════════ */
 let roles = [
   { id:1, name:'SAO2',      visibility:'specific', enabled:false },
   { id:2, name:'adminrole', visibility:'specific', enabled:true  },
@@ -926,8 +1101,10 @@ let roles = [
   { id:7, name:'Manager',   visibility:'specific', enabled:true  },
   { id:8, name:'Employé',   visibility:'specific', enabled:true  },
 ];
-function renderRolesTable(data) {
-  document.getElementById('rolesTable').innerHTML = data.map(r => `
+let rolesQuery = '';
+
+function renderRolesSlice(slice) {
+  document.getElementById('rolesTable').innerHTML = slice.map(r => `
     <tr>
       <td style="font-weight:600">${r.name}</td>
       <td><span class="badge badge-blue">${r.visibility}</span></td>
@@ -939,38 +1116,78 @@ function renderRolesTable(data) {
       </td>
     </tr>`).join('');
 }
+
+const rolesPager = createPaginator({
+  getFiltered: () => roles.filter(r => r.name.toLowerCase().includes(rolesQuery)),
+  renderFn:    renderRolesSlice,
+  infoId:      'rolesPageInfo',
+  btnFirst:    'rolesBtnFirst',
+  btnPrev:     'rolesBtnPrev',
+  btnNext:     'rolesBtnNext',
+  btnLast:     'rolesBtnLast',
+  perPageId:   'rolesPerPage',
+});
+
+function rolesSearchFilter(q) { rolesQuery = q.toLowerCase(); rolesPager.setFiltered(roles.filter(r => r.name.toLowerCase().includes(rolesQuery))); }
+function rolesChangePerPage(v) { rolesPager.setPerPage(v); }
+function rolesGoFirst() { rolesPager.goFirst(); }
+function rolesGoPrev()  { rolesPager.goPrev(); }
+function rolesGoNext()  { rolesPager.goNext(); }
+function rolesGoLast()  { rolesPager.goLast(); }
+
 function toggleRoleForm() { const f=document.getElementById('addRoleForm'); f.style.display=f.style.display==='none'?'block':'none'; }
 function addRole() {
   const name=document.getElementById('rName').value.trim(), vis=document.getElementById('rVis').value;
   if (!name) return;
   roles.push({ id:Date.now(), name, visibility:vis, enabled:true });
   document.getElementById('rName').value='';
-  toggleRoleForm(); renderRolesTable(roles); showToast('✅ Rôle « '+name+' » ajouté');
+  toggleRoleForm(); rolesPager.refresh(); showToast('✅ Rôle « '+name+' » ajouté');
 }
-function deleteRole(id) { const r=roles.find(x=>x.id===id); roles=roles.filter(r=>r.id!==id); renderRolesTable(roles); if(r) showToast('🗑️ Rôle « '+r.name+' » supprimé'); }
-function editRole(id) { const r=roles.find(x=>x.id===id); if(!r) return; const n=prompt('Nouveau nom :',r.name); if(n&&n.trim()){r.name=n.trim();renderRolesTable(roles);showToast('✏️ Rôle mis à jour');} }
-function toggleRole(id,val) { const r=roles.find(x=>x.id===id); if(r){r.enabled=val;renderRolesTable(roles);showToast(val?'✅ Rôle activé':'⛔ Rôle désactivé');} }
-function filterRoles(q) { renderRolesTable(roles.filter(r=>r.name.toLowerCase().includes(q.toLowerCase()))); }
+function deleteRole(id) {
+  const r=roles.find(x=>x.id===id);
+  roles=roles.filter(r=>r.id!==id);
+  rolesPager.refresh();
+  if(r) showToast('🗑️ Rôle « '+r.name+' » supprimé');
+}
+function editRole(id) {
+  const r=roles.find(x=>x.id===id);
+  if(!r) return;
+  const n=prompt('Nouveau nom :',r.name);
+  if(n&&n.trim()){r.name=n.trim(); rolesPager.refresh(); showToast('✏️ Rôle mis à jour');}
+}
+function toggleRole(id,val) {
+  const r=roles.find(x=>x.id===id);
+  if(r){r.enabled=val; rolesPager.refresh(); showToast(val?'✅ Rôle activé':'⛔ Rôle désactivé');}
+}
 
-/* ── USERS TABLE ── */
+/* ════════════════════════════════════════════════
+   USERS TABLE + PAGINATION
+════════════════════════════════════════════════ */
 let users = [
-  { id:1, civ:'M',   first:'Firas',  last:'Khadraoui', email:'khadraoufiras@gmail.com',         func:'Développement',          mobile:'99999999', enabled:true },
-  { id:2, civ:'M.',  first:'Yassin', last:'Abda',       email:'abdayassin@gmail.com',             func:'Département Qualité',         mobile:'94002552', enabled:true },
-  { id:3, civ:'M',   first:'Abda',   last:'Yassine',    email:'yessin.abda@etudiant-isi.utm.tn', func:'Département Qualité',         mobile:'99385385', enabled:true },
-  { id:4, civ:'M.',  first:'John',   last:'Doe',        email:'john.doe@example.com',             func:'Développement',          mobile:'12345657', enabled:true },
-  { id:5, civ:'M.',  first:'Ahmed',  last:'Ben',        email:'romdhane.ahmed@gmail.tn',          func:'Gestion de Projet Technique', mobile:'25910687', enabled:true },
-  { id:6, civ:'Mme', first:'Sonia',  last:'Mansour',    email:'sonia@hr.tn',                      func:'RH',                          mobile:'55001122', enabled:true },
-  { id:7, civ:'M.',  first:'Karim',  last:'Zouari',     email:'karim@hr.tn',                      func:'Technique / Infrastructure',                     mobile:'77334455', enabled:true },
+  { id:1, civ:'M',   first:'Firas',  last:'Khadraoui', email:'khadraoufiras@gmail.com',         func:'Développement',              mobile:'99999999', enabled:true },
+  { id:2, civ:'M.',  first:'Yassin', last:'Abda',       email:'abdayassin@gmail.com',             func:'Département Qualité',        mobile:'94002552', enabled:true },
+  { id:3, civ:'M',   first:'Abda',   last:'Yassine',    email:'yessin.abda@etudiant-isi.utm.tn', func:'Département Qualité',        mobile:'99385385', enabled:true },
+  { id:4, civ:'M.',  first:'John',   last:'Doe',        email:'john.doe@example.com',             func:'Développement',              mobile:'12345657', enabled:true },
+  { id:5, civ:'M.',  first:'Ahmed',  last:'Ben',        email:'romdhane.ahmed@gmail.tn',          func:'Gestion de Projet Technique',mobile:'25910687', enabled:true },
+  { id:6, civ:'Mme', first:'Sonia',  last:'Mansour',    email:'sonia@hr.tn',                      func:'RH',                         mobile:'55001122', enabled:true },
+  { id:7, civ:'M.',  first:'Karim',  last:'Zouari',     email:'karim@hr.tn',                      func:'Technique / Infrastructure', mobile:'77334455', enabled:true },
 ];
-function renderUsersTable(data) {
-  const fc={'RH':'badge-blue','Manager':'badge-orange','Technique':'badge-yellow','Développement':'badge-blue','Gestion de Projet Technique':'badge-orange','Département Qualité':'badge-green'};
-  document.getElementById('usersTable').innerHTML = data.map(u=>`
+let usersQuery = '';
+
+const funcBadge = {
+  'RH':'badge-blue','Manager':'badge-orange','Technique / Infrastructure':'badge-yellow',
+  'Développement':'badge-blue','Gestion de Projet Technique':'badge-orange',
+  'Département Qualité':'badge-green','Gestion de Projet':'badge-orange','Qualité':'badge-green'
+};
+
+function renderUsersSlice(slice) {
+  document.getElementById('usersTable').innerHTML = slice.map(u=>`
     <tr>
       <td style="color:var(--muted)">${u.civ}</td>
       <td style="font-weight:700">${u.first}</td>
       <td style="font-weight:700">${u.last}</td>
       <td style="font-size:.8rem;color:var(--muted)">${u.email}</td>
-      <td><span class="badge ${fc[u.func]||'badge-green'}">${u.func}</span></td>
+      <td><span class="badge ${funcBadge[u.func]||'badge-green'}">${u.func}</span></td>
       <td style="font-size:.83rem">${u.mobile}</td>
       <td><span class="badge ${u.enabled?'badge-green':'badge-red'}">${u.enabled?'Active':'Inactive'}</span></td>
       <td style="text-align:right">
@@ -980,6 +1197,28 @@ function renderUsersTable(data) {
       </td>
     </tr>`).join('');
 }
+
+const usersPager = createPaginator({
+  getFiltered: () => {
+    const lq = usersQuery;
+    return users.filter(u => u.first.toLowerCase().includes(lq) || u.last.toLowerCase().includes(lq) || u.email.toLowerCase().includes(lq) || u.func.toLowerCase().includes(lq));
+  },
+  renderFn:  renderUsersSlice,
+  infoId:    'usersPageInfo',
+  btnFirst:  'usersBtnFirst',
+  btnPrev:   'usersBtnPrev',
+  btnNext:   'usersBtnNext',
+  btnLast:   'usersBtnLast',
+  perPageId: 'usersPerPage',
+});
+
+function usersSearchFilter(q) { usersQuery = q.toLowerCase(); usersPager.refresh(); }
+function usersChangePerPage(v) { usersPager.setPerPage(v); }
+function usersGoFirst() { usersPager.goFirst(); }
+function usersGoPrev()  { usersPager.goPrev(); }
+function usersGoNext()  { usersPager.goNext(); }
+function usersGoLast()  { usersPager.goLast(); }
+
 function toggleUserForm() { const f=document.getElementById('addUserForm'); f.style.display=f.style.display==='none'?'block':'none'; }
 function addUser() {
   const civ=document.getElementById('uCiv').value, first=document.getElementById('uFirst').value.trim(),
@@ -987,17 +1226,29 @@ function addUser() {
         func=document.getElementById('uFunc').value, mobile=document.getElementById('uMobile').value.trim();
   if(!first||!last) return;
   users.push({id:Date.now(),civ,first,last,email:email||first+'@hr.tn',func,mobile:mobile||'00000000',enabled:true});
-  toggleUserForm(); renderUsersTable(users); showToast('✅ Utilisateur « '+first+' '+last+' » ajouté');
+  toggleUserForm(); usersPager.refresh(); showToast('✅ Utilisateur « '+first+' '+last+' » ajouté');
 }
-function deleteUser(id) { const u=users.find(x=>x.id===id); users=users.filter(u=>u.id!==id); renderUsersTable(users); if(u) showToast('🗑️ Utilisateur supprimé'); }
-function editUser(id) { const u=users.find(x=>x.id===id); if(!u) return; const n=prompt('Prénom :',u.first); if(n&&n.trim()){u.first=n.trim();renderUsersTable(users);showToast('✏️ Utilisateur mis à jour');} }
-function toggleUser(id,val) { const u=users.find(x=>x.id===id); if(u){u.enabled=val;renderUsersTable(users);showToast(val?'✅ Compte activé':'⛔ Compte désactivé');} }
-function filterUsers(q) { const lq=q.toLowerCase(); renderUsersTable(users.filter(u=>u.first.toLowerCase().includes(lq)||u.last.toLowerCase().includes(lq)||u.email.toLowerCase().includes(lq)||u.func.toLowerCase().includes(lq))); }
+function deleteUser(id) {
+  const u=users.find(x=>x.id===id);
+  users=users.filter(u=>u.id!==id);
+  usersPager.refresh();
+  if(u) showToast('🗑️ Utilisateur supprimé');
+}
+function editUser(id) {
+  const u=users.find(x=>x.id===id);
+  if(!u) return;
+  const n=prompt('Prénom :',u.first);
+  if(n&&n.trim()){u.first=n.trim(); usersPager.refresh(); showToast('✏️ Utilisateur mis à jour');}
+}
+function toggleUser(id,val) {
+  const u=users.find(x=>x.id===id);
+  if(u){u.enabled=val; usersPager.refresh(); showToast(val?'✅ Compte activé':'⛔ Compte désactivé');}
+}
 
 /* ── INIT ── */
-renderRolesDashboard();   /* FIX : appel manquant dans l'original */
-renderRolesTable(roles);
-renderUsersTable(users);
+renderRolesDashboard();
+rolesPager.init();
+usersPager.init();
 window.addEventListener('load', () => { buildPieChart('semaine'); buildBarChart('semaine'); });
 </script>
 </body>
