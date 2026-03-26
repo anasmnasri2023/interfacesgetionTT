@@ -816,10 +816,10 @@ function nextWeek() { if (weekOffset<weekLabels.length-1) { weekOffset++; docume
 
 function renderPlanning() {
   const me = teamData.find(e => e.isMe);
-  const myHead = `<thead>发展<th>Journée</th>${days.map((d,i)=>`<th${i===todayIdx?` style="color:var(--accent)"`:''}>${d}${i===todayIdx?' ★':''}</th>`).join('')}</thead>`;
-  const myBody = `<tbody>起步<td style="font-weight:700">Ahmed Ben Ali</td>${me.slots.map((s,i)=>`<td><span class="${slotClass(s)}">${slotText(s)}</span></td>`).join('')}</tbody>`;
+  const myHead = `<thead><th>Journée</th>${days.map((d,i)=>`<th${i===todayIdx?` style="color:var(--accent)"`:''}>${d}${i===todayIdx?' ★':''}</th>`).join('')}</thead>`;
+  const myBody = `<tbody><td style="font-weight:700">Ahmed Ben Ali</td>${me.slots.map((s,i)=>`<td><span class="${slotClass(s)}">${slotText(s)}</span></td>`).join('')}</tbody>`;
   document.getElementById('myPlanningTable').innerHTML = myHead + myBody;
-  const head = `<thead>发展<th>Membre</th>${days.map((d,i)=>`<th${i===todayIdx?` style="color:var(--accent)"`:''}>${d}${i===todayIdx?' ●':''}</th>`).join('')}</thead>`;
+  const head = `<thead><th>Membre</th>${days.map((d,i)=>`<th${i===todayIdx?` style="color:var(--accent)"`:''}>${d}${i===todayIdx?' ●':''}</th>`).join('')}</thead>`;
   const body = `<tbody>${teamData.map(e=>`<td><div style="font-weight:${e.isMe?'800':'600'};color:${e.isMe?'var(--accent)':'var(--text)'}">${e.nom}</div><div style="font-size:.71rem;color:var(--muted)">${e.poste}</div></td>${e.slots.map(s=>`<td><span class="${slotClass(s)}">${slotText(s)}</span></td>`).join('')}</tr>`).join('')}</tbody>`;
   document.getElementById('teamPlanningTable').innerHTML = head + body;
 }
