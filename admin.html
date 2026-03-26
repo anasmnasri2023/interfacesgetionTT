@@ -809,7 +809,6 @@ tr:hover td { background: var(--row-hover); }
           <div class="period-tabs">
             <button class="period-tab active" onclick="switchPeriod('semaine',this)">Semaine</button>
             <button class="period-tab" onclick="switchPeriod('mois',this)">Mois</button>
-            <button class="period-tab" onclick="switchPeriod('annee',this)">Année</button>
           </div>
         </div>
         <div class="tele-stats-mini">
@@ -940,11 +939,11 @@ tr:hover td { background: var(--row-hover); }
             <div class="form-group"><label>Email</label><input type="email" id="uEmail" placeholder="email@example.com"></div>
             <div class="form-group"><label>Département</label>
               <select id="uFunc">
-                <option>Développement</option>
-                <option>Technique / Infrastructure</option>
+                <option>Digital</option>
+                <option>Support IT</option>
                 <option>Qualité</option>
-                <option>Odoo</option>
-                <option>Gestion de Projet</option>
+                <option>OBS</option>
+                <option>Gestion documentaire</option>
               </select>
             </div>
             <div class="form-group"><label>Mobile</label><input type="text" id="uMobile" placeholder="Ex : 99000000"></div>
@@ -1108,11 +1107,11 @@ function renderRolesDashboard() {
 
 /* ── DÉPARTEMENT ── */
 const depts = [
-  { name:'Développement',              count:18, color:'#FF6B35' },
-  { name:'Technique / Infrastructure', count:12, color:'#7B61FF' },
+  { name:'Digital',              count:18, color:'#FF6B35' },
+  { name:'Support IT', count:12, color:'#7B61FF' },
   { name:'Qualité',                    count:10, color:'#4ECDC4' },
-  { name:'Odoo',                       count:6,  color:'#45B7D1' },
-  { name:'Gestion de Projet',          count:7,  color:'#FFB347' },
+  { name:'OBS',                       count:6,  color:'#45B7D1' },
+  { name:'Gestion documentaire',          count:7,  color:'#FFB347' },
 ];
 const deptTotal = depts.reduce((a,b) => a + b.count, 0);
 document.getElementById('deptChart').innerHTML = depts.map(d => `
@@ -1131,9 +1130,9 @@ function getGridColor() { return document.documentElement.getAttribute('data-the
 function getTickColor() { return document.documentElement.getAttribute('data-theme')==='dark' ? 'rgba(255,255,255,0.35)' : 'rgba(0,0,0,0.45)'; }
 
 const teleData = {
-  semaine: { pie:{approved:28,pending:5,rejected:7},  bar:{labels:['Développement','Gestion Projet','Qualité','Odoo','Technique'],data:[8,5,4,3,4]},  kpis:['18','72%','5'],   kpiLabels:["Jours cette semaine","Taux d'approbation","En attente"] },
-  mois:    { pie:{approved:93,pending:12,rejected:25}, bar:{labels:['Développement','Gestion Projet','Qualité','Odoo','Technique'],data:[35,22,18,12,15]},kpis:['118','71%','12'],kpiLabels:["Jours ce mois","Taux d'approbation","En attente"] },
-  annee:   { pie:{approved:552,pending:18,rejected:128},bar:{labels:['Développement','Gestion Projet','Qualité','Odoo','Technique'],data:[180,110,95,60,88]},kpis:['698','69%','18'],kpiLabels:["Total demandes","Taux d'approbation","En attente"] },
+  semaine: { pie:{approved:28,pending:5,rejected:7},  bar:{labels:['Digital','Gestion documentaire','Qualité','OBS','Support IT'],data:[8,5,4,3,4]},  kpis:['18','72%','5'],   kpiLabels:["Jours cette semaine","Taux d'approbation","En attente"] },
+  mois:    { pie:{approved:93,pending:12,rejected:25}, bar:{labels:['Digital','Gestion documentaire','Qualité','OBS','Support IT'],data:[35,22,18,12,15]},kpis:['118','71%','12'],kpiLabels:["Jours ce mois","Taux d'approbation","En attente"] },
+  annee:   { pie:{approved:552,pending:18,rejected:128},bar:{labels:['Digital','Gestion documentaire','Qualité','OBS','Support IT'],data:[180,110,95,60,88]},kpis:['698','69%','18'],kpiLabels:["Total demandes","Taux d'approbation","En attente"] },
 };
 let currentPeriod = 'semaine', pieChartInst, barChartInst;
 
@@ -1321,20 +1320,20 @@ function toggleRole(id,val) {
    USERS TABLE + PAGINATION
 ════════════════════════════════════════════════ */
 let users = [
-  { id:1, civ:'M',   first:'Firas',  last:'Khadraoui', email:'khadraoufiras@gmail.com',         func:'Développement',              mobile:'99999999', enabled:true },
+  { id:1, civ:'M',   first:'Firas',  last:'Khadraoui', email:'khadraoufiras@gmail.com',         func:'Digital',              mobile:'99999999', enabled:true },
   { id:2, civ:'M.',  first:'Yassin', last:'Abda',       email:'abdayassin@gmail.com',             func:'Département Qualité',        mobile:'94002552', enabled:true },
   { id:3, civ:'M',   first:'Abda',   last:'Yassine',    email:'yessin.abda@etudiant-isi.utm.tn', func:'Département Qualité',        mobile:'99385385', enabled:true },
-  { id:4, civ:'M.',  first:'John',   last:'Doe',        email:'john.doe@example.com',             func:'Développement',              mobile:'12345657', enabled:true },
-  { id:5, civ:'M.',  first:'Ahmed',  last:'Ben',        email:'romdhane.ahmed@gmail.tn',          func:'Gestion de Projet Technique',mobile:'25910687', enabled:true },
+  { id:4, civ:'M.',  first:'John',   last:'Doe',        email:'john.doe@example.com',             func:'Digital',              mobile:'12345657', enabled:true },
+  { id:5, civ:'M.',  first:'Ahmed',  last:'Ben',        email:'romdhane.ahmed@gmail.tn',          func:'Gestion documentaire',mobile:'25910687', enabled:true },
   { id:6, civ:'Mme', first:'Sonia',  last:'Mansour',    email:'sonia@hr.tn',                      func:'RH',                         mobile:'55001122', enabled:true },
-  { id:7, civ:'M.',  first:'Karim',  last:'Zouari',     email:'karim@hr.tn',                      func:'Technique / Infrastructure', mobile:'77334455', enabled:true },
+  { id:7, civ:'M.',  first:'Karim',  last:'Zouari',     email:'karim@hr.tn',                      func:'Support IT', mobile:'77334455', enabled:true },
 ];
 let usersQuery = '';
 
 const funcBadge = {
-  'RH':'badge-blue','Manager':'badge-orange','Technique / Infrastructure':'badge-yellow',
-  'Développement':'badge-blue','Gestion de Projet Technique':'badge-orange',
-  'Département Qualité':'badge-green','Gestion de Projet':'badge-orange','Qualité':'badge-green'
+  'RH':'badge-blue','Manager':'badge-orange','Support IT':'badge-yellow',
+  'Digital':'badge-blue','Gestion documentaire ':'badge-orange',
+  'Département Qualité':'badge-green','Gestion documentaire':'badge-orange','Qualité':'badge-green'
 };
 
 function renderUsersSlice(slice) {
