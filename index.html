@@ -128,15 +128,48 @@
 
   /* ── PASSWORD WRAPPER ── */
   .pw-wrap { position: relative; }
-  .pw-wrap input { padding-right: 44px; }
+  .pw-wrap input { padding-right: 52px; }
+
+  /* ── EYE TOGGLE BUTTON — toujours visible ── */
   .pw-toggle {
-    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
-    background: none; border: none; cursor: pointer;
-    color: var(--text-muted); padding: 4px; transition: color .2s;
-    display: flex; align-items: center;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,107,53,0.08);
+    border: 1.5px solid rgba(255,107,53,0.18);
+    border-radius: 10px;
+    cursor: pointer;
+    color: var(--admin);
+    padding: 5px 7px;
+    transition: all .2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 30px;
+    flex-shrink: 0;
   }
-  .pw-toggle:hover { color: var(--admin); }
-  .pw-toggle svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .pw-toggle:hover {
+    background: rgba(255,107,53,0.18);
+    border-color: var(--admin);
+    transform: translateY(-50%) scale(1.06);
+    box-shadow: 0 2px 8px rgba(255,107,53,0.2);
+  }
+  .pw-toggle:active {
+    transform: translateY(-50%) scale(0.96);
+  }
+  .pw-toggle svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+    display: block;
+  }
 
   /* ── FORGOT ROW ── */
   .forgot-row {
@@ -295,8 +328,8 @@
         <label>🔑 Mot de passe</label>
         <div class="pw-wrap">
           <input type="password" id="loginPassword" placeholder="Mot de passe" autocomplete="off">
-          <button class="pw-toggle" type="button" onclick="togglePw('loginPassword', this)">
-            <svg class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          <button class="pw-toggle" type="button" onclick="togglePw('loginPassword', this)" title="Afficher/masquer le mot de passe">
+            <svg class="eye-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
           </button>
         </div>
       </div>
@@ -351,8 +384,8 @@
         <label>🔑 Mot de passe</label>
         <div class="pw-wrap">
           <input type="password" id="regPassword" placeholder="Min. 6 caractères" autocomplete="off" oninput="checkStrength(this.value)">
-          <button class="pw-toggle" type="button" onclick="togglePw('regPassword', this)">
-            <svg class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          <button class="pw-toggle" type="button" onclick="togglePw('regPassword', this)" title="Afficher/masquer le mot de passe">
+            <svg class="eye-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
           </button>
         </div>
         <div class="pw-strength">
@@ -365,8 +398,8 @@
         <label>✔️ Confirmer le mot de passe</label>
         <div class="pw-wrap">
           <input type="password" id="regConfirmPassword" placeholder="Confirmez le mot de passe" autocomplete="off">
-          <button class="pw-toggle" type="button" onclick="togglePw('regConfirmPassword', this)">
-            <svg class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          <button class="pw-toggle" type="button" onclick="togglePw('regConfirmPassword', this)" title="Afficher/masquer le mot de passe">
+            <svg class="eye-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
           </button>
         </div>
       </div>
@@ -388,10 +421,7 @@
       <h1>STUDIA<span>AFRIQUE</span></h1>
     </div>
     <div class="card">
-      <!-- Étapes -->
-
-
-      
+  
 
       <!-- Étape 1 : saisir l'email -->
       <div id="forgot-step1">
@@ -410,10 +440,10 @@
         </div>
 
         <button class="main-btn" onclick="handleSendReset()">Envoyer le lien de réinitialisation</button>
-        <button class="back-link" onclick="goTo('page-login')">
-        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-        Retour à la connexion
-      </button>
+        <button class="back-link" onclick="goTo('page-login')" style="margin-top:14px">
+          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+          Retour à la connexion
+        </button>
       </div>
 
       <!-- Étape 2 : nouveau mot de passe (simulé) -->
@@ -431,8 +461,8 @@
           <label>🔑 Nouveau mot de passe</label>
           <div class="pw-wrap">
             <input type="password" id="newPassword" placeholder="Min. 6 caractères" autocomplete="off" oninput="checkStrengthReset(this.value)">
-            <button class="pw-toggle" type="button" onclick="togglePw('newPassword', this)">
-              <svg class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <button class="pw-toggle" type="button" onclick="togglePw('newPassword', this)" title="Afficher/masquer le mot de passe">
+              <svg class="eye-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
             </button>
           </div>
           <div class="pw-strength">
@@ -445,8 +475,8 @@
           <label>✔️ Confirmer le nouveau mot de passe</label>
           <div class="pw-wrap">
             <input type="password" id="newPasswordConfirm" placeholder="Confirmez le mot de passe" autocomplete="off">
-            <button class="pw-toggle" type="button" onclick="togglePw('newPasswordConfirm', this)">
-              <svg class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <button class="pw-toggle" type="button" onclick="togglePw('newPasswordConfirm', this)" title="Afficher/masquer le mot de passe">
+              <svg class="eye-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
             </button>
           </div>
         </div>
@@ -504,7 +534,6 @@ function goTo(pageId) {
     target.classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-  // reset forgot steps si on revient
   if (pageId === 'page-forgot') {
     showForgotStep(1);
   }
@@ -523,7 +552,7 @@ function showMsg(id, text, type = 'error', duration = 3000) {
 }
 
 /* ══════════════════════════════════════
-   PASSWORD TOGGLE (show/hide)
+   PASSWORD TOGGLE (show/hide) + EYE SVG
 ══════════════════════════════════════ */
 const eyeOpen  = `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;
 const eyeClose = `<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>`;
@@ -534,9 +563,13 @@ function togglePw(inputId, btn) {
   if (input.type === 'password') {
     input.type = 'text';
     svg.innerHTML = eyeClose;
+    btn.style.color = 'var(--admin)';
+    btn.style.background = 'rgba(255,107,53,0.15)';
   } else {
     input.type = 'password';
     svg.innerHTML = eyeOpen;
+    btn.style.color = 'var(--admin)';
+    btn.style.background = 'rgba(255,107,53,0.08)';
   }
 }
 
@@ -638,7 +671,6 @@ function showForgotStep(n) {
   document.getElementById('forgot-step1').style.display = n === 1 ? 'block' : 'none';
   document.getElementById('forgot-step2').style.display = n === 2 ? 'block' : 'none';
   document.getElementById('forgot-step3').style.display = n === 3 ? 'block' : 'none';
-  // steps indicator
   const s1 = document.getElementById('step1-dot');
   const s2 = document.getElementById('step2-dot');
   const sl = document.getElementById('step-line-1');
@@ -649,9 +681,10 @@ function showForgotStep(n) {
   } else {
     s1.className='step done'; s2.className='step done'; sl.className='step-line done';
   }
-  // masquer steps indicator à l'étape 3
-  document.querySelector('#page-forgot .steps').style.display = n === 3 ? 'none' : 'flex';
-  document.querySelector('#page-forgot .back-link').style.display = n === 3 ? 'none' : 'inline-flex';
+  const stepsEl = document.querySelector('#page-forgot .steps');
+  const backEl  = document.querySelector('#page-forgot .back-link');
+  if (stepsEl) stepsEl.style.display = n === 3 ? 'none' : 'flex';
+  if (backEl)  backEl.style.display  = n === 3 ? 'none' : 'inline-flex';
 }
 
 function handleSendReset() {
@@ -672,19 +705,13 @@ function handleResetPassword() {
   if (pwd.length < 6) { showMsg('reset-err', '⚠️ Le mot de passe doit contenir au moins 6 caractères.'); return; }
   if (pwd !== confirm) { showMsg('reset-err', '⚠️ Les mots de passe ne correspondent pas.'); return; }
 
-  // Mettre à jour le mot de passe dans la liste
   const user = users.find(u => u.email.toLowerCase() === resetTargetEmail.toLowerCase());
-  if (user) {
-    user.password = pwd;
-    saveUsers();
-  }
+  if (user) { user.password = pwd; saveUsers(); }
 
-  // Reset fields
   document.getElementById('newPassword').value = '';
   document.getElementById('newPasswordConfirm').value = '';
   renderStrength(0, 'reset-strength-fill', 'reset-strength-label');
   resetTargetEmail = '';
-
   showForgotStep(3);
 }
 
