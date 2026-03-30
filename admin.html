@@ -686,12 +686,6 @@ tr:hover td { background: var(--row-hover); }
     </div>
   </div>
 
-  <div class="chat-suggestions" id="chatSuggestions">
-    <button class="chat-suggestion-chip" onclick="sendSuggestion(this.textContent)">📊 Stats télétravail</button>
-    <button class="chat-suggestion-chip" onclick="sendSuggestion(this.textContent)">👥 Gérer les rôles</button>
-    <button class="chat-suggestion-chip" onclick="sendSuggestion(this.textContent)">✅ Demandes en attente</button>
-    <button class="chat-suggestion-chip" onclick="sendSuggestion(this.textContent)">📋 Résumé du tableau de bord</button>
-  </div>
 
   <div class="chat-input-area">
     <textarea class="chat-input" id="chatInput" placeholder="Posez votre question…" rows="1" onkeydown="chatKeyDown(event)" oninput="autoResize(this)"></textarea>
@@ -753,7 +747,6 @@ tr:hover td { background: var(--row-hover); }
   <div class="topbar">
     <div>
       <div class="page-title" id="pageTitle">Tableau de bord</div>
-      <div class="page-sub" id="pageDate"></div>
     </div>
     <div class="topbar-actions">
       <div class="topbar-icons">
