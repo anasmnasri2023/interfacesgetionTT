@@ -10,7 +10,7 @@
 
   /* ─── PALETTE ─── */
   :root {
-    --accent: #87CEEB; /* Bleu ciel */
+    --accent: #87CEEB;
     --accent2: #B0E0E6;
     --bg: #F4F6FA;
     --bg2: #FFFFFF;
@@ -85,7 +85,6 @@
   .topbar-icon-btn:hover { background:var(--icon-btn-hover); color:var(--text); }
   .topbar-icon-btn .notif-dot { position:absolute; top:5px; right:5px; width:8px; height:8px; border-radius:50%; background:var(--accent); border:2px solid var(--topbar-bg); }
   
-  /* Avatar utilisateur avec menu */
   .user-avatar-btn { width:38px; height:38px; border-radius:50%; background:linear-gradient(135deg,var(--accent),var(--accent2)); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:1rem; font-weight:700; color:#1a1d2e; transition:all .2s; flex-shrink:0; border:2px solid var(--accent); }
   .user-avatar-btn:hover { transform:scale(1.05); box-shadow:0 0 0 3px rgba(135,206,235,.3); }
   
@@ -142,12 +141,10 @@
   input:checked + .slider { background-color:var(--switch-active); }
   input:checked + .slider:before { transform:translateX(24px); }
   
-  /* Select & Input styles */
   .settings-select { padding:8px 14px; background:var(--input-bg); border:1px solid var(--border); border-radius:8px; color:var(--text); font-size:.85rem; cursor:pointer; outline:none; font-family:'DM Sans',sans-serif; }
   .settings-select:focus { border-color:var(--accent); }
   .settings-input { padding:8px 12px; background:var(--input-bg); border:1px solid var(--border); border-radius:8px; color:var(--text); font-size:.85rem; width:80px; text-align:center; outline:none; }
   .settings-input:focus { border-color:var(--accent); }
-  .color-preview { display:inline-block; width:32px; height:32px; border-radius:8px; margin-right:8px; vertical-align:middle; border:2px solid var(--border); }
   
   /* Stats Grid etc */
   .stats-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:16px; margin-bottom:28px; }
@@ -241,6 +238,285 @@
   .profile-field input, .profile-field select { width:100%; padding:10px 14px; background:var(--input-bg); border:1px solid var(--border); border-radius:10px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:.9rem; outline:none; transition:all .2s; }
   .profile-field input:focus, .profile-field select:focus { border-color:var(--accent); }
   .profile-actions { display:flex; gap:12px; margin-top:24px; }
+
+  /* ════════════════════════════════════════════
+     CHATBOT FLOTTANT
+════════════════════════════════════════════ */
+.chat-fab {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 9000;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #c93e2e, #f92e00);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 6px 24px rgba(135,206,235,.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .3s cubic-bezier(.34,1.56,.64,1);
+  overflow: hidden;
+}
+.chat-fab:hover {
+  transform: scale(1.1);
+  box-shadow: 0 10px 32px rgba(135,206,235,.55);
+}
+.chat-fab-icon {
+  position: absolute;
+  transition: opacity .25s, transform .25s;
+  display: flex; align-items: center; justify-content: center;
+}
+.chat-fab-icon.open  { opacity: 1; transform: scale(1) rotate(0deg); }
+.chat-fab-icon.close { opacity: 0; transform: scale(.4) rotate(90deg); }
+.chat-fab.active .chat-fab-icon.open  { opacity: 0; transform: scale(.4) rotate(-90deg); }
+.chat-fab.active .chat-fab-icon.close { opacity: 1; transform: scale(1) rotate(0deg); }
+
+.chat-fab-pulse {
+  position: absolute;
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  background: rgba(135,206,235,.35);
+  animation: fabPulse 2.5s ease-out infinite;
+}
+@keyframes fabPulse {
+  0%   { transform: scale(1);   opacity: .7; }
+  70%  { transform: scale(1.6); opacity: 0; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+.chat-fab.active .chat-fab-pulse { display: none; }
+
+/* Notif badge */
+.chat-badge {
+  position: absolute;
+  top: -2px; right: -2px;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: #FF6B35;
+  border: 2px solid #fff;
+  font-size: .6rem;
+  font-weight: 800;
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity .2s;
+}
+.chat-fab.active .chat-badge { opacity: 0; pointer-events: none; }
+
+/* Fenêtre du chatbot */
+.chat-window {
+  position: fixed;
+  bottom: 98px;
+  right: 28px;
+  z-index: 8999;
+  width: 380px;
+  max-height: 540px;
+  background: var(--overlay-modal-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 22px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.22);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform-origin: bottom right;
+  transition: background .3s;
+
+  /* Fermé par défaut */
+  opacity: 0;
+  transform: scale(.85) translateY(20px);
+  pointer-events: none;
+}
+.chat-window.open {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  pointer-events: all;
+  animation: chatOpen .35s cubic-bezier(.34,1.56,.64,1) forwards;
+}
+.chat-window.closing {
+  animation: chatClose .25s ease forwards;
+}
+@keyframes chatOpen  { from { opacity:0; transform:scale(.85) translateY(20px); } to { opacity:1; transform:scale(1) translateY(0); } }
+@keyframes chatClose { from { opacity:1; transform:scale(1) translateY(0); } to { opacity:0; transform:scale(.88) translateY(16px); } }
+
+/* Header du chat */
+.chat-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(105deg, rgba(135,206,235,.08), rgba(176,224,230,.04));
+  flex-shrink: 0;
+}
+.chat-header-avatar {
+  width: 38px; height: 38px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #87CEEB, #B0E0E6);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  box-shadow: 0 3px 10px rgba(135,206,235,.3);
+}
+.chat-header-info { flex: 1; min-width: 0; }
+.chat-header-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: .92rem; color: var(--text); }
+.chat-header-status { display: flex; align-items: center; gap: 5px; font-size: .72rem; color: var(--muted); margin-top: 2px; }
+.chat-status-dot { width: 7px; height: 7px; border-radius: 50%; background: #27ae60; flex-shrink: 0; animation: statusPulse 2s ease-in-out infinite; }
+@keyframes statusPulse { 0%,100% { opacity:1; } 50% { opacity:.5; } }
+.chat-header-close {
+  width: 30px; height: 30px; border-radius: 8px;
+  background: var(--input-bg); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--muted); font-size: .9rem;
+  transition: all .18s; flex-shrink: 0;
+}
+.chat-header-close:hover { background: rgba(231,76,60,.12); color: #e74c3c; border-color: rgba(231,76,60,.3); }
+
+/* Messages zone */
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  scroll-behavior: smooth;
+}
+.chat-messages::-webkit-scrollbar { width: 4px; }
+.chat-messages::-webkit-scrollbar-track { background: transparent; }
+.chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+/* Bulles */
+.chat-bubble {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  max-width: 90%;
+  animation: bubbleIn .25s ease;
+}
+@keyframes bubbleIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+.chat-bubble.user { align-self: flex-end; flex-direction: row-reverse; }
+.chat-bubble.bot  { align-self: flex-start; }
+
+.bubble-avatar {
+  width: 26px; height: 26px; border-radius: 8px;
+  background: linear-gradient(135deg, #87CEEB, #B0E0E6);
+  display: flex; align-items: center; justify-content: center;
+  font-size: .7rem; flex-shrink: 0; color: #1a1d2e;
+}
+.bubble-avatar.user-av {
+  background: linear-gradient(135deg, #7B61FF, #9B85FF);
+}
+
+.bubble-text {
+  padding: 10px 13px;
+  border-radius: 16px;
+  font-size: .84rem;
+  line-height: 1.5;
+  max-width: 100%;
+  word-break: break-word;
+}
+.chat-bubble.bot  .bubble-text { background: var(--input-bg); color: var(--text); border-bottom-left-radius: 4px; border: 1px solid var(--border); }
+.chat-bubble.user .bubble-text { background: linear-gradient(135deg, #87CEEB, #B0E0E6); color: #1a1d2e; border-bottom-right-radius: 4px; }
+
+/* Typing indicator */
+.typing-dots {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  padding: 10px 13px;
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  border-bottom-left-radius: 4px;
+}
+.typing-dots span {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--muted);
+  animation: typingBounce .9s ease-in-out infinite;
+}
+.typing-dots span:nth-child(2) { animation-delay: .15s; }
+.typing-dots span:nth-child(3) { animation-delay: .3s; }
+@keyframes typingBounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30%           { transform: translateY(-6px); }
+}
+
+/* Suggestions rapides */
+.chat-suggestions {
+  padding: 10px 16px 0;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+.chat-suggestion-chip {
+  padding: 5px 12px;
+  border-radius: 20px;
+  background: rgba(135,206,235,.09);
+  border: 1px solid rgba(135,206,235,.22);
+  color: var(--accent);
+  font-size: .74rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .18s;
+  font-family: 'DM Sans', sans-serif;
+  white-space: nowrap;
+}
+.chat-suggestion-chip:hover {
+  background: rgba(135,206,235,.18);
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+/* Zone de saisie */
+.chat-input-area {
+  padding: 12px 14px 14px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  flex-shrink: 0;
+  background: var(--overlay-modal-bg);
+  transition: background .3s;
+}
+.chat-input {
+  flex: 1;
+  padding: 10px 14px;
+  background: var(--input-bg);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: .85rem;
+  outline: none;
+  resize: none;
+  max-height: 90px;
+  transition: border-color .2s, box-shadow .2s;
+  line-height: 1.45;
+}
+.chat-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(135,206,235,.1);
+}
+.chat-input::placeholder { color: var(--muted); }
+
+.chat-send-btn {
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #87CEEB, #B0E0E6);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .2s;
+  flex-shrink: 0;
+  box-shadow: 0 3px 10px rgba(135,206,235,.3);
+}
+.chat-send-btn:hover { transform: scale(1.08) translateY(-1px); box-shadow: 0 6px 16px rgba(135,206,235,.4); }
+.chat-send-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+.chat-send-btn svg { width: 18px; height: 18px; stroke: #1a1d2e; stroke-width: 2.2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 </style>
 </head>
 <body>
@@ -321,6 +597,7 @@
   <div class="topbar">
     <div>
       <div class="page-title" id="pageTitle">Tableau de bord RH</div>
+      <div class="page-sub" id="pageDate"></div>
     </div>
     <div style="display:flex;align-items:center;gap:10px">
       <button class="btn btn-ghost">📤 Exporter</button>
@@ -406,20 +683,17 @@
             <option>Refusé</option>
           </select>
         </div>
-         <table>
-          <thead> <tr><th>Employé</th><th>Département</th><th>Dates TT</th><th>Motif</th><th>Statut</th></tr> </thead>
+        <table>
+          <thead><tr><th>Employé</th><th>Département</th><th>Dates TT</th><th>Motif</th><th>Statut</th></tr></thead>
           <tbody id="suiviTable"></tbody>
-         </table>
+        </table>
       </div>
     </div>
 
     <!-- CAPACITÉ -->
     <div class="section" id="sec-capacite">
       <div style="display:flex;justify-content:space-between;margin-bottom:20px">
-        <div>
-          <h2 style="font-family:'Syne';font-weight:800;">Capacité TT</h2>
-          <p style="color:var(--muted)">Max TT par département</p>
-        </div>
+        <div><h2 style="font-family:'Syne';font-weight:800;">Capacité TT</h2><p style="color:var(--muted)">Max TT par département</p></div>
         <button class="btn btn-primary" onclick="saveCapacity()">💾 Enregistrer</button>
       </div>
       <div class="cap-grid" id="capCards"></div>
@@ -429,10 +703,7 @@
     <!-- POLITIQUES -->
     <div class="section" id="sec-politiques">
       <div style="display:flex;justify-content:space-between;margin-bottom:20px">
-        <div>
-          <h2 style="font-family:'Syne';font-weight:800;">Politiques TT</h2>
-          <p style="color:var(--muted)">Règles globales</p>
-        </div>
+        <div><h2 style="font-family:'Syne';font-weight:800;">Politiques TT</h2><p style="color:var(--muted)">Règles globales</p></div>
         <button class="btn btn-primary" onclick="savePolicies()">💾 Enregistrer</button>
       </div>
       <div style="display:grid;grid-template-columns:1fr;gap:20px">
@@ -440,18 +711,15 @@
           <div class="panel-title">⚙️ Règles générales</div>
           <div style="display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--border)">
             <div>Jours max / semaine</div>
-            <div><input type="number" id="maxWeek" value="3" min="1" max="5"
-              style="width:70px;padding:6px;background:var(--input-bg);border:1px solid var(--border);border-radius:8px;color:var(--text)"> jours</div>
+            <div><input type="number" id="maxWeek" value="3" min="1" max="5" style="width:70px;padding:6px;background:var(--input-bg);border:1px solid var(--border);border-radius:8px;color:var(--text)"> jours</div>
           </div>
           <div style="display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--border)">
             <div>Jours max / mois</div>
-            <div><input type="number" id="maxMonth" value="12" min="1" max="22"
-              style="width:70px;padding:6px;background:var(--input-bg);border:1px solid var(--border);border-radius:8px;color:var(--text)"> jours</div>
+            <div><input type="number" id="maxMonth" value="12" min="1" max="22" style="width:70px;padding:6px;background:var(--input-bg);border:1px solid var(--border);border-radius:8px;color:var(--text)"> jours</div>
           </div>
           <div style="display:flex;justify-content:space-between;padding:11px 0">
             <div>Délai minimum demande</div>
-            <div><input type="number" id="minDelay" value="2" min="0" max="14"
-              style="width:70px;padding:6px;background:var(--input-bg);border:1px solid var(--border);border-radius:8px;color:var(--text)"> jours avant</div>
+            <div><input type="number" id="minDelay" value="2" min="0" max="14" style="width:70px;padding:6px;background:var(--input-bg);border:1px solid var(--border);border-radius:8px;color:var(--text)"> jours avant</div>
           </div>
         </div>
       </div>
@@ -462,197 +730,28 @@
     <div class="section" id="sec-settings">
       <div class="settings-container">
         <h2 style="font-family:'Syne';font-weight:800;margin-bottom:24px;">⚙️ Paramètres de l'application</h2>
-        
-        <!-- Apparence -->
-        <div class="settings-group">
-          <h3>🎨 Apparence</h3>
-          <div class="settings-row">
-            <div class="settings-label">
-              <div class="label-title">Mode sombre</div>
-              <div class="label-desc">Basculer entre le thème clair et sombre</div>
-            </div>
-            <div class="settings-control">
-              <label class="switch">
-                <input type="checkbox" id="darkModeSwitch" onchange="toggleDarkModeFromSwitch()">
-                <span class="slider"></span>
-              </label>
-            </div>
-          </div>
-          <div class="settings-row">
-            <div class="settings-label">
-              <div class="label-title">Couleur d'accentuation</div>
-              <div class="label-desc">Personnaliser la couleur principale de l'interface</div>
-            </div>
-            <div class="settings-control">
-              <input type="color" id="accentColor" value="#87CEEB" onchange="changeAccentColor()" style="width:50px;height:40px;border-radius:8px;border:1px solid var(--border);background:var(--input-bg);cursor:pointer">
-            </div>
-          </div>
-          <div class="settings-row">
-            <div class="settings-label">
-              <div class="label-title">Taille de police</div>
-              <div class="label-desc">Ajuster la taille du texte dans l'application</div>
-            </div>
-            <div class="settings-control">
-              <select id="fontSize" onchange="changeFontSize()" class="settings-select">
-                <option value="14">Petite</option>
-                <option value="16" selected>Moyenne</option>
-                <option value="18">Grande</option>
-              </select>
-            </div>
-          </div>
+        <div class="settings-group"><h3>🎨 Apparence</h3>
+          <div class="settings-row"><div class="settings-label"><div class="label-title">Mode sombre</div><div class="label-desc">Basculer entre le thème clair et sombre</div></div><div class="settings-control"><label class="switch"><input type="checkbox" id="darkModeSwitch" onchange="toggleDarkModeFromSwitch()"><span class="slider"></span></label></div></div>
+          <div class="settings-row"><div class="settings-label"><div class="label-title">Couleur d'accentuation</div><div class="label-desc">Personnaliser la couleur principale</div></div><div class="settings-control"><input type="color" id="accentColor" value="#87CEEB" onchange="changeAccentColor()" style="width:50px;height:40px;border-radius:8px;border:1px solid var(--border);background:var(--input-bg);cursor:pointer"></div></div>
+          <div class="settings-row"><div class="settings-label"><div class="label-title">Taille de police</div><div class="label-desc">Ajuster la taille du texte</div></div><div class="settings-control"><select id="fontSize" onchange="changeFontSize()" class="settings-select"><option value="14">Petite</option><option value="16" selected>Moyenne</option><option value="18">Grande</option></select></div></div>
         </div>
-
-        <!-- Notifications -->
-        <div class="settings-group">
-          <h3>🔔 Notifications</h3>
-          <div class="settings-row">
-            <div class="settings-label">
-              <div class="label-title">Notifications push</div>
-              <div class="label-desc">Recevoir des alertes en temps réel</div>
-            </div>
-            <div class="settings-control">
-              <label class="switch">
-                <input type="checkbox" id="pushNotifications" checked onchange="saveSettings()">
-                <span class="slider"></span>
-              </label>
-            </div>
-          </div>
-          <div class="settings-row">
-            <div class="settings-label">
-              <div class="label-title">Notifications email</div>
-              <div class="label-desc">Recevoir les résumés par email</div>
-            </div>
-            <div class="settings-control">
-              <label class="switch">
-                <input type="checkbox" id="emailNotifications" checked onchange="saveSettings()">
-                <span class="slider"></span>
-              </label>
-            </div>
-          </div>
-          <div class="settings-row">
-            <div class="settings-label">
-              <div class="label-title">Rappel des demandes en attente</div>
-              <div class="label-desc">Être notifié des demandes N2 non traitées</div>
-            </div>
-            <div class="settings-control">
-              <label class="switch">
-                <input type="checkbox" id="reminderNotifications" checked onchange="saveSettings()">
-                <span class="slider"></span>
-              </label>
-            </div>
-          </div>
-          <div class="settings-row">
-            <div class="settings-label">
-              <div class="label-title">Fréquence des rapports</div>
-              <div class="label-desc">Recevoir des rapports périodiques</div>
-            </div>
-            <div class="settings-control">
-              <select id="reportFrequency" onchange="saveSettings()" class="settings-select">
-                <option value="daily">Quotidien</option>
-                <option value="weekly" selected>Hebdomadaire</option>
-                <option value="monthly">Mensuel</option>
-              </select>
-            </div>
-          </div>
+        <div class="settings-group"><h3>🔔 Notifications</h3>
+          <div class="settings-row"><div class="settings-label"><div class="label-title">Notifications push</div><div class="label-desc">Recevoir des alertes en temps réel</div></div><div class="settings-control"><label class="switch"><input type="checkbox" id="pushNotifications" checked onchange="saveSettings()"><span class="slider"></span></label></div></div>
+          <div class="settings-row"><div class="settings-label"><div class="label-title">Rappel des demandes en attente</div><div class="label-desc">Être notifié des demandes N2 non traitées</div></div><div class="settings-control"><label class="switch"><input type="checkbox" id="reminderNotifications" checked onchange="saveSettings()"><span class="slider"></span></label></div></div>
+          <div class="settings-row"><div class="settings-label"><div class="label-title">Fréquence des rapports</div><div class="label-desc">Recevoir des rapports périodiques</div></div><div class="settings-control"><select id="reportFrequency" onchange="saveSettings()" class="settings-select"><option value="daily">Quotidien</option><option value="weekly" selected>Hebdomadaire</option><option value="monthly">Mensuel</option></select></div></div>
         </div>
-
-        <!-- Affichage des données -->
-        <div class="settings-group">
-          <h3>📊 Affichage des données</h3>
-          <div class="settings-row">
-            <div class="settings-label">
-              <div class="label-title">Nombre d'éléments par page</div>
-              <div class="label-desc">Définir le nombre de lignes affichées dans les tableaux</div>
-            </div>
-            <div class="settings-control">
-              <select id="itemsPerPage" onchange="saveSettings()" class="settings-select">
-                <option value="10">10 éléments</option>
-                <option value="20" selected>20 éléments</option>
-                <option value="50">50 éléments</option>
-              </select>
-            </div>
-          </div>
-          <div class="settings-row">
-            <div class="settings-label">
-              <div class="label-title">Afficher les graphiques</div>
-              <div class="label-desc">Activer/désactiver l'affichage des graphiques</div>
-            </div>
-            <div class="settings-control">
-              <label class="switch">
-                <input type="checkbox" id="showCharts" checked onchange="saveSettings()">
-                <span class="slider"></span>
-              </label>
-            </div>
-          </div>
-          <div class="settings-row">
-            <div class="settings-label">
-              <div class="label-title">Format de date</div>
-              <div class="label-desc">Choisir le format d'affichage des dates</div>
-            </div>
-            <div class="settings-control">
-              <select id="dateFormat" onchange="saveSettings()" class="settings-select">
-                <option value="fr">DD/MM/YYYY</option>
-                <option value="en">MM/DD/YYYY</option>
-                <option value="iso">YYYY-MM-DD</option>
-              </select>
-            </div>
-          </div>
+        <div class="settings-group"><h3>📊 Affichage des données</h3>
+          <div class="settings-row"><div class="settings-label"><div class="label-title">Nombre d'éléments par page</div><div class="label-desc">Définir le nombre de lignes affichées</div></div><div class="settings-control"><select id="itemsPerPage" onchange="saveSettings()" class="settings-select"><option value="10">10 éléments</option><option value="20" selected>20 éléments</option><option value="50">50 éléments</option></select></div></div>
+          <div class="settings-row"><div class="settings-label"><div class="label-title">Format de date</div><div class="label-desc">Choisir le format d'affichage des dates</div></div><div class="settings-control"><select id="dateFormat" onchange="saveSettings()" class="settings-select"><option value="fr">DD/MM/YYYY</option><option value="en">MM/DD/YYYY</option><option value="iso">YYYY-MM-DD</option></select></div></div>
         </div>
-
-        <!-- Sécurité -->
-        <div class="settings-group">
-          <h3>🔒 Sécurité</h3>
-          <div class="settings-row">
-            <div class="settings-label">
-              <div class="label-title">Déconnexion automatique</div>
-              <div class="label-desc">Déconnecter après une période d'inactivité</div>
-            </div>
-            <div class="settings-control">
-              <select id="autoLogout" onchange="saveSettings()" class="settings-select">
-                <option value="0">Jamais</option>
-                <option value="15">15 minutes</option>
-                <option value="30" selected>30 minutes</option>
-                <option value="60">1 heure</option>
-              </select>
-            </div>
-          </div>
-          <div class="settings-row">
-            <div class="settings-label">
-              <div class="label-title">Changer le mot de passe</div>
-              <div class="label-desc">Modifier votre mot de passe de connexion</div>
-            </div>
-            <div class="settings-control">
-              <button class="btn btn-secondary" onclick="showChangePassword()">Changer</button>
-            </div>
-          </div>
+        <div class="settings-group"><h3>🔒 Sécurité</h3>
+          <div class="settings-row"><div class="settings-label"><div class="label-title">Déconnexion automatique</div><div class="label-desc">Déconnecter après inactivité</div></div><div class="settings-control"><select id="autoLogout" onchange="saveSettings()" class="settings-select"><option value="0">Jamais</option><option value="15">15 minutes</option><option value="30" selected>30 minutes</option><option value="60">1 heure</option></select></div></div>
         </div>
-
-        <!-- Sauvegarde -->
-        <div class="settings-group">
-          <h3>💾 Sauvegarde</h3>
-          <div class="settings-row">
-            <div class="settings-label">
-              <div class="label-title">Exporter les données</div>
-              <div class="label-desc">Télécharger toutes vos données au format JSON</div>
-            </div>
-            <div class="settings-control">
-              <button class="btn btn-secondary" onclick="exportData()">📥 Exporter</button>
-            </div>
-          </div>
-          <div class="settings-row">
-            <div class="settings-label">
-              <div class="label-title">Réinitialiser les paramètres</div>
-              <div class="label-desc">Restaurer tous les paramètres par défaut</div>
-            </div>
-            <div class="settings-control">
-              <button class="btn btn-danger" onclick="resetSettings()">Réinitialiser</button>
-            </div>
-          </div>
+        <div class="settings-group"><h3>💾 Sauvegarde</h3>
+          <div class="settings-row"><div class="settings-label"><div class="label-title">Exporter les données</div><div class="label-desc">Télécharger toutes vos données</div></div><div class="settings-control"><button class="btn btn-secondary" onclick="exportData()">📥 Exporter</button></div></div>
+          <div class="settings-row"><div class="settings-label"><div class="label-title">Réinitialiser les paramètres</div><div class="label-desc">Restaurer tous les paramètres par défaut</div></div><div class="settings-control"><button class="btn btn-danger" onclick="resetSettings()">Réinitialiser</button></div></div>
         </div>
-
-        <div style="text-align:center; margin-top:20px;">
-          <button class="btn btn-primary" onclick="saveAllSettings()">💾 Sauvegarder tous les paramètres</button>
-        </div>
+        <div style="text-align:center; margin-top:20px;"><button class="btn btn-primary" onclick="saveAllSettings()">💾 Sauvegarder tous les paramètres</button></div>
       </div>
     </div>
 
@@ -664,14 +763,50 @@
         <div class="stat-card" style="--c:#96CEB4"><div class="stat-icon">✅</div><div class="stat-val">71%</div><div class="stat-label">Taux d'approbation</div></div>
         <div class="stat-card" style="--c:#818CF8"><div class="stat-icon">⏳</div><div class="stat-val">18</div><div class="stat-label">Demandes en attente</div></div>
       </div>
-      <div class="panel">
-        <div class="panel-title">📊 KPI Télétravail</div>
-        <div id="globalKPI"></div>
-      </div>
+      <div class="panel"><div class="panel-title">📊 KPI Télétravail</div><div id="globalKPI"></div></div>
     </div>
 
   </div>
 </div>
+
+<!-- ═══════════════════════════════════════════
+     CHATBOT FLOTTANT
+═══════════════════════════════════════════ -->
+<div class="chat-window" id="chatWindow">
+  <div class="chat-header">
+    <div class="chat-header-avatar">🤖</div>
+    <div class="chat-header-info">
+      <div class="chat-header-name">Assistant StudiaAFRIQUE</div>
+      <div class="chat-header-status"><div class="chat-status-dot"></div><span>En ligne · IA propulsée par Claude</span></div>
+    </div>
+    <button class="chat-header-close" onclick="toggleChat()" title="Fermer">✕</button>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-bubble bot">
+      <div class="bubble-avatar">🤖</div>
+      <div class="bubble-text">Bonjour ! Je suis l'assistant IA de <strong>StudiaAFRIQUE</strong>. 👋<br>Je peux vous aider à gérer les demandes de télétravail N2, analyser les capacités des départements, et consulter les rapports RH.</div>
+    </div>
+  </div>
+  <div class="chat-suggestions" id="chatSuggestions">
+    <div class="chat-suggestion-chip" onclick="sendSuggestion('Combien de demandes N2 en attente ?')">📋 Demandes N2</div>
+    <div class="chat-suggestion-chip" onclick="sendSuggestion('Capacité TT par département')">📊 Capacité TT</div>
+    <div class="chat-suggestion-chip" onclick="sendSuggestion('Taux d\'approbation des demandes')">✅ Taux d'approbation</div>
+    <div class="chat-suggestion-chip" onclick="sendSuggestion('Politiques télétravail actuelles')">⚙️ Politiques TT</div>
+  </div>
+  <div class="chat-input-area">
+    <textarea class="chat-input" id="chatInput" placeholder="Posez votre question…" rows="1" onkeydown="chatKeyDown(event)" oninput="autoResize(this)"></textarea>
+    <button class="chat-send-btn" id="chatSendBtn" onclick="sendMessage()" title="Envoyer">
+      <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+</div>
+
+<button class="chat-fab" id="chatFab" onclick="toggleChat()" title="Assistant IA">
+  <div class="chat-fab-pulse"></div>
+  <div class="chat-badge">1</div>
+  <div class="chat-fab-icon open"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+  <div class="chat-fab-icon close"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+</button>
 
 <script>
 const DEPARTEMENTS = ["Développement","Technique / Infrastructure","Qualité","Odoo","Gestion de Projet"];
@@ -712,422 +847,166 @@ let demandes = [
 ];
 
 let notifications = [
-  {id:1, employe:'Fatima Khelil', dept:'Développement',             dates:'15 Mar',    status:'accepted', message:'✅ Demande TT acceptée par Manager', time:'Il y a 2h'},
+  {id:1, employe:'Fatima Khelil', dept:'Développement', dates:'15 Mar', status:'accepted', message:'✅ Demande TT acceptée par Manager', time:'Il y a 2h'},
   {id:2, employe:'Karim Zouari',  dept:'Technique / Infrastructure', dates:'16-17 Mar', status:'accepted', message:'✅ Demande TT acceptée par Manager', time:'Il y a 1h'}
 ];
 let unreadCount = notifications.length;
 
-// Variables utilisateur
-let userData = {
-  name: 'Sonia Mansour',
-  email: 's.mansour@studiaafrique.com',
-  dept: 'Ressources Humaines',
-  phone: '+216 12 345 678',
-  avatar: 'SM'
-};
-
-// Settings storage
-let appSettings = {
-  darkMode: false,
-  accentColor: '#87CEEB',
-  fontSize: 16,
-  pushNotifications: true,
-  emailNotifications: true,
-  reminderNotifications: true,
-  reportFrequency: 'weekly',
-  itemsPerPage: 20,
-  showCharts: true,
-  dateFormat: 'fr',
-  autoLogout: 30
-};
+let userData = { name: 'Sonia Mansour', email: 's.mansour@studiaafrique.com', dept: 'Ressources Humaines', phone: '+216 12 345 678', avatar: 'SM' };
+let appSettings = { darkMode: false, accentColor: '#87CEEB', fontSize: 16, pushNotifications: true, reminderNotifications: true, reportFrequency: 'weekly', itemsPerPage: 20, dateFormat: 'fr', autoLogout: 30 };
 
 /* ─── THEME ─── */
-function toggleDarkMode(){
-  const html=document.documentElement;
-  const next=html.getAttribute('data-theme')==='dark'?'light':'dark';
-  html.setAttribute('data-theme',next);
-  localStorage.setItem('theme-rh',next);
-  appSettings.darkMode = next === 'dark';
-  document.getElementById('darkModeSwitch').checked = appSettings.darkMode;
-  showToast(next==='dark'?'🌙 Mode sombre':'☀️ Mode clair');
-}
+function toggleDarkMode(){ const html=document.documentElement; const next=html.getAttribute('data-theme')==='dark'?'light':'dark'; html.setAttribute('data-theme',next); localStorage.setItem('theme-rh',next); appSettings.darkMode=next==='dark'; document.getElementById('darkModeSwitch').checked=appSettings.darkMode; showToast(next==='dark'?'🌙 Mode sombre':'☀️ Mode clair'); }
+function toggleDarkModeFromSwitch(){ const html=document.documentElement; const isDark=document.getElementById('darkModeSwitch').checked; html.setAttribute('data-theme',isDark?'dark':'light'); localStorage.setItem('theme-rh',isDark?'dark':'light'); appSettings.darkMode=isDark; showToast(isDark?'🌙 Mode sombre':'☀️ Mode clair'); }
+function changeAccentColor(){ const color=document.getElementById('accentColor').value; appSettings.accentColor=color; document.documentElement.style.setProperty('--accent',color); document.documentElement.style.setProperty('--accent2',color+'cc'); showToast('🎨 Couleur modifiée'); }
+function changeFontSize(){ const size=document.getElementById('fontSize').value; appSettings.fontSize=parseInt(size); document.body.style.fontSize=size+'px'; showToast(`📏 Taille: ${size}px`); }
+function saveSettings(){ appSettings.pushNotifications=document.getElementById('pushNotifications').checked; appSettings.reminderNotifications=document.getElementById('reminderNotifications').checked; appSettings.reportFrequency=document.getElementById('reportFrequency').value; appSettings.itemsPerPage=document.getElementById('itemsPerPage').value; appSettings.dateFormat=document.getElementById('dateFormat').value; appSettings.autoLogout=document.getElementById('autoLogout').value; localStorage.setItem('appSettings',JSON.stringify(appSettings)); showToast('⚙️ Paramètres enregistrés'); }
+function saveAllSettings(){ saveSettings(); showToast('✅ Tous les paramètres sauvegardés'); }
+function loadSettings(){ const saved=localStorage.getItem('appSettings'); if(saved){ appSettings=JSON.parse(saved); document.getElementById('darkModeSwitch').checked=appSettings.darkMode; document.getElementById('accentColor').value=appSettings.accentColor; document.documentElement.style.setProperty('--accent',appSettings.accentColor); document.documentElement.style.setProperty('--accent2',appSettings.accentColor+'cc'); document.getElementById('fontSize').value=appSettings.fontSize; document.body.style.fontSize=appSettings.fontSize+'px'; document.getElementById('pushNotifications').checked=appSettings.pushNotifications; document.getElementById('reminderNotifications').checked=appSettings.reminderNotifications; document.getElementById('reportFrequency').value=appSettings.reportFrequency; document.getElementById('itemsPerPage').value=appSettings.itemsPerPage; document.getElementById('dateFormat').value=appSettings.dateFormat; document.getElementById('autoLogout').value=appSettings.autoLogout; } }
+function resetSettings(){ if(confirm('Réinitialiser tous les paramètres ?')){ appSettings={darkMode:false,accentColor:'#87CEEB',fontSize:16,pushNotifications:true,reminderNotifications:true,reportFrequency:'weekly',itemsPerPage:20,dateFormat:'fr',autoLogout:30}; localStorage.setItem('appSettings',JSON.stringify(appSettings)); loadSettings(); document.documentElement.setAttribute('data-theme','light'); showToast('🔄 Paramètres réinitialisés'); } }
+function exportData(){ const dataStr=JSON.stringify({user:userData,settings:appSettings,capacities:capDepts,demands:demandes,exportDate:new Date().toISOString()},null,2); const dataUri='data:application/json;charset=utf-8,'+encodeURIComponent(dataStr); const link=document.createElement('a'); link.setAttribute('href',dataUri); link.setAttribute('download',`studiaafrique_export_${new Date().toISOString().slice(0,19)}.json`); link.click(); showToast('📥 Export terminé'); }
 
-function toggleDarkModeFromSwitch(){
-  const html=document.documentElement;
-  const isDark = document.getElementById('darkModeSwitch').checked;
-  const next = isDark ? 'dark' : 'light';
-  html.setAttribute('data-theme',next);
-  localStorage.setItem('theme-rh',next);
-  appSettings.darkMode = isDark;
-  showToast(isDark?'🌙 Mode sombre':'☀️ Mode clair');
-}
-
-function changeAccentColor(){
-  const color = document.getElementById('accentColor').value;
-  appSettings.accentColor = color;
-  document.documentElement.style.setProperty('--accent', color);
-  document.documentElement.style.setProperty('--accent2', color + 'cc');
-  showToast('🎨 Couleur d\'accentuation modifiée');
-}
-
-function changeFontSize(){
-  const size = document.getElementById('fontSize').value;
-  appSettings.fontSize = parseInt(size);
-  document.body.style.fontSize = size + 'px';
-  showToast(`📏 Taille de police: ${size}px`);
-}
-
-/* ─── SETTINGS FUNCTIONS ─── */
-function saveSettings(){
-  appSettings.pushNotifications = document.getElementById('pushNotifications').checked;
-  appSettings.emailNotifications = document.getElementById('emailNotifications').checked;
-  appSettings.reminderNotifications = document.getElementById('reminderNotifications').checked;
-  appSettings.reportFrequency = document.getElementById('reportFrequency').value;
-  appSettings.itemsPerPage = document.getElementById('itemsPerPage').value;
-  appSettings.showCharts = document.getElementById('showCharts').checked;
-  appSettings.dateFormat = document.getElementById('dateFormat').value;
-  appSettings.autoLogout = document.getElementById('autoLogout').value;
-  localStorage.setItem('appSettings', JSON.stringify(appSettings));
-  showToast('⚙️ Paramètres enregistrés');
-}
-
-function saveAllSettings(){
-  saveSettings();
-  showToast('✅ Tous les paramètres ont été sauvegardés');
-}
-
-function loadSettings(){
-  const saved = localStorage.getItem('appSettings');
-  if(saved){
-    appSettings = JSON.parse(saved);
-    document.getElementById('darkModeSwitch').checked = appSettings.darkMode;
-    document.getElementById('accentColor').value = appSettings.accentColor;
-    document.documentElement.style.setProperty('--accent', appSettings.accentColor);
-    document.documentElement.style.setProperty('--accent2', appSettings.accentColor + 'cc');
-    document.getElementById('fontSize').value = appSettings.fontSize;
-    document.body.style.fontSize = appSettings.fontSize + 'px';
-    document.getElementById('pushNotifications').checked = appSettings.pushNotifications;
-    document.getElementById('emailNotifications').checked = appSettings.emailNotifications;
-    document.getElementById('reminderNotifications').checked = appSettings.reminderNotifications;
-    document.getElementById('reportFrequency').value = appSettings.reportFrequency;
-    document.getElementById('itemsPerPage').value = appSettings.itemsPerPage;
-    document.getElementById('showCharts').checked = appSettings.showCharts;
-    document.getElementById('dateFormat').value = appSettings.dateFormat;
-    document.getElementById('autoLogout').value = appSettings.autoLogout;
-  }
-}
-
-function resetSettings(){
-  if(confirm('Voulez-vous vraiment réinitialiser tous les paramètres par défaut ?')){
-    appSettings = {
-      darkMode: false,
-      accentColor: '#87CEEB',
-      fontSize: 16,
-      pushNotifications: true,
-      emailNotifications: true,
-      reminderNotifications: true,
-      reportFrequency: 'weekly',
-      itemsPerPage: 20,
-      showCharts: true,
-      dateFormat: 'fr',
-      autoLogout: 30
-    };
-    localStorage.setItem('appSettings', JSON.stringify(appSettings));
-    loadSettings();
-    document.documentElement.setAttribute('data-theme', 'light');
-    showToast('🔄 Paramètres réinitialisés');
-  }
-}
-
-function exportData(){
-  const exportData = {
-    user: userData,
-    settings: appSettings,
-    capacities: capDepts,
-    demands: demandes,
-    exportDate: new Date().toISOString()
-  };
-  const dataStr = JSON.stringify(exportData, null, 2);
-  const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-  const exportFileDefaultName = `studiaafrique_export_${new Date().toISOString().slice(0,19)}.json`;
-  const linkElement = document.createElement('a');
-  linkElement.setAttribute('href', dataUri);
-  linkElement.setAttribute('download', exportFileDefaultName);
-  linkElement.click();
-  showToast('📥 Export des données terminé');
-}
-
-function showChangePassword(){
-  showToast('🔐 Fonctionnalité à venir');
-}
-
-function openSettingsPage(){
-  closeUserMenu();
-  show('settings', null);
-  document.querySelector('.nav-item').classList.remove('active');
-  const settingsNav = document.querySelector('[onclick="show(\'settings\',this)"]');
-  if(settingsNav) settingsNav.classList.add('active');
-}
-
-/* ─── TOAST ─── */
-function showToast(msg){
-  let t=document.getElementById('globalToast');
-  if(!t){t=document.createElement('div');t.id='globalToast';t.className='toast';document.body.appendChild(t);}
-  t.innerHTML=`<span>✨</span><span>${msg}</span>`;
-  clearTimeout(t._timer);
-  t._timer=setTimeout(()=>t.remove(),2500);
-}
-
-/* ─── USER MENU ─── */
-function toggleUserMenu(e){
-  e.stopPropagation();
-  document.getElementById('userMenu').classList.toggle('open');
-}
-
-function closeUserMenu(){
-  document.getElementById('userMenu').classList.remove('open');
-}
-
-/* ─── PROFIL ─── */
-function openProfile(){
-  closeUserMenu();
-  document.getElementById('profileName').value = userData.name;
-  document.getElementById('profileEmail').value = userData.email;
-  document.getElementById('profileDept').value = userData.dept;
-  document.getElementById('profilePhone').value = userData.phone;
-  document.getElementById('profileOverlay').classList.add('show');
-}
-
-function closeProfile(){
-  document.getElementById('profileOverlay').classList.remove('show');
-}
-
-function saveProfile(){
-  userData.name = document.getElementById('profileName').value;
-  userData.email = document.getElementById('profileEmail').value;
-  userData.dept = document.getElementById('profileDept').value;
-  userData.phone = document.getElementById('profilePhone').value;
-  userData.avatar = userData.name.split(' ').map(n=>n[0]).join('').toUpperCase();
-  
-  document.getElementById('sidebarName').textContent = userData.name;
-  document.getElementById('menuUserName').textContent = userData.name;
-  document.getElementById('menuUserEmail').textContent = userData.email;
-  document.getElementById('userAvatarBtn').textContent = userData.avatar;
-  document.getElementById('profileAvatar').textContent = userData.avatar;
-  
-  closeProfile();
-  showToast('✅ Profil mis à jour');
-}
-
-/* ─── LOGOUT ─── */
-function openLogout(){
-  closeUserMenu();
-  document.getElementById('logoutOverlay').classList.add('show');
-}
-function closeLogout(){
-  document.getElementById('logoutOverlay').classList.remove('show');
-}
-function confirmLogout(){
-  document.getElementById('logoutOverlay').innerHTML='<div class="logout-modal"><span class="lm-icon">✅</span><h3 style="color:#96CEB4">Déconnexion</h3><p>À bientôt</p></div>';
-  setTimeout(()=>{window.location.href='index.html';},1500);
-}
-
-document.addEventListener('click',(e)=>{
-  const menu = document.getElementById('userMenu');
-  const avatarBtn = document.getElementById('userAvatarBtn');
-  if(menu && avatarBtn && !avatarBtn.contains(e.target) && !menu.contains(e.target)){
-    menu.classList.remove('open');
-  }
-  const notifPanel = document.getElementById('notificationsPanel');
-  const notifBtn = document.querySelector('.topbar-icon-btn');
-  if(notifPanel && notifBtn && !notifBtn.contains(e.target) && !notifPanel.contains(e.target)){
-    notifPanel.classList.remove('open');
-  }
-});
-
+function showToast(msg){ let t=document.getElementById('globalToast'); if(!t){t=document.createElement('div');t.id='globalToast';t.className='toast';document.body.appendChild(t);} t.innerHTML=`<span>✨</span><span>${msg}</span>`; clearTimeout(t._timer); t._timer=setTimeout(()=>t.remove(),2500); }
+function toggleUserMenu(e){ e.stopPropagation(); document.getElementById('userMenu').classList.toggle('open'); }
+function closeUserMenu(){ document.getElementById('userMenu').classList.remove('open'); }
+function openProfile(){ closeUserMenu(); document.getElementById('profileName').value=userData.name; document.getElementById('profileEmail').value=userData.email; document.getElementById('profileDept').value=userData.dept; document.getElementById('profilePhone').value=userData.phone; document.getElementById('profileOverlay').classList.add('show'); }
+function closeProfile(){ document.getElementById('profileOverlay').classList.remove('show'); }
+function saveProfile(){ userData.name=document.getElementById('profileName').value; userData.email=document.getElementById('profileEmail').value; userData.dept=document.getElementById('profileDept').value; userData.phone=document.getElementById('profilePhone').value; userData.avatar=userData.name.split(' ').map(n=>n[0]).join('').toUpperCase(); document.getElementById('sidebarName').textContent=userData.name; document.getElementById('menuUserName').textContent=userData.name; document.getElementById('menuUserEmail').textContent=userData.email; document.getElementById('userAvatarBtn').textContent=userData.avatar; document.getElementById('profileAvatar').textContent=userData.avatar; closeProfile(); showToast('✅ Profil mis à jour'); }
+function openLogout(){ closeUserMenu(); document.getElementById('logoutOverlay').classList.add('show'); }
+function closeLogout(){ document.getElementById('logoutOverlay').classList.remove('show'); }
+function confirmLogout(){ document.getElementById('logoutOverlay').innerHTML='<div class="logout-modal"><span class="lm-icon">✅</span><h3 style="color:#96CEB4">Déconnexion</h3><p>À bientôt</p></div>'; setTimeout(()=>{window.location.href='index.html';},1500); }
+document.addEventListener('click',(e)=>{ const menu=document.getElementById('userMenu'); const avatar=document.getElementById('userAvatarBtn'); if(menu&&avatar&&!avatar.contains(e.target)&&!menu.contains(e.target)) menu.classList.remove('open'); const notifPanel=document.getElementById('notificationsPanel'); const notifBtn=document.querySelector('.topbar-icon-btn'); if(notifPanel&&notifBtn&&!notifBtn.contains(e.target)&&!notifPanel.contains(e.target)) notifPanel.classList.remove('open'); });
 document.getElementById('pageDate').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 
-/* ─── NAVIGATION ─── */
 const titles={dashboard:'Tableau de bord RH',validation:'Validation N2',suivi:'Suivi demandes TT',capacite:'Capacité TT',politiques:'Politiques TT',settings:'Paramètres',rapports:'Rapports TT'};
-function show(sec,btn){
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
-  document.getElementById('sec-'+sec).classList.add('active');
-  if(btn) btn.classList.add('active');
-  document.getElementById('pageTitle').textContent=titles[sec]||sec;
-  if(sec==='validation') renderValidationN2();
-  if(sec==='dashboard')  renderDashboard();
-  if(sec==='capacite')   renderCapacity();
-  if(sec==='suivi')      renderSuiviTable(demandes);
-  if(sec==='rapports')   renderKPI();
+function show(sec,btn){ document.querySelectorAll('.section').forEach(s=>s.classList.remove('active')); document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active')); document.getElementById('sec-'+sec).classList.add('active'); if(btn) btn.classList.add('active'); document.getElementById('pageTitle').textContent=titles[sec]||sec; if(sec==='validation') renderValidationN2(); if(sec==='dashboard') renderDashboard(); if(sec==='capacite') renderCapacity(); if(sec==='suivi') renderSuiviTable(demandes); if(sec==='rapports') renderKPI(); }
+
+function dotIcon(s){ return {done:'✓',active:'▶',pending:'⏳',waiting:'○'}[s]||'?'; }
+function dateColor(s){ return {done:'green',active:'teal',waiting:'muted',pending:'yellow'}[s]; }
+function buildTimeline(steps){ return steps.map(s=>`<div class="tl-step ${s.state==='done'?'done':''}"><div class="tl-dot ${s.state}">${dotIcon(s.state)}</div><div class="tl-label">${s.label.replace(/\n/,'<br>')}</div>${s.date?`<div class="tl-date ${dateColor(s.state)}">${s.date}</div>`:'<div class="tl-date muted">—</div>'}</div>`).join(''); }
+
+function renderValidationN2(){ const pending=demandes.filter(d=>d.steps[2]?.state==='active'); document.getElementById('badgeN2').textContent=pending.length; document.getElementById('dashN2').textContent=pending.length; document.getElementById('validationN2List').innerHTML=pending.length?pending.map(d=>`<div class="demand-card"><div class="demand-meta"><div><div style="font-weight:700">🏡 ${d.employe} <span style="font-size:.8rem;color:var(--muted)">• ${d.dept}</span></div><div style="font-size:.76rem;color:var(--muted)">📅 ${d.dates}</div><div style="font-size:.76rem;margin-top:5px">💬 ${d.motif}</div></div><span class="status-pill pill-teal">✓ N1 validé</span></div><div class="timeline">${buildTimeline(d.steps)}</div><div class="demand-actions"><button class="btn-validate" onclick="actN2(${d.id},'done')">✓ Approuver</button><button class="btn-refuse" onclick="actN2(${d.id},'refused')">✗ Refuser</button></div></div>`).join(''):'<div style="text-align:center;padding:32px;background:var(--card);border-radius:14px">✅ Aucune demande N2 en attente</div>'; }
+function actN2(id,action){ demandes=demandes.map(d=>{ if(d.id!==id) return d; const s=[...d.steps]; const today=new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'short'}); if(action==='done'){s[2]={...s[2],state:'done',date:today,note:'Approuvé'};s[3]={...s[3],state:'done',date:today,note:'Final'};} else{s[2]={...s[2],state:'refused',date:today,note:'Refusé'};s[3]={...s[3],state:'refused',note:'Clôturé'};} return {...d,steps:s}; }); renderValidationN2(); renderDashboard(); renderSuiviTable(demandes); showToast(action==='done'?'✅ Demande approuvée':'✗ Demande refusée'); }
+
+function getStatus(steps){ if(steps[3]?.state==='done') return {text:'Approuvé',cls:'badge-green'}; if(steps[2]?.state==='refused') return {text:'Refusé',cls:'badge-red'}; if(steps[2]?.state==='active') return {text:'Validé N1 — en attente N2',cls:'badge-teal'}; if(steps[1]?.state==='pending') return {text:'En attente N1',cls:'badge-orange'}; return {text:'Soumis',cls:'badge-orange'}; }
+function renderSuiviTable(data){ document.getElementById('suiviTable').innerHTML=data.map(d=>{ const s=getStatus(d.steps); return `<tr><td style="font-weight:600">🏡 ${d.employe}</td><td>${d.dept}</td><td>${d.dates}</td><td>${d.motif}</td><td><span class="badge ${s.cls}">${s.text}</span></td></tr>`; }).join(''); }
+function filterSuivi(){ const q=document.getElementById('suiviSearch').value.toLowerCase(); const st=document.getElementById('suiviStatut').value; renderSuiviTable(demandes.filter(d=>(d.employe.toLowerCase().includes(q)||d.dept.toLowerCase().includes(q))&&(!st||getStatus(d.steps).text===st))); }
+function renderDashboard(){ document.getElementById('recentDemandes').innerHTML=demandes.slice(0,4).map(d=>{ const s=getStatus(d.steps); return `<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)"><div><div style="font-weight:600">🏡 ${d.employe}</div><div style="font-size:.74rem;color:var(--muted)">${d.dates} • ${d.motif}</div></div><span class="badge ${s.cls}">${s.text}</span></div>`; }).join(''); document.getElementById('capSummary').innerHTML=capDepts.map(d=>{ const pct=Math.round(d.current/d.max*100); return `<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><div style="width:10px;height:10px;border-radius:50%;background:${d.color}"></div><div style="flex:1">${d.name}</div><div style="flex:2;height:7px;background:var(--input-bg);border-radius:4px"><div style="height:100%;width:${pct}%;background:${d.color};border-radius:4px"></div></div><div style="font-size:.74rem;width:70px;text-align:right">${d.current}/${d.max}</div></div>`; }).join(''); }
+function renderCapacity(){ document.getElementById('capCards').innerHTML=capDepts.map((d,i)=>{ const pct=Math.round(d.current/d.max*100); const avail=d.max-d.current; const cls=avail<=0?'cap-full':avail<=1?'cap-warn':'cap-ok'; const label=avail<=0?'🔴 Complet':avail===1?'⚠️ 1 place':`✅ ${avail} places`; return `<div class="cap-card"><div style="display:flex;justify-content:space-between"><div class="cap-dept" style="color:${d.color}">${d.name}</div><span class="cap-available ${cls}">${label}</span></div><div style="font-size:.76rem;color:var(--muted)">${d.total} employés • ${d.current} en TT</div><div class="cap-bar-wrap"><div class="cap-bar" style="width:${pct}%;background:${d.color}"></div></div><div class="cap-numbers"><span>${d.current} / ${d.max}</span><span>${pct}%</span></div><div class="cap-input-row"><span class="cap-label-sm">Max TT :</span><input class="cap-input" type="number" min="0" max="${d.total}" value="${d.max}" onchange="updateCapMax(${i},this.value)"><span class="cap-label-sm">/ ${d.total}</span></div></div>`; }).join(''); }
+function updateCapMax(idx,val){ capDepts[idx].max=Math.max(0,Math.min(parseInt(val)||0,capDepts[idx].total)); renderCapacity(); }
+function saveCapacity(){ const m=document.getElementById('capSaveMsg'); m.style.display='block'; setTimeout(()=>m.style.display='none',3000); showToast('💾 Capacités enregistrées'); }
+function savePolicies(){ const m=document.getElementById('polSaveMsg'); m.style.display='block'; setTimeout(()=>m.style.display='none',3000); showToast('⚙️ Politiques enregistrées'); }
+function renderKPI(){ const kpis=[{label:"Taux d'approbation",pct:71,color:'#96CEB4'},{label:'Respect des politiques',pct:87,color:'#87CEEB'},{label:'Taux TT moyen',pct:48,color:'#45B7D1'},{label:'Demandes à temps',pct:93,color:'#818CF8'}]; document.getElementById('globalKPI').innerHTML=kpis.map(k=>`<div style="display:flex;align-items:center;gap:14px;margin-bottom:12px"><div style="width:180px">${k.label}</div><div style="flex:1;height:8px;background:var(--input-bg);border-radius:4px"><div style="height:100%;width:${k.pct}%;background:${k.color};border-radius:4px"></div></div><div style="width:40px;color:${k.color};font-weight:700">${k.pct}%</div></div>`).join(''); }
+function toggleNotifications(e){ e.stopPropagation(); const p=document.getElementById('notificationsPanel'); p.classList.toggle('open'); renderNotifications(); }
+function renderNotifications(){ const container=document.getElementById('notificationsList'); if(!notifications.length){container.innerHTML='<div style="padding:20px;text-align:center">Aucune notification</div>';document.getElementById('notifDot').style.display='none';return;} container.innerHTML=notifications.map(n=>`<div class="notif-item" onclick="markAsRead(${n.id})"><div class="notif-title"><span class="notif-badge ${n.status}"></span>${n.message}</div><div class="notif-detail">👤 ${n.employe} • ${n.dept} • 📅 ${n.dates}</div><div class="notif-time">${n.time}</div></div>`).join(''); document.getElementById('notifDot').style.display=unreadCount>0?'block':'none'; }
+function markAsRead(id){ notifications=notifications.filter(n=>n.id!==id); unreadCount=notifications.length; renderNotifications(); if(!unreadCount)document.getElementById('notificationsPanel').classList.remove('open'); }
+function clearNotifications(){ notifications=[]; unreadCount=0; renderNotifications(); document.getElementById('notificationsPanel').classList.remove('open'); showToast('🔔 Notifications effacées'); }
+
+// ==================== CHATBOT ====================
+let chatOpen = false;
+let chatHistory = [];
+let isTyping = false;
+
+const SYSTEM_PROMPT = `Tu es l'assistant IA de StudiaAFRIQUE, une plateforme de gestion RH pour entreprises africaines.
+Tu aides la responsable RH Sonia Mansour avec :
+- La validation des demandes de télétravail niveau 2 (validation finale)
+- La gestion des capacités de télétravail par département
+- Les politiques et règles télétravail
+- Les rapports et KPI RH
+
+Contexte actuel :
+- 2 demandes N2 en attente de validation (Fatima Khelil, Karim Zouari)
+- Capacité TT par département : Développement 6/10, Technique 4/7, Qualité 2/5, Odoo 1/3, Gestion de Projet 2/4
+- Taux d'approbation global : 71%
+- Politiques : 3j/semaine max, 12j/mois max, délai minimum 2 jours
+
+Réponds toujours en français, de manière concise, professionnelle et utile.
+Utilise des emojis pertinents avec parcimonie.`;
+
+function toggleChat() {
+  const win = document.getElementById('chatWindow');
+  const fab = document.getElementById('chatFab');
+  chatOpen = !chatOpen;
+  if (chatOpen) {
+    win.classList.remove('closing');
+    win.classList.add('open');
+    fab.classList.add('active');
+    setTimeout(() => document.getElementById('chatInput').focus(), 300);
+  } else {
+    win.classList.add('closing');
+    win.classList.remove('open');
+    fab.classList.remove('active');
+    setTimeout(() => win.classList.remove('closing'), 280);
+  }
 }
 
-/* ─── TIMELINE ─── */
-function dotIcon(s){return {done:'✓',active:'▶',pending:'⏳',waiting:'○'}[s]||'?';}
-function dateColor(s){return {done:'green',active:'teal',waiting:'muted',pending:'yellow'}[s];}
-function buildTimeline(steps){
-  return steps.map(s=>`
-    <div class="tl-step ${s.state==='done'?'done':''}">
-      <div class="tl-dot ${s.state}">${dotIcon(s.state)}</div>
-      <div class="tl-label">${s.label.replace(/\n/,'<br>')}</div>
-      ${s.date?`<div class="tl-date ${dateColor(s.state)}">${s.date}</div>`:'<div class="tl-date muted">—</div>'}
-    </div>`).join('');
+function autoResize(textarea) { textarea.style.height = 'auto'; textarea.style.height = Math.min(textarea.scrollHeight, 90) + 'px'; }
+function chatKeyDown(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }
+function sendSuggestion(text) { document.getElementById('chatInput').value = text; sendMessage(); }
+
+function appendBubble(role, html) {
+  const msgs = document.getElementById('chatMessages');
+  const bubble = document.createElement('div');
+  bubble.className = `chat-bubble ${role}`;
+  const isBot = role === 'bot';
+  bubble.innerHTML = `<div class="bubble-avatar ${isBot ? '' : 'user-av'}">${isBot ? '🤖' : 'SM'}</div><div class="bubble-text">${html}</div>`;
+  msgs.appendChild(bubble);
+  msgs.scrollTop = msgs.scrollHeight;
 }
 
-/* ─── VALIDATION N2 ─── */
-function renderValidationN2(){
-  const pending=demandes.filter(d=>d.steps[2]?.state==='active');
-  document.getElementById('badgeN2').textContent=pending.length;
-  document.getElementById('dashN2').textContent=pending.length;
-  document.getElementById('validationN2List').innerHTML=pending.length
-    ? pending.map(d=>`
-        <div class="demand-card">
-          <div class="demand-meta">
-            <div>
-              <div style="font-weight:700">🏡 ${d.employe} <span style="font-size:.8rem;color:var(--muted)">• ${d.dept}</span></div>
-              <div style="font-size:.76rem;color:var(--muted)">📅 ${d.dates}</div>
-              <div style="font-size:.76rem;margin-top:5px">💬 ${d.motif}</div>
-            </div>
-            <span class="status-pill pill-teal">✓ N1 validé</span>
-          </div>
-          <div class="timeline">${buildTimeline(d.steps)}</div>
-          <div class="demand-actions">
-            <button class="btn-validate" onclick="actN2(${d.id},'done')">✓ Approuver</button>
-            <button class="btn-refuse"   onclick="actN2(${d.id},'refused')">✗ Refuser</button>
-          </div>
-        </div>`).join('')
-    : '<div style="text-align:center;padding:32px;background:var(--card);border-radius:14px">✅ Aucune demande N2 en attente</div>';
+function showTypingIndicator() {
+  const msgs = document.getElementById('chatMessages');
+  const indicator = document.createElement('div');
+  indicator.className = 'chat-bubble bot';
+  indicator.id = 'typingIndicator';
+  indicator.innerHTML = `<div class="bubble-avatar">🤖</div><div class="typing-dots"><span></span><span></span><span></span></div>`;
+  msgs.appendChild(indicator);
+  msgs.scrollTop = msgs.scrollHeight;
 }
 
-function actN2(id,action){
-  demandes=demandes.map(d=>{
-    if(d.id!==id) return d;
-    const s=[...d.steps];
-    const today=new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'short'});
-    if(action==='done'){s[2]={...s[2],state:'done',date:today,note:'Approuvé'};s[3]={...s[3],state:'done',date:today,note:'Final'};}
-    else{s[2]={...s[2],state:'refused',date:today,note:'Refusé'};s[3]={...s[3],state:'refused',note:'Clôturé'};}
-    return {...d,steps:s};
-  });
-  renderValidationN2();renderDashboard();renderSuiviTable(demandes);
-  showToast(action==='done'?'✅ Demande approuvée':'✗ Demande refusée');
+function removeTypingIndicator() { const ind = document.getElementById('typingIndicator'); if (ind) ind.remove(); }
+
+async function sendMessage() {
+  if (isTyping) return;
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = ''; input.style.height = 'auto';
+  appendBubble('user', escapeHtml(text));
+  chatHistory.push({ role: 'user', content: text });
+  isTyping = true;
+  document.getElementById('chatSendBtn').disabled = true;
+  showTypingIndicator();
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, system: SYSTEM_PROMPT, messages: chatHistory })
+    });
+    const data = await response.json();
+    removeTypingIndicator();
+    if (data.content && data.content[0] && data.content[0].text) {
+      const reply = data.content[0].text;
+      chatHistory.push({ role: 'assistant', content: reply });
+      appendBubble('bot', formatBotText(reply));
+    } else { appendBubble('bot', '⚠️ Désolé, je n\'ai pas pu générer une réponse.'); }
+  } catch (err) {
+    removeTypingIndicator();
+    appendBubble('bot', '⚠️ Erreur de connexion. Vérifiez votre réseau et réessayez.');
+    console.error('Chat API error:', err);
+  }
+  isTyping = false;
+  document.getElementById('chatSendBtn').disabled = false;
+  document.getElementById('chatInput').focus();
 }
 
-/* ─── STATUT ─── */
-function getStatus(steps){
-  if(steps[3]?.state==='done')      return {text:'Approuvé',              cls:'badge-green'};
-  if(steps[2]?.state==='refused')   return {text:'Refusé',                cls:'badge-red'};
-  if(steps[2]?.state==='active')    return {text:'Validé N1 — en attente N2', cls:'badge-teal'};
-  if(steps[1]?.state==='pending')   return {text:'En attente N1',          cls:'badge-orange'};
-  return {text:'Soumis', cls:'badge-orange'};
-}
+function escapeHtml(text) { return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>'); }
+function formatBotText(text) { text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); text = text.replace(/\*(.*?)\*/g, '<em>$1</em>'); text = text.replace(/\n/g, '<br>'); text = text.replace(/^- (.+)/gm, '• $1'); return text; }
 
-/* ─── SUIVI TABLE ─── */
-function renderSuiviTable(data){
-  document.getElementById('suiviTable').innerHTML=data.map(d=>{
-    const s=getStatus(d.steps);
-    return `   <tr>
-      <td style="font-weight:600">🏡 ${d.employe}</td>
-      <td>${d.dept}</td>
-      <td>${d.dates}</td>
-      <td>${d.motif}</td>
-      <td><span class="badge ${s.cls}">${s.text}</span></td>
-     </tr>`;
-  }).join('');
-}
-function filterSuivi(){
-  const q=document.getElementById('suiviSearch').value.toLowerCase();
-  const st=document.getElementById('suiviStatut').value;
-  renderSuiviTable(demandes.filter(d=>(d.employe.toLowerCase().includes(q)||d.dept.toLowerCase().includes(q))&&(!st||getStatus(d.steps).text===st)));
-}
-
-/* ─── DASHBOARD ─── */
-function renderDashboard(){
-  document.getElementById('recentDemandes').innerHTML=demandes.slice(0,4).map(d=>{
-    const s=getStatus(d.steps);
-    return `<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)">
-      <div><div style="font-weight:600">🏡 ${d.employe}</div><div style="font-size:.74rem;color:var(--muted)">${d.dates} • ${d.motif}</div></div>
-      <span class="badge ${s.cls}">${s.text}</span>
-    </div>`;
-  }).join('');
-
-  document.getElementById('capSummary').innerHTML=capDepts.map(d=>{
-    const pct=Math.round(d.current/d.max*100);
-    return `<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-      <div style="width:10px;height:10px;border-radius:50%;background:${d.color}"></div>
-      <div style="flex:1">${d.name}</div>
-      <div style="flex:2;height:7px;background:var(--input-bg);border-radius:4px">
-        <div style="height:100%;width:${pct}%;background:${d.color};border-radius:4px"></div>
-      </div>
-      <div style="font-size:.74rem;width:70px;text-align:right">${d.current}/${d.max}</div>
-    </div>`;
-  }).join('');
-}
-
-/* ─── CAPACITÉ ─── */
-function renderCapacity(){
-  document.getElementById('capCards').innerHTML=capDepts.map((d,i)=>{
-    const pct=Math.round(d.current/d.max*100);
-    const avail=d.max-d.current;
-    const cls=avail<=0?'cap-full':avail<=1?'cap-warn':'cap-ok';
-    const label=avail<=0?'🔴 Complet':avail===1?'⚠️ 1 place':`✅ ${avail} places`;
-    return `<div class="cap-card">
-      <div style="display:flex;justify-content:space-between">
-        <div class="cap-dept" style="color:${d.color}">${d.name}</div>
-        <span class="cap-available ${cls}">${label}</span>
-      </div>
-      <div style="font-size:.76rem;color:var(--muted)">${d.total} employés • ${d.current} en TT</div>
-      <div class="cap-bar-wrap"><div class="cap-bar" style="width:${pct}%;background:${d.color}"></div></div>
-      <div class="cap-numbers"><span>${d.current} / ${d.max}</span><span>${pct}%</span></div>
-      <div class="cap-input-row">
-        <span class="cap-label-sm">Max TT :</span>
-        <input class="cap-input" type="number" min="0" max="${d.total}" value="${d.max}" onchange="updateCapMax(${i},this.value)">
-        <span class="cap-label-sm">/ ${d.total}</span>
-      </div>
-    </div>`;
-  }).join('');
-}
-function updateCapMax(idx,val){capDepts[idx].max=Math.max(0,Math.min(parseInt(val)||0,capDepts[idx].total));renderCapacity();}
-function saveCapacity(){const m=document.getElementById('capSaveMsg');m.style.display='block';setTimeout(()=>m.style.display='none',3000);showToast('💾 Capacités enregistrées');}
-function savePolicies(){const m=document.getElementById('polSaveMsg');m.style.display='block';setTimeout(()=>m.style.display='none',3000);showToast('⚙️ Politiques enregistrées');}
-
-/* ─── KPI ─── */
-function renderKPI(){
-  const kpis=[
-    {label:"Taux d'approbation",    pct:71, color:'#96CEB4'},
-    {label:'Respect des politiques',pct:87, color:'#87CEEB'},
-    {label:'Taux TT moyen',         pct:48, color:'#45B7D1'},
-    {label:'Demandes à temps',      pct:93, color:'#818CF8'},
-  ];
-  document.getElementById('globalKPI').innerHTML=kpis.map(k=>`
-    <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px">
-      <div style="width:180px">${k.label}</div>
-      <div style="flex:1;height:8px;background:var(--input-bg);border-radius:4px">
-        <div style="height:100%;width:${k.pct}%;background:${k.color};border-radius:4px"></div>
-      </div>
-      <div style="width:40px;color:${k.color};font-weight:700">${k.pct}%</div>
-    </div>`).join('');
-}
-
-/* ─── NOTIFICATIONS ─── */
-function toggleNotifications(e){e.stopPropagation();const p=document.getElementById('notificationsPanel');p.classList.toggle('open');renderNotifications();}
-function renderNotifications(){
-  const container=document.getElementById('notificationsList');
-  if(!notifications.length){container.innerHTML='<div style="padding:20px;text-align:center">Aucune notification</div>';document.getElementById('notifDot').style.display='none';return;}
-  container.innerHTML=notifications.map(n=>`
-    <div class="notif-item" onclick="markAsRead(${n.id})">
-      <div class="notif-title"><span class="notif-badge ${n.status}"></span>${n.message}</div>
-      <div class="notif-detail">👤 ${n.employe} • ${n.dept} • 📅 ${n.dates}</div>
-      <div class="notif-time">${n.time}</div>
-    </div>`).join('');
-  document.getElementById('notifDot').style.display=unreadCount>0?'block':'none';
-}
-function markAsRead(id){notifications=notifications.filter(n=>n.id!==id);unreadCount=notifications.length;renderNotifications();if(!unreadCount)document.getElementById('notificationsPanel').classList.remove('open');}
-function clearNotifications(){notifications=[];unreadCount=0;renderNotifications();document.getElementById('notificationsPanel').classList.remove('open');showToast('🔔 Notifications effacées');}
-
-/* ─── INIT ─── */
 loadSettings();
 renderDashboard();
 renderNotifications();
+function openSettingsPage(){ closeUserMenu(); show('settings', null); document.querySelector('.nav-item').classList.remove('active'); const settingsNav=document.querySelector('[onclick="show(\'settings\',this)"]'); if(settingsNav) settingsNav.classList.add('active'); }
 </script>
 </body>
 </html>

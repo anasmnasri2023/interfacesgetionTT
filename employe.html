@@ -28,6 +28,8 @@
   --toggle-off: rgba(255,255,255,0.15);
   --dropdown-bg: #090c17;
   --overlay-modal-bg: #090c17;
+  --switch-bg: #2c2f36;
+  --switch-active: #4ECDC4;
 }
 
 [data-theme="light"] {
@@ -49,6 +51,8 @@
   --toggle-off: rgba(0,0,0,0.15);
   --dropdown-bg: #FFFFFF;
   --overlay-modal-bg: #FFFFFF;
+  --switch-bg: #e0e0e0;
+  --switch-active: #4ECDC4;
 }
 
 body { display:flex; min-height:100vh; background:var(--bg); font-family:'DM Sans',sans-serif; color:var(--text); transition: background .3s, color .3s; }
@@ -81,13 +85,17 @@ nav { flex:1; padding:16px 10px; overflow-y:auto; }
 .btn-primary:hover { background:var(--accent2); }
 .btn-ghost { background:var(--input-bg); color:var(--text); border:1px solid var(--border); }
 .btn-ghost:hover { background:var(--row-hover); }
+.btn-secondary { background:rgba(78,205,196,.15); color:var(--accent); border:1px solid var(--accent); }
+.btn-secondary:hover { background:rgba(78,205,196,.25); }
 
 .topbar-icon-btn { position:relative; width:38px; height:38px; border-radius:50%; background:var(--input-bg); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background .2s; font-size:1.05rem; color:var(--muted); flex-shrink:0; }
 .topbar-icon-btn:hover { background:var(--icon-btn-hover); color:var(--text); }
 .topbar-icon-btn .notif-dot { position:absolute; top:5px; right:5px; width:8px; height:8px; border-radius:50%; background:var(--accent); border:2px solid var(--topbar-bg); }
-.topbar-avatar-btn { width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:.82rem; color:#081a18; font-weight:800; transition:transform .2s; flex-shrink:0; }
-.topbar-avatar-btn:hover { transform:scale(1.08); }
 .topbar-divider { width:1px; height:26px; background:var(--border); margin:0 6px; flex-shrink:0; }
+
+/* ── USER AVATAR BTN (replaces gear icon) ── */
+.user-avatar-btn { width:38px; height:38px; border-radius:50%; background:linear-gradient(135deg,var(--accent),var(--accent2)); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:.82rem; font-weight:800; color:#081a18; transition:all .2s; flex-shrink:0; border:2px solid var(--accent); }
+.user-avatar-btn:hover { transform:scale(1.08); box-shadow:0 0 0 3px rgba(78,205,196,.3); }
 
 /* ── DARK MODE TOGGLE ── */
 .dark-toggle { position:relative; width:38px; height:38px; border-radius:50%; background:var(--input-bg); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all .25s; font-size:1.1rem; flex-shrink:0; overflow:hidden; }
@@ -100,13 +108,13 @@ nav { flex:1; padding:16px 10px; overflow-y:auto; }
 
 /* ── DROPDOWN ── */
 .dropdown-wrapper { position:relative; }
-.dropdown-menu { display:none; position:absolute; top:calc(100% + 10px); right:0; min-width:200px; background:var(--dropdown-bg); border:1px solid var(--border); border-radius:14px; padding:6px; z-index:999; box-shadow:var(--shadow); animation:fadeMenuIn .15s ease; transition: background .3s; }
+.dropdown-menu { display:none; position:absolute; top:calc(100% + 10px); right:0; min-width:220px; background:var(--dropdown-bg); border:1px solid var(--border); border-radius:14px; padding:6px; z-index:999; box-shadow:var(--shadow); animation:fadeMenuIn .15s ease; transition: background .3s; }
 @keyframes fadeMenuIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
 .dropdown-menu.open { display:block; }
-.dropdown-header { padding:10px 14px 8px; border-bottom:1px solid var(--border); margin-bottom:4px; }
-.dropdown-header .dh-name { font-weight:700; font-size:.88rem; }
-.dropdown-header .dh-email { font-size:.73rem; color:var(--muted); margin-top:2px; }
-.dropdown-item { display:flex; align-items:center; gap:10px; width:100%; padding:9px 14px; border-radius:9px; background:transparent; border:none; cursor:pointer; font-family:'DM Sans',sans-serif; font-size:.84rem; color:var(--muted); text-align:left; transition:background .15s,color .15s; }
+.dropdown-header { padding:12px 14px; border-bottom:1px solid var(--border); margin-bottom:4px; }
+.dropdown-header .dh-name { font-weight:800; font-size:.95rem; color:var(--text); }
+.dropdown-header .dh-email { font-size:.73rem; color:var(--muted); margin-top:3px; }
+.dropdown-item { display:flex; align-items:center; gap:10px; width:100%; padding:10px 14px; border-radius:9px; background:transparent; border:none; cursor:pointer; font-family:'DM Sans',sans-serif; font-size:.84rem; color:var(--muted); text-align:left; transition:background .15s,color .15s; }
 .dropdown-item:hover { background:rgba(78,205,196,.08); color:var(--text); }
 .dropdown-item .di-icon { font-size:.95rem; width:20px; text-align:center; }
 .dropdown-item.danger { color:rgba(255,107,107,.8); }
@@ -123,6 +131,37 @@ nav { flex:1; padding:16px 10px; overflow-y:auto; }
 .logout-btns { display:flex; gap:10px; justify-content:center; }
 .btn-danger { background:rgba(255,107,107,.13); color:#ff6b6b; border:1px solid rgba(255,107,107,.3); border-radius:9px; padding:9px 18px; font-family:'DM Sans',sans-serif; font-weight:600; font-size:.83rem; cursor:pointer; transition:all .2s; }
 .btn-danger:hover { background:rgba(255,107,107,.28); }
+
+/* ── PROFILE MODAL ── */
+.profile-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:9999; align-items:center; justify-content:center; }
+.profile-overlay.show { display:flex; }
+.profile-modal { background:var(--overlay-modal-bg); border:1px solid var(--border); border-radius:24px; padding:32px; max-width:480px; width:90%; animation:fadeMenuIn .2s ease; max-height:90vh; overflow-y:auto; }
+.profile-header { text-align:center; margin-bottom:28px; }
+.profile-avatar-lg { width:80px; height:80px; border-radius:50%; background:linear-gradient(135deg,var(--accent),var(--accent2)); display:flex; align-items:center; justify-content:center; font-size:1.8rem; font-weight:800; color:#081a18; margin:0 auto 16px; border:3px solid var(--accent); }
+.profile-field { margin-bottom:18px; }
+.profile-field label { display:block; font-size:.75rem; color:var(--muted); margin-bottom:6px; font-weight:600; text-transform:uppercase; letter-spacing:.5px; }
+.profile-field input, .profile-field select { width:100%; padding:10px 14px; background:var(--input-bg); border:1px solid var(--border); border-radius:10px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:.9rem; outline:none; transition:all .2s; }
+.profile-field input:focus, .profile-field select:focus { border-color:var(--accent); }
+.profile-actions { display:flex; gap:12px; margin-top:24px; }
+
+/* ── SETTINGS STYLES ── */
+.settings-container { max-width:800px; margin:0 auto; }
+.settings-group { background:var(--card); border:1px solid var(--card-border); border-radius:20px; padding:28px; margin-bottom:24px; box-shadow:var(--shadow); }
+.settings-group h3 { font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:700; margin-bottom:20px; display:flex; align-items:center; gap:10px; }
+.settings-row { display:flex; justify-content:space-between; align-items:center; padding:16px 0; border-bottom:1px solid var(--border); }
+.settings-row:last-child { border-bottom:none; }
+.settings-label { flex:1; }
+.settings-label .label-title { font-weight:600; font-size:.9rem; margin-bottom:4px; }
+.settings-label .label-desc { font-size:.75rem; color:var(--muted); }
+.settings-control { flex-shrink:0; margin-left:20px; }
+.switch { position:relative; display:inline-block; width:52px; height:28px; }
+.switch input { opacity:0; width:0; height:0; }
+.slider { position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background-color:var(--switch-bg); transition:.3s; border-radius:34px; }
+.slider:before { position:absolute; content:""; height:22px; width:22px; left:3px; bottom:3px; background-color:white; transition:.3s; border-radius:50%; }
+input:checked + .slider { background-color:var(--switch-active); }
+input:checked + .slider:before { transform:translateX(24px); }
+.settings-select { padding:8px 14px; background:var(--input-bg); border:1px solid var(--border); border-radius:8px; color:var(--text); font-size:.85rem; cursor:pointer; outline:none; font-family:'DM Sans',sans-serif; }
+.settings-select:focus { border-color:var(--accent); }
 
 /* ── CONTENT ── */
 .content { flex:1; padding:32px; overflow-y:auto; background:var(--bg); transition: background .3s; }
@@ -257,10 +296,68 @@ nav { flex:1; padding:16px 10px; overflow-y:auto; }
 .week-btn { background:var(--input-bg); border:1px solid var(--border); border-radius:8px; padding:6px 12px; color:var(--text); cursor:pointer; font-size:.82rem; transition:background .2s; font-family:'DM Sans',sans-serif; }
 .week-btn:hover { background:rgba(78,205,196,.1); border-color:rgba(78,205,196,.3); }
 .week-label { font-size:.84rem; font-weight:600; color:var(--muted); }
+
+/* ── CHATBOT ── */
+.chat-fab { position:fixed; bottom:28px; right:28px; z-index:9000; width:56px; height:56px; border-radius:50%; background:linear-gradient(135deg,#4ECDC4,#6ee7e0); border:none; cursor:pointer; box-shadow:0 6px 24px rgba(78,205,196,.45); display:flex; align-items:center; justify-content:center; transition:all .3s cubic-bezier(.34,1.56,.64,1); overflow:hidden; }
+.chat-fab:hover { transform:scale(1.1); box-shadow:0 10px 32px rgba(78,205,196,.55); }
+.chat-fab-icon { position:absolute; transition:opacity .25s, transform .25s; display:flex; align-items:center; justify-content:center; }
+.chat-fab-icon.open  { opacity:1; transform:scale(1) rotate(0deg); }
+.chat-fab-icon.close { opacity:0; transform:scale(.4) rotate(90deg); }
+.chat-fab.active .chat-fab-icon.open  { opacity:0; transform:scale(.4) rotate(-90deg); }
+.chat-fab.active .chat-fab-icon.close { opacity:1; transform:scale(1) rotate(0deg); }
+.chat-fab-pulse { position:absolute; width:100%; height:100%; border-radius:50%; background:rgba(78,205,196,.35); animation:fabPulse 2.5s ease-out infinite; }
+@keyframes fabPulse { 0%{transform:scale(1);opacity:.7} 70%{transform:scale(1.6);opacity:0} 100%{transform:scale(1.6);opacity:0} }
+.chat-fab.active .chat-fab-pulse { display:none; }
+.chat-badge { position:absolute; top:-2px; right:-2px; width:18px; height:18px; border-radius:50%; background:#FF6B35; border:2px solid #fff; font-size:.6rem; font-weight:800; color:#fff; display:flex; align-items:center; justify-content:center; transition:opacity .2s; }
+.chat-fab.active .chat-badge { opacity:0; pointer-events:none; }
+.chat-window { position:fixed; bottom:98px; right:28px; z-index:8999; width:380px; max-height:540px; background:var(--overlay-modal-bg); border:1px solid var(--card-border); border-radius:22px; box-shadow:0 20px 60px rgba(0,0,0,.22); display:flex; flex-direction:column; overflow:hidden; transform-origin:bottom right; transition:background .3s; opacity:0; transform:scale(.85) translateY(20px); pointer-events:none; }
+.chat-window.open { opacity:1; transform:scale(1) translateY(0); pointer-events:all; animation:chatOpen .35s cubic-bezier(.34,1.56,.64,1) forwards; }
+.chat-window.closing { animation:chatClose .25s ease forwards; }
+@keyframes chatOpen  { from{opacity:0;transform:scale(.85) translateY(20px)} to{opacity:1;transform:scale(1) translateY(0)} }
+@keyframes chatClose { from{opacity:1;transform:scale(1) translateY(0)} to{opacity:0;transform:scale(.88) translateY(16px)} }
+.chat-header { display:flex; align-items:center; gap:12px; padding:16px 18px; border-bottom:1px solid var(--border); background:linear-gradient(105deg,rgba(78,205,196,.08),rgba(110,231,224,.04)); flex-shrink:0; }
+.chat-header-avatar { width:38px; height:38px; border-radius:12px; background:linear-gradient(135deg,#4ECDC4,#6ee7e0); display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0; box-shadow:0 3px 10px rgba(78,205,196,.3); }
+.chat-header-info { flex:1; min-width:0; }
+.chat-header-name { font-family:'Syne',sans-serif; font-weight:700; font-size:.92rem; color:var(--text); }
+.chat-header-status { display:flex; align-items:center; gap:5px; font-size:.72rem; color:var(--muted); margin-top:2px; }
+.chat-status-dot { width:7px; height:7px; border-radius:50%; background:#27ae60; flex-shrink:0; animation:statusPulse 2s ease-in-out infinite; }
+@keyframes statusPulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+.chat-header-close { width:30px; height:30px; border-radius:8px; background:var(--input-bg); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--muted); font-size:.9rem; transition:all .18s; flex-shrink:0; }
+.chat-header-close:hover { background:rgba(231,76,60,.12); color:#e74c3c; border-color:rgba(231,76,60,.3); }
+.chat-messages { flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:12px; scroll-behavior:smooth; }
+.chat-messages::-webkit-scrollbar { width:4px; }
+.chat-messages::-webkit-scrollbar-track { background:transparent; }
+.chat-messages::-webkit-scrollbar-thumb { background:var(--border); border-radius:4px; }
+.chat-bubble { display:flex; gap:8px; align-items:flex-end; max-width:90%; animation:bubbleIn .25s ease; }
+@keyframes bubbleIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+.chat-bubble.user { align-self:flex-end; flex-direction:row-reverse; }
+.chat-bubble.bot  { align-self:flex-start; }
+.bubble-avatar { width:26px; height:26px; border-radius:8px; background:linear-gradient(135deg,#4ECDC4,#6ee7e0); display:flex; align-items:center; justify-content:center; font-size:.7rem; flex-shrink:0; color:#081a18; }
+.bubble-avatar.user-av { background:linear-gradient(135deg,#7B61FF,#9B85FF); }
+.bubble-text { padding:10px 13px; border-radius:16px; font-size:.84rem; line-height:1.5; max-width:100%; word-break:break-word; }
+.chat-bubble.bot  .bubble-text { background:var(--input-bg); color:var(--text); border-bottom-left-radius:4px; border:1px solid var(--border); }
+.chat-bubble.user .bubble-text { background:linear-gradient(135deg,#4ECDC4,#6ee7e0); color:#081a18; border-bottom-right-radius:4px; }
+.typing-dots { display:flex; gap:4px; align-items:center; padding:10px 13px; background:var(--input-bg); border:1px solid var(--border); border-radius:16px; border-bottom-left-radius:4px; }
+.typing-dots span { width:7px; height:7px; border-radius:50%; background:var(--muted); animation:typingBounce .9s ease-in-out infinite; }
+.typing-dots span:nth-child(2) { animation-delay:.15s; }
+.typing-dots span:nth-child(3) { animation-delay:.3s; }
+@keyframes typingBounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
+.chat-suggestions { padding:10px 16px 0; display:flex; gap:6px; flex-wrap:wrap; flex-shrink:0; }
+.chat-suggestion-chip { padding:5px 12px; border-radius:20px; background:rgba(78,205,196,.09); border:1px solid rgba(78,205,196,.22); color:var(--accent); font-size:.74rem; font-weight:600; cursor:pointer; transition:all .18s; font-family:'DM Sans',sans-serif; white-space:nowrap; }
+.chat-suggestion-chip:hover { background:rgba(78,205,196,.18); border-color:var(--accent); transform:translateY(-1px); }
+.chat-input-area { padding:12px 14px 14px; border-top:1px solid var(--border); display:flex; gap:8px; align-items:flex-end; flex-shrink:0; background:var(--overlay-modal-bg); transition:background .3s; }
+.chat-input { flex:1; padding:10px 14px; background:var(--input-bg); border:1.5px solid var(--border); border-radius:14px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:.85rem; outline:none; resize:none; max-height:90px; transition:border-color .2s,box-shadow .2s; line-height:1.45; }
+.chat-input:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(78,205,196,.1); }
+.chat-input::placeholder { color:var(--muted); }
+.chat-send-btn { width:40px; height:40px; border-radius:12px; background:linear-gradient(135deg,#4ECDC4,#6ee7e0); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .2s; flex-shrink:0; box-shadow:0 3px 10px rgba(78,205,196,.3); }
+.chat-send-btn:hover { transform:scale(1.08) translateY(-1px); box-shadow:0 6px 16px rgba(78,205,196,.4); }
+.chat-send-btn:disabled { opacity:.5; cursor:not-allowed; transform:none; }
+.chat-send-btn svg { width:18px; height:18px; stroke:#081a18; stroke-width:2.2; fill:none; stroke-linecap:round; stroke-linejoin:round; }
 </style>
 </head>
 <body>
 
+<!-- LOGOUT -->
 <div class="logout-overlay" id="logoutOverlay">
   <div class="logout-modal">
     <span class="lm-icon">🔐</span>
@@ -273,14 +370,54 @@ nav { flex:1; padding:16px 10px; overflow-y:auto; }
   </div>
 </div>
 
+<!-- PROFILE MODAL -->
+<div class="profile-overlay" id="profileOverlay">
+  <div class="profile-modal">
+    <div class="profile-header">
+      <div class="profile-avatar-lg" id="profileAvatarLg">AB</div>
+      <h3 style="font-family:'Syne',sans-serif;margin-top:8px">Mon profil</h3>
+    </div>
+    <div class="profile-field">
+      <label>👤 Nom complet</label>
+      <input type="text" id="profileName" value="Ahmed Ben Ali">
+    </div>
+    <div class="profile-field">
+      <label>📧 Email professionnel</label>
+      <input type="email" id="profileEmail" value="ahmed.benali@studiaafrique.com">
+    </div>
+    <div class="profile-field">
+      <label>🏢 Département</label>
+      <select id="profileDept">
+        <option selected>IT</option>
+        <option>Développement</option>
+        <option>Technique / Infrastructure</option>
+        <option>Qualité</option>
+        <option>Gestion de Projet</option>
+      </select>
+    </div>
+    <div class="profile-field">
+      <label>💼 Poste</label>
+      <input type="text" id="profilePoste" value="Dev Frontend">
+    </div>
+    <div class="profile-field">
+      <label>📞 Téléphone</label>
+      <input type="tel" id="profilePhone" value="+216 99 123 456">
+    </div>
+    <div class="profile-actions">
+      <button class="btn btn-primary" onclick="saveProfile()">💾 Enregistrer</button>
+      <button class="btn btn-ghost" onclick="closeProfile()">Annuler</button>
+    </div>
+  </div>
+</div>
+
 <aside class="sidebar">
   <div class="sidebar-brand">
     <h2>STUDIA<span>AFR</span></h2>
     <div class="sidebar-user">
       <div class="avatar">👤</div>
       <div class="user-info">
-        <div class="name">Ahmed Ben Ali</div>
-        <div class="role">Dev Frontend • IT</div>
+        <div class="name" id="sidebarName">Ahmed Ben Ali</div>
+        <div class="role" id="sidebarRole">Dev Frontend • IT</div>
       </div>
     </div>
   </div>
@@ -292,6 +429,8 @@ nav { flex:1; padding:16px 10px; overflow-y:auto; }
     <button class="nav-item" onclick="show('suivi',this)"><span class="icon">🔍</span> Suivre mes demandes</button>
     <div class="nav-section">Planning</div>
     <button class="nav-item" onclick="show('planning',this)"><span class="icon">📅</span> Mon planning télétravail</button>
+    <div class="nav-section">Compte</div>
+    <button class="nav-item" onclick="show('settings',this)"><span class="icon">⚙️</span> Paramètres</button>
   </nav>
 </aside>
 
@@ -299,6 +438,7 @@ nav { flex:1; padding:16px 10px; overflow-y:auto; }
   <div class="topbar">
     <div>
       <div class="page-title" id="pageTitle">Mon espace télétravail</div>
+      <div class="page-sub" id="pageDate"></div>
     </div>
     <div style="display:flex;align-items:center;gap:10px">
       <button class="btn btn-primary" onclick="show('soumettre',document.querySelectorAll('.nav-item')[1])">+ Nouvelle demande TT</button>
@@ -324,21 +464,16 @@ nav { flex:1; padding:16px 10px; overflow-y:auto; }
           </div>
         </div>
         <div class="topbar-divider"></div>
-        <div class="topbar-avatar-btn" style="background:linear-gradient(135deg,#4ECDC4,#6ee7e0);border:2px solid #4ECDC4">AB</div>
+        <!-- Avatar with dropdown (replaces separate avatar + gear) -->
         <div class="dropdown-wrapper">
-          <button class="topbar-icon-btn" onclick="toggleDropdown(event)">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
-              <circle cx="12" cy="12" r="3"/>
-            </svg>
-          </button>
-          <div class="dropdown-menu" id="settingsDropdown">
+          <div class="user-avatar-btn" id="userAvatarBtn" onclick="toggleUserMenu(event)">AB</div>
+          <div class="dropdown-menu" id="userMenu">
             <div class="dropdown-header">
-              <div class="dh-name">Ahmed Ben Ali</div>
-              <div class="dh-email">ahmed.benali@studiaafrique.com</div>
+              <div class="dh-name" id="menuUserName">Ahmed Ben Ali</div>
+              <div class="dh-email" id="menuUserEmail">ahmed.benali@studiaafrique.com</div>
             </div>
-            <button class="dropdown-item" onclick="closeDropdown()"><span class="di-icon">👤</span> Mon profil</button>
-            <button class="dropdown-item" onclick="closeDropdown()"><span class="di-icon">⚙️</span> Paramètres</button>
+            <button class="dropdown-item" onclick="openProfile()"><span class="di-icon">👤</span> Mon profil</button>
+            <button class="dropdown-item" onclick="openSettingsPage()"><span class="di-icon">⚙️</span> Paramètres</button>
             <div class="dropdown-divider"></div>
             <button class="dropdown-item danger" onclick="openLogout()"><span class="di-icon">🚪</span> Se déconnecter</button>
           </div>
@@ -451,179 +586,351 @@ nav { flex:1; padding:16px 10px; overflow-y:auto; }
       </div>
     </div>
 
+    <!-- SETTINGS -->
+    <div class="section" id="sec-settings">
+      <div class="settings-container">
+        <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:24px;">⚙️ Paramètres</h2>
+
+        <!-- Apparence -->
+        <div class="settings-group">
+          <h3>🎨 Apparence</h3>
+          <div class="settings-row">
+            <div class="settings-label">
+              <div class="label-title">Mode sombre</div>
+              <div class="label-desc">Basculer entre le thème clair et sombre</div>
+            </div>
+            <div class="settings-control">
+              <label class="switch">
+                <input type="checkbox" id="darkModeSwitch" onchange="toggleDarkModeFromSwitch()">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+          <div class="settings-row">
+            <div class="settings-label">
+              <div class="label-title">Taille de police</div>
+              <div class="label-desc">Ajuster la taille du texte dans l'application</div>
+            </div>
+            <div class="settings-control">
+              <select id="fontSize" onchange="changeFontSize()" class="settings-select">
+                <option value="14">Petite</option>
+                <option value="16" selected>Moyenne</option>
+                <option value="18">Grande</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notifications -->
+        <div class="settings-group">
+          <h3>🔔 Notifications</h3>
+          <div class="settings-row">
+            <div class="settings-label">
+              <div class="label-title">Notifications push</div>
+              <div class="label-desc">Recevoir des alertes pour mes demandes TT</div>
+            </div>
+            <div class="settings-control">
+              <label class="switch">
+                <input type="checkbox" id="pushNotifications" checked onchange="saveSettings()">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+          <div class="settings-row">
+            <div class="settings-label">
+              <div class="label-title">Notifications email</div>
+              <div class="label-desc">Recevoir les confirmations par email</div>
+            </div>
+            <div class="settings-control">
+              <label class="switch">
+                <input type="checkbox" id="emailNotifications" checked onchange="saveSettings()">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+          <div class="settings-row">
+            <div class="settings-label">
+              <div class="label-title">Rappels de demandes</div>
+              <div class="label-desc">Être notifié avant l'expiration d'une demande</div>
+            </div>
+            <div class="settings-control">
+              <label class="switch">
+                <input type="checkbox" id="reminderNotifications" checked onchange="saveSettings()">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Affichage -->
+        <div class="settings-group">
+          <h3>📅 Planning & Affichage</h3>
+          <div class="settings-row">
+            <div class="settings-label">
+              <div class="label-title">Format de date</div>
+              <div class="label-desc">Choisir le format d'affichage des dates</div>
+            </div>
+            <div class="settings-control">
+              <select id="dateFormat" onchange="saveSettings()" class="settings-select">
+                <option value="fr" selected>DD/MM/YYYY</option>
+                <option value="en">MM/DD/YYYY</option>
+                <option value="iso">YYYY-MM-DD</option>
+              </select>
+            </div>
+          </div>
+          <div class="settings-row">
+            <div class="settings-label">
+              <div class="label-title">Afficher le planning équipe</div>
+              <div class="label-desc">Voir les jours TT de mes collègues</div>
+            </div>
+            <div class="settings-control">
+              <label class="switch">
+                <input type="checkbox" id="showTeam" checked onchange="saveSettings()">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sécurité -->
+        <div class="settings-group">
+          <h3>🔒 Sécurité</h3>
+          <div class="settings-row">
+            <div class="settings-label">
+              <div class="label-title">Déconnexion automatique</div>
+              <div class="label-desc">Déconnecter après une période d'inactivité</div>
+            </div>
+            <div class="settings-control">
+              <select id="autoLogout" onchange="saveSettings()" class="settings-select">
+                <option value="0">Jamais</option>
+                <option value="15">15 minutes</option>
+                <option value="30" selected>30 minutes</option>
+                <option value="60">1 heure</option>
+              </select>
+            </div>
+          </div>
+          <div class="settings-row">
+            <div class="settings-label">
+              <div class="label-title">Changer le mot de passe</div>
+              <div class="label-desc">Modifier votre mot de passe de connexion</div>
+            </div>
+            <div class="settings-control">
+              <button class="btn btn-secondary" onclick="showToast('🔐 Fonctionnalité à venir')">Changer</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Données -->
+        <div class="settings-group">
+          <h3>💾 Mes données</h3>
+          <div class="settings-row">
+            <div class="settings-label">
+              <div class="label-title">Exporter mes demandes</div>
+              <div class="label-desc">Télécharger l'historique de mes demandes TT</div>
+            </div>
+            <div class="settings-control">
+              <button class="btn btn-secondary" onclick="exportData()">📥 Exporter</button>
+            </div>
+          </div>
+          <div class="settings-row">
+            <div class="settings-label">
+              <div class="label-title">Réinitialiser les paramètres</div>
+              <div class="label-desc">Restaurer tous les paramètres par défaut</div>
+            </div>
+            <div class="settings-control">
+              <button class="btn-danger" onclick="resetSettings()">Réinitialiser</button>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align:center;margin-top:20px">
+          <button class="btn btn-primary" onclick="saveAllSettings()">💾 Sauvegarder les paramètres</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
-<script>
-// ── NOTIFICATIONS DATA ──
-let notifications = [
-  {
-    id: 1,
-    type: 'manager_approved',
-    title: '✅ Validation Manager',
-    message: 'Votre demande de télétravail pour le 15 Mars a été acceptée par votre Manager',
-    detail: 'Mohamed Trabelsi (Manager) a validé votre demande. En attente de validation finale RH.',
-    date: '2026-03-11',
-    time: 'Il y a 2 jours',
-    read: false
-  },
-  {
-    id: 2,
-    type: 'rh_rejected',
-    title: '❌ Demande refusée - RH',
-    message: 'Votre demande de télétravail pour le 18 Mars a été refusée par les RH',
-    detail: 'Motif : Capacité maximale du département atteinte ce jour (5/5 places utilisées)',
-    date: '2026-03-12',
-    time: 'Il y a 1 jour',
-    read: false
-  },
-  {
-    id: 3,
-    type: 'manager_approved',
-    title: '✅ Validation Manager',
-    message: 'Votre demande de télétravail pour le 22 Mars a été acceptée par votre Manager',
-    detail: 'Karim Ben Salah (Manager) a validé votre demande. En attente de validation RH.',
-    date: '2026-03-13',
-    time: 'Il y a 3 heures',
-    read: false
-  },
-  {
-    id: 4,
-    type: 'rh_rejected',
-    title: '❌ Demande refusée - RH',
-    message: 'Votre demande de télétravail pour le 25 Mars a été refusée par les RH',
-    detail: 'Motif : Non-conformité avec la politique TT (demande faite moins de 2 jours à l\'avance)',
-    date: '2026-03-14',
-    time: 'Il y a 1 heure',
-    read: false
-  },
-  {
-    id: 5,
-    type: 'manager_approved',
-    title: '✅ Validation Manager',
-    message: 'Votre demande de télétravail pour le 27 Mars a été acceptée par votre Manager',
-    detail: 'Mohamed Trabelsi (Manager) a validé votre demande. Transmission au service RH.',
-    date: '2026-03-14',
-    time: 'Il y a 30 minutes',
-    read: false
-  }
-];
+<!-- CHATBOT -->
+<div class="chat-window" id="chatWindow">
+  <div class="chat-header">
+    <div class="chat-header-avatar">🤖</div>
+    <div class="chat-header-info">
+      <div class="chat-header-name">Assistant StudiaAFRIQUE</div>
+      <div class="chat-header-status">
+        <div class="chat-status-dot"></div>
+        <span>En ligne · IA propulsée par Claude</span>
+      </div>
+    </div>
+    <button class="chat-header-close" onclick="toggleChat()" title="Fermer">✕</button>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-bubble bot">
+      <div class="bubble-avatar">🤖</div>
+      <div class="bubble-text">Bonjour ! Je suis l'assistant IA de <strong>StudiaAFRIQUE</strong>. 👋<br>Je peux vous aider avec vos demandes de télétravail, les règles RH, et répondre à vos questions sur la plateforme.</div>
+    </div>
+  </div>
+  <div class="chat-suggestions" id="chatSuggestions">
+    <div class="chat-suggestion-chip" onclick="sendSuggestion('Comment soumettre une demande de télétravail ?')">📝 Soumettre une demande TT</div>
+    <div class="chat-suggestion-chip" onclick="sendSuggestion('Quelles sont les règles du télétravail ?')">📋 Règles TT</div>
+    <div class="chat-suggestion-chip" onclick="sendSuggestion('Combien de jours de TT me reste-t-il ?')">📊 Mon quota TT</div>
+    <div class="chat-suggestion-chip" onclick="sendSuggestion('Comment suivre mes demandes ?')">🔍 Suivi des demandes</div>
+  </div>
+  <div class="chat-input-area">
+    <textarea class="chat-input" id="chatInput" placeholder="Posez votre question…" rows="1" onkeydown="chatKeyDown(event)" oninput="autoResize(this)"></textarea>
+    <button class="chat-send-btn" id="chatSendBtn" onclick="sendMessage()" title="Envoyer">
+      <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+</div>
 
+<button class="chat-fab" id="chatFab" onclick="toggleChat()" title="Assistant IA">
+  <div class="chat-fab-pulse"></div>
+  <div class="chat-badge">1</div>
+  <div class="chat-fab-icon open">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+  </div>
+  <div class="chat-fab-icon close">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"/>
+      <line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+  </div>
+</button>
+
+<script>
+/* ── USER DATA ── */
+let userData = {
+  name: 'Ahmed Ben Ali',
+  email: 'ahmed.benali@studiaafrique.com',
+  dept: 'IT',
+  poste: 'Dev Frontend',
+  phone: '+216 99 123 456',
+  avatar: 'AB'
+};
+
+/* ── APP SETTINGS ── */
+let appSettings = {
+  darkMode: true,
+  fontSize: 16,
+  pushNotifications: true,
+  emailNotifications: true,
+  reminderNotifications: true,
+  dateFormat: 'fr',
+  showTeam: true,
+  autoLogout: 30
+};
+
+/* ── NOTIFICATIONS DATA ── */
+let notifications = [
+  { id:1, type:'manager_approved', title:'✅ Validation Manager', message:'Votre demande de télétravail pour le 15 Mars a été acceptée par votre Manager', detail:'Mohamed Trabelsi (Manager) a validé votre demande. En attente de validation finale RH.', time:'Il y a 2 jours', read:false },
+  { id:2, type:'rh_rejected',      title:'❌ Demande refusée - RH', message:'Votre demande de télétravail pour le 18 Mars a été refusée par les RH', detail:'Motif : Capacité maximale du département atteinte ce jour (5/5 places utilisées)', time:'Il y a 1 jour', read:false },
+  { id:3, type:'manager_approved', title:'✅ Validation Manager', message:'Votre demande de télétravail pour le 22 Mars a été acceptée par votre Manager', detail:'Karim Ben Salah (Manager) a validé votre demande. En attente de validation RH.', time:'Il y a 3 heures', read:false },
+  { id:4, type:'rh_rejected',      title:'❌ Demande refusée - RH', message:'Votre demande de télétravail pour le 25 Mars a été refusée par les RH', detail:"Motif : Non-conformité avec la politique TT (demande faite moins de 2 jours à l'avance)", time:'Il y a 1 heure', read:false },
+  { id:5, type:'manager_approved', title:'✅ Validation Manager', message:'Votre demande de télétravail pour le 27 Mars a été acceptée par votre Manager', detail:'Mohamed Trabelsi (Manager) a validé votre demande. Transmission au service RH.', time:'Il y a 30 minutes', read:false }
+];
 let unreadCount = notifications.filter(n => !n.read).length;
 
-function getNotificationIcon(type) {
-  const icons = {
-    'manager_approved': '👔✅',
-    'rh_rejected': '🏢❌'
-  };
-  return icons[type] || '📌';
-}
-
-function getNotificationColor(type) {
-  const colors = {
-    'manager_approved': '#45B7D1',
-    'rh_rejected': '#ff6b6b'
-  };
-  return colors[type] || '#4ECDC4';
-}
-
-function toggleNotifications(event) {
-  event.stopPropagation();
-  const panel = document.getElementById('notificationsPanel');
-  panel.classList.toggle('open');
-  renderNotifications();
-}
-
-function renderNotifications() {
-  const container = document.getElementById('notificationsList');
-  if (notifications.length === 0) {
-    container.innerHTML = '<div style="padding:20px;text-align:center;color:var(--muted)">Aucune notification</div>';
-    document.getElementById('notifDot').style.display = 'none';
-    return;
-  }
-  
-  container.innerHTML = notifications.map(notif => `
-    <div class="notif-item" style="border-left: 3px solid ${getNotificationColor(notif.type)}; ${!notif.read ? 'background: var(--row-hover);' : ''}" onclick="markAsRead(${notif.id})">
-      <div class="notif-title">
-        <span class="notif-icon">${getNotificationIcon(notif.type)}</span>
-        ${notif.title}
-      </div>
-      <div class="notif-message">${notif.message}</div>
-      <div class="notif-detail">${notif.detail}</div>
-      <div class="notif-time">${notif.time}</div>
-    </div>
-  `).join('');
-  
-  document.getElementById('notifDot').style.display = unreadCount > 0 ? 'block' : 'none';
-}
-
-function markAsRead(id) {
-  notifications = notifications.map(n => 
-    n.id === id ? { ...n, read: true } : n
-  );
-  unreadCount = notifications.filter(n => !n.read).length;
-  renderNotifications();
-}
-
-function clearAllNotifications() {
-  notifications = notifications.map(n => ({ ...n, read: true }));
-  unreadCount = 0;
-  renderNotifications();
-  document.getElementById('notificationsPanel').classList.remove('open');
-  showToast('🔔 Toutes les notifications ont été marquées comme lues');
-}
-
-function addNotification(type, demandeDate, managerName, reason) {
-  const today = new Date();
-  const timeString = "À l'instant";
-  
-  let newNotif;
-  if (type === 'manager_approved') {
-    newNotif = {
-      id: Date.now(),
-      type: 'manager_approved',
-      title: '✅ Validation Manager',
-      message: `Votre demande de télétravail pour le ${demandeDate} a été acceptée par votre Manager`,
-      detail: `${managerName || 'Le Manager'} a validé votre demande. En attente de validation finale RH.`,
-      date: today.toISOString().split('T')[0],
-      time: timeString,
-      read: false
-    };
-  } else if (type === 'rh_rejected') {
-    newNotif = {
-      id: Date.now(),
-      type: 'rh_rejected',
-      title: '❌ Demande refusée - RH',
-      message: `Votre demande de télétravail pour le ${demandeDate} a été refusée par les RH`,
-      detail: reason || 'Motif : Non-conformité avec la politique TT',
-      date: today.toISOString().split('T')[0],
-      time: timeString,
-      read: false
-    };
-  }
-  
-  if (newNotif) {
-    notifications.unshift(newNotif);
-    unreadCount++;
-    renderNotifications();
-    showToast(`🔔 ${newNotif.message}`);
-  }
-}
-
-// ── DARK MODE ──
+/* ── THEME ── */
 function toggleDarkMode() {
   const html = document.documentElement;
   const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
   html.setAttribute('data-theme', next);
   localStorage.setItem('theme-employe', next);
+  appSettings.darkMode = next === 'dark';
+  document.getElementById('darkModeSwitch').checked = appSettings.darkMode;
   showToast(next === 'dark' ? '🌙 Mode sombre activé' : '☀️ Mode clair activé');
 }
+
+function toggleDarkModeFromSwitch() {
+  const isDark = document.getElementById('darkModeSwitch').checked;
+  const next = isDark ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('theme-employe', next);
+  appSettings.darkMode = isDark;
+  showToast(isDark ? '🌙 Mode sombre activé' : '☀️ Mode clair activé');
+}
+
 (function() {
   const saved = localStorage.getItem('theme-employe') || 'dark';
   document.documentElement.setAttribute('data-theme', saved);
+  appSettings.darkMode = saved === 'dark';
 })();
 
-// ── TOAST ──
+/* ── SETTINGS ── */
+function saveSettings() {
+  appSettings.pushNotifications      = document.getElementById('pushNotifications').checked;
+  appSettings.emailNotifications     = document.getElementById('emailNotifications').checked;
+  appSettings.reminderNotifications  = document.getElementById('reminderNotifications').checked;
+  appSettings.dateFormat             = document.getElementById('dateFormat').value;
+  appSettings.showTeam               = document.getElementById('showTeam').checked;
+  appSettings.autoLogout             = document.getElementById('autoLogout').value;
+  localStorage.setItem('appSettings-employe', JSON.stringify(appSettings));
+  showToast('⚙️ Paramètres enregistrés');
+}
+
+function saveAllSettings() {
+  saveSettings();
+  showToast('✅ Tous les paramètres ont été sauvegardés');
+}
+
+function changeFontSize() {
+  const size = document.getElementById('fontSize').value;
+  appSettings.fontSize = parseInt(size);
+  document.body.style.fontSize = size + 'px';
+  showToast('📏 Taille de police mise à jour');
+}
+
+function loadSettings() {
+  const saved = localStorage.getItem('appSettings-employe');
+  if (saved) {
+    appSettings = { ...appSettings, ...JSON.parse(saved) };
+    document.getElementById('darkModeSwitch').checked       = appSettings.darkMode;
+    document.getElementById('fontSize').value               = appSettings.fontSize;
+    document.body.style.fontSize                            = appSettings.fontSize + 'px';
+    document.getElementById('pushNotifications').checked    = appSettings.pushNotifications;
+    document.getElementById('emailNotifications').checked   = appSettings.emailNotifications;
+    document.getElementById('reminderNotifications').checked = appSettings.reminderNotifications;
+    document.getElementById('dateFormat').value             = appSettings.dateFormat;
+    document.getElementById('showTeam').checked             = appSettings.showTeam;
+    document.getElementById('autoLogout').value             = appSettings.autoLogout;
+  } else {
+    document.getElementById('darkModeSwitch').checked = appSettings.darkMode;
+  }
+}
+
+function resetSettings() {
+  if (confirm('Voulez-vous vraiment réinitialiser tous les paramètres par défaut ?')) {
+    localStorage.removeItem('appSettings-employe');
+    appSettings = { darkMode:true, fontSize:16, pushNotifications:true, emailNotifications:true, reminderNotifications:true, dateFormat:'fr', showTeam:true, autoLogout:30 };
+    loadSettings();
+    document.documentElement.setAttribute('data-theme','dark');
+    showToast('🔄 Paramètres réinitialisés');
+  }
+}
+
+function exportData() {
+  const exp = { user: userData, settings: appSettings, demands: demandes, exportDate: new Date().toISOString() };
+  const uri = 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(exp, null, 2));
+  const a = document.createElement('a');
+  a.setAttribute('href', uri);
+  a.setAttribute('download', `mes_demandes_tt_${new Date().toISOString().slice(0,10)}.json`);
+  a.click();
+  showToast('📥 Export terminé');
+}
+
+function openSettingsPage() {
+  closeUserMenu();
+  show('settings', null);
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  const settingsBtn = document.querySelector('[onclick="show(\'settings\',this)"]');
+  if (settingsBtn) settingsBtn.classList.add('active');
+}
+
+/* ── TOAST ── */
 let toastTimer;
 function showToast(msg) {
   let t = document.getElementById('globalToast');
@@ -634,18 +941,75 @@ function showToast(msg) {
   toastTimer = setTimeout(() => { t.classList.add('out'); setTimeout(() => t.remove(), 350); }, 2500);
 }
 
-// ── DROPDOWN & LOGOUT ──
-function toggleDropdown(e) { e.stopPropagation(); document.getElementById('settingsDropdown').classList.toggle('open'); }
-function closeDropdown() { document.getElementById('settingsDropdown').classList.remove('open'); }
-document.addEventListener('click', () => { closeDropdown(); document.getElementById('notificationsPanel').classList.remove('open'); });
-function openLogout() { closeDropdown(); document.getElementById('logoutOverlay').classList.add('show'); }
-function closeLogout() { document.getElementById('logoutOverlay').classList.remove('show'); }
+/* ── USER MENU ── */
+function toggleUserMenu(e) { e.stopPropagation(); document.getElementById('userMenu').classList.toggle('open'); }
+function closeUserMenu()    { document.getElementById('userMenu').classList.remove('open'); }
+
+/* ── PROFILE ── */
+function openProfile() {
+  closeUserMenu();
+  document.getElementById('profileName').value  = userData.name;
+  document.getElementById('profileEmail').value = userData.email;
+  document.getElementById('profileDept').value  = userData.dept;
+  document.getElementById('profilePoste').value = userData.poste;
+  document.getElementById('profilePhone').value = userData.phone;
+  document.getElementById('profileOverlay').classList.add('show');
+}
+
+function closeProfile() { document.getElementById('profileOverlay').classList.remove('show'); }
+
+function saveProfile() {
+  userData.name  = document.getElementById('profileName').value;
+  userData.email = document.getElementById('profileEmail').value;
+  userData.dept  = document.getElementById('profileDept').value;
+  userData.poste = document.getElementById('profilePoste').value;
+  userData.phone = document.getElementById('profilePhone').value;
+  userData.avatar = userData.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0,2);
+
+  document.getElementById('sidebarName').textContent    = userData.name;
+  document.getElementById('sidebarRole').textContent    = userData.poste + ' • ' + userData.dept;
+  document.getElementById('menuUserName').textContent   = userData.name;
+  document.getElementById('menuUserEmail').textContent  = userData.email;
+  document.getElementById('userAvatarBtn').textContent  = userData.avatar;
+  document.getElementById('profileAvatarLg').textContent = userData.avatar;
+
+  closeProfile();
+  showToast('✅ Profil mis à jour');
+}
+
+/* ── LOGOUT ── */
+function openLogout()   { closeUserMenu(); document.getElementById('logoutOverlay').classList.add('show'); }
+function closeLogout()  { document.getElementById('logoutOverlay').classList.remove('show'); }
 function confirmLogout() {
   document.getElementById('logoutOverlay').innerHTML = '<div class="logout-modal"><span class="lm-icon">✅</span><h3 style="color:#96CEB4">Déconnexion réussie</h3><p>À bientôt, Ahmed.</p></div>';
   setTimeout(() => { window.location.href = 'index.html'; }, 1500);
 }
 
-// ── DATA ──
+/* ── CLOSE MENUS ON OUTSIDE CLICK ── */
+document.addEventListener('click', () => {
+  closeUserMenu();
+  document.getElementById('notificationsPanel').classList.remove('open');
+});
+
+/* ── NOTIFICATIONS ── */
+function getNotificationColor(type) { return { manager_approved:'#45B7D1', rh_rejected:'#ff6b6b' }[type] || '#4ECDC4'; }
+function toggleNotifications(e) { e.stopPropagation(); document.getElementById('notificationsPanel').classList.toggle('open'); renderNotifications(); }
+function renderNotifications() {
+  const c = document.getElementById('notificationsList');
+  if (!notifications.length) { c.innerHTML = '<div style="padding:20px;text-align:center;color:var(--muted)">Aucune notification</div>'; document.getElementById('notifDot').style.display='none'; return; }
+  c.innerHTML = notifications.map(n => `
+    <div class="notif-item" style="border-left:3px solid ${getNotificationColor(n.type)};${!n.read?'background:var(--row-hover);':''}" onclick="markAsRead(${n.id})">
+      <div class="notif-title">${n.title}</div>
+      <div class="notif-message">${n.message}</div>
+      <div class="notif-detail">${n.detail}</div>
+      <div class="notif-time">${n.time}</div>
+    </div>`).join('');
+  document.getElementById('notifDot').style.display = unreadCount > 0 ? 'block' : 'none';
+}
+function markAsRead(id) { notifications = notifications.map(n => n.id===id?{...n,read:true}:n); unreadCount = notifications.filter(n=>!n.read).length; renderNotifications(); }
+function clearAllNotifications() { notifications = notifications.map(n=>({...n,read:true})); unreadCount=0; renderNotifications(); document.getElementById('notificationsPanel').classList.remove('open'); showToast('🔔 Toutes les notifications marquées comme lues'); }
+
+/* ── DATA ── */
 const capData = { dept:'IT', max:10, current:5 };
 const days = ['Lundi','Mardi','Mercredi','Jeudi','Vendredi'];
 const todayIdx = 4;
@@ -658,32 +1022,32 @@ const teamData = [
 ];
 let demandes = [
   { id:1, type:'Télétravail', dateDebut:'2026-03-15', dateFin:'2026-03-15', motif:'Plomberie à régler à domicile', steps:[
-    { label:'Soumission', date:'10 Mar 2026', state:'done', note:'Envoyée' },
-    { label:'Validation\nManager (N1)', date:'11 Mar 2026', state:'done', note:'Validé ✓' },
-    { label:'Validation\nRH (N2)', date:'12 Mar 2026', state:'active', note:'En attente RH' },
-    { label:'Décision\nfinale', date:null, state:'waiting', note:'' }
+    {label:'Soumission', date:'10 Mar 2026', state:'done', note:'Envoyée'},
+    {label:'Validation\nManager (N1)', date:'11 Mar 2026', state:'done', note:'Validé ✓'},
+    {label:'Validation\nRH (N2)', date:'12 Mar 2026', state:'active', note:'En attente RH'},
+    {label:'Décision\nfinale', date:null, state:'waiting', note:''}
   ]},
   { id:2, type:'Télétravail', dateDebut:'2026-03-20', dateFin:'2026-03-22', motif:'Environnement de travail calme requis', steps:[
-    { label:'Soumission', date:'08 Mar 2026', state:'done', note:'Envoyée' },
-    { label:'Validation\nManager (N1)', date:'09 Mar 2026', state:'done', note:'Validé ✓' },
-    { label:'Validation\nRH (N2)', date:'10 Mar 2026', state:'done', note:'Validé ✓' },
-    { label:'Décision\nfinale', date:'10 Mar 2026', state:'done', note:'Approuvé ✓' }
+    {label:'Soumission', date:'08 Mar 2026', state:'done', note:'Envoyée'},
+    {label:'Validation\nManager (N1)', date:'09 Mar 2026', state:'done', note:'Validé ✓'},
+    {label:'Validation\nRH (N2)', date:'10 Mar 2026', state:'done', note:'Validé ✓'},
+    {label:'Décision\nfinale', date:'10 Mar 2026', state:'done', note:'Approuvé ✓'}
   ]},
   { id:3, type:'Télétravail', dateDebut:'2026-03-18', dateFin:'2026-03-18', motif:'Rendez-vous médical le matin', steps:[
-    { label:'Soumission', date:'12 Mar 2026', state:'done', note:'Envoyée' },
-    { label:'Validation\nManager (N1)', date:null, state:'pending', note:'En attente Manager' },
-    { label:'Validation\nRH (N2)', date:null, state:'waiting', note:'' },
-    { label:'Décision\nfinale', date:null, state:'waiting', note:'' }
+    {label:'Soumission', date:'12 Mar 2026', state:'done', note:'Envoyée'},
+    {label:'Validation\nManager (N1)', date:null, state:'pending', note:'En attente Manager'},
+    {label:'Validation\nRH (N2)', date:null, state:'waiting', note:''},
+    {label:'Décision\nfinale', date:null, state:'waiting', note:''}
   ]},
   { id:4, type:'Télétravail', dateDebut:'2026-03-18', dateFin:'2026-03-18', motif:'Rendez-vous médical le matin', steps:[
-    { label:'Soumission', date:'12 Mar 2026', state:'done', note:'Envoyée' },
-    { label:'Validation\nManager (N1)', date:'13 Mar 2026', state:'done', note:'Validé ✓' },
-    { label:'Validation\nRH (N2)', date:'14 Mar 2026', state:'refused', note:'Refusé ✗ - Capacité atteinte' },
-    { label:'Décision\nfinale', date:'14 Mar 2026', state:'refused', note:'Refusé' }
+    {label:'Soumission', date:'12 Mar 2026', state:'done', note:'Envoyée'},
+    {label:'Validation\nManager (N1)', date:'13 Mar 2026', state:'done', note:'Validé ✓'},
+    {label:'Validation\nRH (N2)', date:'14 Mar 2026', state:'refused', note:'Refusé ✗ - Capacité atteinte'},
+    {label:'Décision\nfinale', date:'14 Mar 2026', state:'refused', note:'Refusé'}
   ]}
 ];
 
-const pageTitles = { dashboard:'Mon espace télétravail', soumettre:'Soumettre une demande TT', suivi:'Suivi de mes demandes TT', planning:'Planning télétravail' };
+const pageTitles = { dashboard:'Mon espace télétravail', soumettre:'Soumettre une demande TT', suivi:'Suivi de mes demandes TT', planning:'Planning télétravail', settings:'Paramètres' };
 const weekLabels = ['Sem. 9–13 Mars 2026','Sem. 16–20 Mars 2026','Sem. 23–27 Mars 2026'];
 let weekOffset = 0;
 
@@ -691,12 +1055,12 @@ function show(sec, btn) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
   document.getElementById('sec-'+sec).classList.add('active');
-  btn.classList.add('active');
+  if (btn) btn.classList.add('active');
   document.getElementById('pageTitle').textContent = pageTitles[sec] || sec;
-  if (sec==='suivi') renderSuivi();
+  if (sec==='suivi')     renderSuivi();
   if (sec==='dashboard') renderDash();
   if (sec==='soumettre') renderCapWidget();
-  if (sec==='planning') renderPlanning();
+  if (sec==='planning')  renderPlanning();
 }
 document.getElementById('pageDate').textContent = new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 
@@ -716,16 +1080,16 @@ function renderCapWidget() {
 }
 
 function globalStatus(steps) {
-  if (steps[3] && steps[3].state==='refused') return {text:'Refusé',cls:'pill-red'};
-  if (steps[2] && steps[2].state==='refused') return {text:'Refusé RH',cls:'pill-red'};
-  if (steps[2] && steps[2].state==='done') return {text:'Approuvé ✓',cls:'pill-green'};
-  if (steps[1] && steps[1].state==='done' && steps[2] && steps[2].state==='active') return {text:'En attente RH',cls:'pill-blue'};
-  if (steps[1] && steps[1].state==='pending') return {text:'En attente Manager',cls:'pill-yellow'};
-  if (steps[1] && steps[1].state==='done') return {text:'En attente RH',cls:'pill-blue'};
+  if (steps[3]?.state==='refused') return {text:'Refusé',cls:'pill-red'};
+  if (steps[2]?.state==='refused') return {text:'Refusé RH',cls:'pill-red'};
+  if (steps[2]?.state==='done')    return {text:'Approuvé ✓',cls:'pill-green'};
+  if (steps[1]?.state==='done' && steps[2]?.state==='active') return {text:'En attente RH',cls:'pill-blue'};
+  if (steps[1]?.state==='pending') return {text:'En attente Manager',cls:'pill-yellow'};
+  if (steps[1]?.state==='done')    return {text:'En attente RH',cls:'pill-blue'};
   return {text:'Soumis',cls:'pill-yellow'};
 }
 
-const dotIcon = s => ({done:'✓',pending:'⏳',refused:'✗',waiting:'○',active:'▶'}[s]||'?');
+const dotIcon  = s => ({done:'✓',pending:'⏳',refused:'✗',waiting:'○',active:'▶'}[s]||'?');
 const dateColor = s => ({done:'green',pending:'yellow',refused:'red',active:'blue',waiting:'muted'}[s]);
 
 function renderSuivi() {
@@ -765,44 +1129,34 @@ function renderDash() {
 }
 
 function updateStats() {
-  const pending = demandes.filter(d => d.steps[1] && (d.steps[1].state==='pending' || d.steps[2]?.state==='active')).length;
+  const pending  = demandes.filter(d => d.steps[1] && (d.steps[1].state==='pending' || d.steps[2]?.state==='active')).length;
   const approved = demandes.filter(d => d.steps[2]?.state==='done' || d.steps[3]?.state==='done').length;
   const rejected = demandes.filter(d => d.steps[2]?.state==='refused' || d.steps[1]?.state==='refused').length;
-  document.getElementById('statPending').textContent = pending;
+  document.getElementById('statPending').textContent  = pending;
   document.getElementById('statApproved').textContent = approved;
   document.getElementById('statRejected').textContent = rejected;
-  document.getElementById('statTotal').textContent = demandes.length;
+  document.getElementById('statTotal').textContent    = demandes.length;
 }
 
 function submitDemande() {
-  const debut = document.getElementById('dateDebut').value;
-  const fin = document.getElementById('dateFin').value || debut;
-  const motif = document.getElementById('motifInput').value;
+  const debut  = document.getElementById('dateDebut').value;
+  const fin    = document.getElementById('dateFin').value || debut;
+  const motif  = document.getElementById('motifInput').value;
   if (!debut || !motif) { alert('Veuillez remplir les champs requis.'); return; }
   if (capData.current >= capData.max) return;
-  
-  const newDemande = {
-    id: Date.now(),
-    type:'Télétravail',
-    dateDebut:debut,
-    dateFin:fin,
-    motif:motif,
-    steps:[
-      {label:'Soumission', date:new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'}), state:'done', note:'Envoyée'},
-      {label:'Validation\nManager (N1)', date:null, state:'pending', note:'En attente Manager'},
-      {label:'Validation\nRH (N2)', date:null, state:'waiting', note:''},
-      {label:'Décision\nfinale', date:null, state:'waiting', note:''}
-    ]
-  };
-  
-  demandes.unshift(newDemande);
+  demandes.unshift({ id:Date.now(), type:'Télétravail', dateDebut:debut, dateFin:fin, motif:motif, steps:[
+    {label:'Soumission', date:new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'}), state:'done', note:'Envoyée'},
+    {label:'Validation\nManager (N1)', date:null, state:'pending', note:'En attente Manager'},
+    {label:'Validation\nRH (N2)', date:null, state:'waiting', note:''},
+    {label:'Décision\nfinale', date:null, state:'waiting', note:''}
+  ]});
   capData.current++;
   renderCapWidget();
   document.getElementById('submitMsg').style.display = 'block';
   setTimeout(() => document.getElementById('submitMsg').style.display = 'none', 3000);
   document.getElementById('motifInput').value = '';
-  document.getElementById('dateDebut').value = '';
-  document.getElementById('dateFin').value = '';
+  document.getElementById('dateDebut').value  = '';
+  document.getElementById('dateFin').value    = '';
   showToast('✅ Demande de télétravail soumise !');
   updateStats();
 }
@@ -816,13 +1170,67 @@ function nextWeek() { if (weekOffset<weekLabels.length-1) { weekOffset++; docume
 function renderPlanning() {
   const me = teamData.find(e => e.isMe);
   const myHead = `<thead><th>Journée</th>${days.map((d,i)=>`<th${i===todayIdx?` style="color:var(--accent)"`:''}>${d}${i===todayIdx?' ★':''}</th>`).join('')}</thead>`;
-  const myBody = `<tbody><td style="font-weight:700">Ahmed Ben Ali</td>${me.slots.map((s,i)=>`<td><span class="${slotClass(s)}">${slotText(s)}</span></td>`).join('')}</tbody>`;
+  const myBody = `<tbody><tr><td style="font-weight:700">Ahmed Ben Ali</td>${me.slots.map(s=>`<td><span class="${slotClass(s)}">${slotText(s)}</span></td>`).join('')}</tr></tbody>`;
   document.getElementById('myPlanningTable').innerHTML = myHead + myBody;
   const head = `<thead><th>Membre</th>${days.map((d,i)=>`<th${i===todayIdx?` style="color:var(--accent)"`:''}>${d}${i===todayIdx?' ●':''}</th>`).join('')}</thead>`;
-  const body = `<tbody>${teamData.map(e=>`<td><div style="font-weight:${e.isMe?'800':'600'};color:${e.isMe?'var(--accent)':'var(--text)'}">${e.nom}</div><div style="font-size:.71rem;color:var(--muted)">${e.poste}</div></td>${e.slots.map(s=>`<td><span class="${slotClass(s)}">${slotText(s)}</span></td>`).join('')}</tr>`).join('')}</tbody>`;
+  const body = `<tbody>${teamData.map(e=>`<tr><td><div style="font-weight:${e.isMe?'800':'600'};color:${e.isMe?'var(--accent)':'var(--text)'}">${e.nom}</div><div style="font-size:.71rem;color:var(--muted)">${e.poste}</div></td>${e.slots.map(s=>`<td><span class="${slotClass(s)}">${slotText(s)}</span></td>`).join('')}</tr>`).join('')}</tbody>`;
   document.getElementById('teamPlanningTable').innerHTML = head + body;
 }
 
+/* ── CHATBOT ── */
+let chatOpen = false;
+let chatHistory = [];
+let isTyping = false;
+const SYSTEM_PROMPT = `Tu es l'assistant IA de StudiaAFRIQUE, une plateforme de gestion RH pour entreprises africaines.
+Tu aides l'employé avec les demandes de télétravail, les règles RH, et les questions sur la plateforme.
+Contexte de Ahmed Ben Ali (Département IT) : 2 demandes en attente, 3 approuvées, 1 refusée. Capacité TT: 5/10 places.
+Réponds toujours en français, de manière concise et professionnelle.`;
+
+function toggleChat() {
+  const win = document.getElementById('chatWindow');
+  const fab = document.getElementById('chatFab');
+  chatOpen = !chatOpen;
+  if (chatOpen) { win.classList.remove('closing'); win.classList.add('open'); fab.classList.add('active'); setTimeout(() => document.getElementById('chatInput').focus(), 300); }
+  else { win.classList.add('closing'); win.classList.remove('open'); fab.classList.remove('active'); setTimeout(() => win.classList.remove('closing'), 280); }
+}
+function autoResize(t) { t.style.height = 'auto'; t.style.height = Math.min(t.scrollHeight, 90) + 'px'; }
+function chatKeyDown(e) { if (e.key==='Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }
+function sendSuggestion(text) { document.getElementById('chatInput').value = text; sendMessage(); }
+function appendBubble(role, html) {
+  const msgs = document.getElementById('chatMessages');
+  const b = document.createElement('div'); b.className = `chat-bubble ${role}`;
+  const isBot = role==='bot';
+  b.innerHTML = `<div class="bubble-avatar ${isBot?'':'user-av'}">${isBot?'🤖':'AB'}</div><div class="bubble-text">${html}</div>`;
+  msgs.appendChild(b); msgs.scrollTop = msgs.scrollHeight; return b;
+}
+function showTypingIndicator() {
+  const msgs = document.getElementById('chatMessages');
+  const ind = document.createElement('div'); ind.className='chat-bubble bot'; ind.id='typingIndicator';
+  ind.innerHTML=`<div class="bubble-avatar">🤖</div><div class="typing-dots"><span></span><span></span><span></span></div>`;
+  msgs.appendChild(ind); msgs.scrollTop=msgs.scrollHeight;
+}
+function removeTypingIndicator() { const i=document.getElementById('typingIndicator'); if(i) i.remove(); }
+async function sendMessage() {
+  if (isTyping) return;
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim(); if (!text) return;
+  input.value = ''; input.style.height = 'auto';
+  appendBubble('user', escapeHtml(text));
+  chatHistory.push({ role:'user', content:text });
+  isTyping=true; document.getElementById('chatSendBtn').disabled=true; showTypingIndicator();
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:1000, system:SYSTEM_PROMPT, messages:chatHistory }) });
+    const data = await response.json(); removeTypingIndicator();
+    if (data.content?.[0]?.text) { const reply=data.content[0].text; chatHistory.push({role:'assistant',content:reply}); appendBubble('bot',formatBotText(reply)); }
+    else appendBubble('bot', "⚠️ Désolé, je n'ai pas pu générer une réponse.");
+  } catch(e) { removeTypingIndicator(); appendBubble('bot','⚠️ Erreur de connexion. Vérifiez votre réseau.'); }
+  isTyping=false; document.getElementById('chatSendBtn').disabled=false; document.getElementById('chatInput').focus();
+}
+function escapeHtml(t) { return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>'); }
+function formatBotText(t) { return t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>').replace(/\n/g,'<br>').replace(/^- (.+)/gm,'• $1'); }
+
+/* ── INIT ── */
+loadSettings();
 renderDash();
 renderCapWidget();
 renderNotifications();
