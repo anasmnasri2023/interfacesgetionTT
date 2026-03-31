@@ -454,8 +454,6 @@ tr:hover td { background: var(--row-hover); }
 
     <!-- VALIDATION N1 -->
     <div class="section" id="sec-validation">
-      <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:6px;">Valider les demandes — Niveau 1</h2>
-      <p style="color:var(--muted);font-size:.83rem;margin-bottom:20px;">Première validation avant transmission au RH (N2)</p>
       <div class="legend-box">
         <div class="legend-item"><div class="legend-dot" style="background:#ffa26d"></div><span style="color:#ffa26d">En attente de votre validation</span></div>
         <div class="legend-item"><div class="legend-dot" style="background:#96CEB4"></div><span style="color:#96CEB4">Validé N1 — transmis au RH</span></div>
@@ -466,7 +464,6 @@ tr:hover td { background: var(--row-hover); }
 
     <!-- RAPPORT -->
     <div class="section" id="sec-rapports">
-      <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:24px;">Rapport télétravail équipe</h2>
       <div class="stats-grid" style="margin-bottom:24px">
         <div class="stat-card" style="--c:#45B7D1"><div class="stat-icon"><svg><use href="#ic-calendar"/></svg></div><div class="stat-val">22</div><div class="stat-label">Jours TT ce mois</div></div>
         <div class="stat-card" style="--c:#96CEB4"><div class="stat-icon"><svg><use href="#ic-home"/></svg></div><div class="stat-val">48%</div><div class="stat-label">Taux télétravail</div></div>
@@ -600,7 +597,7 @@ function closeLogout() { document.getElementById('logoutOverlay').classList.remo
 function confirmLogout() { document.getElementById('logoutOverlay').innerHTML = '<div class="logout-modal"><div class="lm-icon"><svg><use href="#ic-check-circle"/></svg></div><h3 style="color:#96CEB4">Déconnexion réussie</h3><p>À bientôt, Mohamed.</p></div>'; setTimeout(() => { window.location.href = 'index.html'; }, 1500); }
 
 const today = new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'});
-const titles = { dashboard:'Tableau de bord Manager', planning:'Planification télétravail', validation:'Validation demandes N1', rapports:'Rapport télétravail' };
+const titles = { dashboard:'Tableau de bord Manager', planning:'Planification télétravail', validation:'Validation demandes N1', rapports:'Rapport télétravail équipe' };
 
 const team = [
   { nom:'Ahmed Ben Ali',   poste:'Dev Frontend', slots:['present','present','remote','present','remote'] },
