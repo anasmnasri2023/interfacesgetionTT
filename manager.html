@@ -54,428 +54,237 @@
   --warning-border: rgba(255,162,109,0.25);
 }
 
-body { display:flex; min-height:100vh; background:var(--bg); font-family:'DM Sans',sans-serif; color:var(--text); transition: background .3s, color .3s; }
-.sidebar { width:240px; min-height:100vh; background:var(--sidebar); border-right:1px solid var(--border); display:flex; flex-direction:column; position:sticky; top:0; height:100vh; flex-shrink:0; box-shadow:var(--shadow); transition: background .3s; }
-.sidebar-brand { padding:28px 20px 20px; border-bottom:1px solid var(--border); }
-.sidebar-brand h2 { font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:800; }
-.sidebar-brand h2 span { color:var(--accent); }
-.sidebar-user { display:flex; align-items:center; gap:10px; margin-top:14px; }
-.avatar { width:38px; height:38px; border-radius:50%; background:linear-gradient(135deg,var(--accent),var(--accent2)); display:flex; align-items:center; justify-content:center; font-size:1rem; border:2px solid var(--accent); flex-shrink:0; }
-.user-info .name { font-weight:600; font-size:.85rem; }
-.user-info .role { color:var(--accent); font-size:.72rem; margin-top:1px; }
-nav { flex:1; padding:16px 10px; overflow-y:auto; }
-.nav-section { font-size:.68rem; font-weight:700; letter-spacing:2px; color:var(--muted); text-transform:uppercase; padding:14px 10px 6px; }
-.nav-item { display:flex; align-items:center; gap:12px; padding:10px 14px; border-radius:10px; cursor:pointer; font-size:.85rem; color:var(--muted); font-weight:500; border:none; background:transparent; width:100%; text-align:left; margin-bottom:2px; transition:all .2s; border-left:3px solid transparent; }
-.nav-item:hover { background:rgba(69,183,209,.08); color:var(--text); }
-.nav-item.active { background:rgba(69,183,209,.12); color:var(--accent); font-weight:600; border-left-color:var(--accent); }
-.nav-item .icon { font-size:1.05rem; flex-shrink:0; }
-.badge-count { margin-left:auto; background:var(--warning); color:#08101a; font-size:.68rem; font-weight:800; padding:2px 7px; border-radius:12px; }
-.main { flex:1; display:flex; flex-direction:column; overflow:hidden; }
-.topbar { padding:18px 32px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; background:var(--topbar-bg); box-shadow:var(--shadow); transition: background .3s; }
-.page-title { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; }
-.page-sub { color:var(--muted); font-size:.8rem; margin-top:2px; }
-.topbar-icons { display:flex; align-items:center; gap:4px; }
-.btn { padding:9px 18px; border-radius:9px; border:none; font-family:'DM Sans',sans-serif; font-weight:600; font-size:.83rem; cursor:pointer; transition:all .2s; }
-.btn-primary { background:var(--accent); color:#08101a; }
-.btn-primary:hover { background:var(--accent2); }
-.btn-ghost { background:var(--input-bg); color:var(--text); border:1px solid var(--border); }
-.btn-ghost:hover { background:var(--row-hover); }
-.topbar-icon-btn { position:relative; width:38px; height:38px; border-radius:50%; background:var(--input-bg); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background .2s; font-size:1.05rem; color:var(--muted); flex-shrink:0; }
-.topbar-icon-btn:hover { background:var(--icon-btn-hover); color:var(--text); }
-.topbar-icon-btn .notif-dot { position:absolute; top:5px; right:5px; width:8px; height:8px; border-radius:50%; background:var(--warning); border:2px solid var(--topbar-bg); }
-.topbar-avatar-btn { width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:.82rem; color:#08101a; font-weight:800; transition:transform .2s; flex-shrink:0; }
-.topbar-divider { width:1px; height:26px; background:var(--border); margin:0 6px; flex-shrink:0; }
-.dark-toggle { position:relative; width:38px; height:38px; border-radius:50%; background:var(--input-bg); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all .25s; font-size:1.1rem; flex-shrink:0; overflow:hidden; }
-.dark-toggle:hover { background:rgba(69,183,209,.12); border-color:rgba(69,183,209,.35); transform:scale(1.08); }
-.dark-toggle .icon-sun, .dark-toggle .icon-moon { position:absolute; transition:opacity .3s, transform .3s; }
-[data-theme="light"] .dark-toggle .icon-sun  { opacity:1; transform:scale(1); }
-[data-theme="light"] .dark-toggle .icon-moon { opacity:0; transform:scale(.5) rotate(45deg); }
-[data-theme="dark"]  .dark-toggle .icon-sun  { opacity:0; transform:scale(.5) rotate(-45deg); }
-[data-theme="dark"]  .dark-toggle .icon-moon { opacity:1; transform:scale(1); }
+body { display: flex; min-height: 100vh; background: var(--bg); font-family: 'DM Sans', sans-serif; color: var(--text); transition: background .3s, color .3s; }
 
-.dropdown-wrapper { position:relative; }
-.dropdown-menu { display:none; position:absolute; top:calc(100% + 10px); right:0; min-width:200px; background:var(--dropdown-bg); border:1px solid var(--border); border-radius:14px; padding:6px; z-index:999; box-shadow:var(--shadow); animation:fadeMenuIn .15s ease; }
-@keyframes fadeMenuIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
-.dropdown-menu.open { display:block; }
-.dropdown-header { padding:10px 14px 8px; border-bottom:1px solid var(--border); margin-bottom:4px; }
-.dropdown-header .dh-name { font-weight:700; font-size:.88rem; }
-.dropdown-header .dh-email { font-size:.73rem; color:var(--muted); margin-top:2px; }
-.dropdown-item { display:flex; align-items:center; gap:10px; width:100%; padding:9px 14px; border-radius:9px; background:transparent; border:none; cursor:pointer; font-family:'DM Sans',sans-serif; font-size:.84rem; color:var(--muted); text-align:left; transition:background .15s; }
-.dropdown-item:hover { background:rgba(69,183,209,.08); color:var(--text); }
-.dropdown-item .di-icon { font-size:.95rem; width:20px; text-align:center; }
-.dropdown-item.danger { color:rgba(255,107,107,.8); }
-.dropdown-item.danger:hover { background:rgba(255,107,107,.1); color:#ff6b6b; }
-.dropdown-divider { height:1px; background:var(--border); margin:4px 6px; }
-.logout-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:9999; align-items:center; justify-content:center; }
-.logout-overlay.show { display:flex; }
-.logout-modal { background:var(--overlay-modal-bg); border:1px solid var(--border); border-radius:20px; padding:32px 28px; text-align:center; max-width:340px; width:90%; animation:fadeMenuIn .2s ease; }
-.logout-modal h3 { font-family:'Syne',sans-serif; font-size:1.2rem; font-weight:800; margin-bottom:8px; }
-.logout-modal p { color:var(--muted); font-size:.85rem; margin-bottom:24px; }
-.logout-modal .lm-icon { font-size:2.4rem; margin-bottom:14px; display:block; }
-.logout-btns { display:flex; gap:10px; justify-content:center; }
-.btn-danger { background:rgba(255,107,107,.13); color:#ff6b6b; border:1px solid rgba(255,107,107,.3); border-radius:9px; padding:9px 18px; font-family:'DM Sans',sans-serif; font-weight:600; font-size:.83rem; cursor:pointer; transition:all .2s; }
-.btn-danger:hover { background:rgba(255,107,107,.28); }
-.content { flex:1; padding:32px; overflow-y:auto; background:var(--bg); transition: background .3s; }
-.section { display:none; }
-.section.active { display:block; }
-.stats-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:16px; margin-bottom:28px; }
-.stat-card { background:var(--card); border:1px solid var(--card-border); border-radius:16px; padding:20px; position:relative; overflow:hidden; transition:transform .2s; box-shadow:var(--shadow); }
-.stat-card:hover { transform:translateY(-3px); }
-.stat-card::before { content:''; position:absolute; top:0; right:0; width:80px; height:80px; background:radial-gradient(circle, var(--c) 0%, transparent 70%); opacity:.15; transform:translate(30%,-30%); }
-.stat-icon { font-size:1.5rem; margin-bottom:12px; }
-.stat-val { font-family:'Syne',sans-serif; font-size:2rem; font-weight:800; color:var(--c); }
-.stat-label { color:var(--muted); font-size:.78rem; margin-top:4px; }
-.panel { background:var(--card); border:1px solid var(--card-border); border-radius:18px; padding:24px; margin-bottom:20px; box-shadow:var(--shadow); transition: background .3s; }
-.panel-title { font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; margin-bottom:18px; }
-.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px; }
-.badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:.73rem; font-weight:600; }
-.badge-green  { background:rgba(150,206,180,.18); color:#27ae60; }
-.badge-yellow { background:var(--warning-light); color:var(--warning); }
-.badge-red    { background:rgba(255,107,107,.18); color:#e74c3c; }
-.badge-blue   { background:rgba(69,183,209,.18);  color:#45B7D1; }
-[data-theme="dark"] .badge-green  { background:rgba(150,206,180,.2); color:#96CEB4; }
-[data-theme="dark"] .badge-yellow { background:var(--warning-light); color:var(--warning); }
-[data-theme="dark"] .badge-red    { background:rgba(255,107,107,.2); color:#ff6b6b; }
-[data-theme="dark"] .badge-blue   { background:rgba(69,183,209,.2); color:#45B7D1; }
-.demand-card { background:var(--card); border:1px solid var(--card-border); border-radius:16px; padding:20px 22px; margin-bottom:14px; transition:border-color .2s; }
-.demand-card:hover { border-color:rgba(69,183,209,.3); }
-.demand-meta { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; }
-.status-pill { padding:4px 12px; border-radius:20px; font-size:.72rem; font-weight:700; white-space:nowrap; }
-.pill-warning { background:var(--warning-light); color:var(--warning); border:1px solid var(--warning-border); }
-.pill-green  { background:rgba(150,206,180,.15); color:#96CEB4; border:1px solid rgba(150,206,180,.3); }
-.pill-red    { background:rgba(255,107,107,.12); color:#ff6b6b; border:1px solid rgba(255,107,107,.3); }
-.pill-blue   { background:rgba(69,183,209,.15);  color:#45B7D1; border:1px solid rgba(69,183,209,.3); }
-.timeline { display:flex; align-items:flex-start; padding:8px 0 0; }
-.tl-step { flex:1; display:flex; flex-direction:column; align-items:center; position:relative; }
-.tl-step:not(:last-child)::after { content:''; position:absolute; top:12px; left:calc(50% + 14px); width:calc(100% - 28px); height:2px; background:var(--border); z-index:0; transition:background .4s; }
-.tl-step.done:not(:last-child)::after { background:var(--line-color,#96CEB4); }
-.tl-dot { width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.75rem; font-weight:800; z-index:1; position:relative; border:2px solid transparent; }
-.tl-dot.done    { background:rgba(150,206,180,.2); border-color:#96CEB4; color:#96CEB4; }
-.tl-dot.active  { background:rgba(69,183,209,.2); border-color:#45B7D1; color:#45B7D1; animation:pulse 1.4s infinite; }
-.tl-dot.pending { background:var(--warning-light); border-color:var(--warning); color:var(--warning); }
-.tl-dot.refused { background:rgba(255,107,107,.15); border-color:#ff6b6b; color:#ff6b6b; }
-.tl-dot.waiting { background:var(--input-bg); border-color:var(--border); color:var(--muted); }
+.ic { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ic svg { display: block; }
+
+.sidebar { width: 240px; min-height: 100vh; background: var(--sidebar); border-right: 1px solid var(--border); display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; flex-shrink: 0; box-shadow: var(--shadow); transition: background .3s; }
+.sidebar-brand { padding: 28px 20px 20px; border-bottom: 1px solid var(--border); }
+.sidebar-brand h2 { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800; }
+.sidebar-brand h2 span { color: var(--accent); }
+.sidebar-user { display: flex; align-items: center; gap: 10px; margin-top: 14px; }
+.avatar { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent2)); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 800; border: 2px solid var(--accent); flex-shrink: 0; color: #08101a; }
+.user-info .name { font-weight: 600; font-size: .85rem; }
+.user-info .role { color: var(--accent); font-size: .72rem; margin-top: 1px; }
+
+nav { flex: 1; padding: 16px 10px; overflow-y: auto; }
+.nav-section { font-size: .68rem; font-weight: 700; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; padding: 14px 10px 6px; }
+.nav-item { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 10px; cursor: pointer; font-size: .85rem; color: var(--muted); font-weight: 500; border: none; background: transparent; width: 100%; text-align: left; margin-bottom: 2px; transition: all .2s; border-left: 3px solid transparent; }
+.nav-item:hover { background: rgba(69,183,209,.08); color: var(--text); }
+.nav-item.active { background: rgba(69,183,209,.12); color: var(--accent); font-weight: 600; border-left-color: var(--accent); }
+.nav-item .nav-ic { width: 18px; height: 18px; flex-shrink: 0; }
+.nav-item .nav-ic svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.badge-count { margin-left: auto; background: var(--warning); color: #08101a; font-size: .68rem; font-weight: 800; padding: 2px 7px; border-radius: 12px; }
+
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+.topbar { padding: 18px 32px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: var(--topbar-bg); box-shadow: var(--shadow); transition: background .3s; }
+.page-title { font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 800; }
+.page-sub { color: var(--muted); font-size: .8rem; margin-top: 2px; }
+.topbar-actions { display: flex; align-items: center; gap: 8px; }
+.btn { padding: 9px 18px; border-radius: 9px; border: none; font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: .83rem; cursor: pointer; transition: all .2s; }
+.btn-primary { background: var(--accent); color: #08101a; }
+.btn-primary:hover { background: var(--accent2); }
+.btn-ghost { background: var(--input-bg); color: var(--text); border: 1px solid var(--border); }
+.btn-ghost:hover { background: var(--row-hover); }
+.topbar-icons { display: flex; align-items: center; gap: 4px; }
+.topbar-icon-btn { position: relative; width: 38px; height: 38px; border-radius: 50%; background: var(--input-bg); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .2s; color: var(--muted); flex-shrink: 0; }
+.topbar-icon-btn svg { width: 17px; height: 17px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.topbar-icon-btn:hover { background: var(--icon-btn-hover); color: var(--text); }
+.topbar-icon-btn .notif-dot { position: absolute; top: 5px; right: 5px; width: 8px; height: 8px; border-radius: 50%; background: var(--warning); border: 2px solid var(--topbar-bg); }
+.topbar-divider { width: 1px; height: 26px; background: var(--border); margin: 0 6px; flex-shrink: 0; }
+.dark-toggle { position: relative; width: 38px; height: 38px; border-radius: 50%; background: var(--input-bg); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all .25s; flex-shrink: 0; overflow: hidden; }
+.dark-toggle:hover { background: rgba(69,183,209,.12); border-color: rgba(69,183,209,.35); transform: scale(1.08); }
+.dark-toggle svg { width: 17px; height: 17px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; position: absolute; transition: opacity .3s, transform .3s; }
+.dark-toggle .icon-sun { color: var(--text); }
+.dark-toggle .icon-moon { color: var(--text); }
+[data-theme="light"] .dark-toggle .icon-sun { opacity: 1; transform: scale(1); }
+[data-theme="light"] .dark-toggle .icon-moon { opacity: 0; transform: scale(.5) rotate(45deg); }
+[data-theme="dark"] .dark-toggle .icon-sun { opacity: 0; transform: scale(.5) rotate(-45deg); }
+[data-theme="dark"] .dark-toggle .icon-moon { opacity: 1; transform: scale(1); }
+
+.dropdown-wrapper { position: relative; }
+.dropdown-menu { display: none; position: absolute; top: calc(100% + 10px); right: 0; min-width: 240px; background: var(--dropdown-bg); border: 1px solid var(--border); border-radius: 14px; padding: 6px; z-index: 999; box-shadow: var(--shadow); animation: fadeMenuIn .15s ease; }
+@keyframes fadeMenuIn { from { opacity:0; transform:translateY(-6px) } to { opacity:1; transform:translateY(0) } }
+.dropdown-menu.open { display: block; }
+.dropdown-header { padding: 12px 14px; border-bottom: 1px solid var(--border); margin-bottom: 6px; }
+.dropdown-header .dh-name { font-weight: 800; font-size: .95rem; color: var(--text); }
+.dropdown-header .dh-email { font-size: .75rem; color: var(--muted); margin-top: 4px; }
+.dropdown-item { display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 14px; border-radius: 9px; background: transparent; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: .85rem; color: var(--muted); text-align: left; transition: background .15s, color .15s; }
+.dropdown-item:hover { background: rgba(69,183,209,.08); color: var(--text); }
+.dropdown-item svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+.dropdown-item.danger { color: rgba(255,107,107,.8); }
+.dropdown-item.danger:hover { background: rgba(255,107,107,.1); color: #ff6b6b; }
+.dropdown-divider { height: 1px; background: var(--border); margin: 6px 8px; }
+
+.logout-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 9999; align-items: center; justify-content: center; }
+.logout-overlay.show { display: flex; }
+.logout-modal { background: var(--overlay-modal-bg); border: 1px solid var(--border); border-radius: 20px; padding: 32px 28px; text-align: center; max-width: 340px; width: 90%; animation: fadeMenuIn .2s ease; }
+.logout-modal h3 { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 800; margin-bottom: 8px; }
+.logout-modal p { color: var(--muted); font-size: .85rem; margin-bottom: 24px; }
+.logout-modal .lm-icon { display: flex; justify-content: center; margin-bottom: 14px; }
+.logout-modal .lm-icon svg { width: 42px; height: 42px; stroke: var(--accent); fill: none; stroke-width: 1.5; }
+.logout-btns { display: flex; gap: 10px; justify-content: center; }
+.btn-danger { background: rgba(255,107,107,.13); color: #ff6b6b; border: 1px solid rgba(255,107,107,.3); border-radius: 9px; padding: 9px 18px; font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: .83rem; cursor: pointer; transition: all .2s; }
+.btn-danger:hover { background: rgba(255,107,107,.28); }
+
+.content { flex: 1; padding: 32px; overflow-y: auto; background: var(--bg); transition: background .3s; }
+.section { display: none; }
+.section.active { display: block; }
+
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 16px; margin-bottom: 28px; }
+.stat-card { background: var(--card); border: 1px solid var(--card-border); border-radius: 16px; padding: 20px; position: relative; overflow: hidden; transition: transform .2s; box-shadow: var(--shadow); }
+.stat-card:hover { transform: translateY(-3px); }
+.stat-card::before { content: ''; position: absolute; top: 0; right: 0; width: 80px; height: 80px; background: radial-gradient(circle, var(--c) 0%, transparent 70%); opacity: .15; transform: translate(30%,-30%); }
+.stat-icon { margin-bottom: 12px; display: flex; }
+.stat-icon svg { width: 24px; height: 24px; stroke: var(--c); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.stat-val { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; color: var(--c); }
+.stat-label { color: var(--muted); font-size: .78rem; margin-top: 4px; }
+
+.panel { background: var(--card); border: 1px solid var(--card-border); border-radius: 18px; padding: 24px; margin-bottom: 20px; box-shadow: var(--shadow); transition: background .3s; }
+.panel-title { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+
+.badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: .73rem; font-weight: 600; }
+.badge-green  { background: rgba(150,206,180,.18); color: #27ae60; }
+.badge-yellow { background: var(--warning-light); color: var(--warning); }
+.badge-red    { background: rgba(255,107,107,.18); color: #e74c3c; }
+.badge-blue   { background: rgba(69,183,209,.18);  color: #45B7D1; }
+[data-theme="dark"] .badge-green  { background: rgba(150,206,180,.2); color: #96CEB4; }
+[data-theme="dark"] .badge-yellow { background: var(--warning-light); color: var(--warning); }
+[data-theme="dark"] .badge-red    { background: rgba(255,107,107,.2); color: #ff6b6b; }
+[data-theme="dark"] .badge-blue   { background: rgba(69,183,209,.2); color: #45B7D1; }
+
+.demand-card { background: var(--card); border: 1px solid var(--card-border); border-radius: 16px; padding: 20px 22px; margin-bottom: 14px; transition: border-color .2s; }
+.demand-card:hover { border-color: rgba(69,183,209,.3); }
+.demand-meta { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
+.status-pill { padding: 4px 12px; border-radius: 20px; font-size: .72rem; font-weight: 700; white-space: nowrap; }
+.pill-warning { background: var(--warning-light); color: var(--warning); border: 1px solid var(--warning-border); }
+.pill-green  { background: rgba(150,206,180,.15); color: #96CEB4; border: 1px solid rgba(150,206,180,.3); }
+.pill-red    { background: rgba(255,107,107,.12); color: #ff6b6b; border: 1px solid rgba(255,107,107,.3); }
+.pill-blue   { background: rgba(69,183,209,.15);  color: #45B7D1; border: 1px solid rgba(69,183,209,.3); }
+
+.timeline { display: flex; align-items: flex-start; padding: 8px 0 0; flex-wrap: wrap; }
+.tl-step { flex: 1; display: flex; flex-direction: column; align-items: center; position: relative; min-width: 70px; }
+.tl-step:not(:last-child)::after { content: ''; position: absolute; top: 12px; left: calc(50% + 14px); width: calc(100% - 28px); height: 2px; background: var(--border); z-index: 0; transition: background .4s; }
+.tl-step.done:not(:last-child)::after { background: var(--line-color, #96CEB4); }
+.tl-dot { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .75rem; font-weight: 800; z-index: 1; position: relative; border: 2px solid transparent; }
+.tl-dot.done    { background: rgba(150,206,180,.2); border-color: #96CEB4; color: #96CEB4; }
+.tl-dot.active  { background: rgba(69,183,209,.2); border-color: #45B7D1; color: #45B7D1; animation: pulse 1.4s infinite; }
+.tl-dot.pending { background: var(--warning-light); border-color: var(--warning); color: var(--warning); }
+.tl-dot.refused { background: rgba(255,107,107,.15); border-color: #ff6b6b; color: #ff6b6b; }
+.tl-dot.waiting { background: var(--input-bg); border-color: var(--border); color: var(--muted); }
 @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(69,183,209,.4)} 50%{box-shadow:0 0 0 6px rgba(69,183,209,0)} }
-.tl-label { font-size:.71rem; color:var(--muted); margin-top:7px; text-align:center; line-height:1.3; }
-.tl-date  { font-size:.68rem; margin-top:3px; text-align:center; font-weight:600; }
-.tl-date.warning { color:var(--warning); }
-.tl-date.green  { color:#96CEB4; }
-.tl-date.red    { color:#ff6b6b; }
-.tl-date.muted  { color:var(--muted); }
-.tl-date.blue   { color:#45B7D1; }
-.demand-actions { display:flex; gap:8px; margin-top:16px; padding-top:14px; border-top:1px solid var(--border); }
-.btn-validate { padding:7px 16px; background:rgba(150,206,180,.15); border:1px solid #96CEB4; border-radius:8px; color:#96CEB4; cursor:pointer; font-weight:600; font-size:.8rem; transition:all .2s; font-family:'DM Sans',sans-serif; }
-.btn-validate:hover { background:rgba(150,206,180,.3); }
-.btn-refuse { padding:7px 16px; background:rgba(255,107,107,.1); border:1px solid #ff6b6b; border-radius:8px; color:#ff6b6b; cursor:pointer; font-weight:600; font-size:.8rem; transition:all .2s; font-family:'DM Sans',sans-serif; }
-.btn-refuse:hover { background:rgba(255,107,107,.25); }
-.legend-box { display:flex; flex-wrap:wrap; gap:10px 22px; background:var(--input-bg); border:1px solid var(--border); border-radius:12px; padding:14px 18px; margin-bottom:20px; font-size:.78rem; }
-.legend-item { display:flex; align-items:center; gap:7px; }
-.legend-dot { width:11px; height:11px; border-radius:50%; flex-shrink:0; }
+.tl-label { font-size: .71rem; color: var(--muted); margin-top: 7px; text-align: center; line-height: 1.3; white-space: pre-line; }
+.tl-date  { font-size: .68rem; margin-top: 3px; text-align: center; font-weight: 600; }
+.tl-date.warning { color: var(--warning); }
+.tl-date.green  { color: #96CEB4; }
+.tl-date.red    { color: #ff6b6b; }
+.tl-date.muted  { color: var(--muted); }
+.tl-date.blue   { color: #45B7D1; }
 
-/* ── PLANNING ── */
-.planning-table { width:100%; border-collapse:collapse; min-width:600px; }
-.planning-table th, .planning-table td { padding:11px 10px; border:1px solid var(--border); font-size:.82rem; }
-.planning-table thead th { background:var(--input-bg); color:var(--muted); font-weight:700; text-transform:uppercase; font-size:.7rem; letter-spacing:.8px; }
-.planning-table .emp-cell { font-weight:600; }
-.slot { display:block; text-align:center; padding:5px 8px; border-radius:6px; font-size:.73rem; font-weight:600; cursor:pointer; transition:all .2s; }
-.slot-present { background:rgba(150,206,180,.2); color:#96CEB4; }
-.slot-remote  { background:rgba(69,183,209,.2);  color:#45B7D1; }
-.slot-off     { background:var(--input-bg); color:var(--muted); }
-.slot:hover   { filter:brightness(1.2); }
+.demand-actions { display: flex; gap: 8px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); }
+.btn-validate { padding: 7px 16px; background: rgba(150,206,180,.15); border: 1px solid #96CEB4; border-radius: 8px; color: #96CEB4; cursor: pointer; font-weight: 600; font-size: .8rem; transition: all .2s; font-family: 'DM Sans', sans-serif; display: flex; align-items: center; gap: 6px; }
+.btn-validate svg { width: 14px; height: 14px; stroke: #96CEB4; fill: none; stroke-width: 2; }
+.btn-validate:hover { background: rgba(150,206,180,.3); }
+.btn-refuse { padding: 7px 16px; background: rgba(255,107,107,.1); border: 1px solid #ff6b6b; border-radius: 8px; color: #ff6b6b; cursor: pointer; font-weight: 600; font-size: .8rem; transition: all .2s; font-family: 'DM Sans', sans-serif; display: flex; align-items: center; gap: 6px; }
+.btn-refuse svg { width: 14px; height: 14px; stroke: #ff6b6b; fill: none; stroke-width: 2; }
+.btn-refuse:hover { background: rgba(255,107,107,.25); }
 
-/* ── RAPPORT ── */
-.kpi-row { display:flex; align-items:center; gap:14px; margin-bottom:12px; }
-.kpi-label { font-size:.83rem; color:var(--text); width:180px; flex-shrink:0; opacity:.8; }
-.kpi-bar-wrap { flex:1; height:8px; background:var(--input-bg); border-radius:4px; overflow:hidden; }
-.kpi-bar { height:100%; border-radius:4px; }
-.kpi-pct { font-size:.78rem; color:var(--muted); width:40px; text-align:right; }
+.legend-box { display: flex; flex-wrap: wrap; gap: 10px 22px; background: var(--input-bg); border: 1px solid var(--border); border-radius: 12px; padding: 14px 18px; margin-bottom: 20px; font-size: .78rem; }
+.legend-item { display: flex; align-items: center; gap: 7px; }
+.legend-dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
 
-/* ── NOTIFICATIONS PANEL ── */
-.notifications-panel { position:absolute; top:100%; right:0; width:360px; background:var(--card); border:1px solid var(--border); border-radius:16px; margin-top:8px; box-shadow:var(--shadow); display:none; z-index:1000; max-height:500px; overflow-y:auto; }
-.notifications-panel.open { display:block; animation:fadeMenuIn .2s ease; }
-.notif-header { padding:16px; border-bottom:1px solid var(--border); font-weight:700; display:flex; justify-content:space-between; align-items:center; }
-.notif-item { padding:14px 16px; border-bottom:1px solid var(--border); cursor:pointer; transition:background .2s; }
-.notif-item:hover { background:var(--row-hover); }
-.notif-item.new { border-left:3px solid var(--warning); }
-.notif-title { font-weight:600; font-size:.85rem; margin-bottom:4px; }
-.notif-detail { font-size:.75rem; color:var(--muted); margin-bottom:4px; }
-.notif-time { font-size:.7rem; color:var(--muted); }
-.notif-badge { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:8px; background:var(--warning); }
+.planning-table { width: 100%; border-collapse: collapse; min-width: 600px; }
+.planning-table th, .planning-table td { padding: 11px 10px; border: 1px solid var(--border); font-size: .82rem; text-align: center; }
+.planning-table thead th { background: var(--input-bg); color: var(--muted); font-weight: 700; text-transform: uppercase; font-size: .7rem; letter-spacing: .8px; }
+.planning-table .emp-cell { text-align: left; font-weight: 600; }
+.slot { display: inline-block; padding: 5px 12px; border-radius: 6px; font-size: .73rem; font-weight: 600; cursor: pointer; transition: all .2s; min-width: 90px; }
+.slot-present { background: rgba(150,206,180,.2); color: #96CEB4; }
+.slot-remote  { background: rgba(69,183,209,.2);  color: #45B7D1; }
+.slot-off     { background: var(--input-bg); color: var(--muted); }
+.slot:hover   { filter: brightness(1.2); transform: scale(1.02); }
 
-table { width:100%; border-collapse:collapse; }
-th { padding:12px 14px; text-align:left; color:var(--muted); font-size:.75rem; font-weight:700; text-transform:uppercase; letter-spacing:.8px; border-bottom:1px solid var(--border); }
-td { padding:13px 14px; font-size:.85rem; border-bottom:1px solid var(--border); }
-tr:last-child td { border-bottom:none; }
-tr:hover td { background:var(--row-hover); }
+.kpi-row { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+.kpi-label { font-size: .83rem; color: var(--text); width: 180px; flex-shrink: 0; opacity: .8; }
+.kpi-bar-wrap { flex: 1; height: 8px; background: var(--input-bg); border-radius: 4px; overflow: hidden; }
+.kpi-bar { height: 100%; border-radius: 4px; }
+.kpi-pct { font-size: .78rem; color: var(--muted); width: 40px; text-align: right; }
 
-.toast { position:fixed; bottom:28px; right:28px; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:14px 20px; display:flex; align-items:center; gap:12px; font-size:.85rem; font-weight:500; color:var(--text); box-shadow:0 8px 28px rgba(0,0,0,.18); z-index:8888; animation:slideToast .4s cubic-bezier(.34,1.56,.64,1); }
-.toast.out { animation:slideToastOut .3s ease forwards; }
+.notifications-panel { position: absolute; top: 100%; right: 0; width: 360px; background: var(--card); border: 1px solid var(--border); border-radius: 16px; margin-top: 8px; box-shadow: var(--shadow); display: none; z-index: 1000; max-height: 500px; overflow-y: auto; }
+.notifications-panel.open { display: block; animation: fadeMenuIn .2s ease; }
+.notif-header { padding: 16px; border-bottom: 1px solid var(--border); font-weight: 700; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: var(--card); z-index: 1; }
+.notif-item { padding: 14px 16px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background .2s; }
+.notif-item:hover { background: var(--row-hover); }
+.notif-item.new { border-left: 3px solid var(--warning); }
+.notif-title { font-weight: 600; font-size: .85rem; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+.notif-detail { font-size: .75rem; color: var(--muted); margin-bottom: 4px; }
+.notif-time { font-size: .7rem; color: var(--muted); }
+
+table { width: 100%; border-collapse: collapse; }
+th { padding: 12px 14px; text-align: left; color: var(--muted); font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; border-bottom: 1px solid var(--border); }
+td { padding: 13px 14px; font-size: .85rem; border-bottom: 1px solid var(--border); }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--row-hover); }
+
+.toast { position: fixed; bottom: 28px; right: 28px; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px 20px; display: flex; align-items: center; gap: 12px; font-size: .85rem; font-weight: 500; color: var(--text); box-shadow: 0 8px 28px rgba(0,0,0,.18); z-index: 8888; animation: slideToast .4s cubic-bezier(.34,1.56,.64,1); }
+.toast.out { animation: slideToastOut .3s ease forwards; }
 @keyframes slideToast { from{opacity:0;transform:translateY(20px) scale(.9)} to{opacity:1;transform:translateY(0) scale(1)} }
 @keyframes slideToastOut { from{opacity:1;transform:translateY(0) scale(1)} to{opacity:0;transform:translateY(10px) scale(.95)} }
 
-/* CHATBOT FLOTTANT */
-.chat-fab {
-  position: fixed;
-  bottom: 28px;
-  right: 28px;
-  z-index: 9000;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #45B7D1, #63cce0);
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 6px 24px rgba(69,183,209,.45);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all .3s cubic-bezier(.34,1.56,.64,1);
-  overflow: hidden;
-}
-.chat-fab:hover {
-  transform: scale(1.1);
-  box-shadow: 0 10px 32px rgba(69,183,209,.55);
-}
-.chat-fab-icon {
-  position: absolute;
-  transition: opacity .25s, transform .25s;
-  display: flex; align-items: center; justify-content: center;
-}
+.chat-fab { position: fixed; bottom: 28px; right: 28px; z-index: 9000; width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #45B7D1, #63cce0); border: none; cursor: pointer; box-shadow: 0 6px 24px rgba(69,183,209,.45); display: flex; align-items: center; justify-content: center; transition: all .3s cubic-bezier(.34,1.56,.64,1); overflow: hidden; }
+.chat-fab:hover { transform: scale(1.1); box-shadow: 0 10px 32px rgba(69,183,209,.55); }
+.chat-fab-icon { position: absolute; transition: opacity .25s, transform .25s; display: flex; align-items: center; justify-content: center; }
+.chat-fab-icon svg { stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .chat-fab-icon.open  { opacity: 1; transform: scale(1) rotate(0deg); }
 .chat-fab-icon.close { opacity: 0; transform: scale(.4) rotate(90deg); }
 .chat-fab.active .chat-fab-icon.open  { opacity: 0; transform: scale(.4) rotate(-90deg); }
 .chat-fab.active .chat-fab-icon.close { opacity: 1; transform: scale(1) rotate(0deg); }
-
-.chat-fab-pulse {
-  position: absolute;
-  width: 100%; height: 100%;
-  border-radius: 50%;
-  background: rgba(69,183,209,.35);
-  animation: fabPulse 2.5s ease-out infinite;
-}
-@keyframes fabPulse {
-  0%   { transform: scale(1);   opacity: .7; }
-  70%  { transform: scale(1.6); opacity: 0; }
-  100% { transform: scale(1.6); opacity: 0; }
-}
+.chat-fab-pulse { position: absolute; width: 100%; height: 100%; border-radius: 50%; background: rgba(69,183,209,.35); animation: fabPulse 2.5s ease-out infinite; }
+@keyframes fabPulse { 0% { transform: scale(1); opacity: .7; } 70% { transform: scale(1.6); opacity: 0; } 100% { transform: scale(1.6); opacity: 0; } }
 .chat-fab.active .chat-fab-pulse { display: none; }
-
-.chat-badge {
-  position: absolute;
-  top: -2px; right: -2px;
-  width: 18px; height: 18px;
-  border-radius: 50%;
-  background: #FF6B35;
-  border: 2px solid #fff;
-  font-size: .6rem;
-  font-weight: 800;
-  color: #fff;
-  display: flex; align-items: center; justify-content: center;
-  transition: opacity .2s;
-}
+.chat-badge { position: absolute; top: -2px; right: -2px; width: 18px; height: 18px; border-radius: 50%; background: #FF6B35; border: 2px solid #fff; font-size: .6rem; font-weight: 800; color: #fff; display: flex; align-items: center; justify-content: center; transition: opacity .2s; }
 .chat-fab.active .chat-badge { opacity: 0; pointer-events: none; }
-
-.chat-window {
-  position: fixed;
-  bottom: 98px;
-  right: 28px;
-  z-index: 8999;
-  width: 380px;
-  max-height: 540px;
-  background: var(--overlay-modal-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 22px;
-  box-shadow: 0 20px 60px rgba(0,0,0,.22);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  transform-origin: bottom right;
-  transition: background .3s;
-  opacity: 0;
-  transform: scale(.85) translateY(20px);
-  pointer-events: none;
-}
-.chat-window.open {
-  opacity: 1;
-  transform: scale(1) translateY(0);
-  pointer-events: all;
-  animation: chatOpen .35s cubic-bezier(.34,1.56,.64,1) forwards;
-}
-.chat-window.closing {
-  animation: chatClose .25s ease forwards;
-}
-@keyframes chatOpen  { from { opacity:0; transform:scale(.85) translateY(20px); } to { opacity:1; transform:scale(1) translateY(0); } }
+.chat-window { position: fixed; bottom: 98px; right: 28px; z-index: 8999; width: 380px; max-height: 540px; background: var(--overlay-modal-bg); border: 1px solid var(--card-border); border-radius: 22px; box-shadow: 0 20px 60px rgba(0,0,0,.22); display: flex; flex-direction: column; overflow: hidden; transform-origin: bottom right; transition: background .3s; opacity: 0; transform: scale(.85) translateY(20px); pointer-events: none; }
+.chat-window.open { opacity: 1; transform: scale(1) translateY(0); pointer-events: all; animation: chatOpen .35s cubic-bezier(.34,1.56,.64,1) forwards; }
+.chat-window.closing { animation: chatClose .25s ease forwards; }
+@keyframes chatOpen { from { opacity:0; transform:scale(.85) translateY(20px); } to { opacity:1; transform:scale(1) translateY(0); } }
 @keyframes chatClose { from { opacity:1; transform:scale(1) translateY(0); } to { opacity:0; transform:scale(.88) translateY(16px); } }
-
-.chat-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 18px;
-  border-bottom: 1px solid var(--border);
-  background: linear-gradient(105deg, rgba(69,183,209,.08), rgba(99,204,224,.04));
-  flex-shrink: 0;
-}
-.chat-header-avatar {
-  width: 38px; height: 38px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #45B7D1, #63cce0);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.1rem;
-  flex-shrink: 0;
-  box-shadow: 0 3px 10px rgba(69,183,209,.3);
-}
+.chat-header { display: flex; align-items: center; gap: 12px; padding: 16px 18px; border-bottom: 1px solid var(--border); background: linear-gradient(105deg, rgba(69,183,209,.08), rgba(99,204,224,.04)); flex-shrink: 0; }
+.chat-header-avatar { width: 38px; height: 38px; border-radius: 12px; background: linear-gradient(135deg, #45B7D1, #63cce0); display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 3px 10px rgba(69,183,209,.3); }
+.chat-header-avatar svg { width: 20px; height: 20px; stroke: #fff; fill: none; stroke-width: 2; }
 .chat-header-info { flex: 1; min-width: 0; }
 .chat-header-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: .92rem; color: var(--text); }
 .chat-header-status { display: flex; align-items: center; gap: 5px; font-size: .72rem; color: var(--muted); margin-top: 2px; }
 .chat-status-dot { width: 7px; height: 7px; border-radius: 50%; background: #27ae60; flex-shrink: 0; animation: statusPulse 2s ease-in-out infinite; }
 @keyframes statusPulse { 0%,100% { opacity:1; } 50% { opacity:.5; } }
-.chat-header-close {
-  width: 30px; height: 30px; border-radius: 8px;
-  background: var(--input-bg); border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; color: var(--muted); font-size: .9rem;
-  transition: all .18s; flex-shrink: 0;
-}
+.chat-header-close { width: 30px; height: 30px; border-radius: 8px; background: var(--input-bg); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--muted); transition: all .18s; flex-shrink: 0; }
+.chat-header-close svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
 .chat-header-close:hover { background: rgba(231,76,60,.12); color: #e74c3c; border-color: rgba(231,76,60,.3); }
-
-.chat-messages {
-  flex: 1;
-  overflow-y: auto;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  scroll-behavior: smooth;
-}
-.chat-messages::-webkit-scrollbar { width: 4px; }
-.chat-messages::-webkit-scrollbar-track { background: transparent; }
-.chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-
-.chat-bubble {
-  display: flex;
-  gap: 8px;
-  align-items: flex-end;
-  max-width: 90%;
-  animation: bubbleIn .25s ease;
-}
+.chat-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; scroll-behavior: smooth; }
+.chat-bubble { display: flex; gap: 8px; align-items: flex-end; max-width: 90%; animation: bubbleIn .25s ease; }
 @keyframes bubbleIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 .chat-bubble.user { align-self: flex-end; flex-direction: row-reverse; }
 .chat-bubble.bot  { align-self: flex-start; }
-
-.bubble-avatar {
-  width: 26px; height: 26px; border-radius: 8px;
-  background: linear-gradient(135deg, #45B7D1, #63cce0);
-  display: flex; align-items: center; justify-content: center;
-  font-size: .7rem; flex-shrink: 0; color: #08101a;
-}
-.bubble-avatar.user-av {
-  background: linear-gradient(135deg, #7B61FF, #9B85FF);
-}
-
-.bubble-text {
-  padding: 10px 13px;
-  border-radius: 16px;
-  font-size: .84rem;
-  line-height: 1.5;
-  max-width: 100%;
-  word-break: break-word;
-}
+.bubble-avatar { width: 26px; height: 26px; border-radius: 8px; background: linear-gradient(135deg, #45B7D1, #63cce0); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.bubble-avatar svg { width: 14px; height: 14px; stroke: #fff; fill: none; stroke-width: 2; }
+.bubble-avatar.user-av { background: linear-gradient(135deg, #7B61FF, #9B85FF); font-size: .65rem; font-weight: 800; color: #fff; }
+.bubble-text { padding: 10px 13px; border-radius: 16px; font-size: .84rem; line-height: 1.5; max-width: 100%; word-break: break-word; }
 .chat-bubble.bot  .bubble-text { background: var(--input-bg); color: var(--text); border-bottom-left-radius: 4px; border: 1px solid var(--border); }
 .chat-bubble.user .bubble-text { background: linear-gradient(135deg, #45B7D1, #63cce0); color: #08101a; border-bottom-right-radius: 4px; }
-
-.typing-dots {
-  display: flex;
-  gap: 4px;
-  align-items: center;
-  padding: 10px 13px;
-  background: var(--input-bg);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  border-bottom-left-radius: 4px;
-}
-.typing-dots span {
-  width: 7px; height: 7px; border-radius: 50%;
-  background: var(--muted);
-  animation: typingBounce .9s ease-in-out infinite;
-}
+.typing-dots { display: flex; gap: 4px; align-items: center; padding: 10px 13px; background: var(--input-bg); border: 1px solid var(--border); border-radius: 16px; border-bottom-left-radius: 4px; }
+.typing-dots span { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); animation: typingBounce .9s ease-in-out infinite; }
 .typing-dots span:nth-child(2) { animation-delay: .15s; }
 .typing-dots span:nth-child(3) { animation-delay: .3s; }
-@keyframes typingBounce {
-  0%, 60%, 100% { transform: translateY(0); }
-  30%           { transform: translateY(-6px); }
-}
-
-.chat-suggestions {
-  padding: 10px 16px 0;
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  flex-shrink: 0;
-}
-.chat-suggestion-chip {
-  padding: 5px 12px;
-  border-radius: 20px;
-  background: rgba(69,183,209,.09);
-  border: 1px solid rgba(69,183,209,.22);
-  color: var(--accent);
-  font-size: .74rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all .18s;
-  font-family: 'DM Sans', sans-serif;
-  white-space: nowrap;
-}
-.chat-suggestion-chip:hover {
-  background: rgba(69,183,209,.18);
-  border-color: var(--accent);
-  transform: translateY(-1px);
-}
-
-.chat-input-area {
-  padding: 12px 14px 14px;
-  border-top: 1px solid var(--border);
-  display: flex;
-  gap: 8px;
-  align-items: flex-end;
-  flex-shrink: 0;
-  background: var(--overlay-modal-bg);
-  transition: background .3s;
-}
-.chat-input {
-  flex: 1;
-  padding: 10px 14px;
-  background: var(--input-bg);
-  border: 1.5px solid var(--border);
-  border-radius: 14px;
-  color: var(--text);
-  font-family: 'DM Sans', sans-serif;
-  font-size: .85rem;
-  outline: none;
-  resize: none;
-  max-height: 90px;
-  transition: border-color .2s, box-shadow .2s;
-  line-height: 1.45;
-}
-.chat-input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(69,183,209,.1);
-}
+@keyframes typingBounce { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-6px); } }
+.chat-suggestions { padding: 10px 16px 0; display: flex; gap: 6px; flex-wrap: wrap; flex-shrink: 0; }
+.chat-suggestion-chip { padding: 5px 12px; border-radius: 20px; background: rgba(69,183,209,.09); border: 1px solid rgba(69,183,209,.22); color: var(--accent); font-size: .74rem; font-weight: 600; cursor: pointer; transition: all .18s; font-family: 'DM Sans', sans-serif; white-space: nowrap; }
+.chat-suggestion-chip:hover { background: rgba(69,183,209,.18); border-color: var(--accent); transform: translateY(-1px); }
+.chat-input-area { padding: 12px 14px 14px; border-top: 1px solid var(--border); display: flex; gap: 8px; align-items: flex-end; flex-shrink: 0; background: var(--overlay-modal-bg); transition: background .3s; }
+.chat-input { flex: 1; padding: 10px 14px; background: var(--input-bg); border: 1.5px solid var(--border); border-radius: 14px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: .85rem; outline: none; resize: none; max-height: 90px; transition: border-color .2s, box-shadow .2s; line-height: 1.45; }
+.chat-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(69,183,209,.1); }
 .chat-input::placeholder { color: var(--muted); }
-
-.chat-send-btn {
-  width: 40px; height: 40px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #45B7D1, #63cce0);
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all .2s;
-  flex-shrink: 0;
-  box-shadow: 0 3px 10px rgba(69,183,209,.3);
-}
+.chat-send-btn { width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #45B7D1, #63cce0); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .2s; flex-shrink: 0; box-shadow: 0 3px 10px rgba(69,183,209,.3); }
 .chat-send-btn:hover { transform: scale(1.08) translateY(-1px); box-shadow: 0 6px 16px rgba(69,183,209,.4); }
 .chat-send-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
 .chat-send-btn svg { width: 18px; height: 18px; stroke: #08101a; stroke-width: 2.2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
@@ -483,9 +292,35 @@ tr:hover td { background:var(--row-hover); }
 </head>
 <body>
 
+<!-- SVG ICON DEFS -->
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <symbol id="ic-home" viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9.5z"/><polyline points="9 21 9 12 15 12 15 21"/></symbol>
+    <symbol id="ic-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
+    <symbol id="ic-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
+    <symbol id="ic-chart" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></symbol>
+    <symbol id="ic-users" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="ic-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+    <symbol id="ic-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></symbol>
+    <symbol id="ic-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+    <symbol id="ic-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+    <symbol id="ic-log-out" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></symbol>
+    <symbol id="ic-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+    <symbol id="ic-chat" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+    <symbol id="ic-send" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></symbol>
+    <symbol id="ic-x" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+    <symbol id="ic-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+    <symbol id="ic-check-circle" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></symbol>
+    <symbol id="ic-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+    <symbol id="ic-briefcase" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></symbol>
+    <symbol id="ic-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></symbol>
+    <symbol id="ic-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></symbol>
+  </defs>
+</svg>
+
 <div class="logout-overlay" id="logoutOverlay">
   <div class="logout-modal">
-    <span class="lm-icon">🔐</span>
+    <div class="lm-icon"><svg><use href="#ic-lock"/></svg></div>
     <h3>Se déconnecter ?</h3>
     <p>Vous allez quitter votre session Manager.</p>
     <div class="logout-btns">
@@ -499,21 +334,29 @@ tr:hover td { background:var(--row-hover); }
   <div class="sidebar-brand">
     <h2>STUDIA<span>AFR</span></h2>
     <div class="sidebar-user">
-      <div class="avatar">📊</div>
+      <div class="avatar" id="sidebarAvatarEl">MT</div>
       <div class="user-info">
-        <div class="name">Mohamed Trabelsi</div>
-        <div class="role">Manager IT</div>
+        <div class="name" id="sidebarName">Mohamed Trabelsi</div>
+        <div class="role" id="sidebarRole">Manager IT</div>
       </div>
     </div>
   </div>
   <nav>
     <div class="nav-section">Principal</div>
-    <button class="nav-item active" onclick="show('dashboard',this)"><span class="icon">🏠</span> Tableau de bord</button>
+    <button class="nav-item active" onclick="show('dashboard',this)">
+      <span class="nav-ic"><svg><use href="#ic-home"/></svg></span> Tableau de bord
+    </button>
     <div class="nav-section">Télétravail équipe</div>
-    <button class="nav-item" onclick="show('planning',this)"><span class="icon">📅</span> Planifier télétravail</button>
-    <button class="nav-item" onclick="show('validation',this)"><span class="icon">✅</span> Valider demandes N1 <span class="badge-count" id="badgeN1">4</span></button>
+    <button class="nav-item" onclick="show('planning',this)">
+      <span class="nav-ic"><svg><use href="#ic-calendar"/></svg></span> Planifier télétravail
+    </button>
+    <button class="nav-item" onclick="show('validation',this)">
+      <span class="nav-ic"><svg><use href="#ic-check"/></svg></span> Valider demandes N1 <span class="badge-count" id="badgeN1">4</span>
+    </button>
     <div class="nav-section">Rapports</div>
-    <button class="nav-item" onclick="show('rapports',this)"><span class="icon">📈</span> Rapport télétravail</button>
+    <button class="nav-item" onclick="show('rapports',this)">
+      <span class="nav-ic"><svg><use href="#ic-chart"/></svg></span> Rapport télétravail
+    </button>
   </nav>
 </aside>
 
@@ -523,40 +366,43 @@ tr:hover td { background:var(--row-hover); }
       <div class="page-title" id="pageTitle">Tableau de bord Manager</div>
       <div class="page-sub" id="pageDate"></div>
     </div>
-    <div style="display:flex;align-items:center;gap:10px">
+    <div class="topbar-actions">
       <div class="topbar-icons">
-        <button class="dark-toggle" onclick="toggleDarkMode()" title="Thème">
-          <span class="icon-sun">☀️</span>
-          <span class="icon-moon">🌙</span>
+        <button class="dark-toggle" onclick="toggleDarkMode()">
+          <svg class="icon-sun"><use href="#ic-sun"/></svg>
+          <svg class="icon-moon"><use href="#ic-moon"/></svg>
         </button>
         <div style="position:relative">
-          <button class="topbar-icon-btn" onclick="toggleNotifications(event)" title="Notifications">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+          <button class="topbar-icon-btn" onclick="toggleNotifications(event)">
+            <svg><use href="#ic-bell"/></svg>
             <span class="notif-dot" id="notifDot"></span>
           </button>
           <div class="notifications-panel" id="notificationsPanel">
             <div class="notif-header">
-              <span>🔔 Notifications</span>
+              <span>Notifications</span>
               <button style="background:none;border:none;color:var(--muted);cursor:pointer" onclick="clearNotifications()">Tout marquer lu</button>
             </div>
             <div id="notificationsList"></div>
           </div>
         </div>
         <div class="topbar-divider"></div>
-        <div class="topbar-avatar-btn" style="background:linear-gradient(135deg,#45B7D1,#63cce0);border:2px solid #45B7D1">MT</div>
         <div class="dropdown-wrapper">
-          <button class="topbar-icon-btn" onclick="toggleDropdown(event)">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
-          </button>
+          <div class="avatar" style="cursor:pointer; width:38px; height:38px;" id="userAvatarBtn" onclick="toggleDropdown(event)">MT</div>
           <div class="dropdown-menu" id="settingsDropdown">
             <div class="dropdown-header">
-              <div class="dh-name">Mohamed Trabelsi</div>
-              <div class="dh-email">m.trabelsi@studiaafrique.com</div>
+              <div class="dh-name" id="menuUserName">Mohamed Trabelsi</div>
+              <div class="dh-email" id="menuUserEmail">m.trabelsi@studiaafrique.com</div>
             </div>
-            <button class="dropdown-item" onclick="closeDropdown()"><span class="di-icon">👤</span> Mon profil</button>
-            <button class="dropdown-item" onclick="closeDropdown()"><span class="di-icon">⚙️</span> Paramètres</button>
+            <button class="dropdown-item" onclick="openProfile()">
+              <svg><use href="#ic-user"/></svg> Mon profil
+            </button>
+            <button class="dropdown-item" onclick="openSettingsPage()">
+              <svg><use href="#ic-settings"/></svg> Paramètres
+            </button>
             <div class="dropdown-divider"></div>
-            <button class="dropdown-item danger" onclick="openLogout()"><span class="di-icon">🚪</span> Se déconnecter</button>
+            <button class="dropdown-item danger" onclick="openLogout()">
+              <svg><use href="#ic-log-out"/></svg> Se déconnecter
+            </button>
           </div>
         </div>
       </div>
@@ -564,14 +410,13 @@ tr:hover td { background:var(--row-hover); }
   </div>
 
   <div class="content">
-
     <!-- DASHBOARD -->
     <div class="section active" id="sec-dashboard">
       <div class="stats-grid">
-        <div class="stat-card" style="--c:#45B7D1"><div class="stat-icon">👥</div><div class="stat-val">12</div><div class="stat-label">Membres de l'équipe</div></div>
-        <div class="stat-card" style="--c:#ffa26d"><div class="stat-icon">✅</div><div class="stat-val" id="dashCount">4</div><div class="stat-label">Demandes TT à valider (N1)</div></div>
-        <div class="stat-card" style="--c:#96CEB4"><div class="stat-icon">🏡</div><div class="stat-val">5</div><div class="stat-label">En télétravail aujourd'hui</div></div>
-        <div class="stat-card" style="--c:#ffa26d"><div class="stat-icon">📊</div><div class="stat-val">48%</div><div class="stat-label">Taux TT ce mois</div></div>
+        <div class="stat-card" style="--c:#45B7D1"><div class="stat-icon"><svg><use href="#ic-users"/></svg></div><div class="stat-val">12</div><div class="stat-label">Membres de l'équipe</div></div>
+        <div class="stat-card" style="--c:#ffa26d"><div class="stat-icon"><svg><use href="#ic-check"/></svg></div><div class="stat-val" id="dashCount">4</div><div class="stat-label">Demandes TT à valider (N1)</div></div>
+        <div class="stat-card" style="--c:#96CEB4"><div class="stat-icon"><svg><use href="#ic-home"/></svg></div><div class="stat-val">5</div><div class="stat-label">En télétravail aujourd'hui</div></div>
+        <div class="stat-card" style="--c:#ffa26d"><div class="stat-icon"><svg><use href="#ic-chart"/></svg></div><div class="stat-val">48%</div><div class="stat-label">Taux TT ce mois</div></div>
       </div>
       <div class="grid2">
         <div class="panel">
@@ -587,24 +432,24 @@ tr:hover td { background:var(--row-hover); }
 
     <!-- PLANNING -->
     <div class="section" id="sec-planning">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:10px">
         <div>
           <h2 style="font-family:'Syne',sans-serif;font-weight:800;">Planification télétravail équipe</h2>
           <p style="color:var(--muted);font-size:.83rem;margin-top:4px;">Semaine du 9 au 13 Mars 2026</p>
         </div>
-        <button class="btn btn-primary" onclick="savePlanning()">💾 Enregistrer le planning</button>
+        <button class="btn btn-primary" onclick="savePlanning()"><svg width="14" height="14" style="stroke:currentColor;stroke-width:2;margin-right:6px"><use href="#ic-save"/></svg> Enregistrer le planning</button>
       </div>
       <div class="panel">
         <div style="overflow-x:auto">
           <table class="planning-table">
-            <thead><tr><th>Employé</th><th>Lundi</th><th>Mardi</th><th>Mercredi</th><th>Jeudi</th><th style="color:var(--accent)">Vendredi ★</th> </thead>
+            <thead><tr><th>Employé</th><th>Lundi</th><th>Mardi</th><th>Mercredi</th><th>Jeudi</th><th style="color:var(--accent)">Vendredi ★</th></tr></thead>
             <tbody id="planningBody"></tbody>
           </table>
         </div>
-        <div style="display:flex;gap:16px;margin-top:16px;font-size:.78rem">
-          <span><span class="slot slot-present" style="display:inline-block;width:80px;margin-right:6px">Présentiel</span></span>
-          <span><span class="slot slot-remote" style="display:inline-block;width:80px;margin-right:6px">Télétravail</span></span>
-          <span><span class="slot slot-off" style="display:inline-block;width:80px;margin-right:6px">— Repos —</span></span>
+        <div style="display:flex;gap:16px;margin-top:16px;font-size:.78rem;flex-wrap:wrap">
+          <span><span class="slot slot-present" style="display:inline-block;min-width:80px">🏢 Présentiel</span></span>
+          <span><span class="slot slot-remote" style="display:inline-block;min-width:80px">🏡 Télétravail</span></span>
+          <span><span class="slot slot-off" style="display:inline-block;min-width:80px">— Repos —</span></span>
         </div>
       </div>
       <div id="planningMsg" style="display:none;background:rgba(150,206,180,.1);border:1px solid #96CEB4;border-radius:12px;padding:14px;color:#96CEB4;font-weight:600;margin-top:12px;text-align:center">✅ Planning télétravail enregistré avec succès !</div>
@@ -626,10 +471,10 @@ tr:hover td { background:var(--row-hover); }
     <div class="section" id="sec-rapports">
       <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:24px;">Rapport télétravail équipe</h2>
       <div class="stats-grid" style="margin-bottom:24px">
-        <div class="stat-card" style="--c:#45B7D1"><div class="stat-icon">📅</div><div class="stat-val">22</div><div class="stat-label">Jours TT ce mois</div></div>
-        <div class="stat-card" style="--c:#96CEB4"><div class="stat-icon">🏡</div><div class="stat-val">48%</div><div class="stat-label">Taux télétravail</div></div>
-        <div class="stat-card" style="--c:#ffa26d"><div class="stat-icon">✅</div><div class="stat-val">71%</div><div class="stat-label">Taux d'approbation</div></div>
-        <div class="stat-card" style="--c:#ffa26d"><div class="stat-icon">⏳</div><div class="stat-val">2</div><div class="stat-label">En attente validation</div></div>
+        <div class="stat-card" style="--c:#45B7D1"><div class="stat-icon"><svg><use href="#ic-calendar"/></svg></div><div class="stat-val">22</div><div class="stat-label">Jours TT ce mois</div></div>
+        <div class="stat-card" style="--c:#96CEB4"><div class="stat-icon"><svg><use href="#ic-home"/></svg></div><div class="stat-val">48%</div><div class="stat-label">Taux télétravail</div></div>
+        <div class="stat-card" style="--c:#ffa26d"><div class="stat-icon"><svg><use href="#ic-check-circle"/></svg></div><div class="stat-val">71%</div><div class="stat-label">Taux d'approbation</div></div>
+        <div class="stat-card" style="--c:#ffa26d"><div class="stat-icon"><svg><use href="#ic-clock"/></svg></div><div class="stat-val">2</div><div class="stat-label">En attente validation</div></div>
       </div>
       <div class="panel">
         <div class="panel-title">📊 KPI Télétravail — Mars 2026</div>
@@ -648,63 +493,74 @@ tr:hover td { background:var(--row-hover); }
         </table>
       </div>
     </div>
-
   </div>
 </div>
 
-<!-- CHATBOT FLOTTANT -->
+<!-- PROFILE MODAL -->
+<div class="profile-overlay" id="profileOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999;align-items:center;justify-content:center">
+  <div class="profile-modal" style="background:var(--overlay-modal-bg);border:1px solid var(--border);border-radius:24px;padding:32px;max-width:480px;width:90%">
+    <div class="profile-header" style="text-align:center;margin-bottom:28px">
+      <div class="profile-avatar-lg" id="profileAvatarLg" style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:800;margin:0 auto 16px;border:3px solid var(--accent);color:#08101a">MT</div>
+      <h3 style="font-family:'Syne'">Mon profil</h3>
+    </div>
+    <div class="profile-field"><label>Nom complet</label><input type="text" id="profileName" value="Mohamed Trabelsi"></div>
+    <div class="profile-field"><label>Email professionnel</label><input type="email" id="profileEmail" value="m.trabelsi@studiaafrique.com"></div>
+    <div class="profile-field"><label>Département</label><select id="profileDept"><option selected>IT</option><option>Digital</option><option>RH</option></select></div>
+    <div class="profile-field"><label>Poste</label><input type="text" id="profilePoste" value="Manager IT"></div>
+    <div class="profile-field"><label>Téléphone</label><input type="tel" id="profilePhone" value="+216 98 765 432"></div>
+    <div class="profile-actions" style="display:flex;gap:12px;margin-top:24px">
+      <button class="btn btn-primary" onclick="saveProfile()">Enregistrer</button>
+      <button class="btn btn-ghost" onclick="closeProfile()">Annuler</button>
+    </div>
+  </div>
+</div>
+
+<!-- CHATBOT -->
 <div class="chat-window" id="chatWindow">
   <div class="chat-header">
-    <div class="chat-header-avatar">🤖</div>
+    <div class="chat-header-avatar"><svg><use href="#ic-chat"/></svg></div>
     <div class="chat-header-info">
       <div class="chat-header-name">Assistant StudiaAFRIQUE</div>
-      <div class="chat-header-status">
-        <div class="chat-status-dot"></div>
-        <span>En ligne · IA propulsée par Claude</span>
-      </div>
+      <div class="chat-header-status"><div class="chat-status-dot"></div><span>En ligne · IA propulsée par Claude</span></div>
     </div>
-    <button class="chat-header-close" onclick="toggleChat()" title="Fermer">✕</button>
+    <button class="chat-header-close" onclick="toggleChat()"><svg><use href="#ic-x"/></svg></button>
   </div>
-
   <div class="chat-messages" id="chatMessages">
     <div class="chat-bubble bot">
-      <div class="bubble-avatar">🤖</div>
+      <div class="bubble-avatar"><svg><use href="#ic-chat"/></svg></div>
       <div class="bubble-text">Bonjour ! Je suis l'assistant IA de <strong>StudiaAFRIQUE</strong>. 👋<br>Je peux vous aider à gérer les demandes de télétravail de votre équipe, planifier le TT, et analyser les rapports.</div>
     </div>
   </div>
-
   <div class="chat-suggestions" id="chatSuggestions">
     <div class="chat-suggestion-chip" onclick="sendSuggestion('Combien de demandes en attente ?')">📋 Demandes en attente</div>
     <div class="chat-suggestion-chip" onclick="sendSuggestion('Qui est en télétravail aujourd\'hui ?')">🏡 Présences TT</div>
     <div class="chat-suggestion-chip" onclick="sendSuggestion('Taux de télétravail de l\'équipe')">📊 Taux TT équipe</div>
     <div class="chat-suggestion-chip" onclick="sendSuggestion('Comment valider une demande N1 ?')">✅ Valider une demande</div>
   </div>
-
   <div class="chat-input-area">
     <textarea class="chat-input" id="chatInput" placeholder="Posez votre question…" rows="1" onkeydown="chatKeyDown(event)" oninput="autoResize(this)"></textarea>
-    <button class="chat-send-btn" id="chatSendBtn" onclick="sendMessage()" title="Envoyer">
-      <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-    </button>
+    <button class="chat-send-btn" id="chatSendBtn" onclick="sendMessage()"><svg><use href="#ic-send"/></svg></button>
   </div>
 </div>
 
-<button class="chat-fab" id="chatFab" onclick="toggleChat()" title="Assistant IA">
+<button class="chat-fab" id="chatFab" onclick="toggleChat()">
   <div class="chat-fab-pulse"></div>
   <div class="chat-badge">1</div>
-  <div class="chat-fab-icon open">
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-    </svg>
-  </div>
-  <div class="chat-fab-icon close">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <line x1="18" y1="6" x2="6" y2="18"/>
-      <line x1="6" y1="6" x2="18" y2="18"/>
-    </svg>
-  </div>
+  <div class="chat-fab-icon open"><svg width="26" height="26"><use href="#ic-chat"/></svg></div>
+  <div class="chat-fab-icon close"><svg width="22" height="22"><use href="#ic-x"/></svg></div>
 </button>
 
 <script>
+// ==================== USER DATA ====================
+let userData = {
+  name: 'Mohamed Trabelsi',
+  email: 'm.trabelsi@studiaafrique.com',
+  dept: 'IT',
+  poste: 'Manager IT',
+  phone: '+216 98 765 432',
+  avatar: 'MT'
+};
+
 // ==================== NOTIFICATIONS ====================
 let notifications = [
   { id: 1, employe: "Ahmed Ben Ali", date: "10 Mars 2026", motif: "Plomberie à régler à domicile", message: "📝 Ahmed Ben Ali a soumis une demande de télétravail", time: "Il y a 2 heures", isNew: true },
@@ -715,59 +571,19 @@ let notifications = [
 
 let unreadCount = notifications.filter(n => n.isNew).length;
 
-function toggleNotifications(event) {
-  event.stopPropagation();
-  const panel = document.getElementById('notificationsPanel');
-  panel.classList.toggle('open');
-  renderNotifications();
-}
-
+function toggleNotifications(event) { event.stopPropagation(); document.getElementById('notificationsPanel').classList.toggle('open'); renderNotifications(); }
 function renderNotifications() {
   const container = document.getElementById('notificationsList');
-  if (notifications.length === 0) {
-    container.innerHTML = '<div style="padding:20px;text-align:center;color:var(--muted)">Aucune notification</div>';
-    document.getElementById('notifDot').style.display = 'none';
-    return;
-  }
-  container.innerHTML = notifications.map(notif => `
-    <div class="notif-item ${notif.isNew ? 'new' : ''}" onclick="markAsRead(${notif.id})">
-      <div class="notif-title"><span class="notif-badge"></span>${notif.message}</div>
-      <div class="notif-detail">📅 Date : ${notif.date} • 💬 ${notif.motif}</div>
-      <div class="notif-time">${notif.time}</div>
-    </div>`).join('');
+  if (notifications.length === 0) { container.innerHTML = '<div style="padding:20px;text-align:center;color:var(--muted)">Aucune notification</div>'; document.getElementById('notifDot').style.display = 'none'; return; }
+  container.innerHTML = notifications.map(notif => `<div class="notif-item ${notif.isNew ? 'new' : ''}" onclick="markAsRead(${notif.id})"><div class="notif-title"><span class="notif-badge"></span>${notif.message}</div><div class="notif-detail">📅 Date : ${notif.date} • 💬 ${notif.motif}</div><div class="notif-time">${notif.time}</div></div>`).join('');
   document.getElementById('notifDot').style.display = unreadCount > 0 ? 'block' : 'none';
 }
+function markAsRead(id) { notifications = notifications.map(n => n.id === id ? { ...n, isNew: false } : n); unreadCount = notifications.filter(n => n.isNew).length; renderNotifications(); }
+function clearNotifications() { notifications = notifications.map(n => ({ ...n, isNew: false })); unreadCount = 0; renderNotifications(); document.getElementById('notificationsPanel').classList.remove('open'); showToast('🔔 Toutes les notifications marquées comme lues'); }
+function addNotification(employe, date, motif) { notifications.unshift({ id: Date.now(), employe, date, motif, message: `📝 ${employe} a soumis une demande de télétravail`, time: "À l'instant", isNew: true }); unreadCount++; renderNotifications(); showToast(`🔔 Nouvelle demande de ${employe}`); }
 
-function markAsRead(id) {
-  notifications = notifications.map(n => n.id === id ? { ...n, isNew: false } : n);
-  unreadCount = notifications.filter(n => n.isNew).length;
-  renderNotifications();
-}
-
-function clearNotifications() {
-  notifications = notifications.map(n => ({ ...n, isNew: false }));
-  unreadCount = 0;
-  renderNotifications();
-  document.getElementById('notificationsPanel').classList.remove('open');
-  showToast('🔔 Toutes les notifications ont été marquées comme lues');
-}
-
-function addNotification(employe, date, motif) {
-  const newNotif = { id: Date.now(), employe, date, motif, message: `📝 ${employe} a soumis une demande de télétravail`, time: "À l'instant", isNew: true };
-  notifications.unshift(newNotif);
-  unreadCount++;
-  renderNotifications();
-  showToast(`🔔 Nouvelle demande de ${employe}`);
-}
-
-// ==================== FONCTIONS EXISTANTES ====================
-function toggleDarkMode() {
-  const html = document.documentElement;
-  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  html.setAttribute('data-theme', next);
-  localStorage.setItem('theme-manager', next);
-  showToast(next === 'dark' ? '🌙 Mode sombre activé' : '☀️ Mode clair activé');
-}
+// ==================== THEME ====================
+function toggleDarkMode() { const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', next); localStorage.setItem('theme-manager', next); showToast(next === 'dark' ? '🌙 Mode sombre activé' : '☀️ Mode clair activé'); }
 (function() { const saved = localStorage.getItem('theme-manager') || 'dark'; document.documentElement.setAttribute('data-theme', saved); })();
 
 let toastTimer;
@@ -781,14 +597,10 @@ function showToast(msg) {
 }
 
 function toggleDropdown(e) { e.stopPropagation(); document.getElementById('settingsDropdown').classList.toggle('open'); }
-function closeDropdown() { document.getElementById('settingsDropdown').classList.remove('open'); }
-document.addEventListener('click', () => { closeDropdown(); document.getElementById('notificationsPanel').classList.remove('open'); });
-function openLogout() { closeDropdown(); document.getElementById('logoutOverlay').classList.add('show'); }
+document.addEventListener('click', () => { document.getElementById('settingsDropdown').classList.remove('open'); document.getElementById('notificationsPanel').classList.remove('open'); });
+function openLogout() { document.getElementById('logoutOverlay').classList.add('show'); }
 function closeLogout() { document.getElementById('logoutOverlay').classList.remove('show'); }
-function confirmLogout() {
-  document.getElementById('logoutOverlay').innerHTML = '<div class="logout-modal"><span class="lm-icon">✅</span><h3 style="color:#96CEB4">Déconnexion réussie</h3><p>À bientôt, Mohamed.</p></div>';
-  setTimeout(() => { window.location.href = 'index.html'; }, 1500);
-}
+function confirmLogout() { document.getElementById('logoutOverlay').innerHTML = '<div class="logout-modal"><div class="lm-icon"><svg><use href="#ic-check-circle"/></svg></div><h3 style="color:#96CEB4">Déconnexion réussie</h3><p>À bientôt, Mohamed.</p></div>'; setTimeout(() => { window.location.href = 'index.html'; }, 1500); }
 
 const today = new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'});
 const titles = { dashboard:'Tableau de bord Manager', planning:'Planification télétravail', validation:'Validation demandes N1', rapports:'Rapport télétravail' };
@@ -803,30 +615,10 @@ const team = [
 const planningState = team.map(e => [...e.slots]);
 
 let demandes = [
-  { id:1, employe:'Ahmed Ben Ali', motif:'Plomberie à régler à domicile', steps:[
-    {label:'Soumission', date:'10 Mar 2026', state:'done', note:'Envoyée'},
-    {label:'Manager (N1)', date:null, state:'active', note:'Votre action requise'},
-    {label:'RH (N2)', date:null, state:'waiting', note:''},
-    {label:'Décision finale', date:null, state:'waiting', note:''}
-  ]},
-  { id:2, employe:'Fatima Khelil', motif:'Environnement de travail calme', steps:[
-    {label:'Soumission', date:'08 Mar 2026', state:'done', note:'Envoyée'},
-    {label:'Manager (N1)', date:null, state:'active', note:'Votre action requise'},
-    {label:'RH (N2)', date:null, state:'waiting', note:''},
-    {label:'Décision finale', date:null, state:'waiting', note:''}
-  ]},
-  { id:3, employe:'Nadia Ben Salah', motif:'Rendez-vous médical matin', steps:[
-    {label:'Soumission', date:'12 Mar 2026', state:'done', note:'Envoyée'},
-    {label:'Manager (N1)', date:null, state:'active', note:'Votre action requise'},
-    {label:'RH (N2)', date:null, state:'waiting', note:''},
-    {label:'Décision finale', date:null, state:'waiting', note:''}
-  ]},
-  { id:4, employe:'Karim Zouari', motif:'Travail de concentration requis', steps:[
-    {label:'Soumission', date:'09 Mar 2026', state:'done', note:'Envoyée'},
-    {label:'Manager (N1)', date:null, state:'active', note:'Votre action requise'},
-    {label:'RH (N2)', date:null, state:'waiting', note:''},
-    {label:'Décision finale', date:null, state:'waiting', note:''}
-  ]},
+  { id:1, employe:'Ahmed Ben Ali', motif:'Plomberie à régler à domicile', steps:[{label:'Soumission', date:'10 Mar 2026', state:'done', note:''},{label:'Manager (N1)', date:null, state:'active', note:''},{label:'RH (N2)', date:null, state:'waiting', note:''},{label:'Décision finale', date:null, state:'waiting', note:''}] },
+  { id:2, employe:'Fatima Khelil', motif:'Environnement de travail calme', steps:[{label:'Soumission', date:'08 Mar 2026', state:'done', note:''},{label:'Manager (N1)', date:null, state:'active', note:''},{label:'RH (N2)', date:null, state:'waiting', note:''},{label:'Décision finale', date:null, state:'waiting', note:''}] },
+  { id:3, employe:'Nadia Ben Salah', motif:'Rendez-vous médical matin', steps:[{label:'Soumission', date:'12 Mar 2026', state:'done', note:''},{label:'Manager (N1)', date:null, state:'active', note:''},{label:'RH (N2)', date:null, state:'waiting', note:''},{label:'Décision finale', date:null, state:'waiting', note:''}] },
+  { id:4, employe:'Karim Zouari', motif:'Travail de concentration requis', steps:[{label:'Soumission', date:'09 Mar 2026', state:'done', note:''},{label:'Manager (N1)', date:null, state:'active', note:''},{label:'RH (N2)', date:null, state:'waiting', note:''},{label:'Décision finale', date:null, state:'waiting', note:''}] },
 ];
 
 function show(sec, btn) {
@@ -846,62 +638,27 @@ const dotIcon = s => ({done:'✓',active:'▶',pending:'⏳',refused:'✗',waiti
 const dateColor = s => ({done:'green',active:'blue',refused:'red',waiting:'muted',pending:'warning'}[s]);
 
 function buildTimeline(steps) {
-  return steps.map(s => {
-    const lineColor = s.state==='done'?'#96CEB4':s.state==='refused'?'#ff6b6b':'var(--border)';
-    return `<div class="tl-step ${s.state==='done'?'done':''}" style="--line-color:${lineColor}">
-      <div class="tl-dot ${s.state}">${dotIcon(s.state)}</div>
-      <div class="tl-label">${s.label.replace(/\n/,'<br>')}</div>
-      ${s.date?`<div class="tl-date ${dateColor(s.state)}">${s.date}</div>`:`<div class="tl-date muted">—</div>`}
-      ${s.note?`<div style="font-size:.65rem;color:var(--muted);text-align:center;margin-top:2px;max-width:80px">${s.note}</div>`:''}
-    </div>`;
-  }).join('');
+  return steps.map(s => `<div class="tl-step ${s.state==='done'?'done':''}" style="--line-color:${s.state==='done'?'#96CEB4':s.state==='refused'?'#ff6b6b':'var(--border)'}"><div class="tl-dot ${s.state}">${dotIcon(s.state)}</div><div class="tl-label">${s.label.replace(/\n/,'<br>')}</div>${s.date?`<div class="tl-date ${dateColor(s.state)}">${s.date}</div>`:`<div class="tl-date muted">—</div>`}</div>`).join('');
 }
 
 function renderValidation() {
-  const pending = demandes.filter(d => d.steps[1].state==='active' || d.steps[1].state==='pending');
-  document.getElementById('validationList').innerHTML = pending.length
-    ? pending.map(d=>`<div class="demand-card">
-        <div class="demand-meta"><div><div style="font-weight:700;font-size:.98rem">🏡 ${d.employe}</div>
-        <div style="font-size:.76rem;color:var(--muted);margin-top:5px">💬 ${d.motif}</div></div>
-        <span class="status-pill pill-warning">⏳ En attente N1</span></div>
-        <div class="timeline">${buildTimeline(d.steps)}</div>
-        <div class="demand-actions">
-          <button class="btn-validate" onclick="actVal(${d.id},'done')">✓ Valider N1 → transmettre au RH</button>
-          <button class="btn-refuse" onclick="actVal(${d.id},'refused')">✗ Refuser</button>
-        </div></div>`).join('')
-    : '<div style="text-align:center;color:var(--muted);padding:32px;background:var(--card);border-radius:14px;border:1px solid var(--card-border)">✅ Aucune demande TT en attente</div>';
+  const pending = demandes.filter(d => d.steps[1].state==='active');
+  document.getElementById('validationList').innerHTML = pending.length ? pending.map(d=>`<div class="demand-card"><div class="demand-meta"><div><div style="font-weight:700;font-size:.98rem">🏡 ${d.employe}</div><div style="font-size:.76rem;color:var(--muted);margin-top:5px">💬 ${d.motif}</div></div><span class="status-pill pill-warning">⏳ En attente N1</span></div><div class="timeline">${buildTimeline(d.steps)}</div><div class="demand-actions"><button class="btn-validate" onclick="actVal(${d.id},'done')"><svg><use href="#ic-check"/></svg> Valider N1 → transmettre au RH</button><button class="btn-refuse" onclick="actVal(${d.id},'refused')"><svg><use href="#ic-x"/></svg> Refuser</button></div></div>`).join('') : '<div style="text-align:center;color:var(--muted);padding:32px;background:var(--card);border-radius:14px;border:1px solid var(--card-border)">✅ Aucune demande TT en attente</div>';
   document.getElementById('badgeN1').textContent = pending.length;
   document.getElementById('dashCount').textContent = pending.length;
 }
 
 function actVal(id, action) {
   const demande = demandes.find(d => d.id === id);
-  if (action === 'done' && demande) { addNotification(demande.employe, demande.steps[0].date, demande.motif); }
-  demandes = demandes.map(d => {
-    if (d.id!==id) return d;
-    const s = [...d.steps];
-    if (action==='done') { s[1]={...s[1],state:'done',date:today,note:'Validé ✓'}; s[2]={...s[2],state:'pending',note:'Transmis RH'}; }
-    else { s[1]={...s[1],state:'refused',date:today,note:'Refusé ✗'}; s[3]={...s[3],state:'refused',note:'Clôturé'}; }
-    return {...d,steps:s};
-  });
+  if (action === 'done') addNotification(demande.employe, demande.steps[0].date, demande.motif);
+  demandes = demandes.map(d => { if (d.id!==id) return d; const s = [...d.steps]; if (action==='done') { s[1]={...s[1],state:'done',date:today,note:'Validé ✓'}; s[2]={...s[2],state:'pending',note:'Transmis RH'}; } else { s[1]={...s[1],state:'refused',date:today,note:'Refusé ✗'}; s[3]={...s[3],state:'refused',note:'Clôturé'}; } return {...d,steps:s}; });
   renderValidation();
   showToast(action==='done' ? '✅ Demande validée, transmise au RH' : '✗ Demande refusée');
 }
 
 function renderDashboard() {
-  document.getElementById('dashDemandes').innerHTML = demandes.filter(d=>d.steps[1].state==='active').slice(0,3).map(d=>`
-    <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)">
-      <div><div style="font-weight:600;font-size:.85rem">🏡 ${d.employe}</div>
-      <div style="font-size:.74rem;color:var(--muted)">${d.motif}</div></div>
-      <span class="badge badge-yellow">En attente</span></div>`).join('') || '<p style="color:var(--muted);font-size:.84rem">Aucune demande en attente.</p>';
-  document.getElementById('dashPlanning').innerHTML = team.map(e=>{
-    const ttDays = e.slots.filter(s=>s==='remote').length;
-    return `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
-      <div style="flex:1;font-size:.84rem;font-weight:600">${e.nom}</div>
-      <div style="display:flex;gap:4px">${e.slots.map(s=>`<span style="width:22px;height:22px;border-radius:4px;background:${s==='remote'?'rgba(69,183,209,.3)':'rgba(255,255,255,.06)'};display:flex;align-items:center;justify-content:center;font-size:.6rem;color:${s==='remote'?'#45B7D1':'var(--muted)'}">${s==='remote'?'TT':'P'}</span>`).join('')}</div>
-      <span style="font-size:.74rem;color:var(--muted)">${ttDays}j TT</span>
-    </div>`;
-  }).join('');
+  document.getElementById('dashDemandes').innerHTML = demandes.filter(d=>d.steps[1].state==='active').slice(0,3).map(d=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)"><div><div style="font-weight:600;font-size:.85rem">🏡 ${d.employe}</div><div style="font-size:.74rem;color:var(--muted)">${d.motif}</div></div><span class="badge badge-yellow">En attente</span></div>`).join('') || '<p style="color:var(--muted);font-size:.84rem">Aucune demande en attente.</p>';
+  document.getElementById('dashPlanning').innerHTML = team.map(e=>{ const ttDays = e.slots.filter(s=>s==='remote').length; return `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)"><div style="flex:1;font-size:.84rem;font-weight:600">${e.nom}</div><div style="display:flex;gap:4px">${e.slots.map(s=>`<span style="width:22px;height:22px;border-radius:4px;background:${s==='remote'?'rgba(69,183,209,.3)':'rgba(255,255,255,.06)'};display:flex;align-items:center;justify-content:center;font-size:.6rem;color:${s==='remote'?'#45B7D1':'var(--muted)'}">${s==='remote'?'TT':'P'}</span>`).join('')}</div><span style="font-size:.74rem;color:var(--muted)">${ttDays}j TT</span></div>`; }).join('');
 }
 
 const slotClass = s => s==='present'?'slot-present':s==='remote'?'slot-remote':'slot-off';
@@ -909,159 +666,39 @@ const slotLabel = s => s==='present'?'🏢 Présentiel':s==='remote'?'🏡 Tél�
 const slotCycle = s => s==='present'?'remote':s==='remote'?'off':'present';
 
 function renderPlanning() {
-  document.getElementById('planningBody').innerHTML = team.map((e,ri)=>`
-    <tr><td class="emp-cell"><div>${e.nom}</div><div style="font-size:.72rem;color:var(--muted)">${e.poste}</div></td>
-    ${planningState[ri].map((s,ci)=>`<td style="text-align:center${ci===4?';background:rgba(69,183,209,.04)':''}"><span class="slot ${slotClass(s)}" onclick="cycleSlot(${ri},${ci})">${slotLabel(s)}</span></td>`).join('')}</tr>`).join('');
+  document.getElementById('planningBody').innerHTML = team.map((e,ri)=>`<tr><td class="emp-cell"><div>${e.nom}</div><div style="font-size:.72rem;color:var(--muted)">${e.poste}</div></td>${planningState[ri].map((s,ci)=>`<td style="text-align:center${ci===4?';background:rgba(69,183,209,.04)':''}"><span class="slot ${slotClass(s)}" onclick="cycleSlot(${ri},${ci})">${slotLabel(s)}</span></td>`).join('')}</tr>`).join('');
 }
-
 function cycleSlot(ri, ci) { planningState[ri][ci] = slotCycle(planningState[ri][ci]); renderPlanning(); }
 function savePlanning() { document.getElementById('planningMsg').style.display = 'block'; setTimeout(() => document.getElementById('planningMsg').style.display = 'none', 3000); showToast('💾 Planning télétravail enregistré'); }
 
 function renderKPI() {
-  const kpis = [
-    {label:'Taux télétravail mensuel', pct:48, color:'#45B7D1'},
-    {label:'Taux d\'approbation des demandes', pct:71, color:'#96CEB4'},
-    {label:'Respect des politiques TT', pct:85, color:'#ffa26d'},
-    {label:'Demandes soumises à temps', pct:92, color:'#FF6B35'},
-  ];
-  document.getElementById('kpiSection').innerHTML = kpis.map(k=>`
-    <div class="kpi-row"><div class="kpi-label">${k.label}</div>
-    <div class="kpi-bar-wrap"><div class="kpi-bar" style="width:${k.pct}%;background:${k.color}"></div></div>
-    <div class="kpi-pct">${k.pct}%</div></div>`).join('');
+  const kpis = [{label:'Taux télétravail mensuel', pct:48, color:'#45B7D1'},{label:"Taux d'approbation des demandes", pct:71, color:'#96CEB4'},{label:'Respect des politiques TT', pct:85, color:'#ffa26d'},{label:'Demandes soumises à temps', pct:92, color:'#FF6B35'}];
+  document.getElementById('kpiSection').innerHTML = kpis.map(k=>`<div class="kpi-row"><div class="kpi-label">${k.label}</div><div class="kpi-bar-wrap"><div class="kpi-bar" style="width:${k.pct}%;background:${k.color}"></div></div><div class="kpi-pct">${k.pct}%</div></div>`).join('');
 }
+
+// ==================== PROFILE ====================
+function openProfile() { document.getElementById('profileOverlay').style.display = 'flex'; document.getElementById('profileName').value = userData.name; document.getElementById('profileEmail').value = userData.email; document.getElementById('profileDept').value = userData.dept; document.getElementById('profilePoste').value = userData.poste; document.getElementById('profilePhone').value = userData.phone; }
+function closeProfile() { document.getElementById('profileOverlay').style.display = 'none'; }
+function saveProfile() {
+  userData.name = document.getElementById('profileName').value; userData.email = document.getElementById('profileEmail').value; userData.dept = document.getElementById('profileDept').value; userData.poste = document.getElementById('profilePoste').value; userData.phone = document.getElementById('profilePhone').value; userData.avatar = userData.name.split(' ').map(n=>n[0]).join('').toUpperCase();
+  document.getElementById('sidebarName').textContent = userData.name; document.getElementById('sidebarRole').textContent = userData.poste; document.getElementById('menuUserName').textContent = userData.name; document.getElementById('menuUserEmail').textContent = userData.email; document.getElementById('userAvatarBtn').textContent = userData.avatar; document.getElementById('sidebarAvatarEl').textContent = userData.avatar; document.getElementById('profileAvatarLg').textContent = userData.avatar;
+  closeProfile(); showToast('✅ Profil mis à jour');
+}
+function openSettingsPage() { showToast('⚙️ Paramètres en développement'); }
 
 // ==================== CHATBOT ====================
-let chatOpen = false;
-let chatHistory = [];
-let isTyping = false;
+let chatOpen = false, chatHistory = [], isTyping = false;
+const SYSTEM_PROMPT = `Tu es l'assistant IA de StudiaAFRIQUE. Tu aides le Manager Mohamed Trabelsi (Manager IT) avec : la validation des demandes de télétravail (niveau N1), la planification du TT de l'équipe IT (5 membres), les rapports et KPI. Contexte : 4 demandes en attente, capacité TT département : 5/10 places, taux TT équipe : 48%, taux d'approbation : 71%. Réponds en français, concis et professionnel.`;
 
-const SYSTEM_PROMPT = `Tu es l'assistant IA de StudiaAFRIQUE, une plateforme de gestion RH pour entreprises africaines.
-Tu aides le Manager Mohamed Trabelsi (Manager IT) avec :
-- La validation des demandes de télétravail de son équipe (niveau N1)
-- La planification du télétravail de l'équipe IT
-- Les rapports et KPI de télétravail
-- Les règles de gestion d'équipe
-
-Contexte actuel :
-- Équipe IT : 5 membres (Ahmed Ben Ali, Fatima Khelil, Nadia Ben Salah, Karim Zouari, Youssef Hamdi)
-- 4 demandes de télétravail en attente de validation N1
-- Capacité TT département : 5/10 places utilisées
-- Taux TT équipe : 48% ce mois
-- Taux d'approbation : 71%
-
-Réponds toujours en français, de manière concise, professionnelle et utile.
-Utilise des emojis pertinents avec parcimonie pour rendre les réponses plus lisibles.`;
-
-function toggleChat() {
-  const win = document.getElementById('chatWindow');
-  const fab = document.getElementById('chatFab');
-  chatOpen = !chatOpen;
-  if (chatOpen) {
-    win.classList.remove('closing');
-    win.classList.add('open');
-    fab.classList.add('active');
-    setTimeout(() => document.getElementById('chatInput').focus(), 300);
-  } else {
-    win.classList.add('closing');
-    win.classList.remove('open');
-    fab.classList.remove('active');
-    setTimeout(() => win.classList.remove('closing'), 280);
-  }
-}
-
-function autoResize(textarea) {
-  textarea.style.height = 'auto';
-  textarea.style.height = Math.min(textarea.scrollHeight, 90) + 'px';
-}
-
-function chatKeyDown(e) {
-  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
-}
-
-function sendSuggestion(text) {
-  const input = document.getElementById('chatInput');
-  input.value = text;
-  sendMessage();
-}
-
-function appendBubble(role, html) {
-  const msgs = document.getElementById('chatMessages');
-  const bubble = document.createElement('div');
-  bubble.className = `chat-bubble ${role}`;
-  const isBot = role === 'bot';
-  bubble.innerHTML = `<div class="bubble-avatar ${isBot ? '' : 'user-av'}">${isBot ? '🤖' : 'MT'}</div><div class="bubble-text">${html}</div>`;
-  msgs.appendChild(bubble);
-  msgs.scrollTop = msgs.scrollHeight;
-}
-
-function showTypingIndicator() {
-  const msgs = document.getElementById('chatMessages');
-  const indicator = document.createElement('div');
-  indicator.className = 'chat-bubble bot';
-  indicator.id = 'typingIndicator';
-  indicator.innerHTML = `<div class="bubble-avatar">🤖</div><div class="typing-dots"><span></span><span></span><span></span></div>`;
-  msgs.appendChild(indicator);
-  msgs.scrollTop = msgs.scrollHeight;
-}
-
-function removeTypingIndicator() {
-  const ind = document.getElementById('typingIndicator');
-  if (ind) ind.remove();
-}
-
-async function sendMessage() {
-  if (isTyping) return;
-  const input = document.getElementById('chatInput');
-  const text = input.value.trim();
-  if (!text) return;
-
-  input.value = '';
-  input.style.height = 'auto';
-  appendBubble('user', escapeHtml(text));
-  chatHistory.push({ role: 'user', content: text });
-
-  isTyping = true;
-  document.getElementById('chatSendBtn').disabled = true;
-  showTypingIndicator();
-
-  try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system: SYSTEM_PROMPT,
-        messages: chatHistory
-      })
-    });
-    const data = await response.json();
-    removeTypingIndicator();
-    if (data.content && data.content[0] && data.content[0].text) {
-      const reply = data.content[0].text;
-      chatHistory.push({ role: 'assistant', content: reply });
-      appendBubble('bot', formatBotText(reply));
-    } else { appendBubble('bot', '⚠️ Désolé, je n\'ai pas pu générer une réponse.'); }
-  } catch (err) {
-    removeTypingIndicator();
-    appendBubble('bot', '⚠️ Erreur de connexion. Vérifiez votre réseau et réessayez.');
-    console.error('Chat API error:', err);
-  }
-  isTyping = false;
-  document.getElementById('chatSendBtn').disabled = false;
-  document.getElementById('chatInput').focus();
-}
-
-function escapeHtml(text) {
-  return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
-}
-function formatBotText(text) {
-  text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-  text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
-  text = text.replace(/\n/g, '<br>');
-  text = text.replace(/^- (.+)/gm, '• $1');
-  return text;
-}
+function toggleChat() { const win = document.getElementById('chatWindow'), fab = document.getElementById('chatFab'); chatOpen = !chatOpen; if (chatOpen) { win.classList.remove('closing'); win.classList.add('open'); fab.classList.add('active'); setTimeout(()=>document.getElementById('chatInput').focus(),300); } else { win.classList.add('closing'); win.classList.remove('open'); fab.classList.remove('active'); setTimeout(()=>win.classList.remove('closing'),280); } }
+function autoResize(t) { t.style.height = 'auto'; t.style.height = Math.min(t.scrollHeight,90)+'px'; }
+function chatKeyDown(e) { if (e.key==='Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }
+function sendSuggestion(text) { document.getElementById('chatInput').value = text; sendMessage(); }
+function appendBubble(role, html) { const msgs = document.getElementById('chatMessages'); const b = document.createElement('div'); b.className = `chat-bubble ${role}`; const isBot = role === 'bot'; b.innerHTML = `<div class="bubble-avatar ${isBot?'':'user-av'}">${isBot?'<svg><use href="#ic-chat"/></svg>':userData.avatar}</div><div class="bubble-text">${html}</div>`; msgs.appendChild(b); msgs.scrollTop = msgs.scrollHeight; }
+function showTypingIndicator() { const msgs = document.getElementById('chatMessages'); const ind = document.createElement('div'); ind.className='chat-bubble bot'; ind.id='typingIndicator'; ind.innerHTML = `<div class="bubble-avatar"><svg><use href="#ic-chat"/></svg></div><div class="typing-dots"><span></span><span></span><span></span></div>`; msgs.appendChild(ind); msgs.scrollTop = msgs.scrollHeight; }
+function removeTypingIndicator() { const i=document.getElementById('typingIndicator'); if(i) i.remove(); }
+function escapeHtml(t) { return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>'); }
+async function sendMessage() { if (isTyping) return; const input = document.getElementById('chatInput'); const text = input.value.trim(); if (!text) return; input.value = ''; input.style.height = 'auto'; appendBubble('user', escapeHtml(text)); chatHistory.push({ role:'user', content:text }); isTyping = true; document.getElementById('chatSendBtn').disabled = true; showTypingIndicator(); try { const res = await fetch('https://api.anthropic.com/v1/messages', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:1000, system:SYSTEM_PROMPT, messages:chatHistory }) }); const data = await res.json(); removeTypingIndicator(); if (data.content?.[0]?.text) { const reply = data.content[0].text; chatHistory.push({ role:'assistant', content:reply }); appendBubble('bot', reply.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>').replace(/\n/g,'<br>')); } else appendBubble('bot', "⚠️ Désolé, je n'ai pas pu générer une réponse."); } catch(e) { removeTypingIndicator(); appendBubble('bot','⚠️ Erreur de connexion.'); } isTyping = false; document.getElementById('chatSendBtn').disabled = false; document.getElementById('chatInput').focus(); }
 
 renderDashboard();
 renderNotifications();
