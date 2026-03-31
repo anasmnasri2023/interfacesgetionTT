@@ -489,8 +489,6 @@
 
     <!-- VALIDATION N2 -->
     <div class="section" id="sec-validation">
-      <h2 style="font-family:'Syne';font-weight:800;margin-bottom:6px;">Valider demandes — Niveau 2</h2>
-      <p style="color:var(--muted);margin-bottom:20px;">Demandes validées par Manager en attente décision RH</p>
       <div class="legend-box">
         <div class="legend-item"><div class="legend-dot" style="background:#96CEB4"></div><span>Validé Manager (N1)</span></div>
         <div class="legend-item"><div class="legend-dot" style="background:#87CEEB"></div><span>Action RH requise</span></div>
@@ -500,7 +498,6 @@
 
     <!-- SUIVI -->
     <div class="section" id="sec-suivi">
-      <h2 style="font-family:'Syne';font-weight:800;margin-bottom:24px;">Suivi des demandes TT</h2>
       <div class="panel">
         <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">
           <input type="text" id="suiviSearch" oninput="filterSuivi()" placeholder="Rechercher..." class="search-input" style="flex:1">
@@ -518,7 +515,6 @@
     <!-- CAPACITÉ -->
     <div class="section" id="sec-capacite">
       <div style="display:flex;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px">
-        <div><h2 style="font-family:'Syne';font-weight:800;">Capacité TT</h2><p style="color:var(--muted)">Max TT par département</p></div>
         <button class="btn btn-primary" onclick="saveCapacity()"><svg width="14" height="14" style="stroke:currentColor;stroke-width:2;margin-right:6px"><use href="#ic-save"/></svg> Enregistrer</button>
       </div>
       <div class="cap-grid" id="capCards"></div>
@@ -528,7 +524,6 @@
     <!-- POLITIQUES -->
     <div class="section" id="sec-politiques">
       <div style="display:flex;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px">
-        <div><h2 style="font-family:'Syne';font-weight:800;">Politiques TT</h2><p style="color:var(--muted)">Règles globales</p></div>
         <button class="btn btn-primary" onclick="savePolicies()"><svg width="14" height="14" style="stroke:currentColor;stroke-width:2;margin-right:6px"><use href="#ic-save"/></svg> Enregistrer</button>
       </div>
       <div class="panel">
@@ -571,7 +566,6 @@
 
     <!-- RAPPORTS -->
     <div class="section" id="sec-rapports">
-      <h2 style="font-family:'Syne';font-weight:800;margin-bottom:24px;">Rapports TT</h2>
       <div class="stats-grid">
         <div class="stat-card" style="--c:#87CEEB"><div class="stat-icon"><svg><use href="#ic-calendar"/></svg></div><div class="stat-val">698</div><div class="stat-label">Total jours TT (2024)</div></div>
         <div class="stat-card" style="--c:#96CEB4"><div class="stat-icon"><svg><use href="#ic-check-circle"/></svg></div><div class="stat-val">71%</div><div class="stat-label">Taux d'approbation</div></div>
@@ -658,7 +652,7 @@ function closeLogout(){ document.getElementById('logoutOverlay').classList.remov
 function confirmLogout(){ document.getElementById('logoutOverlay').innerHTML='<div class="logout-modal"><div class="lm-icon"><svg><use href="#ic-check-circle"/></svg></div><h3>Déconnexion</h3><p>À bientôt</p></div>'; setTimeout(()=>{window.location.href='index.html';},1500); }
 document.addEventListener('click',(e)=>{ const menu=document.getElementById('userMenu'); const avatar=document.getElementById('userAvatarBtn'); if(menu&&avatar&&!avatar.contains(e.target)&&!menu.contains(e.target)) menu.classList.remove('open'); const notifPanel=document.getElementById('notificationsPanel'); const notifBtn=document.querySelector('.topbar-icon-btn'); if(notifPanel&&notifBtn&&!notifBtn.contains(e.target)&&!notifPanel.contains(e.target)) notifPanel.classList.remove('open'); });
 
-const titles={dashboard:'Tableau de bord RH',validation:'Validation N2',suivi:'Suivi demandes TT',capacite:'Capacité TT',politiques:'Politiques TT',settings:'Paramètres',rapports:'Rapports TT'};
+const titles={dashboard:'Tableau de bord RH',validation:'Valider demandes — Niveau 2',suivi:'Suivi demandes TT',capacite:'Capacité TT',politiques:'Politiques TT',settings:'Paramètres',rapports:'Rapports TT'};
 function show(sec,btn){ document.querySelectorAll('.section').forEach(s=>s.classList.remove('active')); document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active')); document.getElementById('sec-'+sec).classList.add('active'); if(btn) btn.classList.add('active'); document.getElementById('pageTitle').textContent=titles[sec]||sec; if(sec==='validation') renderValidationN2(); if(sec==='dashboard') renderDashboard(); if(sec==='capacite') renderCapacity(); if(sec==='suivi') renderSuiviTable(demandes); if(sec==='rapports') renderKPI(); }
 
 function dotIcon(s){ return {done:'✓',active:'▶',pending:'⏳',waiting:'○'}[s]||'?'; }
