@@ -695,7 +695,7 @@ input:checked + .slider:before { transform: translateX(24px); }
     </button>
     <div class="nav-section">Gestion</div>
     <button class="nav-item" onclick="show('list-roles',this)">
-      <span class="nav-ic"><svg><use href="#ic-key"/></svg></span> Roles
+      <span class="nav-ic"><svg><use href="#ic-shield"/></svg></span> Roles
     </button>
     <button class="nav-item" onclick="show('utilisateurs',this)">
       <span class="nav-ic"><svg><use href="#ic-users"/></svg></span> Utilisateurs
@@ -1175,7 +1175,6 @@ function show(sec,btn) {
   document.getElementById('pageTitle').textContent=titles[sec]||sec;
   if(sec==='departements') populateDeptManagerSelect();
 }
-document.getElementById('pageDate').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 
 // ────────────────────────────────────────────
 //  DETAILS MODAL

@@ -1026,7 +1026,6 @@ function show(sec, btn) {
   if (sec === 'soumettre') renderCapWidget();
   if (sec === 'planning') renderPlanning();
 }
-document.getElementById('pageDate').textContent = new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 
 // ==================== CHATBOT ====================
 let chatOpen = false, chatHistory = [], isTyping = false;

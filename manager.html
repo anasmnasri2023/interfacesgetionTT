@@ -632,7 +632,6 @@ function show(sec, btn) {
   if (sec==='dashboard')  renderDashboard();
   if (sec==='rapports')   renderKPI();
 }
-document.getElementById('pageDate').textContent = new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 
 const dotIcon = s => ({done:'✓',active:'▶',pending:'⏳',refused:'✗',waiting:'○'}[s]||'?');
 const dateColor = s => ({done:'green',active:'blue',refused:'red',waiting:'muted',pending:'warning'}[s]);
