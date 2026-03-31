@@ -24,7 +24,6 @@
   --shadow: 0 2px 12px rgba(0,0,0,0.07);
   --row-hover: rgba(0,0,0,0.025);
   --input-bg: rgba(0,0,0,0.04);
-  --badge-bg-opacity: 0.13;
   --topbar-bg: #FFFFFF;
   --icon-btn-hover: rgba(0,0,0,0.06);
   --toggle-off: rgba(0,0,0,0.15);
@@ -48,7 +47,6 @@
   --shadow: 0 4px 20px rgba(0,0,0,0.4);
   --row-hover: rgba(255,255,255,0.03);
   --input-bg: rgba(255,255,255,0.06);
-  --badge-bg-opacity: 0.2;
   --topbar-bg: #0d1120;
   --icon-btn-hover: rgba(255,255,255,0.08);
   --toggle-off: rgba(255,255,255,0.15);
@@ -65,6 +63,10 @@ body {
   color: var(--text);
   transition: background .3s, color .3s;
 }
+
+/* SVG icon helper */
+.ic { display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; }
+.ic svg { display:block; }
 
 /* ── SIDEBAR ── */
 .sidebar {
@@ -85,7 +87,8 @@ body {
   width: 38px; height: 38px; border-radius: 50%;
   background: linear-gradient(135deg, var(--accent), var(--accent2));
   display: flex; align-items: center; justify-content: center;
-  font-size: 1rem; border: 2px solid var(--accent); flex-shrink: 0;
+  font-size: .85rem; font-weight: 800; color: #fff;
+  border: 2px solid var(--accent); flex-shrink: 0;
 }
 .user-info .name { font-weight: 600; font-size: .85rem; }
 .user-info .role { color: var(--accent); font-size: .72rem; margin-top: 1px; }
@@ -103,7 +106,8 @@ nav { flex: 1; padding: 16px 10px; overflow-y: auto; }
 }
 .nav-item:hover { background: rgba(255,107,53,.08); color: var(--text); }
 .nav-item.active { background: rgba(255,107,53,.1); color: var(--accent); font-weight: 600; border-left-color: var(--accent); }
-.nav-item .icon { font-size: 1.05rem; flex-shrink: 0; }
+.nav-item .nav-ic { width:18px; height:18px; flex-shrink:0; }
+.nav-item .nav-ic svg { width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
 .sidebar-bottom { padding: 12px 10px 16px; }
 
 /* ── MAIN ── */
@@ -133,9 +137,10 @@ nav { flex: 1; padding: 16px 10px; overflow-y: auto; }
   background: var(--input-bg); border: 1px solid var(--border);
   display: flex; align-items: center; justify-content: center;
   cursor: pointer; transition: background .2s, border-color .2s;
-  font-size: 1.05rem; color: var(--muted); flex-shrink: 0;
+  font-size: .78rem; font-weight: 700; color: var(--muted); flex-shrink: 0;
 }
 .topbar-icon-btn:hover { background: var(--icon-btn-hover); color: var(--text); }
+.topbar-icon-btn svg { width:17px; height:17px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
 .topbar-icon-btn .notif-dot { position: absolute; top: 5px; right: 5px; width: 8px; height: 8px; border-radius: 50%; background: #FF6B35; border: 2px solid var(--topbar-bg); }
 .topbar-avatar-btn { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: .82rem; color: #fff; font-weight: 800; transition: transform .2s; flex-shrink: 0; border: 2px solid transparent; }
 .topbar-avatar-btn:hover { transform: scale(1.08); }
@@ -145,10 +150,12 @@ nav { flex: 1; padding: 16px 10px; overflow-y: auto; }
   position: relative; width: 38px; height: 38px; border-radius: 50%;
   background: var(--input-bg); border: 1px solid var(--border);
   display: flex; align-items: center; justify-content: center;
-  cursor: pointer; transition: all .25s; font-size: 1.1rem; flex-shrink: 0; overflow: hidden;
+  cursor: pointer; transition: all .25s; flex-shrink: 0; overflow: hidden;
 }
 .dark-toggle:hover { background: rgba(255,107,53,.12); border-color: rgba(255,107,53,.35); transform: scale(1.08); }
-.dark-toggle .icon-sun, .dark-toggle .icon-moon { position: absolute; transition: opacity .3s, transform .3s; }
+.dark-toggle svg { width:17px; height:17px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; position:absolute; transition:opacity .3s, transform .3s; }
+.dark-toggle .icon-sun  { color:var(--text); }
+.dark-toggle .icon-moon { color:var(--text); }
 [data-theme="light"] .dark-toggle .icon-sun  { opacity: 1; transform: scale(1); }
 [data-theme="light"] .dark-toggle .icon-moon { opacity: 0; transform: scale(.5) rotate(45deg); }
 [data-theme="dark"]  .dark-toggle .icon-sun  { opacity: 0; transform: scale(.5) rotate(-45deg); }
@@ -175,7 +182,7 @@ nav { flex: 1; padding: 16px 10px; overflow-y: auto; }
   transition: background .15s, color .15s;
 }
 .dropdown-item:hover { background: rgba(255,107,53,.08); color: var(--text); }
-.dropdown-item .di-icon { font-size: 1.05rem; width: 24px; text-align: center; }
+.dropdown-item svg { width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0; }
 .dropdown-item.danger { color: rgba(255,107,107,.8); }
 .dropdown-item.danger:hover { background: rgba(255,107,107,.1); color: #ff6b6b; }
 .dropdown-divider { height: 1px; background: var(--border); margin: 6px 8px; }
@@ -185,7 +192,8 @@ nav { flex: 1; padding: 16px 10px; overflow-y: auto; }
 .logout-modal { background: var(--overlay-modal-bg); border: 1px solid var(--border); border-radius: 20px; padding: 32px 28px; text-align: center; max-width: 340px; width: 90%; animation: fadeMenuIn .2s ease; box-shadow: var(--shadow); }
 .logout-modal h3 { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 800; margin-bottom: 8px; }
 .logout-modal p { color: var(--muted); font-size: .85rem; margin-bottom: 24px; }
-.logout-modal .lm-icon { font-size: 2.4rem; margin-bottom: 14px; display: block; }
+.logout-modal .lm-icon { display:flex; justify-content:center; margin-bottom:14px; }
+.logout-modal .lm-icon svg { width:42px; height:42px; stroke:var(--accent); fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
 .logout-btns { display: flex; gap: 10px; justify-content: center; }
 .btn-danger { background: rgba(255,107,107,.13); color: #ff6b6b; border: 1px solid rgba(255,107,107,.3); border-radius: 9px; padding: 9px 18px; font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: .83rem; cursor: pointer; transition: all .2s; }
 .btn-danger:hover { background: rgba(255,107,107,.28); }
@@ -203,7 +211,8 @@ nav { flex: 1; padding: 16px 10px; overflow-y: auto; }
 }
 .stat-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.1); }
 .stat-card::before { content: ''; position: absolute; top: 0; right: 0; width: 80px; height: 80px; background: radial-gradient(circle, var(--c,.5) 0%, transparent 70%); opacity: .12; transform: translate(30%,-30%); }
-.stat-icon { font-size: 1.5rem; margin-bottom: 12px; }
+.stat-icon { margin-bottom: 12px; display:flex; }
+.stat-icon svg { width:24px; height:24px; stroke:var(--c); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
 .stat-val { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; color: var(--c); }
 .stat-label { color: var(--muted); font-size: .78rem; margin-top: 4px; }
 
@@ -227,20 +236,23 @@ tr:hover td { background: var(--row-hover); }
 .badge-orange { background: rgba(255,107,53,.18);  color: #FF6B35; }
 .badge-red    { background: rgba(255,107,107,.18); color: #e74c3c; }
 .badge-yellow { background: rgba(255,200,60,.18);  color: #d4a017; }
+.badge-purple { background: rgba(123,97,255,.18);  color: #7B61FF; }
 
 [data-theme="dark"] .badge-green  { background: rgba(150,206,180,.2); color: #96CEB4; }
 [data-theme="dark"] .badge-blue   { background: rgba(69,183,209,.2);  color: #45B7D1; }
 [data-theme="dark"] .badge-orange { background: rgba(255,107,53,.2);  color: #FF6B35; }
 [data-theme="dark"] .badge-red    { background: rgba(255,107,107,.2); color: #ff6b6b; }
 [data-theme="dark"] .badge-yellow { background: rgba(255,230,109,.2); color: #FFE66D; }
+[data-theme="dark"] .badge-purple { background: rgba(123,97,255,.2);  color: #9B85FF; }
 
 /* ── FORM ── */
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .form-group { display: flex; flex-direction: column; gap: 6px; }
 .form-group label { font-size: .78rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .5px; }
-.form-group input, .form-group select { padding: 10px 14px; background: var(--input-bg); border: 1px solid var(--border); border-radius: 9px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: .87rem; transition: border-color .2s; outline: none; }
-.form-group input:focus, .form-group select:focus { border-color: var(--accent); }
+.form-group input, .form-group select, .form-group textarea { padding: 10px 14px; background: var(--input-bg); border: 1px solid var(--border); border-radius: 9px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: .87rem; transition: border-color .2s; outline: none; }
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); }
 .form-group select option { background: var(--card); color: var(--text); }
+.form-group textarea { resize:vertical; min-height:80px; }
 
 .slide-panel { background: rgba(255,107,53,.06); border: 1px solid rgba(255,107,53,.25); border-radius: 16px; padding: 24px; margin-bottom: 22px; animation: slideDown .3s ease; }
 @keyframes slideDown { from { opacity:0; transform:translateY(-12px) } to { opacity:1; transform:translateY(0) } }
@@ -249,11 +261,12 @@ tr:hover td { background: var(--row-hover); }
 .role-list { display: flex; flex-direction: column; gap: 12px; }
 .role-item { display: flex; align-items: center; gap: 14px; padding: 13px 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg); transition: box-shadow .2s, border-color .2s, background .3s; cursor: default; }
 .role-item:hover { border-color: var(--accent); box-shadow: 0 2px 10px rgba(255,107,53,.1); }
-.role-icon { width: 40px; height: 40px; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-.icon-admin   { background: #ede9fe; }
-.icon-rh      { background: #dbeafe; }
-.icon-manager { background: #d1fae5; }
-.icon-employe { background: #fef3c7; }
+.role-icon { width: 40px; height: 40px; border-radius: 11px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.role-icon svg { width:20px; height:20px; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.icon-admin   { background: #ede9fe; } .icon-admin svg   { stroke:#7c3aed; }
+.icon-rh      { background: #dbeafe; } .icon-rh svg      { stroke:#2563eb; }
+.icon-manager { background: #d1fae5; } .icon-manager svg { stroke:#059669; }
+.icon-employe { background: #fef3c7; } .icon-employe svg { stroke:#d97706; }
 .role-info { flex: 1; min-width: 0; }
 .role-name { font-size: 13px; font-weight: 600; color: var(--text); }
 .role-desc { font-size: 11px; color: var(--muted); margin-top: 2px; }
@@ -270,7 +283,8 @@ tr:hover td { background: var(--row-hover); }
 /* ── TÉLÉTRAVAIL ── */
 .tele-section { margin-top: 28px; }
 .tele-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
-.tele-header h3 { font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 700; }
+.tele-header h3 { font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 700; display:flex; align-items:center; gap:8px; }
+.tele-header h3 svg { width:18px; height:18px; stroke:var(--accent); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
 .period-tabs { display: flex; gap: 6px; }
 .period-tab { padding: 6px 16px; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--muted); font-size: .78rem; font-weight: 600; cursor: pointer; transition: all .2s; font-family: 'DM Sans', sans-serif; }
 .period-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
@@ -325,27 +339,59 @@ tr:hover td { background: var(--row-hover); }
 .details-overlay.show { display: flex; }
 .details-modal { background: var(--overlay-modal-bg); border: 1px solid var(--card-border); border-radius: 22px; width: 100%; max-width: 480px; box-shadow: 0 20px 60px rgba(0,0,0,.25); animation: fadeMenuIn .22s cubic-bezier(.34,1.56,.64,1); overflow: hidden; }
 .details-modal-header { display: flex; align-items: center; gap: 14px; padding: 22px 24px 18px; border-bottom: 1px solid var(--border); }
-.details-modal-avatar { width: 48px; height: 48px; border-radius: 14px; background: linear-gradient(135deg, #27ae60, #2ecc71); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
+.details-modal-avatar { width: 48px; height: 48px; border-radius: 14px; background: linear-gradient(135deg, #27ae60, #2ecc71); display: flex; align-items: center; justify-content: center; font-size: .9rem; font-weight: 800; color:#fff; flex-shrink: 0; }
 .details-modal-avatar.role-avatar { background: linear-gradient(135deg, #2980b9, #45B7D1); }
+.details-modal-avatar.dept-avatar { background: linear-gradient(135deg, #7B61FF, #9B85FF); }
+.details-modal-avatar svg { width:22px; height:22px; stroke:#fff; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
 .details-modal-title { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 800; color: var(--text); line-height: 1.2; }
 .details-modal-sub { font-size: .78rem; color: var(--muted); margin-top: 3px; }
 .details-modal-close { margin-left: auto; width: 32px; height: 32px; border-radius: 8px; background: var(--input-bg); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--muted); font-size: 1rem; transition: all .18s; flex-shrink: 0; }
 .details-modal-close:hover { background: rgba(231,76,60,.12); color: #e74c3c; border-color: rgba(231,76,60,.3); }
-.details-modal-body { padding: 22px 24px; }
+.details-modal-body { padding: 22px 24px; max-height: 60vh; overflow-y:auto; }
 .details-row { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
 .details-row:last-child { border-bottom: none; }
-.details-row-icon { width: 30px; height: 30px; border-radius: 8px; background: var(--input-bg); display: flex; align-items: center; justify-content: center; font-size: .85rem; flex-shrink: 0; margin-top: 1px; }
+.details-row-icon { width: 30px; height: 30px; border-radius: 8px; background: var(--input-bg); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.details-row-icon svg { width:14px; height:14px; stroke:var(--accent); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
 .details-row-content { flex: 1; min-width: 0; }
 .details-row-label { font-size: .7rem; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .5px; }
 .details-row-value { font-size: .88rem; color: var(--text); font-weight: 500; margin-top: 2px; word-break: break-all; }
 .details-modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 8px; }
 
+/* Employee list inside dept details */
+.emp-chip-list { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+.emp-chip { padding:3px 10px; border-radius:20px; background:var(--input-bg); border:1px solid var(--border); font-size:.75rem; color:var(--text); }
+
+/* ── DÉPARTEMENT CARDS ── */
+.dept-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 18px; margin-bottom: 24px; }
+.dept-card {
+  background: var(--card); border: 1px solid var(--card-border);
+  border-radius: 18px; padding: 22px;
+  box-shadow: var(--shadow);
+  transition: transform .2s, box-shadow .2s, background .3s;
+  position: relative; overflow: hidden;
+}
+.dept-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,0,0,.1); }
+.dept-card::before { content:''; position:absolute; top:0; right:0; width:90px; height:90px; background:radial-gradient(circle, var(--dc) 0%, transparent 70%); opacity:.1; transform:translate(35%,-35%); }
+.dept-card-header { display:flex; align-items:center; gap:14px; margin-bottom:16px; }
+.dept-card-icon { width:44px; height:44px; border-radius:13px; display:flex; align-items:center; justify-content:center; flex-shrink:0; background:rgba(255,255,255,.1); border:1px solid var(--dc); }
+.dept-card-icon svg { width:22px; height:22px; stroke:var(--dc); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.dept-card-name { font-family:'Syne',sans-serif; font-weight:700; font-size:1rem; }
+.dept-card-count { display:inline-block; padding:2px 10px; border-radius:20px; font-size:.72rem; font-weight:700; background:rgba(255,255,255,.1); border:1px solid var(--dc); color:var(--dc); margin-top:3px; }
+.dept-stat-row { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-top:1px solid var(--border); }
+.dept-stat-row:first-of-type { margin-top:8px; }
+.dept-stat-label { font-size:.78rem; color:var(--muted); display:flex; align-items:center; gap:6px; }
+.dept-stat-label svg { width:14px; height:14px; stroke:var(--muted); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.dept-stat-val { font-size:.85rem; font-weight:600; color:var(--text); }
+.dept-manager-chip { display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:20px; background:var(--input-bg); border:1px solid var(--border); font-size:.75rem; color:var(--text); }
+.dept-manager-chip svg { width:11px; height:11px; stroke:var(--accent); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.dept-actions { display:flex; gap:6px; margin-top:14px; }
+
 /* ── TOAST ── */
 .toast { position: fixed; bottom: 28px; right: 28px; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px 20px; display: flex; align-items: center; gap: 12px; font-size: .85rem; font-weight: 500; color: var(--text); box-shadow: 0 8px 28px rgba(0,0,0,.18); z-index: 8888; animation: slideToast .4s cubic-bezier(.34,1.56,.64,1); transform-origin: bottom right; }
 .toast.out { animation: slideToastOut .3s ease forwards; }
+.toast-icon svg { width:20px; height:20px; stroke:var(--accent); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
 @keyframes slideToast { from { opacity:0; transform:translateY(20px) scale(.9) } to { opacity:1; transform:translateY(0) scale(1) } }
 @keyframes slideToastOut { from { opacity:1; transform:translateY(0) scale(1) } to { opacity:0; transform:translateY(10px) scale(.95) } }
-.toast-icon { font-size: 1.3rem; }
 
 .section { display: none; }
 .section.active { display: block; }
@@ -354,6 +400,7 @@ tr:hover td { background: var(--row-hover); }
 .settings-container { max-width: 800px; margin: 0 auto; }
 .settings-group { background: var(--card); border: 1px solid var(--card-border); border-radius: 20px; padding: 28px; margin-bottom: 24px; box-shadow: var(--shadow); }
 .settings-group h3 { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+.settings-group h3 svg { width:18px; height:18px; stroke:var(--accent); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
 .settings-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--border); }
 .settings-row:last-child { border-bottom: none; }
 .settings-label { flex: 1; }
@@ -368,14 +415,13 @@ input:checked + .slider { background-color: var(--switch-active); }
 input:checked + .slider:before { transform: translateX(24px); }
 .settings-select { padding: 8px 14px; background: var(--input-bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: .85rem; cursor: pointer; outline: none; font-family: 'DM Sans', sans-serif; }
 .settings-select:focus { border-color: var(--accent); }
-.settings-input { padding: 8px 12px; background: var(--input-bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: .85rem; width: 80px; text-align: center; outline: none; }
 
 /* Modal Profil */
 .profile-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 9999; align-items: center; justify-content: center; }
 .profile-overlay.show { display: flex; }
 .profile-modal { background: var(--overlay-modal-bg); border: 1px solid var(--border); border-radius: 24px; padding: 32px; max-width: 480px; width: 90%; animation: fadeMenuIn .2s ease; }
 .profile-header { text-align: center; margin-bottom: 28px; }
-.profile-avatar { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent2)); display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 800; color: #fff; margin: 0 auto 16px; border: 3px solid var(--accent); }
+.profile-avatar { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent2)); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: 800; color: #fff; margin: 0 auto 16px; border: 3px solid var(--accent); }
 .profile-field { margin-bottom: 20px; }
 .profile-field label { display: block; font-size: .75rem; color: var(--muted); margin-bottom: 6px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
 .profile-field input, .profile-field select { width: 100%; padding: 10px 14px; background: var(--input-bg); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: .9rem; outline: none; transition: all .2s; }
@@ -386,277 +432,79 @@ input:checked + .slider:before { transform: translateX(24px); }
    CHATBOT FLOTTANT
 ════════════════════════════════════════════ */
 .chat-fab {
-  position: fixed;
-  bottom: 28px;
-  right: 28px;
-  z-index: 9000;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
+  position: fixed; bottom: 28px; right: 28px; z-index: 9000;
+  width: 56px; height: 56px; border-radius: 50%;
   background: linear-gradient(135deg, #FF6B35, #FF8C5A);
-  border: none;
-  cursor: pointer;
+  border: none; cursor: pointer;
   box-shadow: 0 6px 24px rgba(255,107,53,.45);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all .3s cubic-bezier(.34,1.56,.64,1);
-  overflow: hidden;
-}
-.chat-fab:hover {
-  transform: scale(1.1);
-  box-shadow: 0 10px 32px rgba(255,107,53,.55);
-}
-.chat-fab-icon {
-  position: absolute;
-  transition: opacity .25s, transform .25s;
   display: flex; align-items: center; justify-content: center;
+  transition: all .3s cubic-bezier(.34,1.56,.64,1); overflow: hidden;
 }
+.chat-fab:hover { transform: scale(1.1); box-shadow: 0 10px 32px rgba(255,107,53,.55); }
+.chat-fab-icon { position: absolute; transition: opacity .25s, transform .25s; display: flex; align-items: center; justify-content: center; }
+.chat-fab-icon svg { stroke:#fff; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
 .chat-fab-icon.open  { opacity: 1; transform: scale(1) rotate(0deg); }
 .chat-fab-icon.close { opacity: 0; transform: scale(.4) rotate(90deg); }
 .chat-fab.active .chat-fab-icon.open  { opacity: 0; transform: scale(.4) rotate(-90deg); }
 .chat-fab.active .chat-fab-icon.close { opacity: 1; transform: scale(1) rotate(0deg); }
-
-.chat-fab-pulse {
-  position: absolute;
-  width: 100%; height: 100%;
-  border-radius: 50%;
-  background: rgba(255,107,53,.35);
-  animation: fabPulse 2.5s ease-out infinite;
-}
-@keyframes fabPulse {
-  0%   { transform: scale(1);   opacity: .7; }
-  70%  { transform: scale(1.6); opacity: 0; }
-  100% { transform: scale(1.6); opacity: 0; }
-}
+.chat-fab-pulse { position: absolute; width: 100%; height: 100%; border-radius: 50%; background: rgba(255,107,53,.35); animation: fabPulse 2.5s ease-out infinite; }
+@keyframes fabPulse { 0% { transform: scale(1); opacity: .7; } 70% { transform: scale(1.6); opacity: 0; } 100% { transform: scale(1.6); opacity: 0; } }
 .chat-fab.active .chat-fab-pulse { display: none; }
-
-/* Notif badge */
-.chat-badge {
-  position: absolute;
-  top: -2px; right: -2px;
-  width: 18px; height: 18px;
-  border-radius: 50%;
-  background: #27ae60;
-  border: 2px solid #fff;
-  font-size: .6rem;
-  font-weight: 800;
-  color: #fff;
-  display: flex; align-items: center; justify-content: center;
-  transition: opacity .2s;
-}
+.chat-badge { position: absolute; top: -2px; right: -2px; width: 18px; height: 18px; border-radius: 50%; background: #27ae60; border: 2px solid #fff; font-size: .6rem; font-weight: 800; color: #fff; display: flex; align-items: center; justify-content: center; transition: opacity .2s; }
 .chat-fab.active .chat-badge { opacity: 0; pointer-events: none; }
 
-/* Fenêtre du chatbot */
 .chat-window {
-  position: fixed;
-  bottom: 98px;
-  right: 28px;
-  z-index: 8999;
-  width: 380px;
-  max-height: 540px;
-  background: var(--overlay-modal-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 22px;
-  box-shadow: 0 20px 60px rgba(0,0,0,.22);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  transform-origin: bottom right;
-  transition: background .3s;
-
-  /* Fermé par défaut */
-  opacity: 0;
-  transform: scale(.85) translateY(20px);
-  pointer-events: none;
+  position: fixed; bottom: 98px; right: 28px; z-index: 8999;
+  width: 380px; max-height: 540px;
+  background: var(--overlay-modal-bg); border: 1px solid var(--card-border);
+  border-radius: 22px; box-shadow: 0 20px 60px rgba(0,0,0,.22);
+  display: flex; flex-direction: column; overflow: hidden;
+  transform-origin: bottom right; transition: background .3s;
+  opacity: 0; transform: scale(.85) translateY(20px); pointer-events: none;
 }
-.chat-window.open {
-  opacity: 1;
-  transform: scale(1) translateY(0);
-  pointer-events: all;
-  animation: chatOpen .35s cubic-bezier(.34,1.56,.64,1) forwards;
-}
-.chat-window.closing {
-  animation: chatClose .25s ease forwards;
-}
+.chat-window.open { opacity: 1; transform: scale(1) translateY(0); pointer-events: all; animation: chatOpen .35s cubic-bezier(.34,1.56,.64,1) forwards; }
+.chat-window.closing { animation: chatClose .25s ease forwards; }
 @keyframes chatOpen  { from { opacity:0; transform:scale(.85) translateY(20px); } to { opacity:1; transform:scale(1) translateY(0); } }
 @keyframes chatClose { from { opacity:1; transform:scale(1) translateY(0); } to { opacity:0; transform:scale(.88) translateY(16px); } }
 
-/* Header du chat */
-.chat-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 18px;
-  border-bottom: 1px solid var(--border);
-  background: linear-gradient(105deg, rgba(255,107,53,.08), rgba(255,140,90,.04));
-  flex-shrink: 0;
-}
-.chat-header-avatar {
-  width: 38px; height: 38px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #FF6B35, #FF8C5A);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.1rem;
-  flex-shrink: 0;
-  box-shadow: 0 3px 10px rgba(255,107,53,.3);
-}
+.chat-header { display: flex; align-items: center; gap: 12px; padding: 16px 18px; border-bottom: 1px solid var(--border); background: linear-gradient(105deg, rgba(255,107,53,.08), rgba(255,140,90,.04)); flex-shrink: 0; }
+.chat-header-avatar { width: 38px; height: 38px; border-radius: 12px; background: linear-gradient(135deg, #FF6B35, #FF8C5A); display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 3px 10px rgba(255,107,53,.3); }
+.chat-header-avatar svg { width:20px; height:20px; stroke:#fff; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
 .chat-header-info { flex: 1; min-width: 0; }
 .chat-header-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: .92rem; color: var(--text); }
 .chat-header-status { display: flex; align-items: center; gap: 5px; font-size: .72rem; color: var(--muted); margin-top: 2px; }
 .chat-status-dot { width: 7px; height: 7px; border-radius: 50%; background: #27ae60; flex-shrink: 0; animation: statusPulse 2s ease-in-out infinite; }
 @keyframes statusPulse { 0%,100% { opacity:1; } 50% { opacity:.5; } }
-.chat-header-close {
-  width: 30px; height: 30px; border-radius: 8px;
-  background: var(--input-bg); border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; color: var(--muted); font-size: .9rem;
-  transition: all .18s; flex-shrink: 0;
-}
+.chat-header-close { width: 30px; height: 30px; border-radius: 8px; background: var(--input-bg); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--muted); font-size: .9rem; transition: all .18s; flex-shrink: 0; }
 .chat-header-close:hover { background: rgba(231,76,60,.12); color: #e74c3c; border-color: rgba(231,76,60,.3); }
 
-/* Messages zone */
-.chat-messages {
-  flex: 1;
-  overflow-y: auto;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  scroll-behavior: smooth;
-}
+.chat-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; scroll-behavior: smooth; }
 .chat-messages::-webkit-scrollbar { width: 4px; }
 .chat-messages::-webkit-scrollbar-track { background: transparent; }
 .chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
-/* Bulles */
-.chat-bubble {
-  display: flex;
-  gap: 8px;
-  align-items: flex-end;
-  max-width: 90%;
-  animation: bubbleIn .25s ease;
-}
+.chat-bubble { display: flex; gap: 8px; align-items: flex-end; max-width: 90%; animation: bubbleIn .25s ease; }
 @keyframes bubbleIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 .chat-bubble.user { align-self: flex-end; flex-direction: row-reverse; }
 .chat-bubble.bot  { align-self: flex-start; }
-
-.bubble-avatar {
-  width: 26px; height: 26px; border-radius: 8px;
-  background: linear-gradient(135deg, #FF6B35, #FF8C5A);
-  display: flex; align-items: center; justify-content: center;
-  font-size: .7rem; flex-shrink: 0; color: #fff;
-}
-.bubble-avatar.user-av {
-  background: linear-gradient(135deg, #7B61FF, #9B85FF);
-}
-
-.bubble-text {
-  padding: 10px 13px;
-  border-radius: 16px;
-  font-size: .84rem;
-  line-height: 1.5;
-  max-width: 100%;
-  word-break: break-word;
-}
+.bubble-avatar { width: 26px; height: 26px; border-radius: 8px; background: linear-gradient(135deg, #FF6B35, #FF8C5A); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.bubble-avatar svg { width:14px; height:14px; stroke:#fff; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.bubble-avatar.user-av { background: linear-gradient(135deg, #7B61FF, #9B85FF); font-size:.65rem; font-weight:800; color:#fff; }
+.bubble-text { padding: 10px 13px; border-radius: 16px; font-size: .84rem; line-height: 1.5; max-width: 100%; word-break: break-word; }
 .chat-bubble.bot  .bubble-text { background: var(--input-bg); color: var(--text); border-bottom-left-radius: 4px; border: 1px solid var(--border); }
 .chat-bubble.user .bubble-text { background: linear-gradient(135deg, #FF6B35, #FF8C5A); color: #fff; border-bottom-right-radius: 4px; }
 
-/* Typing indicator */
-.typing-dots {
-  display: flex;
-  gap: 4px;
-  align-items: center;
-  padding: 10px 13px;
-  background: var(--input-bg);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  border-bottom-left-radius: 4px;
-}
-.typing-dots span {
-  width: 7px; height: 7px; border-radius: 50%;
-  background: var(--muted);
-  animation: typingBounce .9s ease-in-out infinite;
-}
+.typing-dots { display: flex; gap: 4px; align-items: center; padding: 10px 13px; background: var(--input-bg); border: 1px solid var(--border); border-radius: 16px; border-bottom-left-radius: 4px; }
+.typing-dots span { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); animation: typingBounce .9s ease-in-out infinite; }
 .typing-dots span:nth-child(2) { animation-delay: .15s; }
 .typing-dots span:nth-child(3) { animation-delay: .3s; }
-@keyframes typingBounce {
-  0%, 60%, 100% { transform: translateY(0); }
-  30%           { transform: translateY(-6px); }
-}
+@keyframes typingBounce { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-6px); } }
 
-/* Suggestions rapides */
-.chat-suggestions {
-  padding: 10px 16px 0;
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  flex-shrink: 0;
-}
-.chat-suggestion-chip {
-  padding: 5px 12px;
-  border-radius: 20px;
-  background: rgba(255,107,53,.09);
-  border: 1px solid rgba(255,107,53,.22);
-  color: var(--accent);
-  font-size: .74rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all .18s;
-  font-family: 'DM Sans', sans-serif;
-  white-space: nowrap;
-}
-.chat-suggestion-chip:hover {
-  background: rgba(255,107,53,.18);
-  border-color: var(--accent);
-  transform: translateY(-1px);
-}
-
-/* Zone de saisie */
-.chat-input-area {
-  padding: 12px 14px 14px;
-  border-top: 1px solid var(--border);
-  display: flex;
-  gap: 8px;
-  align-items: flex-end;
-  flex-shrink: 0;
-  background: var(--overlay-modal-bg);
-  transition: background .3s;
-}
-.chat-input {
-  flex: 1;
-  padding: 10px 14px;
-  background: var(--input-bg);
-  border: 1.5px solid var(--border);
-  border-radius: 14px;
-  color: var(--text);
-  font-family: 'DM Sans', sans-serif;
-  font-size: .85rem;
-  outline: none;
-  resize: none;
-  max-height: 90px;
-  transition: border-color .2s, box-shadow .2s;
-  line-height: 1.45;
-}
-.chat-input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(255,107,53,.1);
-}
+.chat-input-area { padding: 12px 14px 14px; border-top: 1px solid var(--border); display: flex; gap: 8px; align-items: flex-end; flex-shrink: 0; background: var(--overlay-modal-bg); transition: background .3s; }
+.chat-input { flex: 1; padding: 10px 14px; background: var(--input-bg); border: 1.5px solid var(--border); border-radius: 14px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: .85rem; outline: none; resize: none; max-height: 90px; transition: border-color .2s, box-shadow .2s; line-height: 1.45; }
+.chat-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,107,53,.1); }
 .chat-input::placeholder { color: var(--muted); }
-
-.chat-send-btn {
-  width: 40px; height: 40px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #FF6B35, #FF8C5A);
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all .2s;
-  flex-shrink: 0;
-  box-shadow: 0 3px 10px rgba(255,107,53,.3);
-}
+.chat-send-btn { width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #FF6B35, #FF8C5A); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .2s; flex-shrink: 0; box-shadow: 0 3px 10px rgba(255,107,53,.3); }
 .chat-send-btn:hover { transform: scale(1.08) translateY(-1px); box-shadow: 0 6px 16px rgba(255,107,53,.4); }
 .chat-send-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
 .chat-send-btn svg { width: 18px; height: 18px; stroke: #fff; stroke-width: 2.2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
@@ -664,10 +512,65 @@ input:checked + .slider:before { transform: translateX(24px); }
 </head>
 <body>
 
+<!-- ── SVG ICON DEFS (reusable) ── -->
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- nav -->
+    <symbol id="ic-home"     viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9.5z"/><polyline points="9 21 9 12 15 12 15 21"/></symbol>
+    <symbol id="ic-key"      viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="5.5"/><path d="M21 2l-9.6 9.6"/><path d="M15.5 7.5l3 3L21 8l-3-3"/></symbol>
+    <symbol id="ic-users"    viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="ic-building" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="M3 9h6"/><path d="M3 15h6"/><path d="M15 8h2"/><path d="M15 12h2"/><path d="M15 16h2"/></symbol>
+    <symbol id="ic-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+    <!-- details row icons -->
+    <symbol id="ic-tag"      viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></symbol>
+    <symbol id="ic-globe"    viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></symbol>
+    <symbol id="ic-toggle"   viewBox="0 0 24 24"><rect x="1" y="5" width="22" height="14" rx="7"/><circle cx="8" cy="12" r="3"/></symbol>
+    <symbol id="ic-hash"     viewBox="0 0 24 24"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></symbol>
+    <symbol id="ic-id"       viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="12" r="2"/><path d="M14 9h4"/><path d="M14 12h4"/><path d="M14 15h4"/></symbol>
+    <symbol id="ic-mail"     viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></symbol>
+    <symbol id="ic-phone"    viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.38 2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.77a16 16 0 0 0 6 6l.46-.46a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/></symbol>
+    <symbol id="ic-briefcase"viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="12"/><line x1="8" y1="12" x2="16" y2="12"/></symbol>
+    <symbol id="ic-user"     viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+    <symbol id="ic-person"   viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+    <!-- actions -->
+    <symbol id="ic-edit"     viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></symbol>
+    <symbol id="ic-eye"      viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="ic-trash"    viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></symbol>
+    <!-- topbar -->
+    <symbol id="ic-bell"     viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+    <symbol id="ic-sun"      viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></symbol>
+    <symbol id="ic-moon"     viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+    <!-- dropdown -->
+    <symbol id="ic-log-out"  viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></symbol>
+    <symbol id="ic-lock"     viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+    <!-- dept -->
+    <symbol id="ic-code"     viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></symbol>
+    <symbol id="ic-headset"  viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></symbol>
+    <symbol id="ic-check-sq" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></symbol>
+    <symbol id="ic-bar"      viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></symbol>
+    <symbol id="ic-folder"   viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></symbol>
+    <symbol id="ic-send"     viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></symbol>
+    <symbol id="ic-chat"     viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+    <symbol id="ic-x"        viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+    <symbol id="ic-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></symbol>
+    <symbol id="ic-refresh"  viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></symbol>
+    <symbol id="ic-save"     viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></symbol>
+    <symbol id="ic-star"     viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></symbol>
+    <!-- stat icons -->
+    <symbol id="ic-users2"   viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="ic-shield"   viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+    <symbol id="ic-file"     viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></symbol>
+    <symbol id="ic-home2"    viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9.5z"/><polyline points="9 21 9 12 15 12 15 21"/></symbol>
+    <symbol id="ic-chart"    viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></symbol>
+    <!-- manager star -->
+    <symbol id="ic-crown"    viewBox="0 0 24 24"><path d="M2 20h20M5 20l-2-9 5 3 4-6 4 6 5-3-2 9"/></symbol>
+  </defs>
+</svg>
+
 <!-- LOGOUT OVERLAY -->
 <div class="logout-overlay" id="logoutOverlay">
   <div class="logout-modal">
-    <span class="lm-icon">🔐</span>
+    <div class="lm-icon"><svg width="42" height="42"><use href="#ic-lock"/></svg></div>
     <h3>Se déconnecter ?</h3>
     <p>Vous allez quitter l'espace administrateur.<br>Toutes les modifications non sauvegardées seront perdues.</p>
     <div class="logout-btns">
@@ -685,15 +588,15 @@ input:checked + .slider:before { transform: translateX(24px); }
       <h3 style="font-family:'Syne';margin-top:8px">Mon profil</h3>
     </div>
     <div class="profile-field">
-      <label>👤 Nom complet</label>
+      <label>Nom complet</label>
       <input type="text" id="profileName" value="Super Admin">
     </div>
     <div class="profile-field">
-      <label>📧 Email professionnel</label>
+      <label>Email professionnel</label>
       <input type="email" id="profileEmail" value="admin@studiaafrique.com">
     </div>
     <div class="profile-field">
-      <label>🏢 Département</label>
+      <label>Département</label>
       <select id="profileDept">
         <option>Administration</option>
         <option>Direction</option>
@@ -701,11 +604,11 @@ input:checked + .slider:before { transform: translateX(24px); }
       </select>
     </div>
     <div class="profile-field">
-      <label>📞 Téléphone</label>
+      <label>Téléphone</label>
       <input type="tel" id="profilePhone" value="+216 98 765 432">
     </div>
     <div class="profile-actions">
-      <button class="btn btn-primary" onclick="saveProfile()">💾 Enregistrer</button>
+      <button class="btn btn-primary" onclick="saveProfile()">Enregistrer</button>
       <button class="btn btn-ghost" onclick="closeProfile()">Annuler</button>
     </div>
   </div>
@@ -715,12 +618,14 @@ input:checked + .slider:before { transform: translateX(24px); }
 <div class="details-overlay" id="detailsOverlay" onclick="closeDetailsIfBg(event)">
   <div class="details-modal" id="detailsModal">
     <div class="details-modal-header">
-      <div class="details-modal-avatar" id="detailsAvatar">👁️</div>
+      <div class="details-modal-avatar" id="detailsAvatar"></div>
       <div>
         <div class="details-modal-title" id="detailsTitle">Détails</div>
         <div class="details-modal-sub" id="detailsSub"></div>
       </div>
-      <button class="details-modal-close" onclick="closeDetails()">✕</button>
+      <button class="details-modal-close" onclick="closeDetails()">
+        <svg width="14" height="14"><use href="#ic-x"/></svg>
+      </button>
     </div>
     <div class="details-modal-body" id="detailsBody"></div>
     <div class="details-modal-footer">
@@ -732,7 +637,9 @@ input:checked + .slider:before { transform: translateX(24px); }
 <!-- CHATBOT FLOTTANT -->
 <div class="chat-window" id="chatWindow">
   <div class="chat-header">
-    <div class="chat-header-avatar">🤖</div>
+    <div class="chat-header-avatar">
+      <svg width="20" height="20"><use href="#ic-chat"/></svg>
+    </div>
     <div class="chat-header-info">
       <div class="chat-header-name">Assistant StudiaAFRIQUE</div>
       <div class="chat-header-status">
@@ -740,35 +647,32 @@ input:checked + .slider:before { transform: translateX(24px); }
         <span>En ligne · IA propulsée par Claude</span>
       </div>
     </div>
-    <button class="chat-header-close" onclick="toggleChat()" title="Fermer">✕</button>
+    <button class="chat-header-close" onclick="toggleChat()">
+      <svg width="14" height="14"><use href="#ic-x"/></svg>
+    </button>
   </div>
   <div class="chat-messages" id="chatMessages">
     <div class="chat-bubble bot">
-      <div class="bubble-avatar">🤖</div>
-      <div class="bubble-text">Bonjour ! Je suis l'assistant IA de <strong>StudiaAFRIQUE</strong>. 👋<br>Je peux vous aider avec la gestion des utilisateurs, les rôles, les statistiques télétravail, et bien plus encore.</div>
+      <div class="bubble-avatar"><svg width="14" height="14"><use href="#ic-chat"/></svg></div>
+      <div class="bubble-text">Bonjour ! Je suis l'assistant IA de <strong>StudiaAFRIQUE</strong>.<br>Je peux vous aider avec la gestion des utilisateurs, des rôles, des départements, et bien plus encore.</div>
     </div>
   </div>
   <div class="chat-input-area">
     <textarea class="chat-input" id="chatInput" placeholder="Posez votre question…" rows="1" onkeydown="chatKeyDown(event)" oninput="autoResize(this)"></textarea>
-    <button class="chat-send-btn" id="chatSendBtn" onclick="sendMessage()" title="Envoyer">
-      <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    <button class="chat-send-btn" id="chatSendBtn" onclick="sendMessage()">
+      <svg viewBox="0 0 24 24"><use href="#ic-send"/></svg>
     </button>
   </div>
 </div>
 
-<button class="chat-fab" id="chatFab" onclick="toggleChat()" title="Assistant IA">
+<button class="chat-fab" id="chatFab" onclick="toggleChat()">
   <div class="chat-fab-pulse"></div>
   <div class="chat-badge">1</div>
   <div class="chat-fab-icon open">
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-    </svg>
+    <svg width="26" height="26"><use href="#ic-chat"/></svg>
   </div>
   <div class="chat-fab-icon close">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <line x1="18" y1="6" x2="6" y2="18"/>
-      <line x1="6" y1="6" x2="18" y2="18"/>
-    </svg>
+    <svg width="22" height="22"><use href="#ic-x"/></svg>
   </div>
 </button>
 
@@ -777,7 +681,7 @@ input:checked + .slider:before { transform: translateX(24px); }
   <div class="sidebar-brand">
     <h2>STUDIA<span>AFR</span></h2>
     <div class="sidebar-user">
-      <div class="avatar">⚙️</div>
+      <div class="avatar" id="sidebarAvatarEl">SA</div>
       <div class="user-info">
         <div class="name" id="sidebarName">Super Admin</div>
         <div class="role">Administrateur</div>
@@ -787,16 +691,18 @@ input:checked + .slider:before { transform: translateX(24px); }
   <nav>
     <div class="nav-section">Principal</div>
     <button class="nav-item active" onclick="show('dashboard',this)">
-      <span class="icon">🏠</span> Tableau de bord
+      <span class="nav-ic"><svg><use href="#ic-home"/></svg></span> Tableau de bord
     </button>
     <div class="nav-section">Gestion</div>
     <button class="nav-item" onclick="show('list-roles',this)">
-      <span class="icon">🔑</span> List Roles
+      <span class="nav-ic"><svg><use href="#ic-key"/></svg></span> Roles
     </button>
     <button class="nav-item" onclick="show('utilisateurs',this)">
-      <span class="icon">👤</span> Utilisateurs
+      <span class="nav-ic"><svg><use href="#ic-users"/></svg></span> Utilisateurs
     </button>
-    
+    <button class="nav-item" onclick="show('departements',this)">
+      <span class="nav-ic"><svg><use href="#ic-building"/></svg></span> Départements
+    </button>
   </nav>
   <div class="sidebar-bottom"></div>
 </aside>
@@ -810,13 +716,13 @@ input:checked + .slider:before { transform: translateX(24px); }
     </div>
     <div class="topbar-actions">
       <div class="topbar-icons">
-        <button class="topbar-icon-btn" title="Langue" style="font-size:1.25rem">FR</button>
-        <button class="dark-toggle" id="darkToggle" onclick="toggleDarkMode()" title="Basculer le thème">
-          <span class="icon-sun">☀️</span>
-          <span class="icon-moon">🌙</span>
+        <button class="topbar-icon-btn" title="Langue" style="font-size:.72rem;font-weight:800;letter-spacing:.5px;width:40px">FR</button>
+        <button class="dark-toggle" id="darkToggle" onclick="toggleDarkMode()">
+          <svg class="icon-sun"><use href="#ic-sun"/></svg>
+          <svg class="icon-moon"><use href="#ic-moon"/></svg>
         </button>
         <button class="topbar-icon-btn" title="Notifications" onclick="showNotifToast()">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+          <svg><use href="#ic-bell"/></svg>
           <span class="notif-dot"></span>
         </button>
         <div class="topbar-divider"></div>
@@ -828,14 +734,14 @@ input:checked + .slider:before { transform: translateX(24px); }
               <div class="dh-email" id="menuUserEmail">admin@studiaafrique.com</div>
             </div>
             <button class="dropdown-item" onclick="openProfile()">
-              <span class="di-icon">👤</span> Mon profil
+              <svg><use href="#ic-user"/></svg> Mon profil
             </button>
             <button class="dropdown-item" onclick="openSettingsPage()">
-              <span class="di-icon">⚙️</span> Paramètres
+              <svg><use href="#ic-settings"/></svg> Paramètres
             </button>
             <div class="dropdown-divider"></div>
             <button class="dropdown-item danger" onclick="openLogout()">
-              <span class="di-icon">🚪</span> Se déconnecter
+              <svg><use href="#ic-log-out"/></svg> Se déconnecter
             </button>
           </div>
         </div>
@@ -845,153 +751,320 @@ input:checked + .slider:before { transform: translateX(24px); }
 
   <div class="content">
 
-    <!-- DASHBOARD -->
+    <!-- ── DASHBOARD ── -->
     <div class="section active" id="sec-dashboard">
       <div class="stats-grid">
-        <div class="stat-card" style="--c:#FF6B35"><div class="stat-icon">👥</div><div class="stat-val">47</div><div class="stat-label">Employés actifs</div></div>
-        <div class="stat-card" style="--c:#4ECDC4"><div class="stat-icon">🔐</div><div class="stat-val">4</div><div class="stat-label">Rôles configurés</div></div>
-        <div class="stat-card" style="--c:#96CEB4"><div class="stat-icon">📄</div><div class="stat-val">128</div><div class="stat-label">Demandes TT approuvées</div></div>
-        <div class="stat-card" style="--c:#7B61FF"><div class="stat-icon">🏡</div><div class="stat-val">312</div><div class="stat-label">Jours télétravail (2024)</div></div>
+        <div class="stat-card" style="--c:#FF6B35">
+          <div class="stat-icon"><svg><use href="#ic-users2"/></svg></div>
+          <div class="stat-val">47</div>
+          <div class="stat-label">Employés actifs</div>
+        </div>
+        <div class="stat-card" style="--c:#4ECDC4">
+          <div class="stat-icon"><svg><use href="#ic-shield"/></svg></div>
+          <div class="stat-val">4</div>
+          <div class="stat-label">Rôles configurés</div>
+        </div>
+        <div class="stat-card" style="--c:#96CEB4">
+          <div class="stat-icon"><svg><use href="#ic-file"/></svg></div>
+          <div class="stat-val">128</div>
+          <div class="stat-label">Demandes TT approuvées</div>
+        </div>
+        <div class="stat-card" style="--c:#7B61FF">
+          <div class="stat-icon"><svg><use href="#ic-home2"/></svg></div>
+          <div class="stat-val">312</div>
+          <div class="stat-label">Jours télétravail (2024)</div>
+        </div>
       </div>
       <div class="grid2">
-        <div class="panel"><div class="panel-title">Utilisateurs par rôle</div><div class="role-list" id="role-list"></div><div class="total-row"><span>Total utilisateurs</span><strong id="total-users">—</strong></div></div>
-        <div class="panel"><div class="panel-title">Répartition par département</div><div id="deptChart"></div></div>
+        <div class="panel">
+          <div class="panel-title">Utilisateurs par rôle</div>
+          <div class="role-list" id="role-list"></div>
+          <div class="total-row"><span>Total utilisateurs</span><strong id="total-users">—</strong></div>
+        </div>
+        <div class="panel">
+          <div class="panel-title">Répartition par département</div>
+          <div id="deptChart"></div>
+        </div>
       </div>
-      <div class="tele-section"><div class="tele-header"><h3>📊 Statistiques Télétravail</h3><div class="period-tabs"><button class="period-tab active" onclick="switchPeriod('semaine',this)">Semaine</button></div></div>
+      <div class="tele-section">
+        <div class="tele-header">
+          <h3><svg><use href="#ic-chart"/></svg> Statistiques Télétravail</h3>
+          <div class="period-tabs">
+            <button class="period-tab active" onclick="switchPeriod('semaine',this)">Semaine</button>
+          </div>
+        </div>
         <div class="chart-row">
-          <div class="chart-panel"><div class="chart-panel-title">Répartition statuts</div><div class="legend-row"><div class="legend-item"><div class="legend-dot" style="background:#4ECDC4"></div>Approuvé</div><div class="legend-item"><div class="legend-dot" style="background:#FFB347"></div>En attente</div><div class="legend-item"><div class="legend-dot" style="background:#ff6b6b"></div>Refusé</div></div><div style="position:relative;width:100%;height:220px"><canvas id="pieChart"></canvas></div></div>
-          <div class="chart-panel"><div class="chart-panel-title">Télétravail par département</div><div style="position:relative;width:100%;height:250px"><canvas id="barChart"></canvas></div></div>
+          <div class="chart-panel">
+            <div class="chart-panel-title">Répartition statuts</div>
+            <div class="legend-row">
+              <div class="legend-item"><div class="legend-dot" style="background:#4ECDC4"></div>Approuvé</div>
+              <div class="legend-item"><div class="legend-dot" style="background:#FFB347"></div>En attente</div>
+              <div class="legend-item"><div class="legend-dot" style="background:#ff6b6b"></div>Refusé</div>
+            </div>
+            <div style="position:relative;width:100%;height:220px"><canvas id="pieChart"></canvas></div>
+          </div>
+          <div class="chart-panel">
+            <div class="chart-panel-title">Télétravail par département</div>
+            <div style="position:relative;width:100%;height:250px"><canvas id="barChart"></canvas></div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- LIST ROLES -->
+    <!-- ── LIST ROLES ── -->
     <div class="section" id="sec-list-roles">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px"></div>
-      <div class="panel" style="margin-bottom:20px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px"><button class="btn btn-primary" onclick="toggleRoleForm()">+ Add Role</button><input type="text" class="search-input" placeholder="Rechercher un rôle…" oninput="rolesSearchFilter(this.value)"></div>
-      <div class="slide-panel" id="addRoleForm" style="display:none;margin-bottom:20px"><h3 style="font-family:'Syne',sans-serif;color:var(--accent);margin-bottom:16px;">Nouveau rôle</h3><div class="form-grid"><div class="form-group"><label>Nom du rôle</label><input type="text" id="rName" placeholder="Ex : Manager"></div><div class="form-group"><label>Visibilité</label><select id="rVis"><option>specific</option><option>global</option><option>private</option></select></div></div><div style="display:flex;gap:10px;margin-top:16px"><button class="btn btn-primary" onclick="addRole()">Enregistrer</button><button class="btn btn-ghost" onclick="toggleRoleForm()">Annuler</button></div></div>
-      <div class="table-wrap"><table><thead><tr><th>Name</th><th>Visibility</th><th>Enabled</th><th style="text-align:right">Action(s)</th></tr></thead><tbody id="rolesTable"></tbody></table></div>
-      <div class="pagination-bar" id="rolesPaginationBar"><div class="pagination-label">Items per page: <select class="items-per-page-select" id="rolesPerPage" onchange="rolesChangePerPage(this.value)"><option value="5" selected>5</option><option value="10">10</option><option value="20">20</option><option value="100">100</option></select></div><div class="page-info" id="rolesPageInfo"></div><div class="page-btns"><button class="page-btn" id="rolesBtnFirst" onclick="rolesGoFirst()"><svg viewBox="0 0 24 24"><polyline points="11 17 6 12 11 7"/><line x1="18" y1="7" x2="18" y2="17"/></svg></button><button class="page-btn" id="rolesBtnPrev" onclick="rolesGoPrev()"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button><button class="page-btn" id="rolesBtnNext" onclick="rolesGoNext()"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button><button class="page-btn" id="rolesBtnLast" onclick="rolesGoLast()"><svg viewBox="0 0 24 24"><polyline points="13 17 18 12 13 7"/><line x1="6" y1="7" x2="6" y2="17"/></svg></button></div></div></div>
+      <div class="panel" style="margin-bottom:20px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px">
+          <button class="btn btn-primary" onclick="toggleRoleForm()">+ Ajouter Rôle</button>
+          <input type="text" class="search-input" placeholder="Rechercher un rôle…" oninput="rolesSearchFilter(this.value)">
+        </div>
+        <div class="slide-panel" id="addRoleForm" style="display:none;margin-bottom:20px">
+          <h3 style="font-family:'Syne',sans-serif;color:var(--accent);margin-bottom:16px;">Nouveau rôle</h3>
+          <div class="form-grid">
+            <div class="form-group"><label>Nom du rôle</label><input type="text" id="rName" placeholder="Ex : Manager"></div>
+            <div class="form-group"><label>Visibilité</label><select id="rVis"><option>specific</option><option>global</option><option>private</option></select></div>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:16px">
+            <button class="btn btn-primary" onclick="addRole()">Enregistrer</button>
+            <button class="btn btn-ghost" onclick="toggleRoleForm()">Annuler</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Name</th><th>Visibility</th><th>Enabled</th><th style="text-align:right">Action(s)</th></tr></thead>
+            <tbody id="rolesTable"></tbody>
+          </table>
+        </div>
+        <div class="pagination-bar" id="rolesPaginationBar">
+          <div class="pagination-label">Items per page: <select class="items-per-page-select" id="rolesPerPage" onchange="rolesChangePerPage(this.value)"><option value="5" selected>5</option><option value="10">10</option><option value="20">20</option><option value="100">100</option></select></div>
+          <div class="page-info" id="rolesPageInfo"></div>
+          <div class="page-btns">
+            <button class="page-btn" id="rolesBtnFirst" onclick="rolesGoFirst()"><svg viewBox="0 0 24 24"><polyline points="11 17 6 12 11 7"/><line x1="18" y1="7" x2="18" y2="17"/></svg></button>
+            <button class="page-btn" id="rolesBtnPrev"  onclick="rolesGoPrev()"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <button class="page-btn" id="rolesBtnNext"  onclick="rolesGoNext()"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+            <button class="page-btn" id="rolesBtnLast"  onclick="rolesGoLast()"><svg viewBox="0 0 24 24"><polyline points="13 17 18 12 13 7"/><line x1="6" y1="7" x2="6" y2="17"/></svg></button>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- UTILISATEURS -->
+    <!-- ── DÉPARTEMENTS ── -->
+    <div class="section" id="sec-departements">
+      <div class="panel" style="margin-bottom:24px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px">
+          <button class="btn btn-primary" onclick="toggleDeptForm()">+ Ajouter Département</button>
+          <input type="text" class="search-input" placeholder="Rechercher un département…" oninput="deptsSearchFilter(this.value)">
+        </div>
+        <div class="slide-panel" id="addDeptForm" style="display:none;margin-bottom:20px">
+          <h3 style="font-family:'Syne',sans-serif;color:var(--accent);margin-bottom:16px;">Nouveau département</h3>
+          <div class="form-grid">
+            <div class="form-group"><label>Nom</label>
+              <select id="dName">
+                <option>Digital</option>
+                <option>Support IT</option>
+                <option>Qualité</option>
+                <option>OBS</option>
+                <option>Gestion documentaire</option>
+                <option value="_custom">Personnalisé…</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Nom personnalisé</label><input type="text" id="dNameCustom" placeholder="Laisser vide si liste"></div>
+            <div class="form-group"><label>Responsable (Manager)</label>
+              <select id="dManager"><option value="">— Sélectionner —</option></select>
+            </div>
+            <div class="form-group"><label>Description</label><input type="text" id="dDesc" placeholder="Courte description"></div>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:16px">
+            <button class="btn btn-primary" onclick="addDept()">Enregistrer</button>
+            <button class="btn btn-ghost" onclick="toggleDeptForm()">Annuler</button>
+          </div>
+        </div>
+      </div>
+
+      
+
+      <!-- Table view -->
+      <div class="panel">
+        <div class="table-wrap">
+          <table>
+<thead><tr><th>Nom</th><th>Responsable</th><th>Nb. Employés</th><th>Liste des employés</th><th>Statut</th><th style="text-align:right">Action(s)</th></tr></thead>            <tbody id="deptsTable"></tbody>
+          </table>
+        </div>
+        <div class="pagination-bar">
+          <div class="pagination-label">Items per page: <select class="items-per-page-select" id="deptsPerPage" onchange="deptsChangePerPage(this.value)"><option value="5" selected>5</option><option value="10">10</option><option value="20">20</option><option value="100">100</option></select></div>
+          <div class="page-info" id="deptsPageInfo"></div>
+          <div class="page-btns">
+            <button class="page-btn" id="deptsBtnFirst" onclick="deptsGoFirst()"><svg viewBox="0 0 24 24"><polyline points="11 17 6 12 11 7"/><line x1="18" y1="7" x2="18" y2="17"/></svg></button>
+            <button class="page-btn" id="deptsBtnPrev"  onclick="deptsGoPrev()"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <button class="page-btn" id="deptsBtnNext"  onclick="deptsGoNext()"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+            <button class="page-btn" id="deptsBtnLast"  onclick="deptsGoLast()"><svg viewBox="0 0 24 24"><polyline points="13 17 18 12 13 7"/><line x1="6" y1="7" x2="6" y2="17"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── UTILISATEURS ── -->
     <div class="section" id="sec-utilisateurs">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px"></div>
-      <div class="panel"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px"><button class="btn btn-primary" onclick="toggleUserForm()">+ Add User</button><input type="text" class="search-input" placeholder="Rechercher un utilisateur…" oninput="usersSearchFilter(this.value)"></div>
-      <div class="slide-panel" id="addUserForm" style="display:none;margin-bottom:20px"><h3 style="font-family:'Syne',sans-serif;color:var(--accent);margin-bottom:16px;">Nouvel utilisateur</h3><div class="form-grid"><div class="form-group"><label>Civilité</label><select id="uCiv"><option>M</option><option>M.</option><option>Mme</option></select></div><div class="form-group"><label>Prénom</label><input type="text" id="uFirst" placeholder="Prénom"></div><div class="form-group"><label>Nom</label><input type="text" id="uLast" placeholder="Nom de famille"></div><div class="form-group"><label>Email</label><input type="email" id="uEmail" placeholder="email@example.com"></div><div class="form-group"><label>Département</label><select id="uFunc"><option>Digital</option><option>Support IT</option><option>Qualité</option><option>OBS</option><option>Gestion documentaire</option></select></div><div class="form-group"><label>Mobile</label><input type="text" id="uMobile" placeholder="Ex : 99000000"></div></div><div style="display:flex;gap:10px;margin-top:16px"><button class="btn btn-primary" onclick="addUser()">Enregistrer</button><button class="btn btn-ghost" onclick="toggleUserForm()">Annuler</button></div></div>
-      <div class="table-wrap"> <table><thead><tr><th>Civilité</th><th>Prénom</th><th>Nom</th><th>Email</th><th>Département</th><th>Mobile</th><th>Statut</th><th style="text-align:right">Action(s)</th></tr></thead><tbody id="usersTable"></tbody></table></div>
-      <div class="pagination-bar" id="usersPaginationBar"><div class="pagination-label">Items per page: <select class="items-per-page-select" id="usersPerPage" onchange="usersChangePerPage(this.value)"><option value="5" selected>5</option><option value="10">10</option><option value="20">20</option><option value="100">100</option></select></div><div class="page-info" id="usersPageInfo"></div><div class="page-btns"><button class="page-btn" id="usersBtnFirst" onclick="usersGoFirst()"><svg viewBox="0 0 24 24"><polyline points="11 17 6 12 11 7"/><line x1="18" y1="7" x2="18" y2="17"/></svg></button><button class="page-btn" id="usersBtnPrev" onclick="usersGoPrev()"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button><button class="page-btn" id="usersBtnNext" onclick="usersGoNext()"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button><button class="page-btn" id="usersBtnLast" onclick="usersGoLast()"><svg viewBox="0 0 24 24"><polyline points="13 17 18 12 13 7"/><line x1="6" y1="7" x2="6" y2="17"/></svg></button></div></div></div>
+      <div class="panel">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px">
+          <button class="btn btn-primary" onclick="toggleUserForm()">+ Ajouter Utilisateur</button>
+          <input type="text" class="search-input" placeholder="Rechercher un utilisateur…" oninput="usersSearchFilter(this.value)">
+        </div>
+        <div class="slide-panel" id="addUserForm" style="display:none;margin-bottom:20px">
+          <h3 style="font-family:'Syne',sans-serif;color:var(--accent);margin-bottom:16px;">Nouvel utilisateur</h3>
+          <div class="form-grid">
+            <div class="form-group"><label>Civilité</label><select id="uCiv"><option>M</option><option>M.</option><option>Mme</option></select></div>
+            <div class="form-group"><label>Prénom</label><input type="text" id="uFirst" placeholder="Prénom"></div>
+            <div class="form-group"><label>Nom</label><input type="text" id="uLast" placeholder="Nom de famille"></div>
+            <div class="form-group"><label>Email</label><input type="email" id="uEmail" placeholder="email@example.com"></div>
+            <div class="form-group"><label>Département</label><select id="uFunc"><option>Digital</option><option>Support IT</option><option>Qualité</option><option>OBS</option><option>Gestion documentaire</option></select></div>
+            <div class="form-group"><label>Mobile</label><input type="text" id="uMobile" placeholder="Ex : 99000000"></div>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:16px">
+            <button class="btn btn-primary" onclick="addUser()">Enregistrer</button>
+            <button class="btn btn-ghost" onclick="toggleUserForm()">Annuler</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Civilité</th><th>Prénom</th><th>Nom</th><th>Email</th><th>Département</th><th>Mobile</th><th>Statut</th><th style="text-align:right">Action(s)</th></tr></thead>
+            <tbody id="usersTable"></tbody>
+          </table>
+        </div>
+        <div class="pagination-bar">
+          <div class="pagination-label">Items per page: <select class="items-per-page-select" id="usersPerPage" onchange="usersChangePerPage(this.value)"><option value="5" selected>5</option><option value="10">10</option><option value="20">20</option><option value="100">100</option></select></div>
+          <div class="page-info" id="usersPageInfo"></div>
+          <div class="page-btns">
+            <button class="page-btn" id="usersBtnFirst" onclick="usersGoFirst()"><svg viewBox="0 0 24 24"><polyline points="11 17 6 12 11 7"/><line x1="18" y1="7" x2="18" y2="17"/></svg></button>
+            <button class="page-btn" id="usersBtnPrev"  onclick="usersGoPrev()"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <button class="page-btn" id="usersBtnNext"  onclick="usersGoNext()"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+            <button class="page-btn" id="usersBtnLast"  onclick="usersGoLast()"><svg viewBox="0 0 24 24"><polyline points="13 17 18 12 13 7"/><line x1="6" y1="7" x2="6" y2="17"/></svg></button>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- PARAMÈTRES -->
+    <!-- ── PARAMÈTRES ── -->
     <div class="section" id="sec-settings">
       <div class="settings-container">
-        <h2 style="font-family:'Syne';font-weight:800;margin-bottom:24px;">⚙️ Paramètres de l'application</h2>
-        <div class="settings-group"><h3>🎨 Apparence</h3>
+        <h2 style="font-family:'Syne';font-weight:800;margin-bottom:24px;display:flex;align-items:center;gap:10px"><svg width="22" height="22" style="stroke:var(--accent);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#ic-settings"/></svg> Paramètres de l'application</h2>
+        <div class="settings-group">
+          <h3><svg><use href="#ic-star"/></svg> Apparence</h3>
           <div class="settings-row"><div class="settings-label"><div class="label-title">Mode sombre</div><div class="label-desc">Basculer entre le thème clair et sombre</div></div><div class="settings-control"><label class="switch"><input type="checkbox" id="darkModeSwitch" onchange="toggleDarkModeFromSwitch()"><span class="slider"></span></label></div></div>
           <div class="settings-row"><div class="settings-label"><div class="label-title">Couleur d'accentuation</div><div class="label-desc">Personnaliser la couleur principale</div></div><div class="settings-control"><input type="color" id="accentColor" value="#FF6B35" onchange="changeAccentColor()" style="width:50px;height:40px;border-radius:8px;border:1px solid var(--border);background:var(--input-bg);cursor:pointer"></div></div>
           <div class="settings-row"><div class="settings-label"><div class="label-title">Taille de police</div><div class="label-desc">Ajuster la taille du texte</div></div><div class="settings-control"><select id="fontSize" onchange="changeFontSize()" class="settings-select"><option value="14">Petite</option><option value="16" selected>Moyenne</option><option value="18">Grande</option></select></div></div>
         </div>
-        <div class="settings-group"><h3>🔔 Notifications</h3>
+        <div class="settings-group">
+          <h3><svg><use href="#ic-bell"/></svg> Notifications</h3>
           <div class="settings-row"><div class="settings-label"><div class="label-title">Notifications push</div><div class="label-desc">Recevoir des alertes en temps réel</div></div><div class="settings-control"><label class="switch"><input type="checkbox" id="pushNotifications" checked onchange="saveSettings()"><span class="slider"></span></label></div></div>
           <div class="settings-row"><div class="settings-label"><div class="label-title">Rappel des demandes en attente</div><div class="label-desc">Être notifié des demandes non traitées</div></div><div class="settings-control"><label class="switch"><input type="checkbox" id="reminderNotifications" checked onchange="saveSettings()"><span class="slider"></span></label></div></div>
           <div class="settings-row"><div class="settings-label"><div class="label-title">Fréquence des rapports</div><div class="label-desc">Recevoir des rapports périodiques</div></div><div class="settings-control"><select id="reportFrequency" onchange="saveSettings()" class="settings-select"><option value="daily">Quotidien</option><option value="weekly" selected>Hebdomadaire</option><option value="monthly">Mensuel</option></select></div></div>
         </div>
-        <div class="settings-group"><h3>📊 Affichage des données</h3>
+        <div class="settings-group">
+          <h3><svg><use href="#ic-chart"/></svg> Affichage des données</h3>
           <div class="settings-row"><div class="settings-label"><div class="label-title">Nombre d'éléments par page</div><div class="label-desc">Définir le nombre de lignes affichées</div></div><div class="settings-control"><select id="itemsPerPage" onchange="saveSettings()" class="settings-select"><option value="10">10 éléments</option><option value="20" selected>20 éléments</option><option value="50">50 éléments</option></select></div></div>
           <div class="settings-row"><div class="settings-label"><div class="label-title">Format de date</div><div class="label-desc">Choisir le format d'affichage des dates</div></div><div class="settings-control"><select id="dateFormat" onchange="saveSettings()" class="settings-select"><option value="fr">DD/MM/YYYY</option><option value="en">MM/DD/YYYY</option><option value="iso">YYYY-MM-DD</option></select></div></div>
         </div>
-        <div class="settings-group"><h3>🔒 Sécurité</h3>
+        <div class="settings-group">
+          <h3><svg><use href="#ic-lock"/></svg> Sécurité</h3>
           <div class="settings-row"><div class="settings-label"><div class="label-title">Déconnexion automatique</div><div class="label-desc">Déconnecter après inactivité</div></div><div class="settings-control"><select id="autoLogout" onchange="saveSettings()" class="settings-select"><option value="0">Jamais</option><option value="15">15 minutes</option><option value="30" selected>30 minutes</option><option value="60">1 heure</option></select></div></div>
         </div>
-        <div class="settings-group"><h3>💾 Sauvegarde</h3>
-          <div class="settings-row"><div class="settings-label"><div class="label-title">Exporter les données</div><div class="label-desc">Télécharger toutes vos données</div></div><div class="settings-control"><button class="btn btn-secondary" onclick="exportData()">📥 Exporter</button></div></div>
-          <div class="settings-row"><div class="settings-label"><div class="label-title">Réinitialiser les paramètres</div><div class="label-desc">Restaurer tous les paramètres par défaut</div></div><div class="settings-control"><button class="btn btn-danger" onclick="resetSettings()">Réinitialiser</button></div></div>
+        <div class="settings-group">
+          <h3><svg><use href="#ic-save"/></svg> Sauvegarde</h3>
+          <div class="settings-row"><div class="settings-label"><div class="label-title">Exporter les données</div><div class="label-desc">Télécharger toutes vos données</div></div><div class="settings-control"><button class="btn btn-secondary" onclick="exportData()">Exporter</button></div></div>
+          <div class="settings-row"><div class="settings-label"><div class="label-title">Réinitialiser les paramètres</div><div class="label-desc">Restaurer tous les paramètres par défaut</div></div><div class="settings-control"><button class="btn-danger" onclick="resetSettings()">Réinitialiser</button></div></div>
         </div>
-        <div style="text-align:center; margin-top:20px;"><button class="btn btn-primary" onclick="saveAllSettings()">💾 Sauvegarder tous les paramètres</button></div>
+        <div style="text-align:center;margin-top:20px;">
+          <button class="btn btn-primary" onclick="saveAllSettings()">Sauvegarder tous les paramètres</button>
+        </div>
       </div>
     </div>
 
-  </div>
-</div>
+  </div><!-- /content -->
+</div><!-- /main -->
 
 <script>
-// ── PROFIL DATA ──
-let userData = {
-  name: 'Super Admin',
-  email: 'admin@studiaafrique.com',
-  dept: 'Administration',
-  phone: '+216 98 765 432',
-  avatar: 'SA'
-};
+// ────────────────────────────────────────────
+//  DATA
+// ────────────────────────────────────────────
+let userData = { name:'Super Admin', email:'admin@studiaafrique.com', dept:'Administration', phone:'+216 98 765 432', avatar:'SA' };
+let appSettings = { darkMode:false, accentColor:'#FF6B35', fontSize:16, pushNotifications:true, reminderNotifications:true, reportFrequency:'weekly', itemsPerPage:20, dateFormat:'fr', autoLogout:30 };
 
-// ── SETTINGS DATA ──
-let appSettings = {
-  darkMode: false,
-  accentColor: '#FF6B35',
-  fontSize: 16,
-  pushNotifications: true,
-  reminderNotifications: true,
-  reportFrequency: 'weekly',
-  itemsPerPage: 20,
-  dateFormat: 'fr',
-  autoLogout: 30
-};
+let users = [
+  { id:1, civ:'M',   first:'Firas',   last:'Khadraoui', email:'khadraoufiras@gmail.com',         func:'Digital',                mobile:'99999999', enabled:true },
+  { id:2, civ:'M.',  first:'Yassin',  last:'Abda',      email:'abdayassin@gmail.com',             func:'Qualité',                mobile:'94002552', enabled:true },
+  { id:3, civ:'M',   first:'Abda',    last:'Yassine',   email:'yessin.abda@etudiant-isi.utm.tn',  func:'Qualité',                mobile:'99385385', enabled:true },
+  { id:4, civ:'M.',  first:'John',    last:'Doe',        email:'john.doe@example.com',             func:'Digital',                mobile:'12345657', enabled:true },
+  { id:5, civ:'M.',  first:'Ahmed',   last:'Ben',        email:'romdhane.ahmed@gmail.tn',          func:'Gestion documentaire',   mobile:'25910687', enabled:true },
+  { id:6, civ:'Mme', first:'Sonia',   last:'Mansour',   email:'sonia@hr.tn',                      func:'Qualité',                mobile:'55001122', enabled:true },
+  { id:7, civ:'M.',  first:'Karim',   last:'Zouari',    email:'karim@hr.tn',                      func:'Support IT',             mobile:'77334455', enabled:true },
+  { id:8, civ:'Mme', first:'Nadia',   last:'Hamdi',     email:'nadia@hr.tn',                      func:'OBS',                    mobile:'22334455', enabled:true },
+  { id:9, civ:'M.',  first:'Mehdi',   last:'Trabelsi',  email:'mehdi@hr.tn',                      func:'Digital',                mobile:'55667788', enabled:true },
+];
 
-// ── THEME FUNCTIONS ──
+let roles = [
+  { id:1, name:'SAO2',     visibility:'specific', enabled:false },
+  { id:2, name:'adminrole',visibility:'specific', enabled:true  },
+  { id:3, name:'SQA',      visibility:'specific', enabled:true  },
+  { id:4, name:'VALID',    visibility:'specific', enabled:true  },
+  { id:5, name:'SOA',      visibility:'specific', enabled:true  },
+  { id:6, name:'RH',       visibility:'specific', enabled:true  },
+  { id:7, name:'Manager',  visibility:'specific', enabled:true  },
+  { id:8, name:'Employé',  visibility:'specific', enabled:true  },
+];
+
+// Departments with employees list
+let departments = [
+  { id:1, name:'Digital',              desc:'Développement & digital',      manager:'Firas Khadraoui',  employeeIds:[1,4,9], color:'#FF6B35', iconId:'ic-code'     },
+  { id:2, name:'Support IT',           desc:'Support technique & helpdesk', manager:'Karim Zouari',     employeeIds:[7],     color:'#45B7D1', iconId:'ic-headset'  },
+  { id:3, name:'Qualité',              desc:'Assurance qualité & tests',    manager:'Yassin Abda',      employeeIds:[2,3,6], color:'#4ECDC4', iconId:'ic-check-sq' },
+  { id:4, name:'OBS',                  desc:'Operations & business support',manager:'Nadia Hamdi',      employeeIds:[8],     color:'#7B61FF', iconId:'ic-bar'      },
+  { id:5, name:'Gestion documentaire', desc:'Archives & documentation',     manager:'Ahmed Ben',        employeeIds:[5],     color:'#FFB347', iconId:'ic-folder'   },
+];
+
+// ────────────────────────────────────────────
+//  THEME
+// ────────────────────────────────────────────
 function toggleDarkMode() {
-  const html = document.documentElement;
-  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  html.setAttribute('data-theme', next);
+  const next = document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme', next);
   localStorage.setItem('theme', next);
-  appSettings.darkMode = next === 'dark';
+  appSettings.darkMode = next==='dark';
   document.getElementById('darkModeSwitch').checked = appSettings.darkMode;
   rebuildCharts();
-  showToast(next === 'dark' ? '🌙 Mode sombre activé' : '☀️ Mode clair activé');
+  showToast(next==='dark'?'Mode sombre activé':'Mode clair activé');
 }
-
 function toggleDarkModeFromSwitch() {
   const isDark = document.getElementById('darkModeSwitch').checked;
-  const next = isDark ? 'dark' : 'light';
+  const next = isDark?'dark':'light';
   document.documentElement.setAttribute('data-theme', next);
   localStorage.setItem('theme', next);
   appSettings.darkMode = isDark;
   rebuildCharts();
-  showToast(isDark ? '🌙 Mode sombre activé' : '☀️ Mode clair activé');
+  showToast(isDark?'Mode sombre activé':'Mode clair activé');
 }
-
 function changeAccentColor() {
-  const color = document.getElementById('accentColor').value;
-  appSettings.accentColor = color;
-  document.documentElement.style.setProperty('--accent', color);
-  document.documentElement.style.setProperty('--accent2', color + 'cc');
-  showToast('🎨 Couleur d\'accentuation modifiée');
+  const c = document.getElementById('accentColor').value;
+  document.documentElement.style.setProperty('--accent', c);
+  document.documentElement.style.setProperty('--accent2', c+'cc');
+  showToast('Couleur modifiée');
 }
-
 function changeFontSize() {
-  const size = document.getElementById('fontSize').value;
-  appSettings.fontSize = parseInt(size);
-  document.body.style.fontSize = size + 'px';
-  showToast(`📏 Taille de police: ${size}px`);
+  const s = document.getElementById('fontSize').value;
+  document.body.style.fontSize = s+'px';
+  showToast('Taille de police : '+s+'px');
 }
 
-// ── SETTINGS FUNCTIONS ──
+// ────────────────────────────────────────────
+//  SETTINGS
+// ────────────────────────────────────────────
 function saveSettings() {
-  appSettings.pushNotifications = document.getElementById('pushNotifications').checked;
-  appSettings.reminderNotifications = document.getElementById('reminderNotifications').checked;
-  appSettings.reportFrequency = document.getElementById('reportFrequency').value;
-  appSettings.itemsPerPage = document.getElementById('itemsPerPage').value;
-  appSettings.dateFormat = document.getElementById('dateFormat').value;
-  appSettings.autoLogout = document.getElementById('autoLogout').value;
+  ['pushNotifications','reminderNotifications'].forEach(k=>{ appSettings[k]=document.getElementById(k).checked; });
+  ['reportFrequency','itemsPerPage','dateFormat','autoLogout'].forEach(k=>{ appSettings[k]=document.getElementById(k).value; });
   localStorage.setItem('appSettings', JSON.stringify(appSettings));
-  showToast('⚙️ Paramètres enregistrés');
+  showToast('Paramètres enregistrés');
 }
-
-function saveAllSettings() {
-  saveSettings();
-  showToast('✅ Tous les paramètres ont été sauvegardés');
-}
-
+function saveAllSettings() { saveSettings(); showToast('Tous les paramètres ont été sauvegardés'); }
 function loadSettings() {
   const saved = localStorage.getItem('appSettings');
   if (saved) {
@@ -999,9 +1072,8 @@ function loadSettings() {
     document.getElementById('darkModeSwitch').checked = appSettings.darkMode;
     document.getElementById('accentColor').value = appSettings.accentColor;
     document.documentElement.style.setProperty('--accent', appSettings.accentColor);
-    document.documentElement.style.setProperty('--accent2', appSettings.accentColor + 'cc');
     document.getElementById('fontSize').value = appSettings.fontSize;
-    document.body.style.fontSize = appSettings.fontSize + 'px';
+    document.body.style.fontSize = appSettings.fontSize+'px';
     document.getElementById('pushNotifications').checked = appSettings.pushNotifications;
     document.getElementById('reminderNotifications').checked = appSettings.reminderNotifications;
     document.getElementById('reportFrequency').value = appSettings.reportFrequency;
@@ -1010,239 +1082,470 @@ function loadSettings() {
     document.getElementById('autoLogout').value = appSettings.autoLogout;
   }
 }
-
 function resetSettings() {
-  if (confirm('Voulez-vous vraiment réinitialiser tous les paramètres par défaut ?')) {
-    appSettings = {
-      darkMode: false,
-      accentColor: '#FF6B35',
-      fontSize: 16,
-      pushNotifications: true,
-      reminderNotifications: true,
-      reportFrequency: 'weekly',
-      itemsPerPage: 20,
-      dateFormat: 'fr',
-      autoLogout: 30
-    };
-    localStorage.setItem('appSettings', JSON.stringify(appSettings));
-    loadSettings();
-    document.documentElement.setAttribute('data-theme', 'light');
-    showToast('🔄 Paramètres réinitialisés');
-  }
+  if (!confirm('Réinitialiser tous les paramètres ?')) return;
+  localStorage.removeItem('appSettings');
+  location.reload();
 }
-
 function exportData() {
-  const exportData = {
-    user: userData,
-    settings: appSettings,
-    roles: roles,
-    users: users,
-    exportDate: new Date().toISOString()
-  };
-  const dataStr = JSON.stringify(exportData, null, 2);
-  const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
-  const linkElement = document.createElement('a');
-  linkElement.setAttribute('href', dataUri);
-  linkElement.setAttribute('download', `studiaafrique_export_${new Date().toISOString().slice(0,19)}.json`);
-  linkElement.click();
-  showToast('📥 Export des données terminé');
+  const blob = new Blob([JSON.stringify({userData,appSettings,roles,departments,users},null,2)], {type:'application/json'});
+  const a = document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='studiaafrique_export.json'; a.click();
+  showToast('Export terminé');
 }
 
-// ── PROFIL FUNCTIONS ──
+// ────────────────────────────────────────────
+//  PROFIL
+// ────────────────────────────────────────────
 function openProfile() {
   closeUserMenu();
-  document.getElementById('profileName').value = userData.name;
-  document.getElementById('profileEmail').value = userData.email;
-  document.getElementById('profileDept').value = userData.dept;
-  document.getElementById('profilePhone').value = userData.phone;
+  ['Name','Email','Dept','Phone'].forEach(k=>{ document.getElementById('profile'+k).value = userData[k.toLowerCase()]; });
   document.getElementById('profileOverlay').classList.add('show');
 }
-
-function closeProfile() {
-  document.getElementById('profileOverlay').classList.remove('show');
-}
-
+function closeProfile() { document.getElementById('profileOverlay').classList.remove('show'); }
 function saveProfile() {
-  userData.name = document.getElementById('profileName').value;
+  userData.name  = document.getElementById('profileName').value;
   userData.email = document.getElementById('profileEmail').value;
-  userData.dept = document.getElementById('profileDept').value;
+  userData.dept  = document.getElementById('profileDept').value;
   userData.phone = document.getElementById('profilePhone').value;
-  userData.avatar = userData.name.split(' ').map(n => n[0]).join('').toUpperCase();
-
-  document.getElementById('sidebarName').textContent = userData.name;
-  document.getElementById('menuUserName').textContent = userData.name;
+  userData.avatar = userData.name.split(' ').map(n=>n[0]).join('').toUpperCase();
+  document.getElementById('sidebarName').textContent   = userData.name;
+  document.getElementById('sidebarAvatarEl').textContent = userData.avatar;
+  document.getElementById('menuUserName').textContent  = userData.name;
   document.getElementById('menuUserEmail').textContent = userData.email;
   document.getElementById('userAvatarBtn').textContent = userData.avatar;
   document.getElementById('profileAvatar').textContent = userData.avatar;
-
-  closeProfile();
-  showToast('✅ Profil mis à jour');
+  closeProfile(); showToast('Profil mis à jour');
 }
-
 function openSettingsPage() {
   closeUserMenu();
-  show('settings', document.querySelector('[onclick="show(\'settings\',this)"]'));
+  const btn = document.querySelectorAll('.nav-item')[3]; // settings not in nav, just show section
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sec-settings').classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  document.getElementById('pageTitle').textContent = 'Paramètres';
 }
 
-// ── TOAST ──
+// ────────────────────────────────────────────
+//  TOAST
+// ────────────────────────────────────────────
 let toastTimer;
 function showToast(msg) {
   let t = document.getElementById('globalToast');
-  if (!t) { t = document.createElement('div'); t.id = 'globalToast'; t.className = 'toast'; document.body.appendChild(t); }
-  const win = document.getElementById('chatWindow');
-  t.style.bottom = win.classList.contains('open') ? '580px' : '28px';
-  t.className = 'toast';
-  t.innerHTML = `<span class="toast-icon">✨</span><span>${msg}</span>`;
+  if (!t) { t=document.createElement('div'); t.id='globalToast'; t.className='toast'; document.body.appendChild(t); }
+  t.style.bottom = document.getElementById('chatWindow').classList.contains('open')?'580px':'28px';
+  t.className='toast';
+  t.innerHTML=`<span class="toast-icon"><svg width="20" height="20"><use href="#ic-star"/></svg></span><span>${msg}</span>`;
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => { t.classList.add('out'); setTimeout(() => t.remove(), 350); }, 2500);
+  toastTimer=setTimeout(()=>{ t.classList.add('out'); setTimeout(()=>t.remove(),350); },2500);
 }
-function showNotifToast() { showToast('🔔 3 demandes en attente de validation'); }
+function showNotifToast() { showToast('3 demandes en attente de validation'); }
 
-// ── USER MENU ──
-function toggleUserMenu(e) {
-  e.stopPropagation();
-  document.getElementById('userMenu').classList.toggle('open');
-}
-
-function closeUserMenu() {
-  document.getElementById('userMenu').classList.remove('open');
-}
-
-// ── DROPDOWN & LOGOUT ──
-function openLogout() { closeUserMenu(); document.getElementById('logoutOverlay').classList.add('show'); }
+// ────────────────────────────────────────────
+//  USER MENU / LOGOUT
+// ────────────────────────────────────────────
+function toggleUserMenu(e) { e.stopPropagation(); document.getElementById('userMenu').classList.toggle('open'); }
+function closeUserMenu() { document.getElementById('userMenu').classList.remove('open'); }
+function openLogout()  { closeUserMenu(); document.getElementById('logoutOverlay').classList.add('show'); }
 function closeLogout() { document.getElementById('logoutOverlay').classList.remove('show'); }
 function confirmLogout() {
-  document.getElementById('logoutOverlay').innerHTML = '<div class="logout-modal"><span class="lm-icon">✅</span><h3 style="color:#27ae60">Déconnexion réussie</h3><p>À bientôt, Super Admin.<br>Redirection…</p></div>';
-  setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+  document.getElementById('logoutOverlay').innerHTML='<div class="logout-modal"><div class="lm-icon"><svg width="42" height="42" style="stroke:#27ae60"><use href="#ic-check-sq"/></svg></div><h3 style="color:#27ae60">Déconnexion réussie</h3><p>À bientôt, Super Admin.<br>Redirection…</p></div>';
+  setTimeout(()=>{ window.location.href='index.html'; },1500);
 }
-
-document.addEventListener('click', (e) => {
-  const menu = document.getElementById('userMenu');
-  const avatarBtn = document.getElementById('userAvatarBtn');
-  if (menu && avatarBtn && !avatarBtn.contains(e.target) && !menu.contains(e.target)) {
-    menu.classList.remove('open');
-  }
+document.addEventListener('click',e=>{
+  const m=document.getElementById('userMenu'), a=document.getElementById('userAvatarBtn');
+  if(m&&a&&!a.contains(e.target)&&!m.contains(e.target)) m.classList.remove('open');
 });
 
-// ── NAVIGATION ──
-const titles = { dashboard:'Tableau de bord', 'list-roles':'List Roles', utilisateurs:'Utilisateurs', settings:'Paramètres' };
-function show(sec, btn) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-  document.getElementById('sec-' + sec).classList.add('active');
-  if (btn) btn.classList.add('active');
-  document.getElementById('pageTitle').textContent = titles[sec] || sec;
+// ────────────────────────────────────────────
+//  NAVIGATION
+// ────────────────────────────────────────────
+const titles={dashboard:'Tableau de bord','list-roles':'Roles',departements:'Départements',utilisateurs:'Utilisateurs',settings:'Paramètres'};
+function show(sec,btn) {
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  document.getElementById('sec-'+sec).classList.add('active');
+  if(btn) btn.classList.add('active');
+  document.getElementById('pageTitle').textContent=titles[sec]||sec;
+  if(sec==='departements') populateDeptManagerSelect();
 }
-document.getElementById('pageDate').textContent = new Date().toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+document.getElementById('pageDate').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 
-// ── DETAILS MODAL ──
+// ────────────────────────────────────────────
+//  DETAILS MODAL
+// ────────────────────────────────────────────
 function openDetails(cfg) {
-  const av = document.getElementById('detailsAvatar');
-  av.textContent = cfg.avatar || '👁️';
-  av.className = 'details-modal-avatar' + (cfg.avatarClass ? ' ' + cfg.avatarClass : '');
-  document.getElementById('detailsTitle').textContent = cfg.title || '';
-  document.getElementById('detailsSub').textContent = cfg.sub || '';
-  document.getElementById('detailsBody').innerHTML = (cfg.rows || []).map(r => `<div class="details-row"><div class="details-row-icon">${r.icon}</div><div class="details-row-content"><div class="details-row-label">${r.label}</div><div class="details-row-value">${r.value}</div></div></div>`).join('');
+  const av=document.getElementById('detailsAvatar');
+  if(cfg.svgIcon) {
+    av.innerHTML=`<svg width="22" height="22"><use href="#${cfg.svgIcon}"/></svg>`;
+  } else {
+    av.textContent=cfg.avatar||'';
+  }
+  av.className='details-modal-avatar'+(cfg.avatarClass?' '+cfg.avatarClass:'');
+  document.getElementById('detailsTitle').textContent=cfg.title||'';
+  document.getElementById('detailsSub').textContent=cfg.sub||'';
+  document.getElementById('detailsBody').innerHTML=(cfg.rows||[]).map(r=>`
+    <div class="details-row">
+      <div class="details-row-icon"><svg width="14" height="14"><use href="#${r.svgIcon||'ic-tag'}"/></svg></div>
+      <div class="details-row-content"><div class="details-row-label">${r.label}</div><div class="details-row-value">${r.value}</div></div>
+    </div>`).join('');
   document.getElementById('detailsOverlay').classList.add('show');
 }
 function closeDetails() { document.getElementById('detailsOverlay').classList.remove('show'); }
-function closeDetailsIfBg(e) { if (e.target === document.getElementById('detailsOverlay')) closeDetails(); }
+function closeDetailsIfBg(e) { if(e.target===document.getElementById('detailsOverlay')) closeDetails(); }
 
-// ── ROLES DASHBOARD ──
-const ROLES_DASHBOARD = [
-  { key:'admin', icon:'🛡️', iconClass:'icon-admin', colorClass:'c-admin', fillClass:'fill-admin', name:'Administrateur', desc:'Gestion système & permissions', count:2 },
-  { key:'rh', icon:'👥', iconClass:'icon-rh', colorClass:'c-rh', fillClass:'fill-rh', name:'RH', desc:'Politiques, rapports, validation', count:5 },
-  { key:'manager', icon:'📋', iconClass:'icon-manager', colorClass:'c-manager', fillClass:'fill-manager', name:'Manager', desc:'Validation N1, planification', count:8 },
-  { key:'employe', icon:'💼', iconClass:'icon-employe', colorClass:'c-employe', fillClass:'fill-employe', name:'Employé', desc:'Demandes TT, présence, planning', count:47 },
+// ────────────────────────────────────────────
+//  DASHBOARD – roles widget & dept chart
+// ────────────────────────────────────────────
+const ROLES_DASHBOARD=[
+  {key:'admin',   icon:'ic-shield',   iconClass:'icon-admin',   colorClass:'c-admin',   fillClass:'fill-admin',   name:'Administrateur', desc:'Gestion système & permissions',    count:2  },
+  {key:'rh',      icon:'ic-users',    iconClass:'icon-rh',      colorClass:'c-rh',      fillClass:'fill-rh',      name:'RH',             desc:'Politiques, rapports, validation', count:5  },
+  {key:'manager', icon:'ic-crown',    iconClass:'icon-manager', colorClass:'c-manager', fillClass:'fill-manager', name:'Manager',        desc:'Validation N1, planification',     count:8  },
+  {key:'employe', icon:'ic-briefcase',iconClass:'icon-employe', colorClass:'c-employe', fillClass:'fill-employe', name:'Employé',        desc:'Demandes TT, présence, planning',  count:47 },
 ];
 function renderRolesDashboard() {
-  const totalUsers = ROLES_DASHBOARD.reduce((s, r) => s + r.count, 0);
-  const maxCount = Math.max(...ROLES_DASHBOARD.map(r => r.count));
-  document.getElementById('total-users').textContent = totalUsers;
-  document.getElementById('role-list').innerHTML = ROLES_DASHBOARD.map(r => {
-    const pct = Math.round((r.count / totalUsers) * 100);
-    const barW = Math.round((r.count / maxCount) * 100);
-    return `<div class="role-item"><div class="role-icon ${r.iconClass}">${r.icon}</div><div class="role-info"><div class="role-name">${r.name}</div><div class="role-desc">${r.desc}</div></div><div class="role-right"><span class="role-count ${r.colorClass}">${r.count}</span><span class="role-pct">${pct}%</span><div class="bar-track"><div class="bar-fill ${r.fillClass}" style="width:${barW}%"></div></div></div></div>`;
+  const total=ROLES_DASHBOARD.reduce((s,r)=>s+r.count,0);
+  const maxC=Math.max(...ROLES_DASHBOARD.map(r=>r.count));
+  document.getElementById('total-users').textContent=total;
+  document.getElementById('role-list').innerHTML=ROLES_DASHBOARD.map(r=>{
+    const pct=Math.round(r.count/total*100), barW=Math.round(r.count/maxC*100);
+    return `<div class="role-item">
+      <div class="role-icon ${r.iconClass}"><svg><use href="#${r.icon}"/></svg></div>
+      <div class="role-info"><div class="role-name">${r.name}</div><div class="role-desc">${r.desc}</div></div>
+      <div class="role-right"><span class="role-count ${r.colorClass}">${r.count}</span><span class="role-pct">${pct}%</span>
+        <div class="bar-track"><div class="bar-fill ${r.fillClass}" style="width:${barW}%"></div></div>
+      </div></div>`;
   }).join('');
 }
 
-// ── DÉPARTEMENT ──
-const depts = [{ name:'Digital', count:18, color:'#FF6B35' },{ name:'Support IT', count:12, color:'#7B61FF' },{ name:'Qualité', count:10, color:'#4ECDC4' },{ name:'OBS', count:6, color:'#45B7D1' },{ name:'Gestion documentaire', count:7, color:'#FFB347' }];
-const deptTotal = depts.reduce((a, b) => a + b.count, 0);
-document.getElementById('deptChart').innerHTML = depts.map(d => `<div style="display:flex;align-items:center;gap:12px;margin-bottom:10px"><div style="width:10px;height:10px;border-radius:50%;background:${d.color};flex-shrink:0"></div><div style="flex:1;font-size:.82rem;color:var(--text)">${d.name}</div><div style="flex:2;height:8px;background:var(--border);border-radius:4px;overflow:hidden"><div style="height:100%;width:${(d.count / deptTotal * 100).toFixed(0)}%;background:${d.color};border-radius:4px;transition:width .8s ease"></div></div><div style="font-size:.78rem;color:var(--muted);width:28px;text-align:right">${d.count}</div></div>`).join('');
+const deptsChartData=[{name:'Digital',count:18,color:'#FF6B35'},{name:'Support IT',count:12,color:'#7B61FF'},{name:'Qualité',count:10,color:'#4ECDC4'},{name:'OBS',count:6,color:'#45B7D1'},{name:'Gestion doc.',count:7,color:'#FFB347'}];
+const deptTotal=deptsChartData.reduce((a,b)=>a+b.count,0);
+document.getElementById('deptChart').innerHTML=deptsChartData.map(d=>`
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+    <div style="width:10px;height:10px;border-radius:50%;background:${d.color};flex-shrink:0"></div>
+    <div style="flex:1;font-size:.82rem;color:var(--text)">${d.name}</div>
+    <div style="flex:2;height:8px;background:var(--border);border-radius:4px;overflow:hidden">
+      <div style="height:100%;width:${(d.count/deptTotal*100).toFixed(0)}%;background:${d.color};border-radius:4px;transition:width .8s ease"></div>
+    </div>
+    <div style="font-size:.78rem;color:var(--muted);width:28px;text-align:right">${d.count}</div>
+  </div>`).join('');
 
-// ── CHARTS ──
-function getGridColor() { return document.documentElement.getAttribute('data-theme') === 'dark' ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.07)'; }
-function getTickColor() { return document.documentElement.getAttribute('data-theme') === 'dark' ? 'rgba(255,255,255,0.35)' : 'rgba(0,0,0,0.45)'; }
-const teleData = { semaine: { pie: { approved: 28, pending: 5, rejected: 7 }, bar: { labels: ['Digital', 'Gestion doc.', 'Qualité', 'OBS', 'Support IT'], data: [8, 5, 4, 3, 4] } } };
-let currentPeriod = 'semaine', pieChartInst, barChartInst;
-function buildPieChart(period) { const d = teleData[period].pie; const ctx = document.getElementById('pieChart').getContext('2d'); if (pieChartInst) pieChartInst.destroy(); pieChartInst = new Chart(ctx, { type: 'doughnut', data: { labels: ['Approuvé', 'En attente', 'Refusé'], datasets: [{ data: [d.approved, d.pending, d.rejected], backgroundColor: ['#4ECDC4', '#FFB347', '#ff6b6b'], borderColor: ['#4ECDC4', '#FFB347', '#ff6b6b'], borderWidth: 2, hoverOffset: 6 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '62%', plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => { const tot = ctx.dataset.data.reduce((a, b) => a + b, 0); return ` ${ctx.label}: ${ctx.parsed} (${Math.round(ctx.parsed / tot * 100)}%)`; } } } } } }); }
-function buildBarChart(period) { const d = teleData[period].bar; const ctx = document.getElementById('barChart').getContext('2d'); if (barChartInst) barChartInst.destroy(); barChartInst = new Chart(ctx, { type: 'bar', data: { labels: d.labels, datasets: [{ label: 'Jours télétravail', data: d.data, backgroundColor: ['#7B61FF', '#4ECDC4', '#45B7D1', '#FFB347', '#FF6B35'], borderRadius: 8, borderSkipped: false }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, ticks: { color: getTickColor(), font: { size: 10 } } }, y: { grid: { color: getGridColor() }, ticks: { color: getTickColor(), font: { size: 11 } } } } } }); }
-function rebuildCharts() { buildPieChart(currentPeriod); buildBarChart(currentPeriod); }
-function switchPeriod(period, btn) { currentPeriod = period; document.querySelectorAll('.period-tab').forEach(t => t.classList.remove('active')); btn.classList.add('active'); rebuildCharts(); }
+// ────────────────────────────────────────────
+//  CHARTS
+// ────────────────────────────────────────────
+function getGridColor(){ return document.documentElement.getAttribute('data-theme')==='dark'?'rgba(255,255,255,0.06)':'rgba(0,0,0,0.07)'; }
+function getTickColor(){ return document.documentElement.getAttribute('data-theme')==='dark'?'rgba(255,255,255,0.35)':'rgba(0,0,0,0.45)'; }
+const teleData={semaine:{pie:{approved:28,pending:5,rejected:7},bar:{labels:['Digital','Gestion doc.','Qualité','OBS','Support IT'],data:[8,5,4,3,4]}}};
+let currentPeriod='semaine', pieChartInst, barChartInst;
+function buildPieChart(p){ const d=teleData[p].pie; const ctx=document.getElementById('pieChart').getContext('2d'); if(pieChartInst)pieChartInst.destroy(); pieChartInst=new Chart(ctx,{type:'doughnut',data:{labels:['Approuvé','En attente','Refusé'],datasets:[{data:[d.approved,d.pending,d.rejected],backgroundColor:['#4ECDC4','#FFB347','#ff6b6b'],borderWidth:2,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'62%',plugins:{legend:{display:false},tooltip:{callbacks:{label:(c)=>{const t=c.dataset.data.reduce((a,b)=>a+b,0);return ` ${c.label}: ${c.parsed} (${Math.round(c.parsed/t*100)}%)`;}}}}}}); }
+function buildBarChart(p){ const d=teleData[p].bar; const ctx=document.getElementById('barChart').getContext('2d'); if(barChartInst)barChartInst.destroy(); barChartInst=new Chart(ctx,{type:'bar',data:{labels:d.labels,datasets:[{label:'Jours TT',data:d.data,backgroundColor:['#7B61FF','#4ECDC4','#45B7D1','#FFB347','#FF6B35'],borderRadius:8,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{color:getTickColor(),font:{size:10}}},y:{grid:{color:getGridColor()},ticks:{color:getTickColor(),font:{size:11}}}}}}); }
+function rebuildCharts(){ buildPieChart(currentPeriod); buildBarChart(currentPeriod); }
+function switchPeriod(p,btn){ currentPeriod=p; document.querySelectorAll('.period-tab').forEach(t=>t.classList.remove('active')); btn.classList.add('active'); rebuildCharts(); }
 
-// ── PAGINATOR ──
-function createPaginator(cfg) {
-  let currentPage = 1, perPage = parseInt(document.getElementById(cfg.perPageId).value, 10), filteredData = cfg.getFiltered();
-  function totalPages() { return Math.max(1, Math.ceil(filteredData.length / perPage)); }
-  function updateInfo() { const total = filteredData.length, from = total === 0 ? 0 : (currentPage - 1) * perPage + 1, to = Math.min(currentPage * perPage, total); document.getElementById(cfg.infoId).textContent = `${from} – ${to} of ${total}`; document.getElementById(cfg.btnFirst).disabled = currentPage <= 1; document.getElementById(cfg.btnPrev).disabled = currentPage <= 1; document.getElementById(cfg.btnNext).disabled = currentPage >= totalPages(); document.getElementById(cfg.btnLast).disabled = currentPage >= totalPages(); }
-  function render() { const start = (currentPage - 1) * perPage; cfg.renderFn(filteredData.slice(start, start + perPage)); updateInfo(); }
-  return { setFiltered(data) { filteredData = data; currentPage = 1; render(); }, setPerPage(n) { perPage = parseInt(n, 10); currentPage = 1; render(); }, goFirst() { currentPage = 1; render(); }, goPrev() { if (currentPage > 1) { currentPage--; render(); } }, goNext() { if (currentPage < totalPages()) { currentPage++; render(); } }, goLast() { currentPage = totalPages(); render(); }, refresh() { filteredData = cfg.getFiltered(); render(); }, init() { render(); } };
+// ────────────────────────────────────────────
+//  PAGINATOR FACTORY
+// ────────────────────────────────────────────
+function createPaginator(cfg){
+  let page=1, pp=parseInt(document.getElementById(cfg.perPageId).value,10), data=cfg.getFiltered();
+  const tp=()=>Math.max(1,Math.ceil(data.length/pp));
+  const upd=()=>{ const tot=data.length, from=tot===0?0:(page-1)*pp+1, to=Math.min(page*pp,tot); document.getElementById(cfg.infoId).textContent=`${from} – ${to} of ${tot}`; document.getElementById(cfg.btnFirst).disabled=page<=1; document.getElementById(cfg.btnPrev).disabled=page<=1; document.getElementById(cfg.btnNext).disabled=page>=tp(); document.getElementById(cfg.btnLast).disabled=page>=tp(); };
+  const rnd=()=>{ const s=(page-1)*pp; cfg.renderFn(data.slice(s,s+pp)); upd(); };
+  return {
+    setFiltered(d){ data=d; page=1; rnd(); },
+    setPerPage(n){ pp=parseInt(n,10); page=1; rnd(); },
+    goFirst(){ page=1; rnd(); }, goPrev(){ if(page>1){page--;rnd();} }, goNext(){ if(page<tp()){page++;rnd();} }, goLast(){ page=tp(); rnd(); },
+    refresh(){ data=cfg.getFiltered(); rnd(); }, init(){ rnd(); }
+  };
 }
 
-// ── ROLES ──
-let roles = [{ id: 1, name: 'SAO2', visibility: 'specific', enabled: false }, { id: 2, name: 'adminrole', visibility: 'specific', enabled: true }, { id: 3, name: 'SQA', visibility: 'specific', enabled: true }, { id: 4, name: 'VALID', visibility: 'specific', enabled: true }, { id: 5, name: 'SOA', visibility: 'specific', enabled: true }, { id: 6, name: 'RH', visibility: 'specific', enabled: true }, { id: 7, name: 'Manager', visibility: 'specific', enabled: true }, { id: 8, name: 'Employé', visibility: 'specific', enabled: true }];
-let rolesQuery = '';
-const svgEdit = `<svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`;
-const svgEye = `<svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
-const svgDel = `<svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>`;
-function renderRolesSlice(slice) { document.getElementById('rolesTable').innerHTML = slice.map(r => `<tr><td style="font-weight:600">${r.name}</td><td><span class="badge badge-blue">${r.visibility}</span></td><td><span class="badge ${r.enabled ? 'badge-green' : 'badge-red'}">${r.enabled ? 'Active' : 'Inactive'}</span></td><td><div class="action-btns"><button class="action-btn action-btn-edit" onclick="editRole(${r.id})">${svgEdit} Edit</button><button class="action-btn action-btn-details" onclick="viewRoleDetails(${r.id})">${svgEye} Details</button><button class="action-btn action-btn-delete" onclick="deleteRole(${r.id})">${svgDel} Delete</button><label class="toggle"><input type="checkbox" ${r.enabled ? 'checked' : ''} onchange="toggleRole(${r.id},this.checked)"><span class="toggle-slider"></span></label></div></td></tr>`).join(''); }
-function viewRoleDetails(id) { const r = roles.find(x => x.id === id); if (!r) return; openDetails({ avatar: '🔑', avatarClass: 'role-avatar', title: r.name, sub: 'Détails du rôle', rows: [{ icon: '🏷️', label: 'Nom', value: r.name }, { icon: '🌐', label: 'Visibilité', value: r.visibility }, { icon: '🔘', label: 'Statut', value: r.enabled ? '✅ Actif' : '⛔ Inactif' }, { icon: '🔢', label: 'ID', value: '#' + r.id }] }); }
-const rolesPager = createPaginator({ getFiltered: () => roles.filter(r => r.name.toLowerCase().includes(rolesQuery)), renderFn: renderRolesSlice, infoId: 'rolesPageInfo', btnFirst: 'rolesBtnFirst', btnPrev: 'rolesBtnPrev', btnNext: 'rolesBtnNext', btnLast: 'rolesBtnLast', perPageId: 'rolesPerPage' });
-function rolesSearchFilter(q) { rolesQuery = q.toLowerCase(); rolesPager.setFiltered(roles.filter(r => r.name.toLowerCase().includes(rolesQuery))); }
-function rolesChangePerPage(v) { rolesPager.setPerPage(v); }
-function rolesGoFirst() { rolesPager.goFirst(); } function rolesGoPrev() { rolesPager.goPrev(); } function rolesGoNext() { rolesPager.goNext(); } function rolesGoLast() { rolesPager.goLast(); }
-function toggleRoleForm() { const f = document.getElementById('addRoleForm'); f.style.display = f.style.display === 'none' ? 'block' : 'none'; }
-function addRole() { const name = document.getElementById('rName').value.trim(), vis = document.getElementById('rVis').value; if (!name) return; roles.push({ id: Date.now(), name, visibility: vis, enabled: true }); document.getElementById('rName').value = ''; toggleRoleForm(); rolesPager.refresh(); showToast('✅ Rôle « ' + name + ' » ajouté'); }
-function deleteRole(id) { const r = roles.find(x => x.id === id); roles = roles.filter(r => r.id !== id); rolesPager.refresh(); if (r) showToast('🗑️ Rôle « ' + r.name + ' » supprimé'); }
-function editRole(id) { const r = roles.find(x => x.id === id); if (!r) return; const n = prompt('Nouveau nom :', r.name); if (n && n.trim()) { r.name = n.trim(); rolesPager.refresh(); showToast('✏️ Rôle mis à jour'); } }
-function toggleRole(id, val) { const r = roles.find(x => x.id === id); if (r) { r.enabled = val; rolesPager.refresh(); showToast(val ? '✅ Rôle activé' : '⛔ Rôle désactivé'); } }
+// ────────────────────────────────────────────
+//  SVG action buttons helper
+// ────────────────────────────────────────────
+const svgEdit=`<svg viewBox="0 0 24 24"><use href="#ic-edit"/></svg>`;
+const svgEye =`<svg viewBox="0 0 24 24"><use href="#ic-eye"/></svg>`;
+const svgDel =`<svg viewBox="0 0 24 24"><use href="#ic-trash"/></svg>`;
 
-// ── USERS ──
-let users = [{ id: 1, civ: 'M', first: 'Firas', last: 'Khadraoui', email: 'khadraoufiras@gmail.com', func: 'Digital', mobile: '99999999', enabled: true }, { id: 2, civ: 'M.', first: 'Yassin', last: 'Abda', email: 'abdayassin@gmail.com', func: 'Département Qualité', mobile: '94002552', enabled: true }, { id: 3, civ: 'M', first: 'Abda', last: 'Yassine', email: 'yessin.abda@etudiant-isi.utm.tn', func: 'Département Qualité', mobile: '99385385', enabled: true }, { id: 4, civ: 'M.', first: 'John', last: 'Doe', email: 'john.doe@example.com', func: 'Digital', mobile: '12345657', enabled: true }, { id: 5, civ: 'M.', first: 'Ahmed', last: 'Ben', email: 'romdhane.ahmed@gmail.tn', func: 'Gestion documentaire', mobile: '25910687', enabled: true }, { id: 6, civ: 'Mme', first: 'Sonia', last: 'Mansour', email: 'sonia@hr.tn', func: 'RH', mobile: '55001122', enabled: true }, { id: 7, civ: 'M.', first: 'Karim', last: 'Zouari', email: 'karim@hr.tn', func: 'Support IT', mobile: '77334455', enabled: true }];
-let usersQuery = '';
-const funcBadge = { 'RH': 'badge-blue', 'Manager': 'badge-orange', 'Support IT': 'badge-yellow', 'Digital': 'badge-blue', 'Gestion documentaire': 'badge-orange', 'Département Qualité': 'badge-green', 'Qualité': 'badge-green' };
-function renderUsersSlice(slice) { document.getElementById('usersTable').innerHTML = slice.map(u => `<tr><td style="color:var(--muted)">${u.civ}</td><td style="font-weight:700">${u.first}</td><td style="font-weight:700">${u.last}</td><td style="font-size:.8rem;color:var(--muted)">${u.email}</td><td><span class="badge ${funcBadge[u.func] || 'badge-green'}">${u.func}</span></td><td style="font-size:.83rem">${u.mobile}</td><td><span class="badge ${u.enabled ? 'badge-green' : 'badge-red'}">${u.enabled ? 'Active' : 'Inactive'}</span></td><td><div class="action-btns"><button class="action-btn action-btn-edit" onclick="editUser(${u.id})">${svgEdit} Edit</button><button class="action-btn action-btn-details" onclick="viewUserDetails(${u.id})">${svgEye} Details</button><button class="action-btn action-btn-delete" onclick="deleteUser(${u.id})">${svgDel} Delete</button><label class="toggle"><input type="checkbox" ${u.enabled ? 'checked' : ''} onchange="toggleUser(${u.id},this.checked)"><span class="toggle-slider"></span></label></div></td></tr>`).join(''); }
-function viewUserDetails(id) { const u = users.find(x => x.id === id); if (!u) return; openDetails({ avatar: (u.first[0] || '') + (u.last[0] || ''), avatarClass: '', title: u.first + ' ' + u.last, sub: u.func, rows: [{ icon: '🪪', label: 'Civilité', value: u.civ }, { icon: '👤', label: 'Prénom', value: u.first }, { icon: '👤', label: 'Nom', value: u.last }, { icon: '📧', label: 'Email', value: u.email }, { icon: '🏢', label: 'Département', value: u.func }, { icon: '📱', label: 'Mobile', value: u.mobile }, { icon: '🔘', label: 'Statut', value: u.enabled ? '✅ Actif' : '⛔ Inactif' }] }); }
-const usersPager = createPaginator({ getFiltered: () => { const lq = usersQuery; return users.filter(u => u.first.toLowerCase().includes(lq) || u.last.toLowerCase().includes(lq) || u.email.toLowerCase().includes(lq) || u.func.toLowerCase().includes(lq)); }, renderFn: renderUsersSlice, infoId: 'usersPageInfo', btnFirst: 'usersBtnFirst', btnPrev: 'usersBtnPrev', btnNext: 'usersBtnNext', btnLast: 'usersBtnLast', perPageId: 'usersPerPage' });
-function usersSearchFilter(q) { usersQuery = q.toLowerCase(); usersPager.refresh(); }
-function usersChangePerPage(v) { usersPager.setPerPage(v); }
-function usersGoFirst() { usersPager.goFirst(); } function usersGoPrev() { usersPager.goPrev(); } function usersGoNext() { usersPager.goNext(); } function usersGoLast() { usersPager.goLast(); }
-function toggleUserForm() { const f = document.getElementById('addUserForm'); f.style.display = f.style.display === 'none' ? 'block' : 'none'; }
-function addUser() { const civ = document.getElementById('uCiv').value, first = document.getElementById('uFirst').value.trim(), last = document.getElementById('uLast').value.trim(), email = document.getElementById('uEmail').value.trim(), func = document.getElementById('uFunc').value, mobile = document.getElementById('uMobile').value.trim(); if (!first || !last) return; users.push({ id: Date.now(), civ, first, last, email: email || first + '@hr.tn', func, mobile: mobile || '00000000', enabled: true }); toggleUserForm(); usersPager.refresh(); showToast('✅ Utilisateur « ' + first + ' ' + last + ' » ajouté'); }
-function deleteUser(id) { const u = users.find(x => x.id === id); users = users.filter(u => u.id !== id); usersPager.refresh(); if (u) showToast('🗑️ Utilisateur supprimé'); }
-function editUser(id) { const u = users.find(x => x.id === id); if (!u) return; const n = prompt('Prénom :', u.first); if (n && n.trim()) { u.first = n.trim(); usersPager.refresh(); showToast('✏️ Utilisateur mis à jour'); } }
-function toggleUser(id, val) { const u = users.find(x => x.id === id); if (u) { u.enabled = val; usersPager.refresh(); showToast(val ? '✅ Compte activé' : '⛔ Compte désactivé'); } }
+// ────────────────────────────────────────────
+//  ROLES
+// ────────────────────────────────────────────
+let rolesQuery='';
+function renderRolesSlice(slice){
+  document.getElementById('rolesTable').innerHTML=slice.map(r=>`
+    <tr>
+      <td style="font-weight:600">${r.name}</td>
+      <td><span class="badge badge-blue">${r.visibility}</span></td>
+      <td><span class="badge ${r.enabled?'badge-green':'badge-red'}">${r.enabled?'Active':'Inactive'}</span></td>
+      <td><div class="action-btns">
+        <button class="action-btn action-btn-edit"    onclick="editRole(${r.id})">${svgEdit} Modifier</button>
+        <button class="action-btn action-btn-details" onclick="viewRoleDetails(${r.id})">${svgEye} Détails</button>
+        <button class="action-btn action-btn-delete"  onclick="deleteRole(${r.id})">${svgDel} Supprimer</button>
+        <label class="toggle"><input type="checkbox" ${r.enabled?'checked':''} onchange="toggleRole(${r.id},this.checked)"><span class="toggle-slider"></span></label>
+      </div></td>
+    </tr>`).join('');
+}
+function viewRoleDetails(id){ const r=roles.find(x=>x.id===id); if(!r)return; openDetails({svgIcon:'ic-key',avatarClass:'role-avatar',title:r.name,sub:'Détails du rôle',rows:[{svgIcon:'ic-tag',label:'Nom',value:r.name},{svgIcon:'ic-globe',label:'Visibilité',value:r.visibility},{svgIcon:'ic-toggle',label:'Statut',value:r.enabled?'Actif':'Inactif'},{svgIcon:'ic-hash',label:'ID',value:'#'+r.id}]}); }
+const rolesPager=createPaginator({getFiltered:()=>roles.filter(r=>r.name.toLowerCase().includes(rolesQuery)),renderFn:renderRolesSlice,infoId:'rolesPageInfo',btnFirst:'rolesBtnFirst',btnPrev:'rolesBtnPrev',btnNext:'rolesBtnNext',btnLast:'rolesBtnLast',perPageId:'rolesPerPage'});
+function rolesSearchFilter(q){ rolesQuery=q.toLowerCase(); rolesPager.setFiltered(roles.filter(r=>r.name.toLowerCase().includes(rolesQuery))); }
+function rolesChangePerPage(v){ rolesPager.setPerPage(v); }
+function rolesGoFirst(){ rolesPager.goFirst(); } function rolesGoPrev(){ rolesPager.goPrev(); } function rolesGoNext(){ rolesPager.goNext(); } function rolesGoLast(){ rolesPager.goLast(); }
+function toggleRoleForm(){ const f=document.getElementById('addRoleForm'); f.style.display=f.style.display==='none'?'block':'none'; }
+function addRole(){ const name=document.getElementById('rName').value.trim(),vis=document.getElementById('rVis').value; if(!name)return; roles.push({id:Date.now(),name,visibility:vis,enabled:true}); document.getElementById('rName').value=''; toggleRoleForm(); rolesPager.refresh(); showToast('Rôle "'+name+'" ajouté'); }
+function deleteRole(id){ const r=roles.find(x=>x.id===id); roles=roles.filter(r=>r.id!==id); rolesPager.refresh(); if(r) showToast('Rôle "'+r.name+'" supprimé'); }
+function editRole(id){ const r=roles.find(x=>x.id===id); if(!r)return; const n=prompt('Nouveau nom :',r.name); if(n&&n.trim()){r.name=n.trim();rolesPager.refresh();showToast('Rôle mis à jour');} }
+function toggleRole(id,val){ const r=roles.find(x=>x.id===id); if(r){r.enabled=val;rolesPager.refresh();showToast(val?'Rôle activé':'Rôle désactivé');} }
 
-// ── CHATBOT ──
-let chatOpen = false, chatHistory = [], isTyping = false;
-const SYSTEM_PROMPT = `Tu es l'assistant IA de StudiaAFRIQUE, une plateforme de gestion RH pour entreprises africaines. Tu aides l'administrateur Super Admin avec : - La gestion des utilisateurs et des rôles - Les statistiques de télétravail - Les demandes en attente et la validation - Les tableaux de bord et rapports - Les questions générales sur la plateforme. Contexte actuel : 47 employés actifs, 4 rôles configurés, 128 demandes approuvées, 312 jours TT en 2024, 5 demandes en attente cette semaine, taux d'approbation 72%. Réponds toujours en français, de manière concise, professionnelle et utile.`;
-function toggleChat() { const win = document.getElementById('chatWindow'), fab = document.getElementById('chatFab'); chatOpen = !chatOpen; if (chatOpen) { win.classList.remove('closing'); win.classList.add('open'); fab.classList.add('active'); setTimeout(() => document.getElementById('chatInput').focus(), 300); } else { win.classList.add('closing'); win.classList.remove('open'); fab.classList.remove('active'); setTimeout(() => win.classList.remove('closing'), 280); } }
-function autoResize(textarea) { textarea.style.height = 'auto'; textarea.style.height = Math.min(textarea.scrollHeight, 90) + 'px'; }
-function chatKeyDown(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }
-function appendBubble(role, html) { const msgs = document.getElementById('chatMessages'); const bubble = document.createElement('div'); bubble.className = `chat-bubble ${role}`; const isBot = role === 'bot'; bubble.innerHTML = `<div class="bubble-avatar ${isBot ? '' : 'user-av'}">${isBot ? '🤖' : 'SA'}</div><div class="bubble-text">${html}</div>`; msgs.appendChild(bubble); msgs.scrollTop = msgs.scrollHeight; }
-function showTypingIndicator() { const msgs = document.getElementById('chatMessages'); const indicator = document.createElement('div'); indicator.className = 'chat-bubble bot'; indicator.id = 'typingIndicator'; indicator.innerHTML = `<div class="bubble-avatar">🤖</div><div class="typing-dots"><span></span><span></span><span></span></div>`; msgs.appendChild(indicator); msgs.scrollTop = msgs.scrollHeight; }
-function removeTypingIndicator() { const ind = document.getElementById('typingIndicator'); if (ind) ind.remove(); }
-async function sendMessage() { if (isTyping) return; const input = document.getElementById('chatInput'); const text = input.value.trim(); if (!text) return; input.value = ''; input.style.height = 'auto'; appendBubble('user', escapeHtml(text)); chatHistory.push({ role: 'user', content: text }); isTyping = true; document.getElementById('chatSendBtn').disabled = true; showTypingIndicator(); try { const response = await fetch('https://api.anthropic.com/v1/messages', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, system: SYSTEM_PROMPT, messages: chatHistory }) }); const data = await response.json(); removeTypingIndicator(); if (data.content && data.content[0] && data.content[0].text) { const reply = data.content[0].text; chatHistory.push({ role: 'assistant', content: reply }); appendBubble('bot', formatBotText(reply)); } else { appendBubble('bot', '⚠️ Désolé, je n\'ai pas pu générer une réponse.'); } } catch (err) { removeTypingIndicator(); appendBubble('bot', '⚠️ Erreur de connexion.'); console.error(err); } isTyping = false; document.getElementById('chatSendBtn').disabled = false; document.getElementById('chatInput').focus(); }
-function escapeHtml(text) { return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>'); }
-function formatBotText(text) { text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); text = text.replace(/\*(.*?)\*/g, '<em>$1</em>'); text = text.replace(/\n/g, '<br>'); text = text.replace(/^- (.+)/gm, '• $1'); return text; }
+// ────────────────────────────────────────────
+//  DEPARTMENTS
+// ────────────────────────────────────────────
+let deptsQuery='';
 
-// ── INIT ──
+function getUserName(id){ const u=users.find(x=>x.id===id); return u?u.first+' '+u.last:'—'; }
+function getDeptEmployees(dept){ return dept.employeeIds.map(id=>getUserName(id)).filter(n=>n!=='—'); }
+
+function populateDeptManagerSelect(){
+  const sel=document.getElementById('dManager');
+  sel.innerHTML='<option value="">— Sélectionner —</option>'+users.map(u=>`<option value="${u.first+' '+u.last}">${u.first} ${u.last}</option>`).join('');
+}
+
+function renderDeptsCards(slice){
+  document.getElementById('deptsGrid').innerHTML=slice.map(d=>`
+    <div class="dept-card" style="--dc:${d.color}">
+      <div class="dept-card-header">
+        <div class="dept-card-icon">
+          <svg width="22" height="22"><use href="#${d.iconId}"/></svg>
+        </div>
+        <div>
+          <div class="dept-card-name">${d.name}</div>
+          <span class="dept-card-count">${d.employeeIds.length} employé${d.employeeIds.length>1?'s':''}</span>
+        </div>
+      </div>
+      <div style="font-size:.78rem;color:var(--muted);margin-bottom:10px">${d.desc}</div>
+      <div class="dept-stat-row">
+        <span class="dept-stat-label"><svg><use href="#ic-crown"/></svg> Responsable</span>
+        <span class="dept-manager-chip"><svg><use href="#ic-person"/></svg>${d.manager}</span>
+      </div>
+      <div class="dept-stat-row">
+        <span class="dept-stat-label"><svg><use href="#ic-users"/></svg> Équipe</span>
+        <span class="dept-stat-val">${d.employeeIds.length} membre${d.employeeIds.length>1?'s':''}</span>
+      </div>
+      <div class="dept-actions">
+        <button class="action-btn action-btn-edit"    onclick="editDept(${d.id})">${svgEdit} Modifier</button>
+        <button class="action-btn action-btn-details" onclick="viewDeptDetails(${d.id})">${svgEye} Détails</button>
+        <button class="action-btn action-btn-delete"  onclick="deleteDept(${d.id})">${svgDel} Supprimer</button>
+      </div>
+    </div>`).join('');
+}
+
+function renderDeptsTable(slice){
+  document.getElementById('deptsTable').innerHTML=slice.map(d=>{
+    const empNames = getDeptEmployees(d);
+    const empList = empNames.length > 0 
+      ? empNames.map(name => `<span class="emp-chip">${name}</span>`).join('')
+      : '<span style="color:var(--muted);font-size:.75rem;font-style:italic">Aucun employé assigné</span>';
+    
+    return `
+    <tr>
+      <td style="font-weight:700">
+        <span style="display:inline-flex;align-items:center;gap:8px">
+          <span style="width:10px;height:10px;border-radius:50%;background:${d.color};display:inline-block"></span>
+          ${d.name}
+        </span>
+      </td>
+      <td><span class="badge badge-blue">${d.manager}</span></td>
+      <td><span class="badge badge-purple">${d.employeeIds.length}</span></td>
+      <td>
+        <div style="display:flex;flex-wrap:wrap;gap:4px;max-width:350px">
+          ${empList}
+        </div>
+      </td>
+      <td><span class="badge badge-green">Actif</span></td>
+      <td><div class="action-btns">
+        <button class="action-btn action-btn-edit"    onclick="editDept(${d.id})">${svgEdit} Modifier</button>
+        <button class="action-btn action-btn-details" onclick="viewDeptDetails(${d.id})">${svgEye} Détails</button>
+        <button class="action-btn action-btn-delete"  onclick="deleteDept(${d.id})">${svgDel} Supprimer</button>
+      </div></td>
+    </tr>`;
+  }).join('');
+}
+
+function filteredDepts(){ return departments.filter(d=>d.name.toLowerCase().includes(deptsQuery)||d.manager.toLowerCase().includes(deptsQuery)); }
+
+// Dual-render paginator for depts (cards + table)
+let deptsPage=1, deptsPP=5;
+function deptsRender(){
+  const data=filteredDepts();
+  const tp=Math.max(1,Math.ceil(data.length/deptsPP));
+  deptsPage=Math.min(deptsPage,tp);
+  const s=(deptsPage-1)*deptsPP;
+  const slice=data.slice(s,s+deptsPP);
+  
+  // Affichage uniquement du tableau (cards supprimées)
+  renderDeptsTable(slice);
+  
+  const tot=data.length, from=tot===0?0:s+1, to=Math.min(deptsPage*deptsPP,tot);
+  document.getElementById('deptsPageInfo').textContent=`${from} – ${to} of ${tot}`;
+  document.getElementById('deptsBtnFirst').disabled=deptsPage<=1;
+  document.getElementById('deptsBtnPrev').disabled=deptsPage<=1;
+  document.getElementById('deptsBtnNext').disabled=deptsPage>=tp;
+  document.getElementById('deptsBtnLast').disabled=deptsPage>=tp;
+}
+function deptsSearchFilter(q){ deptsQuery=q.toLowerCase(); deptsPage=1; deptsRender(); }
+function deptsChangePerPage(v){ deptsPP=parseInt(v,10); deptsPage=1; deptsRender(); }
+function deptsGoFirst(){ deptsPage=1; deptsRender(); }
+function deptsGoPrev(){ if(deptsPage>1){deptsPage--;deptsRender();} }
+function deptsGoNext(){ const tp=Math.max(1,Math.ceil(filteredDepts().length/deptsPP)); if(deptsPage<tp){deptsPage++;deptsRender();} }
+function deptsGoLast(){ deptsPage=Math.max(1,Math.ceil(filteredDepts().length/deptsPP)); deptsRender(); }
+
+function toggleDeptForm(){
+  const f=document.getElementById('addDeptForm');
+  f.style.display=f.style.display==='none'?'block':'none';
+  if(f.style.display==='block') populateDeptManagerSelect();
+}
+
+const DEPT_ICONS={'Digital':'ic-code','Support IT':'ic-headset','Qualité':'ic-check-sq','OBS':'ic-bar','Gestion documentaire':'ic-folder'};
+const DEPT_COLORS={'Digital':'#FF6B35','Support IT':'#45B7D1','Qualité':'#4ECDC4','OBS':'#7B61FF','Gestion documentaire':'#FFB347'};
+function addDept(){
+  let name=document.getElementById('dName').value;
+  const custom=document.getElementById('dNameCustom').value.trim();
+  if(name==='_custom'&&custom) name=custom;
+  const manager=document.getElementById('dManager').value;
+  const desc=document.getElementById('dDesc').value.trim();
+  if(!name||!manager) return showToast('Remplissez le nom et le responsable');
+  departments.push({id:Date.now(),name,desc:desc||name,manager,employeeIds:[],color:DEPT_COLORS[name]||'#7B61FF',iconId:DEPT_ICONS[name]||'ic-building'});
+  toggleDeptForm(); deptsRender(); showToast('Département "'+name+'" ajouté');
+}
+function deleteDept(id){ const d=departments.find(x=>x.id===id); departments=departments.filter(x=>x.id!==id); deptsRender(); if(d) showToast('Département "'+d.name+'" supprimé'); }
+function editDept(id){
+  const d=departments.find(x=>x.id===id); if(!d)return;
+  const n=prompt('Nouveau nom :',d.name); if(!n||!n.trim())return;
+  const m=prompt('Nouveau responsable :',d.manager); if(!m||!m.trim())return;
+  d.name=n.trim(); d.manager=m.trim();
+  deptsRender(); showToast('Département mis à jour');
+}
+function viewDeptDetails(id){
+  const d=departments.find(x=>x.id===id); if(!d)return;
+  const empNames=getDeptEmployees(d);
+  const empChips=empNames.length>0
+    ?`<div class="emp-chip-list">${empNames.map(n=>`<span class="emp-chip">${n}</span>`).join('')}</div>`
+    :'<span style="color:var(--muted);font-size:.8rem">Aucun employé assigné</span>';
+  openDetails({
+    svgIcon:'ic-building', avatarClass:'dept-avatar',
+    title:d.name, sub:d.desc,
+    rows:[
+      {svgIcon:'ic-tag',        label:'Nom',        value:d.name},
+      {svgIcon:'ic-crown',      label:'Responsable',value:d.manager},
+      {svgIcon:'ic-users',      label:'Nb. employés',value:d.employeeIds.length+' membre'+( d.employeeIds.length>1?'s':'')},
+      {svgIcon:'ic-person',     label:'Liste des employés', value:empChips},
+      {svgIcon:'ic-briefcase',  label:'Description', value:d.desc},
+    ]
+  });
+}
+
+// ────────────────────────────────────────────
+//  USERS
+// ────────────────────────────────────────────
+let usersQuery='';
+const funcBadge={'Support IT':'badge-yellow','Digital':'badge-blue','Gestion documentaire':'badge-orange','Qualité':'badge-green','OBS':'badge-purple'};
+function renderUsersSlice(slice){
+  document.getElementById('usersTable').innerHTML=slice.map(u=>`
+    <tr>
+      <td style="color:var(--muted)">${u.civ}</td>
+      <td style="font-weight:700">${u.first}</td>
+      <td style="font-weight:700">${u.last}</td>
+      <td style="font-size:.8rem;color:var(--muted)">${u.email}</td>
+      <td><span class="badge ${funcBadge[u.func]||'badge-green'}">${u.func}</span></td>
+      <td style="font-size:.83rem">${u.mobile}</td>
+      <td><span class="badge ${u.enabled?'badge-green':'badge-red'}">${u.enabled?'Active':'Inactive'}</span></td>
+      <td><div class="action-btns">
+        <button class="action-btn action-btn-edit"    onclick="editUser(${u.id})">${svgEdit} Modifier</button>
+        <button class="action-btn action-btn-details" onclick="viewUserDetails(${u.id})">${svgEye} Détails</button>
+        <button class="action-btn action-btn-delete"  onclick="deleteUser(${u.id})">${svgDel} Supprimer</button>
+        <label class="toggle"><input type="checkbox" ${u.enabled?'checked':''} onchange="toggleUser(${u.id},this.checked)"><span class="toggle-slider"></span></label>
+      </div></td>
+    </tr>`).join('');
+}
+function viewUserDetails(id){
+  const u=users.find(x=>x.id===id); if(!u)return;
+  openDetails({avatar:(u.first[0]||'')+(u.last[0]||''),title:u.first+' '+u.last,sub:u.func,rows:[
+    {svgIcon:'ic-id',        label:'Civilité',    value:u.civ},
+    {svgIcon:'ic-user',      label:'Prénom',      value:u.first},
+    {svgIcon:'ic-user',      label:'Nom',         value:u.last},
+    {svgIcon:'ic-mail',      label:'Email',       value:u.email},
+    {svgIcon:'ic-building',  label:'Département', value:u.func},
+    {svgIcon:'ic-phone',     label:'Mobile',      value:u.mobile},
+    {svgIcon:'ic-toggle',    label:'Statut',      value:u.enabled?'Actif':'Inactif'},
+  ]});
+}
+const usersPager=createPaginator({
+  getFiltered:()=>{ const lq=usersQuery; return users.filter(u=>u.first.toLowerCase().includes(lq)||u.last.toLowerCase().includes(lq)||u.email.toLowerCase().includes(lq)||u.func.toLowerCase().includes(lq)); },
+  renderFn:renderUsersSlice, infoId:'usersPageInfo', btnFirst:'usersBtnFirst', btnPrev:'usersBtnPrev', btnNext:'usersBtnNext', btnLast:'usersBtnLast', perPageId:'usersPerPage'
+});
+function usersSearchFilter(q){ usersQuery=q.toLowerCase(); usersPager.refresh(); }
+function usersChangePerPage(v){ usersPager.setPerPage(v); }
+function usersGoFirst(){ usersPager.goFirst(); } function usersGoPrev(){ usersPager.goPrev(); } function usersGoNext(){ usersPager.goNext(); } function usersGoLast(){ usersPager.goLast(); }
+function toggleUserForm(){ const f=document.getElementById('addUserForm'); f.style.display=f.style.display==='none'?'block':'none'; }
+function addUser(){ const civ=document.getElementById('uCiv').value,first=document.getElementById('uFirst').value.trim(),last=document.getElementById('uLast').value.trim(),email=document.getElementById('uEmail').value.trim(),func=document.getElementById('uFunc').value,mobile=document.getElementById('uMobile').value.trim(); if(!first||!last)return; users.push({id:Date.now(),civ,first,last,email:email||first+'@hr.tn',func,mobile:mobile||'00000000',enabled:true}); toggleUserForm(); usersPager.refresh(); showToast('Utilisateur "'+first+' '+last+'" ajouté'); }
+function deleteUser(id){ const u=users.find(x=>x.id===id); users=users.filter(u=>u.id!==id); usersPager.refresh(); if(u) showToast('Utilisateur supprimé'); }
+function editUser(id){ const u=users.find(x=>x.id===id); if(!u)return; const n=prompt('Prénom :',u.first); if(n&&n.trim()){u.first=n.trim();usersPager.refresh();showToast('Utilisateur mis à jour');} }
+function toggleUser(id,val){ const u=users.find(x=>x.id===id); if(u){u.enabled=val;usersPager.refresh();showToast(val?'Compte activé':'Compte désactivé');} }
+
+// ────────────────────────────────────────────
+//  CHATBOT
+// ────────────────────────────────────────────
+let chatOpen=false, chatHistory=[], isTyping=false;
+const SYSTEM_PROMPT=`Tu es l'assistant IA de StudiaAFRIQUE, une plateforme de gestion RH pour entreprises africaines. Tu aides l'administrateur avec : la gestion des utilisateurs, des rôles, des départements, les statistiques de télétravail, les demandes en attente et la validation. Contexte : 47 employés actifs, 4 rôles configurés, 5 départements, 128 demandes approuvées, 312 jours TT en 2024. Réponds en français, de manière concise et professionnelle.`;
+
+function toggleChat(){
+  const win=document.getElementById('chatWindow'), fab=document.getElementById('chatFab');
+  chatOpen=!chatOpen;
+  if(chatOpen){ win.classList.remove('closing'); win.classList.add('open'); fab.classList.add('active'); setTimeout(()=>document.getElementById('chatInput').focus(),300); }
+  else { win.classList.add('closing'); win.classList.remove('open'); fab.classList.remove('active'); setTimeout(()=>win.classList.remove('closing'),280); }
+}
+function autoResize(ta){ ta.style.height='auto'; ta.style.height=Math.min(ta.scrollHeight,90)+'px'; }
+function chatKeyDown(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); sendMessage(); } }
+function appendBubble(role,html){
+  const msgs=document.getElementById('chatMessages');
+  const b=document.createElement('div'); b.className=`chat-bubble ${role}`;
+  const isBot=role==='bot';
+  b.innerHTML=`<div class="bubble-avatar ${isBot?'':'user-av'}">${isBot?`<svg width="14" height="14"><use href="#ic-chat"/></svg>`:'SA'}</div><div class="bubble-text">${html}</div>`;
+  msgs.appendChild(b); msgs.scrollTop=msgs.scrollHeight;
+}
+function showTypingIndicator(){
+  const msgs=document.getElementById('chatMessages');
+  const ind=document.createElement('div'); ind.className='chat-bubble bot'; ind.id='typingIndicator';
+  ind.innerHTML=`<div class="bubble-avatar"><svg width="14" height="14"><use href="#ic-chat"/></svg></div><div class="typing-dots"><span></span><span></span><span></span></div>`;
+  msgs.appendChild(ind); msgs.scrollTop=msgs.scrollHeight;
+}
+function removeTypingIndicator(){ const i=document.getElementById('typingIndicator'); if(i)i.remove(); }
+async function sendMessage(){
+  if(isTyping)return;
+  const input=document.getElementById('chatInput');
+  const text=input.value.trim(); if(!text)return;
+  input.value=''; input.style.height='auto';
+  appendBubble('user',text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>'));
+  chatHistory.push({role:'user',content:text});
+  isTyping=true; document.getElementById('chatSendBtn').disabled=true; showTypingIndicator();
+  try {
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:SYSTEM_PROMPT,messages:chatHistory})});
+    const data=await res.json(); removeTypingIndicator();
+    if(data.content&&data.content[0]&&data.content[0].text){
+      const reply=data.content[0].text;
+      chatHistory.push({role:'assistant',content:reply});
+      appendBubble('bot',reply.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>').replace(/\n/g,'<br>'));
+    } else appendBubble('bot','Désolé, je n\'ai pas pu générer une réponse.');
+  } catch(err){ removeTypingIndicator(); appendBubble('bot','Erreur de connexion.'); console.error(err); }
+  isTyping=false; document.getElementById('chatSendBtn').disabled=false; document.getElementById('chatInput').focus();
+}
+
+// ────────────────────────────────────────────
+//  INIT
+// ────────────────────────────────────────────
 loadSettings();
 renderRolesDashboard();
 rolesPager.init();
 usersPager.init();
-window.addEventListener('load', () => { buildPieChart('semaine'); buildBarChart('semaine'); });
+deptsRender();
+window.addEventListener('load',()=>{ buildPieChart('semaine'); buildBarChart('semaine'); });
 </script>
 </body>
 </html>
