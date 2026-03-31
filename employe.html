@@ -185,11 +185,11 @@ input:checked + .slider:before { transform:translateX(24px); }
 .badge-green  { background:rgba(150,206,180,.18); color:#27ae60; }
 .badge-teal   { background:rgba(78,205,196,.18);  color:#4ECDC4; }
 .badge-blue   { background:rgba(69,183,209,.18);  color:#2980b9; }
-.badge-yellow { background:rgba(255,200,60,.18);  color:#d4a017; }
+.badge-yellow { background:rgba(255,160,109,.18);  color:#ffa26d; }
 .badge-red    { background:rgba(255,107,107,.18); color:#e74c3c; }
 [data-theme="dark"] .badge-green  { background:rgba(150,206,180,.2); color:#96CEB4; }
 [data-theme="dark"] .badge-teal   { background:rgba(78,205,196,.2);  color:#4ECDC4; }
-[data-theme="dark"] .badge-yellow { background:rgba(255,230,109,.2); color:#FFE66D; }
+[data-theme="dark"] .badge-yellow { background:rgba(255,160,109,.2); color:#ffa26d; }
 [data-theme="dark"] .badge-red    { background:rgba(255,107,107,.2); color:#ff6b6b; }
 
 /* ── FORMS ── */
@@ -214,7 +214,7 @@ input:checked + .slider:before { transform:translateX(24px); }
 .cap-big-label { font-size:.72rem; color:var(--muted); text-align:center; }
 .cap-pill { display:inline-block; padding:5px 14px; border-radius:20px; font-size:.75rem; font-weight:700; }
 .cap-pill-ok   { background:rgba(150,206,180,.15); color:#96CEB4; border:1px solid rgba(150,206,180,.3); }
-.cap-pill-warn { background:rgba(255,230,109,.15); color:#FFE66D; border:1px solid rgba(255,230,109,.3); }
+.cap-pill-warn { background:rgba(255,160,109,.15); color:#ffa26d; border:1px solid rgba(255,160,109,.3); }
 .cap-pill-full { background:rgba(255,107,107,.12); color:#ff6b6b; border:1px solid rgba(255,107,107,.3); }
 
 /* ── RULES BOX ── */
@@ -233,7 +233,7 @@ input:checked + .slider:before { transform:translateX(24px); }
 .demand-date { font-size:.76rem; color:var(--muted); margin-top:3px; }
 .demand-motif { font-size:.78rem; color:var(--muted); margin-top:5px; }
 .status-pill { padding:4px 12px; border-radius:20px; font-size:.72rem; font-weight:700; white-space:nowrap; }
-.pill-yellow { background:rgba(255,230,109,.15); color:#FFE66D; border:1px solid rgba(255,230,109,.3); }
+.pill-yellow { background:rgba(255,160,109,.15); color:#ffa26d; border:1px solid rgba(255,160,109,.3); }
 .pill-green  { background:rgba(150,206,180,.15); color:#96CEB4; border:1px solid rgba(150,206,180,.3); }
 .pill-red    { background:rgba(255,107,107,.12); color:#ff6b6b; border:1px solid rgba(255,107,107,.3); }
 .pill-blue   { background:rgba(69,183,209,.15);  color:#45B7D1; border:1px solid rgba(69,183,209,.3); }
@@ -242,7 +242,7 @@ input:checked + .slider:before { transform:translateX(24px); }
 .tl-step:not(:last-child)::after { content:''; position:absolute; top:12px; left:calc(50% + 14px); width:calc(100% - 28px); height:2px; background:var(--border); z-index:0; transition:background .4s; }
 .tl-step.done:not(:last-child)::after { background:var(--line-color, var(--accent)); }
 .tl-dot { width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.75rem; font-weight:800; z-index:1; position:relative; border:2px solid transparent; }
-.tl-dot.pending  { background:rgba(255,230,109,.18); border-color:#FFE66D; color:#FFE66D; }
+.tl-dot.pending  { background:rgba(255,160,109,.18); border-color:#ffa26d; color:#ffa26d; }
 .tl-dot.done     { background:rgba(150,206,180,.2);  border-color:#96CEB4; color:#96CEB4; }
 .tl-dot.refused  { background:rgba(255,107,107,.15); border-color:#ff6b6b; color:#ff6b6b; }
 .tl-dot.waiting  { background:var(--input-bg); border-color:var(--border); color:var(--muted); }
@@ -250,7 +250,7 @@ input:checked + .slider:before { transform:translateX(24px); }
 @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(78,205,196,.4)} 50%{box-shadow:0 0 0 6px rgba(78,205,196,0)} }
 .tl-label { font-size:.71rem; color:var(--muted); margin-top:7px; text-align:center; line-height:1.3; }
 .tl-date  { font-size:.68rem; margin-top:3px; text-align:center; font-weight:600; }
-.tl-date.yellow { color:#FFE66D; }
+.tl-date.yellow { color:#ffa26d; }
 .tl-date.green  { color:#96CEB4; }
 .tl-date.red    { color:#ff6b6b; }
 .tl-date.muted  { color:var(--muted); }
@@ -485,7 +485,7 @@ input:checked + .slider:before { transform:translateX(24px); }
     <!-- DASHBOARD -->
     <div class="section active" id="sec-dashboard">
       <div class="stats-grid">
-        <div class="stat-card" style="--c:#FFE66D"><div class="stat-icon">⏳</div><div class="stat-val" id="statPending">2</div><div class="stat-label">Demandes en attente</div></div>
+        <div class="stat-card" style="--c:#ffa26d"><div class="stat-icon">⏳</div><div class="stat-val" id="statPending">2</div><div class="stat-label">Demandes en attente</div></div>
         <div class="stat-card" style="--c:#96CEB4"><div class="stat-icon">✅</div><div class="stat-val" id="statApproved">3</div><div class="stat-label">Demandes approuvées</div></div>
         <div class="stat-card" style="--c:#ff6b6b"><div class="stat-icon">✗</div><div class="stat-val" id="statRejected">1</div><div class="stat-label">Demandes refusées</div></div>
         <div class="stat-card" style="--c:#4ECDC4"><div class="stat-icon">📋</div><div class="stat-val" id="statTotal">6</div><div class="stat-label">Total demandes TT</div></div>
@@ -545,7 +545,7 @@ input:checked + .slider:before { transform:translateX(24px); }
       <h2 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:8px;">Suivi de mes demandes de télétravail</h2>
       <p style="color:var(--muted);font-size:.83rem;margin-bottom:20px;">Suivez l'avancement de chaque demande en temps réel</p>
       <div class="legend-box">
-        <div class="legend-item"><div class="legend-dot" style="background:#FFE66D"></div><span style="color:#FFE66D">En attente de validation</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#ffa26d"></div><span style="color:#ffa26d">En attente de validation</span></div>
         <div class="legend-item"><div class="legend-dot" style="background:#96CEB4"></div><span style="color:#96CEB4">Validé / Approuvé</span></div>
         <div class="legend-item"><div class="legend-dot" style="background:#ff6b6b"></div><span style="color:#ff6b6b">Refusé</span></div>
       </div>
@@ -1066,11 +1066,11 @@ function renderCapWidget() {
   const avail = capData.max - capData.current;
   const pct = Math.round(capData.current/capData.max*100);
   document.getElementById('capBarFill').style.width = pct + '%';
-  document.getElementById('capBarFill').style.background = avail<=0?'#ff6b6b':avail<=2?'#FFE66D':'#4ECDC4';
+  document.getElementById('capBarFill').style.background = avail<=0?'#ff6b6b':avail<=2?'#ffa26d':'#4ECDC4';
   document.getElementById('capUsedLabel').textContent = capData.current + ' en télétravail actuellement';
   document.getElementById('capMaxLabel').textContent = 'sur ' + capData.max + ' autorisés';
   document.getElementById('capAvailNum').textContent = avail;
-  document.getElementById('capAvailNum').style.color = avail<=0?'#ff6b6b':avail<=2?'#FFE66D':'#96CEB4';
+  document.getElementById('capAvailNum').style.color = avail<=0?'#ff6b6b':avail<=2?'#ffa26d':'#96CEB4';
   const pill = document.getElementById('capStatusPill');
   if (avail<=0) { pill.textContent='🔴 Complet'; pill.className='cap-pill cap-pill-full'; document.getElementById('submitBtn').disabled=true; document.getElementById('submitBtn').style.opacity='.5'; document.getElementById('capFullMsg').style.display='block'; }
   else if (avail<=2) { pill.textContent='⚠️ '+avail+' place(s)'; pill.className='cap-pill cap-pill-warn'; document.getElementById('submitBtn').disabled=false; document.getElementById('submitBtn').style.opacity='1'; document.getElementById('capFullMsg').style.display='none'; }
@@ -1171,7 +1171,7 @@ function renderPlanning() {
   const myBody = `<tbody><tr><td style="font-weight:700">Ahmed Ben Ali</td>${me.slots.map(s=>`<td><span class="${slotClass(s)}">${slotText(s)}</span></td>`).join('')}</tr></tbody>`;
   document.getElementById('myPlanningTable').innerHTML = myHead + myBody;
   const head = `<thead><th>Membre</th>${days.map((d,i)=>`<th${i===todayIdx?` style="color:var(--accent)"`:''}>${d}${i===todayIdx?' ●':''}</th>`).join('')}</thead>`;
-  const body = `<tbody>${teamData.map(e=>`<tr><td><div style="font-weight:${e.isMe?'800':'600'};color:${e.isMe?'var(--accent)':'var(--text)'}">${e.nom}</div><div style="font-size:.71rem;color:var(--muted)">${e.poste}</div></td>${e.slots.map(s=>`<td><span class="${slotClass(s)}">${slotText(s)}</span></td>`).join('')}</tr>`).join('')}</tbody>`;
+  const body = `<tbody>${teamData.map(e=>`<td><td><div style="font-weight:${e.isMe?'800':'600'};color:${e.isMe?'var(--accent)':'var(--text)'}">${e.nom}</div><div style="font-size:.71rem;color:var(--muted)">${e.poste}</div></td>${e.slots.map(s=>`<td><span class="${slotClass(s)}">${slotText(s)}</span></td>`).join('')}</tr>`).join('')}</tbody>`;
   document.getElementById('teamPlanningTable').innerHTML = head + body;
 }
 
